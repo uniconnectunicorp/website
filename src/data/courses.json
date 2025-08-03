@@ -1,0 +1,118 @@
+[
+  {
+    "nome": "Técnico em Logística",
+    "slug": "tecnico-em-logistica",
+    "price": 899.90,
+    "minTime": 6,
+    "response": "CRA",
+    "modality": "EAD",
+    "description": "O curso de Técnico em Logística é uma formação profissionalizante que visa capacitar os alunos a atuar como profissionais na área de logística, desenvolvendo habilidades e competências nas áreas de gestão de estoque, gerenciamento de pessoas, gestão de custos, gestão da qualidade, entre outras.",
+    "image": "/courses/tecnico-em-logistica.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - Ambientação Organizacional e Empreendedorismo",
+        "carga_horaria": 260,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Fundamentos da Administração", "carga_horaria": 20 },
+          { "nome": "Organização, Sistemas e Métodos", "carga_horaria": 60 },
+          { "nome": "Empreendedorismo", "carga_horaria": 20 },
+          { "nome": "Marketing Digital", "carga_horaria": 20 },
+          { "nome": "Atendimento ao Cliente", "carga_horaria": 20 },
+          { "nome": "Logística Empresarial", "carga_horaria": 20 },
+          { "nome": "Supply Chain Management - SCM", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 240,
+        "componentes_curriculares": [
+          { "nome": "Gestão de Pessoas", "carga_horaria": 40 },
+          { "nome": "Gestão da Qualidade", "carga_horaria": 60 },
+          { "nome": "Gestão da Produção", "carga_horaria": 20 },
+          { "nome": "Matemática Financeira", "carga_horaria": 20 },
+          { "nome": "Gestão de Custos", "carga_horaria": 20 },
+          { "nome": "Economia Aplicada", "carga_horaria": 20 },
+          { "nome": "Administração de Sistemas de Informação", "carga_horaria": 20 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Gestão de Marketing", "carga_horaria": 40 },
+          { "nome": "Técnicas de Vendas", "carga_horaria": 20 },
+          { "nome": "Gestão de Estoques e Suprimentos", "carga_horaria": 40 },
+          { "nome": "Gestão de Transporte e Distribuição", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - Gestão Integrada",
+        "carga_horaria": 380,
+        "componentes_curriculares": [
+          { "nome": "Logística Reversa", "carga_horaria": 60 },
+          { "nome": "Logística de Armazenagem", "carga_horaria": 80 },
+          { "nome": "Gestão de Inovação Tecnológica", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Segurança do Trabalho",
+    "slug": "tecnico-em-seguranca-do-trabalho",
+    "price": 899.90,
+    "minTime": 12,
+    "modality": "EAD",
+    "description": "O curso de Técnico em Segurança do Trabalho prepara profissionais para atuar na prevenção de acidentes, promoção da saúde e segurança dos trabalhadores, com foco em ambientes industriais e corporativos.",
+    "image": "/courses/tecnico-em-seguranca-do-trabalho.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - Educação para a Saúde e Segurança do Trabalho",
+        "carga_horaria": 380,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 80 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 80 },
+          { "nome": "Introdução à Segurança do Trabalho", "carga_horaria": 60 },
+          { "nome": "Psicologia do Trabalho", "carga_horaria": 40 },
+          { "nome": "Higiene do Trabalho", "carga_horaria": 40 },
+          { "nome": "Empreendedorismo", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II - Prevenção e Segurança em Processos Industriais",
+        "carga_horaria": 220,
+        "componentes_curriculares": [
+          { "nome": "Prevenção e Combate a Incêndio", "carga_horaria": 80 },
+          { "nome": "Ergonomia", "carga_horaria": 60 },
+          { "nome": "Medicina do Trabalho", "carga_horaria": 40 },
+          { "nome": "Gestão Ambiental", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo III - Gestão e Programas de Saúde e Segurança do Trabalho",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Gestão da Qualidade", "carga_horaria": 40 },
+          { "nome": "Legislação e Normas Técnicas", "carga_horaria": 80 },
+          { "nome": "Certificação da Qualidade", "carga_horaria": 40 },
+          { "nome": "Segurança, meio ambiente, saúde e responsabilidade social", "carga_horaria": 60 },
+          { "nome": "Segurança do trabalho na construção civil NR18", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo IV",
+        "carga_horaria": 540,
+        "componentes_curriculares": [
+          { "nome": "Gestão de Riscos", "carga_horaria": 80 },
+          { "nome": "Planejamento Estratégico", "carga_horaria": 80 },
+          { "nome": "Auditorias, Perícias e Laudos", "carga_horaria": 60 },
+          { "nome": "Ética e Cidadania", "carga_horaria": 80 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  }
+]
