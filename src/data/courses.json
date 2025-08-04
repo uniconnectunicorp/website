@@ -114,5 +114,906 @@
         ]
       }
     ]
+  },
+  {
+    "nome": "Técnico em Administração",
+    "slug": "administracao",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "CRA",
+    "modality": "EAD",
+    "description": "O curso de Técnico em Administração forma profissionais capacitados para atuar na administração de empresas, desenvolvendo competências em gestão de recursos humanos, marketing, finanças e estratégia empresarial.",
+    "image": "/courses/administracao.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 460 horas",
+        "carga_horaria": 460,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Fundamentos da Administração", "carga_horaria": 20 },
+          { "nome": "Organização, Sistemas e Métodos", "carga_horaria": 20 },
+          { "nome": "Empreendedorismo", "carga_horaria": 20 },
+          { "nome": "Princípios de Marketing", "carga_horaria": 20 },
+          { "nome": "Marketing Digital", "carga_horaria": 40 },
+          { "nome": "Atendimento ao Cliente", "carga_horaria": 20 },
+          { "nome": "Gestão Estratégica de Pessoas", "carga_horaria": 60 },
+          { "nome": "Departamento Pessoal", "carga_horaria": 40 },
+          { "nome": "Matemática Financeira", "carga_horaria": 40 },
+          { "nome": "Gestão Financeira e Orçamentária", "carga_horaria": 80 },
+          { "nome": "Gestão de Custos", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 740 horas",
+        "carga_horaria": 740,
+        "componentes_curriculares": [
+          { "nome": "Logística Empresarial", "carga_horaria": 80 },
+          { "nome": "Supply Chain Management - SCM", "carga_horaria": 60 },
+          { "nome": "Administração de Sistemas de Informação", "carga_horaria": 40 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 40 },
+          { "nome": "Técnicas de Vendas", "carga_horaria": 20 },
+          { "nome": "Processo Decisório", "carga_horaria": 40 },
+          { "nome": "Liderança e Desenvolvimentos de Equipes", "carga_horaria": 60 },
+          { "nome": "Contabilidade Básica", "carga_horaria": 40 },
+          { "nome": "Gestão de Estoques e Suprimentos", "carga_horaria": 40 },
+          { "nome": "Gestão de transporte e Distribuição", "carga_horaria": 80 },
+          { "nome": "Gestão de Inovação Tecnológica", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Design Gráfico",
+    "slug": "design-grafico",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "MEC",
+    "modality": "EAD",
+    "description": "O curso de Design Gráfico capacita profissionais para criar soluções visuais inovadoras, desenvolvendo competências em criação de identidade visual, ilustração digital e produção gráfica.",
+    "image": "/courses/design-grafico.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 260 horas",
+        "carga_horaria": 260,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 60 },
+          { "nome": "Português Instrumental", "carga_horaria": 40 },
+          { "nome": "Organização Empresarial", "carga_horaria": 40 },
+          { "nome": "Human Centred Design", "carga_horaria": 60 },
+          { "nome": "Análise de Mercado: Tendência, comportamento e movimento", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 380 Horas",
+        "carga_horaria": 380,
+        "componentes_curriculares": [
+          { "nome": "Empreendedorismo", "carga_horaria": 80 },
+          { "nome": "Ilustração e Criação de Imagens Vetoriais - Adobe Illustrator", "carga_horaria": 60 },
+          { "nome": "Ilustração e Tratamento de Imagens 2D - Adobe Photoshop", "carga_horaria": 80 },
+          { "nome": "Modelagem Matemática", "carga_horaria": 80 },
+          { "nome": "Segurança, Meio Ambiente, Saúde e Responsabilidades Social", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 560 Horas",
+        "carga_horaria": 560,
+        "componentes_curriculares": [
+          { "nome": "Ferramentas Cad", "carga_horaria": 80 },
+          { "nome": "Tecnologias de Impressão", "carga_horaria": 80 },
+          { "nome": "Diagramação e Documentos - Adobe Indesign", "carga_horaria": 80 },
+          { "nome": "Construção e Animação de Cenários e Objetos 2D e 3D", "carga_horaria": 80 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Eletrotécnica",
+    "slug": "tecnico-em-eletrotecnica",
+    "price": 899.90,
+    "minTime": 24,
+    "response": "CREA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Eletrotécnica forma profissionais capacitados para atuar em sistemas elétricos, desenvolvendo competências em instalações elétricas, automação industrial e manutenção de equipamentos.",
+    "image": "/courses/tecnico-em-eletrotecnica.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 200 horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Introdução à Libras", "carga_horaria": 20 },
+          { "nome": "Comportamento Organizacional", "carga_horaria": 40 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 60 },
+          { "nome": "Empreendedorismo", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 580 horas",
+        "carga_horaria": 580,
+        "componentes_curriculares": [
+          { "nome": "Lógica de Programação", "carga_horaria": 40 },
+          { "nome": "Ética nas Organizações", "carga_horaria": 20 },
+          { "nome": "Meio ambiente, desenvolvimento e sustentabilidade", "carga_horaria": 80 },
+          { "nome": "Mecânica Técnica", "carga_horaria": 40 },
+          { "nome": "Interpretação do desenho técnico", "carga_horaria": 60 },
+          { "nome": "Eletricidade I", "carga_horaria": 40 },
+          { "nome": "Eletrônica digital", "carga_horaria": 60 },
+          { "nome": "Resistência de materiais", "carga_horaria": 40 },
+          { "nome": "Metodologia da manutenção", "carga_horaria": 60 },
+          { "nome": "Comandos eletroeletrônicos", "carga_horaria": 80 },
+          { "nome": "Projetos elétricos", "carga_horaria": 20 },
+          { "nome": "Metrologia e Normalização", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 660 horas",
+        "carga_horaria": 660,
+        "componentes_curriculares": [
+          { "nome": "Projetos de automação industrial", "carga_horaria": 80 },
+          { "nome": "Sistemas Digitais", "carga_horaria": 20 },
+          { "nome": "Eletrônica analógica", "carga_horaria": 60 },
+          { "nome": "Instalações Elétricas", "carga_horaria": 40 },
+          { "nome": "Ensaios de máquinas elétricas", "carga_horaria": 20 },
+          { "nome": "Hidropneumática", "carga_horaria": 40 },
+          { "nome": "Controle e acionamento de máquinas", "carga_horaria": 60 },
+          { "nome": "Controle de qualidade industrial", "carga_horaria": 40 },
+          { "nome": "Eletrônica industrial", "carga_horaria": 20 },
+          { "nome": "NR - 10 - Segurança em instalações elétricas", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Contabilidade",
+    "slug": "tecnico-em-contabilidade",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "CRC",
+    "modality": "EAD",
+    "description": "O curso Técnico em Contabilidade forma profissionais capacitados para atuar na área contábil, desenvolvendo competências em escrituração fiscal, análise de demonstrações contábeis e gestão financeira.",
+    "image": "/courses/tecnico-em-contabilidade.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I (280 horas) - Ambientação Organizacional e Empreendedorismo",
+        "carga_horaria": 280,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 60 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 60 },
+          { "nome": "Fundamentos da Administração", "carga_horaria": 40 },
+          { "nome": "Organização, Sistemas e Métodos", "carga_horaria": 40 },
+          { "nome": "Empreendedorismo", "carga_horaria": 40 },
+          { "nome": "Legislação Social e Trabalhista", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II (260 horas) - Contabilidade Básica",
+        "carga_horaria": 260,
+        "componentes_curriculares": [
+          { "nome": "Relações Humanas no Trabalho", "carga_horaria": 40 },
+          { "nome": "Departamento Pessoal", "carga_horaria": 60 },
+          { "nome": "Análise das Demonstrações Contábeis", "carga_horaria": 40 },
+          { "nome": "Gestão Financeira e Orçamentária", "carga_horaria": 60 },
+          { "nome": "Gestão de Custos", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III (300 horas) - Auxiliar em Recursos Humanos",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Fundamentos Contábeis", "carga_horaria": 40 },
+          { "nome": "Matemática Financeira", "carga_horaria": 60 },
+          { "nome": "Controladoria", "carga_horaria": 40 },
+          { "nome": "Práticas Bancárias", "carga_horaria": 80 },
+          { "nome": "Contabilidade Intermediária", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo IV (360 horas) - Auxiliar em Finanças",
+        "carga_horaria": 360,
+        "componentes_curriculares": [
+          { "nome": "Teorias Contábeis", "carga_horaria": 20 },
+          { "nome": "Contabilidade Pública", "carga_horaria": 80 },
+          { "nome": "Escrita Fiscal e Legislação Tributária", "carga_horaria": 60 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Edificações",
+    "slug": "tecnico-em-edificacoes",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "CREA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Edificações forma profissionais capacitados para atuar na construção civil, desenvolvendo competências em projetos arquitetônicos, gestão de obras e sustentabilidade na construção.",
+    "image": "/courses/tecnico-em-edificacoes.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 180 horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 20 },
+          { "nome": "Português Instrumental", "carga_horaria": 20 },
+          { "nome": "Higiene e Segurança do Trabalho", "carga_horaria": 40 },
+          { "nome": "Gestão de Pessoas", "carga_horaria": 20 },
+          { "nome": "Introdução à Libras", "carga_horaria": 20 },
+          { "nome": "Comportamento Organizacional", "carga_horaria": 20 },
+          { "nome": "Matemática Básica", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Física Aplicada", "carga_horaria": 20 },
+          { "nome": "Técnicas da Construção Civil", "carga_horaria": 40 },
+          { "nome": "Lógica de Programação", "carga_horaria": 40 },
+          { "nome": "Ferramental da Construção Civil", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Interpretação do Desenho Técnico", "carga_horaria": 40 },
+          { "nome": "Desenho e Cálculo Estrutural de Fundações", "carga_horaria": 40 },
+          { "nome": "Comunicação e Redação Técnica", "carga_horaria": 20 },
+          { "nome": "Segurança do Trabalho na Construção Civil NR18", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - 160 horas",
+        "carga_horaria": 160,
+        "componentes_curriculares": [
+          { "nome": "Mecânica dos Solos", "carga_horaria": 20 },
+          { "nome": "Desenho Técnico de Plantas Arquitetônicas em CAD", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo V - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Modelagem de Projetos de Construção com Tecnologia BIM", "carga_horaria": 20 },
+          { "nome": "Desenho Técnico Topográfico em CAD", "carga_horaria": 40 },
+          { "nome": "Desenho e Cálculo Estrutural de Edificações", "carga_horaria": 40 },
+          { "nome": "Acabamento de Edificações", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo VI - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Topografia", "carga_horaria": 20 },
+          { "nome": "Projeto Arquitetônico", "carga_horaria": 20 },
+          { "nome": "Fundamentos da Arquitetura e Urbanismo", "carga_horaria": 40 },
+          { "nome": "Instalações Elétricas", "carga_horaria": 20 },
+          { "nome": "Construção e Animação de Cenários e Objetos 2D e 3D", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo VII - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Orçamento e Planejamento", "carga_horaria": 20 },
+          { "nome": "Empreendedorismo, Ética e Responsabilidade Social", "carga_horaria": 40 },
+          { "nome": "NR 10 - Segurança em Instalações Elétricas", "carga_horaria": 40 },
+          { "nome": "Logística de Canteiro e Gestão Ambiental", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo VIII - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Sustentabilidade da Construção Civil", "carga_horaria": 20 },
+          { "nome": "Planejamento, Orçamento e Controle de Obras", "carga_horaria": 20 },
+          { "nome": "Ética nas Organizações", "carga_horaria": 40 },
+          { "nome": "Meio Ambiente na Ética Empresarial", "carga_horaria": 20 },
+          { "nome": "Instalações Hidrossanitárias", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo IX - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Ergonomia e Medicina do Trabalho", "carga_horaria": 20 },
+          { "nome": "Instalações, Normas Técnicas e Segurança", "carga_horaria": 40 },
+          { "nome": "Resistência de Materiais", "carga_horaria": 40 },
+          { "nome": "Sistemas e Processos Construtivos", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo X - 100 horas",
+        "carga_horaria": 100,
+        "componentes_curriculares": [
+          { "nome": "Tratamento de Resíduos Sólidos", "carga_horaria": 40 },
+          { "nome": "Projeto de Edificações", "carga_horaria": 40 },
+          { "nome": "Gerenciamento dos Aspectos e Impactos Ambientais", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo X - 300 horas",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Eletrônica",
+    "slug": "tecnico-em-eletronica",
+    "price": 899.90,
+    "minTime": 24,
+    "response": "CREA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Eletrônica forma profissionais capacitados para atuar em sistemas eletrônicos, desenvolvendo competências em automação industrial, proteção de sistemas elétricos e manutenção de equipamentos.",
+    "image": "/courses/tecnico-em-eletronica.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 880 horas",
+        "carga_horaria": 880,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 40 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 60 },
+          { "nome": "Critérios e Modalidades EAD", "carga_horaria": 40 },
+          { "nome": "Introdução à Libras", "carga_horaria": 40 },
+          { "nome": "Eletricidade I", "carga_horaria": 60 },
+          { "nome": "Lógica de Programação", "carga_horaria": 40 },
+          { "nome": "Matemática Aplicada", "carga_horaria": 60 },
+          { "nome": "Física Aplicada", "carga_horaria": 60 },
+          { "nome": "Proteção de Sistemas Elétricos", "carga_horaria": 40 },
+          { "nome": "Projetos de Automação Industrial", "carga_horaria": 80 },
+          { "nome": "Medidas Elétricas", "carga_horaria": 60 },
+          { "nome": "Eletrônica Digital", "carga_horaria": 80 },
+          { "nome": "NR 10 - Segurança em Instalações Elétricas", "carga_horaria": 80 },
+          { "nome": "Análise de Circuitos Eletroeletrônicos", "carga_horaria": 80 },
+          { "nome": "Ensaios de Máquinas Elétricas", "carga_horaria": 60 },
+          { "nome": "Metodologia da Manutenção", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 560",
+        "carga_horaria": 560,
+        "componentes_curriculares": [
+          { "nome": "Controle e Acionamento de Máquinas", "carga_horaria": 60 },
+          { "nome": "Técnicas em Programação", "carga_horaria": 40 },
+          { "nome": "Programação CLP", "carga_horaria": 60 },
+          { "nome": "Sistemas Microcontrolados", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Mecânica",
+    "slug": "tecnico-em-mecanica",
+    "price": 899.90,
+    "minTime": 24,
+    "response": "CREA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Mecânica forma profissionais capacitados para atuar na área de mecânica industrial, desenvolvendo competências em projetos mecânicos, manutenção de máquinas e equipamentos industriais.",
+    "image": "/courses/tecnico-em-mecanica.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I – 800 horas",
+        "carga_horaria": 800,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 40 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Introdução à Libras", "carga_horaria": 40 },
+          { "nome": "Comportamento Organizacional", "carga_horaria": 40 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 80 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 40 },
+          { "nome": "Metrologia", "carga_horaria": 40 },
+          { "nome": "Empreendedorismo", "carga_horaria": 60 },
+          { "nome": "Lógica de Programação", "carga_horaria": 40 },
+          { "nome": "Matemática aplicada", "carga_horaria": 60 },
+          { "nome": "Desenho Técnico", "carga_horaria": 60 },
+          { "nome": "Projetos mecânicos", "carga_horaria": 80 },
+          { "nome": "Desenho Mecânico", "carga_horaria": 60 },
+          { "nome": "Resistência de Materiais", "carga_horaria": 40 },
+          { "nome": "Gestão Empresarial", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 640 Horas",
+        "carga_horaria": 640,
+        "componentes_curriculares": [
+          { "nome": "Controle e acionamento de máquinas", "carga_horaria": 20 },
+          { "nome": "Máquinas mecânicas", "carga_horaria": 20 },
+          { "nome": "Equipamentos e instalações industriais", "carga_horaria": 20 },
+          { "nome": "Ferramental de mecânica", "carga_horaria": 20 },
+          { "nome": "Eletricidade básica", "carga_horaria": 20 },
+          { "nome": "Hidropneumática", "carga_horaria": 80 },
+          { "nome": "Metodologia da manutenção", "carga_horaria": 60 },
+          { "nome": "Ensaios de máquinas elétricas", "carga_horaria": 60 },
+          { "nome": "Proteção de máquinas e equipamentos", "carga_horaria": 40 },
+          { "nome": "Tecnologia da soldagem mecânica", "carga_horaria": 20 },
+          { "nome": "Mecânica técnica", "carga_horaria": 20 },
+          { "nome": "Usinagem e conformação mecânica", "carga_horaria": 20 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Informática",
+    "slug": "tecnico-em-informatica",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "MEC",
+    "modality": "EAD",
+    "description": "O curso Técnico em Informática forma profissionais capacitados para atuar na área de tecnologia da informação, desenvolvendo competências em programação, redes de computadores e desenvolvimento web.",
+    "image": "/courses/tecnico-em-informatica.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 320 horas",
+        "carga_horaria": 320,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 60 },
+          { "nome": "Introdução a Banco de Dados", "carga_horaria": 40 },
+          { "nome": "Lógica de Programação", "carga_horaria": 60 },
+          { "nome": "Português Instrumental", "carga_horaria": 80 },
+          { "nome": "Segurança da Informação", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 360 Horas",
+        "carga_horaria": 360,
+        "componentes_curriculares": [
+          { "nome": "Ambiente de Desenvolvimento para WEB", "carga_horaria": 80 },
+          { "nome": "Empreendedorismo", "carga_horaria": 80 },
+          { "nome": "Introdução a redes de computadores e protocolos de comunicação", "carga_horaria": 40 },
+          { "nome": "Programação – CODING WEB (PHP)", "carga_horaria": 80 },
+          { "nome": "Tecnologia e Linguagens de Banco de Dados", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo III – 580 Horas",
+        "carga_horaria": 580,
+        "componentes_curriculares": [
+          { "nome": "Administração de sistema operacional proprietário - Windows Server", "carga_horaria": 80 },
+          { "nome": "Cabeamento estruturado", "carga_horaria": 60 },
+          { "nome": "Hardware básico e manutenção de computadores", "carga_horaria": 40 },
+          { "nome": "Modelagem matemática", "carga_horaria": 80 },
+          { "nome": "Organização empresarial", "carga_horaria": 80 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Marketing",
+    "slug": "marketing",
+    "price": 899.90,
+    "minTime": 15,
+    "response": "CRA",
+    "modality": "EAD",
+    "description": "O curso de Marketing forma profissionais capacitados para atuar na área de marketing e comunicação, desenvolvendo competências em marketing digital, gestão de relacionamento e estratégias comerciais.",
+    "image": "/courses/marketing.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I – 180 horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 20 },
+          { "nome": "Marketing Digital", "carga_horaria": 40 },
+          { "nome": "Empreendedorismo", "carga_horaria": 20 },
+          { "nome": "Comunicação Empresarial", "carga_horaria": 40 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 80 Horas",
+        "carga_horaria": 80,
+        "componentes_curriculares": [
+          { "nome": "Inbound Marketing", "carga_horaria": 20 },
+          { "nome": "Marketing Eletrônico e Internacional", "carga_horaria": 20 },
+          { "nome": "Organização Empresarial", "carga_horaria": 20 },
+          { "nome": "Marketing de Relacionamento (Métricas de Marketing)", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo III – 120 Horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Marketing de eventos (01/10/2020)", "carga_horaria": 40 },
+          { "nome": "Segurança, meio ambiente, saúde e responsabilidade social", "carga_horaria": 40 },
+          { "nome": "Análise e pesquisa de mercado", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo IV – 180 Horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Estratégias de marketing", "carga_horaria": 20 },
+          { "nome": "Fundamentos de marketing", "carga_horaria": 60 },
+          { "nome": "Marketing pessoal e gestão de carreira", "carga_horaria": 60 },
+          { "nome": "Marketing de serviços e do varejo", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo V – 120 Horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Publicidade e propaganda", "carga_horaria": 20 },
+          { "nome": "Business intelligence", "carga_horaria": 40 },
+          { "nome": "Marketing e propaganda digital", "carga_horaria": 40 },
+          { "nome": "Estudos avançados de marketing sustentável", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo VI – 320 Horas",
+        "carga_horaria": 320,
+        "componentes_curriculares": [
+          { "nome": "Negociação Comercial e Comércio Eletrônico", "carga_horaria": 20 },
+          { "nome": "Técnicas de atendimento em help desk", "carga_horaria": 40 },
+          { "nome": "Visual Merchandising", "carga_horaria": 60 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Eletrotécnica",
+    "slug": "tecnico-em-eletrotecnica-2",
+    "price": 899.90,
+    "minTime": 21,
+    "response": "CREA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Eletrotécnica forma profissionais especializados em sistemas elétricos industriais, desenvolvendo competências em automação, energias renováveis e instalações elétricas de alta tensão.",
+    "image": "/courses/tecnico-em-eletrotecnica-2.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 220 horas",
+        "carga_horaria": 220,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Introdução à Libras", "carga_horaria": 20 },
+          { "nome": "Eletricidade I", "carga_horaria": 20 },
+          { "nome": "Introdução ao Autocad 2D", "carga_horaria": 20 },
+          { "nome": "Matemática Aplicada", "carga_horaria": 60 },
+          { "nome": "Física Aplicada", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II -180 horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Empreendedorismo", "carga_horaria": 20 },
+          { "nome": "Lógica de Programação", "carga_horaria": 20 },
+          { "nome": "Gestão Empresarial", "carga_horaria": 20 },
+          { "nome": "NR 10 - Segurança em Instalações Elétricas", "carga_horaria": 20 },
+          { "nome": "Projetos Elétricos", "carga_horaria": 40 },
+          { "nome": "Projetos de Automação Industrial", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III – 480 horas",
+        "carga_horaria": 480,
+        "componentes_curriculares": [
+          { "nome": "Interpretação do Desenho Técnico", "carga_horaria": 40 },
+          { "nome": "Eletrônica Digital", "carga_horaria": 20 },
+          { "nome": "Instalações Elétricas de Baixa Tensão", "carga_horaria": 80 },
+          { "nome": "Eletrônica Industrial", "carga_horaria": 20 },
+          { "nome": "Energias Renováveis", "carga_horaria": 60 },
+          { "nome": "Geração, conservação de eficiência energética", "carga_horaria": 40 },
+          { "nome": "Tecnologia Mecânica", "carga_horaria": 20 },
+          { "nome": "Princípios de máquinas elétricas", "carga_horaria": 40 },
+          { "nome": "Ensaios de máquinas elétricas", "carga_horaria": 60 },
+          { "nome": "Comandos eletroeletrônicos", "carga_horaria": 40 },
+          { "nome": "Segurança do trabalho na indústria e na logística", "carga_horaria": 20 },
+          { "nome": "Sistemas de comunicação e telecomunicações", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - 160 horas",
+        "carga_horaria": 160,
+        "componentes_curriculares": [
+          { "nome": "Análise de Circuitos Eletroeletrônicos", "carga_horaria": 40 },
+          { "nome": "Ergonomia e Medicina do Trabalho", "carga_horaria": 40 },
+          { "nome": "Programação CLP", "carga_horaria": 20 },
+          { "nome": "Metodologia da Manutenção", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo V – 400 horas",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Instalações elétricas de média e alta tensão", "carga_horaria": 40 },
+          { "nome": "Elementos de Máquinas", "carga_horaria": 20 },
+          { "nome": "Controle e acionamento de máquinas", "carga_horaria": 20 },
+          { "nome": "Proteção de Sistemas Elétricos", "carga_horaria": 20 },
+          { "nome": "Transferência de Calor", "carga_horaria": 60 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Nutrição",
+    "slug": "tecnico-em-nutricao",
+    "price": 899.90,
+    "minTime": 24,
+    "response": "CRN",
+    "modality": "EAD",
+    "description": "O curso Técnico em Nutrição forma profissionais capacitados para atuar na área de alimentação e nutrição, desenvolvendo competências em avaliação nutricional, segurança alimentar e gestão de serviços de alimentação.",
+    "image": "/courses/tecnico-em-nutricao.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I – 620 horas",
+        "carga_horaria": 620,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 80 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 60 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 60 },
+          { "nome": "Avaliação Nutricional", "carga_horaria": 40 },
+          { "nome": "Introdução à Nutrição", "carga_horaria": 80 },
+          { "nome": "Anatomia e fisiologia aplicadas à nutrição", "carga_horaria": 80 },
+          { "nome": "Bioquímica humana aplicada à nutrição", "carga_horaria": 60 },
+          { "nome": "Microbiologia dos alimentos", "carga_horaria": 80 },
+          { "nome": "Sociologia e ética profissional", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 180 horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Bromatologia", "carga_horaria": 20 },
+          { "nome": "Bioquímica dos alimentos", "carga_horaria": 60 },
+          { "nome": "Gestão de serviços em nutrição e dietética", "carga_horaria": 40 },
+          { "nome": "Técnica dietética básica", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III – 240 horas",
+        "carga_horaria": 240,
+        "componentes_curriculares": [
+          { "nome": "Nutrição e Dietética", "carga_horaria": 80 },
+          { "nome": "Nutrição materno-infantil", "carga_horaria": 80 },
+          { "nome": "Nutrição e o Idoso", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo IV– 400 horas",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Microbiologia e Imunologia", "carga_horaria": 20 },
+          { "nome": "Processamento industrial de alimentos", "carga_horaria": 20 },
+          { "nome": "Nutrição, marketing e empreendedorismo", "carga_horaria": 40 },
+          { "nome": "Técnica dietética avançada", "carga_horaria": 80 },
+          { "nome": "Estágio supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Gestão de Recursos Humanos",
+    "slug": "gestao-de-recursos-humanos",
+    "price": 899.90,
+    "minTime": 15,
+    "response": "CRA",
+    "modality": "EAD",
+    "description": "O curso de Gestão de Recursos Humanos forma profissionais capacitados para atuar na área de recursos humanos, desenvolvendo competências em recrutamento, seleção, treinamento e gestão de pessoas.",
+    "image": "/courses/gestao-de-recursos-humanos.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I – 320 horas",
+        "carga_horaria": 320,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 60 },
+          { "nome": "Gestão Estratégica de Recursos Humanos", "carga_horaria": 20 },
+          { "nome": "Introdução à Libras", "carga_horaria": 20 },
+          { "nome": "Psicologia Organizacional", "carga_horaria": 40 },
+          { "nome": "Organização e Técnicas Administrativas", "carga_horaria": 60 },
+          { "nome": "Fundamentos da administração", "carga_horaria": 60 },
+          { "nome": "Noções de Direito do Trabalho", "carga_horaria": 20 },
+          { "nome": "Sistema de Informações Gerenciais", "carga_horaria": 20 },
+          { "nome": "Sistemas de informações Gerenciais em RH", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 200 horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Gestão de departamento pessoal", "carga_horaria": 40 },
+          { "nome": "Ética nas Organizações", "carga_horaria": 20 },
+          { "nome": "Matemática Aplicada", "carga_horaria": 20 },
+          { "nome": "Planejamento estratégico", "carga_horaria": 20 },
+          { "nome": "Estratégias de gestão e organização empresarial", "carga_horaria": 60 },
+          { "nome": "Recrutamento, seleção e socialização", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo III – 480 horas",
+        "carga_horaria": 480,
+        "componentes_curriculares": [
+          { "nome": "Segurança do trabalho e saúde ocupacional", "carga_horaria": 20 },
+          { "nome": "Divisão e modelagem de cargos e salários", "carga_horaria": 80 },
+          { "nome": "Sociologia e ética profissional (01/09/20)", "carga_horaria": 60 },
+          { "nome": "Gestão de times - métodos ágeis (01/07/20)", "carga_horaria": 40 },
+          { "nome": "Marketing pessoal e gestão de carreira", "carga_horaria": 20 },
+          { "nome": "Gestão de equipes", "carga_horaria": 40 },
+          { "nome": "Liderança e desenvolvimento de equipes", "carga_horaria": 20 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Pedagogia",
+    "slug": "pedagogia",
+    "price": 899.90,
+    "minTime": 15,
+    "response": "MEC",
+    "modality": "EAD",
+    "description": "O curso de Pedagogia forma profissionais capacitados para atuar na área educacional, desenvolvendo competências em gestão educacional, currículos pedagógicos e práticas de ensino.",
+    "image": "/courses/pedagogia.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I – 440 horas",
+        "carga_horaria": 440,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 80 },
+          { "nome": "Organização Empresarial", "carga_horaria": 40 },
+          { "nome": "Português Instrumental", "carga_horaria": 60 },
+          { "nome": "Empreendedorismo e Gestão", "carga_horaria": 80 },
+          { "nome": "Introdução à Segurança da Informação", "carga_horaria": 20 },
+          { "nome": "Atendimento ao Cliente", "carga_horaria": 40 },
+          { "nome": "Comportamento Organizacional", "carga_horaria": 60 },
+          { "nome": "Comunicação e Expressão", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II – 560 horas",
+        "carga_horaria": 560,
+        "componentes_curriculares": [
+          { "nome": "Currículos e Projetos pedagógicos", "carga_horaria": 80 },
+          { "nome": "Fundamentos da Educação", "carga_horaria": 80 },
+          { "nome": "Gestão Educacional", "carga_horaria": 60 },
+          { "nome": "Organização e Legislação em Educação", "carga_horaria": 60 },
+          { "nome": "Práticas de Secretaria Escolar", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Negócios Imobiliários",
+    "slug": "negocios-imobiliarios",
+    "price": 899.90,
+    "minTime": 18,
+    "response": "CRECI",
+    "modality": "EAD",
+    "description": "O curso de Negócios Imobiliários forma profissionais capacitados para atuar no mercado imobiliário, desenvolvendo competências em avaliação de imóveis, gestão comercial e legislação imobiliária.",
+    "image": "/courses/negocios-imobiliarios.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 200 horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 40 },
+          { "nome": "Práticas em Negócios Imobiliários", "carga_horaria": 40 },
+          { "nome": "Organização, Sistemas e Métodos", "carga_horaria": 20 },
+          { "nome": "Empreendedorismo", "carga_horaria": 60 },
+          { "nome": "Marketing Digital", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 200 horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Atendimento ao Cliente", "carga_horaria": 40 },
+          { "nome": "Desinibirção, Dicção e Oratória", "carga_horaria": 60 },
+          { "nome": "Avaliação Imobiliária", "carga_horaria": 20 },
+          { "nome": "Incorporações Imobiliárias e Loteamentos", "carga_horaria": 20 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 180 horas",
+        "carga_horaria": 180,
+        "componentes_curriculares": [
+          { "nome": "Publicidade e propaganda", "carga_horaria": 20 },
+          { "nome": "Contratos e Documentação Imobiliária", "carga_horaria": 20 },
+          { "nome": "Noções de Direito Imobiliário", "carga_horaria": 20 },
+          { "nome": "Gestão Comercial", "carga_horaria": 40 },
+          { "nome": "Marketing de Relacionamento", "carga_horaria": 40 },
+          { "nome": "Fundamentos da Arquitetura e Urbanismo", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - 220 horas",
+        "carga_horaria": 220,
+        "componentes_curriculares": [
+          { "nome": "Modelagem 3D", "carga_horaria": 80 },
+          { "nome": "Financiamento Imobiliário", "carga_horaria": 60 },
+          { "nome": "Mercado Imobiliário", "carga_horaria": 40 },
+          { "nome": "Estratégias de Vendas e Negociação", "carga_horaria": 20 },
+          { "nome": "Operações Imobiliárias", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo V - 400 horas",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Estratégias de gestão e organização empresarial", "carga_horaria": 40 },
+          { "nome": "Legislação Imobiliária Urbana E Territorial", "carga_horaria": 80 },
+          { "nome": "Operações Imobiliárias", "carga_horaria": 80 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Turismo",
+    "slug": "turismo",
+    "price": 899.90,
+    "minTime": 15,
+    "response": "CADASTUR",
+    "modality": "EAD",
+    "description": "O curso de Turismo forma profissionais capacitados para atuar na área turística, desenvolvendo competências em gestão de serviços turísticos, hospitalidade e marketing de eventos.",
+    "image": "/courses/turismo.jpg",
+    "modulos": [
+      {
+        "nome": "Módulo I - 280 horas",
+        "carga_horaria": 280,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 40 },
+          { "nome": "Atendimento ao cliente", "carga_horaria": 80 },
+          { "nome": "Primeiros Socorros no Turismo", "carga_horaria": 40 },
+          { "nome": "Inglês Instrumental", "carga_horaria": 40 },
+          { "nome": "Espanhol Instrumental", "carga_horaria": 20 },
+          { "nome": "Meio Ambiente, Desenvolvimento e Sustentabilidade", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II -120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "Marketing de Eventos", "carga_horaria": 20 },
+          { "nome": "Comunicação Oficial", "carga_horaria": 40 },
+          { "nome": "Marketing Pessoal e Gestão de Carreira", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 120 horas",
+        "carga_horaria": 120,
+        "componentes_curriculares": [
+          { "nome": "História da Arte Aplicada ao Turismo", "carga_horaria": 40 },
+          { "nome": "Legislação Aplicada ao Turismo", "carga_horaria": 60 },
+          { "nome": "Gestão de Serviços Turísticos", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - 140 horas",
+        "carga_horaria": 140,
+        "componentes_curriculares": [
+          { "nome": "Manifestação da Cultura Popular Regional e Nacional", "carga_horaria": 40 },
+          { "nome": "Técnicas de Comunicação", "carga_horaria": 20 },
+          { "nome": "Relações Interpessoais", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo V – 340 horas",
+        "carga_horaria": 340,
+        "componentes_curriculares": [
+          { "nome": "Elaboração de Roteiros e Hospedagem", "carga_horaria": 40 },
+          { "nome": "Geografia Aplicada ao Turismo Regional e Nacional", "carga_horaria": 40 },
+          { "nome": "Fundamentos do Turismo e da Hospitalidade", "carga_horaria": 60 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
   }
 ]

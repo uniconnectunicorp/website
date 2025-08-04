@@ -54,9 +54,9 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Enhanced Logo */}
+            {/* Enhanced Logo with Uniconnect Polo Badge */}
             <Link href="/" className="flex items-center space-x-3 group" aria-label="Home">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-4">
                 <Image
                   src="/root/logo.webp"
                   width={192}
@@ -69,6 +69,25 @@ export function Header() {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
                   }}
                 />
+                {/* Uniconnect Polo Badge */}
+                <div className="hidden sm:flex flex-col items-start">
+                  <div className="bg-gradient-to-r from-[#ff4c00] to-[#ff6b2b] px-4 py-2 rounded-lg shadow-lg border border-white/20">
+                    <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90">
+                      Polo 
+                    </div>
+                    <div className="text-white text-lg font-bold tracking-wide">
+                      UNICONNECT
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile Uniconnect Badge */}
+                <div className="sm:hidden flex items-center">
+                  <div className="bg-gradient-to-r from-[#ff4c00] to-[#ff6b2b] px-3 py-1 rounded-md shadow-md">
+                    <div className="text-white text-sm font-bold">
+                      UNICONNECT
+                    </div>
+                  </div>
+                </div>
               </div>
             </Link>
 
