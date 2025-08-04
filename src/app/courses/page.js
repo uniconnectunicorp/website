@@ -45,7 +45,7 @@ export default function CoursesPage() {
     <div className="min-h-screen pt-20">
       <Header />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 md:py-28">
+      <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white py-20 md:py-28">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-4xl mx-auto">
@@ -62,7 +62,7 @@ export default function CoursesPage() {
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-12 pr-4 py-4 border-0 rounded-lg bg-white/10 text-white placeholder-blue-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none transition-all duration-200"
+                  className="block w-full pl-12 pr-4 py-4 border-0 rounded-lg bg-white/10 text-white placeholder-blue-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0b3b75] focus:outline-none transition-all duration-200"
                   placeholder="Buscar cursos..."
                 />
                 <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
@@ -99,7 +99,7 @@ export default function CoursesPage() {
               <Filter className="h-4 w-4" />
               Filtrar
             </button>
-            <select className="px-4 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <select className="px-4 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent">
               <option>Ordenar por: Destaque</option>
               <option>Menor preço</option>
               <option>Maior preço</option>

@@ -186,7 +186,7 @@ export function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className={`flex items-center justify-between px-4 py-3 text-base font-semibold transition-all duration-300 rounded-xl ${
                       isActive
-                        ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg'
+                        ? 'text-white bg-gradient-to-r from-[#0b3b75] to-purple-600 shadow-lg'
                         : 'text-gray-700 dark:text-gray-300 hover:text-[#0b3b75] dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-gray-800/80'
                     }`}
                     aria-current={isActive ? 'page' : undefined}

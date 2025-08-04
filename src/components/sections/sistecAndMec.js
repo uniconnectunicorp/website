@@ -50,11 +50,11 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 group-hover:scale-[1.02] border border-blue-500/20">
+            <div className="bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#0b3b75]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#0b3b75]/20">
               {/* Enhanced Background Elements */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-white/10 to-transparent rounded-full -translate-y-20 translate-x-20" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-16 -translate-x-16" />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b75]/20 to-transparent" />
               
               {/* Floating Elements */}
               <div className="absolute top-6 right-6 w-3 h-3 bg-white/30 rounded-full animate-pulse" />

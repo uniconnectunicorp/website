@@ -70,7 +70,7 @@ export default function CTASection() {
               hover: { duration: 0.2 }
             }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-800/30 to-blue-900/40 backdrop-blur-lg p-8 rounded-2xl border border-white/10 shadow-2xl shadow-blue-900/30"
+            className="bg-gradient-to-br from-[#0b3b75]/30 to-[#0b3b75]/40 backdrop-blur-lg p-8 rounded-2xl border border-white/10 shadow-2xl shadow-[#0b3b75]/30"
           >
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -246,7 +246,7 @@ export default function CTASection() {
                 transition={{ delay: 0.7 }}
                 className="text-xs text-blue-200/80 text-center mt-6 flex items-center justify-center space-x-1"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#0b3b75]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <span>Seus dados estão seguros conosco. Não compartilhamos suas informações.</span>

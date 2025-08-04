@@ -133,7 +133,7 @@ export function EnrollmentFormV2({
   return (
     <div className="relative ">
       {/* Cabeçalho com informações do curso */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
+      <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
         <h2 className="text-2xl font-bold text-white mb-1">Realizar Matrícula</h2>
         <p className="text-blue-100 text-sm">Preencha o formulário abaixo para garantir sua vaga</p>
         
@@ -166,7 +166,7 @@ export function EnrollmentFormV2({
               <Input
                 id="name"
                 placeholder="Digite seu nome completo"
-                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
                   errors.name ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
                 }`}
                 {...register('name')}
@@ -199,7 +199,7 @@ export function EnrollmentFormV2({
                 id="email"
                 type="email"
                 placeholder="seu@email.com"
-                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
                   errors.email ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
                 }`}
                 {...register('email')}
@@ -234,7 +234,7 @@ export function EnrollmentFormV2({
               <Input
                 id="phone"
                 placeholder="(00) 90000-0000"
-                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
                   errors.phone ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
                 }`}
                 {...register('phone', {

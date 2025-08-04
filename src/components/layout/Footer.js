@@ -127,7 +127,7 @@ export function Footer() {
                       href={category.path}
                       className="text-gray-600 dark:text-gray-300 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-all duration-300 hover:translate-x-1 flex items-center group"
                     >
-                      <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-blue-600 to-blue-600 transition-all duration-300 mr-0 group-hover:mr-2 rounded-full"></span>
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] transition-all duration-300 mr-0 group-hover:mr-2 rounded-full"></span>
                       {category.name}
                     </Link>
                   </li>
