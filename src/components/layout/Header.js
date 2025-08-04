@@ -18,16 +18,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    // Check saved theme or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-
-    document.documentElement.classList.toggle('dark', shouldUseDark);
-  }, []);
-
+ 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -47,8 +38,8 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#1841BD]/95 dark:bg-blue-900/95 backdrop-blur-xl shadow-lg'
-            : 'bg-[#1841BD] dark:bg-blue-900'
+            ? 'bg-[#0b3b75]/95 backdrop-blur-xl shadow-lg'
+            : 'bg-[#0b3b75]'
         }`}
         role="banner"
       >
@@ -58,12 +49,12 @@ export function Header() {
             <Link href="/" className="flex items-center space-x-3 group" aria-label="Home">
               <div className="flex items-center space-x-4">
                 <Image
-                  src="/root/logo.webp"
-                  width={192}
-                  height={48}
-                  sizes="(max-width: 768px) 100vw, 192px"
+                  src="/root/logo-unicorp.png"
+                  width={0}
+                  height={0}
+                  sizes="100%"
                   alt="Logo"
-                  className="object-contain w-48 h-auto transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain w-36 h-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                   onError={(e) => {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
@@ -71,18 +62,29 @@ export function Header() {
                 />
                 {/* Uniconnect Polo Badge */}
                 <div className="hidden sm:flex flex-col items-start">
-                  <div className="bg-gradient-to-r from-[#ff4c00] to-[#ff6b2b] px-4 py-2 rounded-lg shadow-lg border border-white/20">
+                  <div className=" px-4 py-2">
                     <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90">
                       Polo 
                     </div>
                     <div className="text-white text-lg font-bold tracking-wide">
-                      UNICONNECT
+                    <Image
+                  src="/root/logo.webp"
+                  width={0}
+                  height={0}
+                  sizes="100%"
+                  alt="Logo"
+                  className="object-contain w-36 h-auto transition-transform duration-300 group-hover:scale-105"
+                  priority
+                  onError={(e) => {
+                    e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
+                  }}
+                />
                     </div>
                   </div>
                 </div>
                 {/* Mobile Uniconnect Badge */}
                 <div className="sm:hidden flex items-center">
-                  <div className="bg-gradient-to-r from-[#ff4c00] to-[#ff6b2b] px-3 py-1 rounded-md shadow-md">
+                  <div className="bg-[#ff6600] px-3 py-1 rounded-md shadow-md">
                     <div className="text-white text-sm font-bold">
                       UNICONNECT
                     </div>
@@ -94,15 +96,15 @@ export function Header() {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
               {navigation.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname === item.href || (item.href === '/courses' && pathname.startsWith('/courses/'));
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={`relative px-6 py-3 text-sm font-semibold transition-all duration-300 rounded-xl group ${
                       isActive
-                        ? 'text-white bg-[#ff4c00] shadow-lg'
-                        : 'text-white hover:text-white hover:bg-[#ff4c00]/30'
+                        ? 'text-white bg-[#ff6600] shadow-lg'
+                        : 'text-white hover:text-white hover:bg-[#ff6600]/30'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -176,7 +178,7 @@ export function Header() {
             {/* Mobile Navigation */}
             <div className="space-y-3">
               {navigation.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname === item.href || (item.href === '/courses' && pathname.startsWith('/courses/'));
                 return (
                   <Link
                     key={item.name}

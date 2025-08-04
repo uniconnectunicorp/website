@@ -28,7 +28,7 @@ import {
   BarChart2
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
-
+import SistecAndMec from '@/components/sections/sistecAndMec';
 // Importando os tipos do projeto
 import { Header } from '@/components/layout/Header';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
@@ -88,7 +88,7 @@ export function CourseDetailsClient({ course }) {
     <div className="min-h-screen">
         <Header />
       {/* Cabeçalho do curso */}
-      <div className="relative bg-gradient-to-r pt-20 from-blue-900 to-blue-700 text-white overflow-hidden">
+      <div className="relative bg-[#0b3b75] pt-20  text-white overflow-hidden">
         {/* Efeitos visuais de fundo */}
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -240,6 +240,9 @@ export function CourseDetailsClient({ course }) {
       />
 
     <CourseFAQ />
+
+
+    <SistecAndMec />
 
     <AboutUsCourse />
 

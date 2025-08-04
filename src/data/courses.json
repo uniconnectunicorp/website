@@ -65,6 +65,7 @@
     "slug": "tecnico-em-seguranca-do-trabalho",
     "price": 899.90,
     "minTime": 12,
+    "response": "CREA/MTE",
     "modality": "EAD",
     "description": "O curso de Técnico em Segurança do Trabalho prepara profissionais para atuar na prevenção de acidentes, promoção da saúde e segurança dos trabalhadores, com foco em ambientes industriais e corporativos.",
     "image": "/courses/tecnico-em-seguranca-do-trabalho.jpg",
@@ -119,7 +120,7 @@
     "nome": "Técnico em Administração",
     "slug": "administracao",
     "price": 899.90,
-    "minTime": 18,
+    "minTime": 6,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Administração forma profissionais capacitados para atuar na administração de empresas, desenvolvendo competências em gestão de recursos humanos, marketing, finanças e estratégia empresarial.",
@@ -165,14 +166,14 @@
     ]
   },
   {
-    "nome": "Design Gráfico",
-    "slug": "design-grafico",
+    "nome": "Técnico em Computação Gráfica",
+    "slug": "computacao-grafica",
     "price": 899.90,
-    "minTime": 18,
-    "response": "MEC",
+    "minTime": 6,
+    "response": "CRT",
     "modality": "EAD",
-    "description": "O curso de Design Gráfico capacita profissionais para criar soluções visuais inovadoras, desenvolvendo competências em criação de identidade visual, ilustração digital e produção gráfica.",
-    "image": "/courses/design-grafico.jpg",
+    "description": "O curso de Técnico em Computação Gráfica capacita profissionais para criar soluções visuais inovadoras, desenvolvendo competências em criação de identidade visual, ilustração digital e produção gráfica.",
+    "image": "/courses/computacao-grafica.jpg",
     "modulos": [
       {
         "nome": "Módulo I - 260 horas",
@@ -210,14 +211,13 @@
     ]
   },
   {
-    "nome": "Técnico em Eletrotécnica",
-    "slug": "tecnico-em-eletrotecnica",
+    "nome": "Técnico em Automação Industrial",
+    "slug": "automacao-industrial",
     "price": 899.90,
-    "minTime": 24,
-    "response": "CREA",
+    "minTime": 6,
     "modality": "EAD",
-    "description": "O curso Técnico em Eletrotécnica forma profissionais capacitados para atuar em sistemas elétricos, desenvolvendo competências em instalações elétricas, automação industrial e manutenção de equipamentos.",
-    "image": "/courses/tecnico-em-eletrotecnica.jpg",
+    "description": "O curso Técnico em Automação Industrial tem como objetivo capacitar profissionais para atuar em sistemas de automação, desenvolvendo competências em instalações elétricas, automação industrial e manutenção de equipamentos, garantindo a segurança e eficiência dos sistemas.",
+    "image": "/courses/tecnico-em-automacao-industrial.jpg",
     "modulos": [
       {
         "nome": "Módulo I - 200 horas",
@@ -272,8 +272,7 @@
     "nome": "Técnico em Contabilidade",
     "slug": "tecnico-em-contabilidade",
     "price": 899.90,
-    "minTime": 18,
-    "response": "CRC",
+    "minTime": 8,
     "modality": "EAD",
     "description": "O curso Técnico em Contabilidade forma profissionais capacitados para atuar na área contábil, desenvolvendo competências em escrituração fiscal, análise de demonstrações contábeis e gestão financeira.",
     "image": "/courses/tecnico-em-contabilidade.jpg",
@@ -328,8 +327,8 @@
     "nome": "Técnico em Edificações",
     "slug": "tecnico-em-edificacoes",
     "price": 899.90,
-    "minTime": 18,
-    "response": "CREA",
+    "minTime": 6,
+    "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Edificações forma profissionais capacitados para atuar na construção civil, desenvolvendo competências em projetos arquitetônicos, gestão de obras e sustentabilidade na construção.",
     "image": "/courses/tecnico-em-edificacoes.jpg",
@@ -447,14 +446,14 @@
     ]
   },
   {
-    "nome": "Técnico em Eletrônica",
-    "slug": "tecnico-em-eletronica",
+    "nome": "Técnico em Eletreletrônica",
+    "slug": "eletroeletronica",
     "price": 899.90,
-    "minTime": 24,
-    "response": "CREA",
+    "minTime": 6,
+    "response": "CFT/CRT",
     "modality": "EAD",
-    "description": "O curso Técnico em Eletrônica forma profissionais capacitados para atuar em sistemas eletrônicos, desenvolvendo competências em automação industrial, proteção de sistemas elétricos e manutenção de equipamentos.",
-    "image": "/courses/tecnico-em-eletronica.jpg",
+    "description": "O curso Técnico em Eletroeletrônica forma profissionais capacitados para desenvolver e manter sistemas eletroeletrônicos, com competências em automação industrial, eletroeletrônica digital e programação de microcontroladores.",
+    "image": "/courses/eletroeletronica.jpg",
     "modulos": [
       {
         "nome": "Módulo I - 880 horas",
@@ -495,7 +494,7 @@
     "nome": "Técnico em Mecânica",
     "slug": "tecnico-em-mecanica",
     "price": 899.90,
-    "minTime": 24,
+    "minTime": 6,
     "response": "CREA",
     "modality": "EAD",
     "description": "O curso Técnico em Mecânica forma profissionais capacitados para atuar na área de mecânica industrial, desenvolvendo competências em projetos mecânicos, manutenção de máquinas e equipamentos industriais.",
@@ -547,8 +546,8 @@
     "nome": "Técnico em Informática",
     "slug": "tecnico-em-informatica",
     "price": 899.90,
-    "minTime": 18,
-    "response": "MEC",
+    "minTime": 6,
+    "response": "CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Informática forma profissionais capacitados para atuar na área de tecnologia da informação, desenvolvendo competências em programação, redes de computadores e desenvolvimento web.",
     "image": "/courses/tecnico-em-informatica.jpg",
@@ -590,14 +589,14 @@
     ]
   },
   {
-    "nome": "Marketing",
-    "slug": "marketing",
+    "nome": "Técnico em Marketing e Comunicação",
+    "slug": "marketing-e-comunicacao",
     "price": 899.90,
-    "minTime": 15,
+    "minTime": 6,
     "response": "CRA",
     "modality": "EAD",
-    "description": "O curso de Marketing forma profissionais capacitados para atuar na área de marketing e comunicação, desenvolvendo competências em marketing digital, gestão de relacionamento e estratégias comerciais.",
-    "image": "/courses/marketing.jpg",
+    "description": "O curso de Técnico em Marketing e Comunicação forma profissionais capacitados para atuar na área de marketing e comunicação, desenvolvendo competências em marketing digital, gestão de relacionamento e estratégias comerciais.",
+    "image": "/courses/marketing-e-comunicacao.jpg",
     "modulos": [
       {
         "nome": "Módulo I – 180 horas",
@@ -664,13 +663,13 @@
   },
   {
     "nome": "Técnico em Eletrotécnica",
-    "slug": "tecnico-em-eletrotecnica-2",
+    "slug": "eletrotecnica",
     "price": 899.90,
-    "minTime": 21,
-    "response": "CREA",
+    "minTime": 6,
+    "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Eletrotécnica forma profissionais especializados em sistemas elétricos industriais, desenvolvendo competências em automação, energias renováveis e instalações elétricas de alta tensão.",
-    "image": "/courses/tecnico-em-eletrotecnica-2.jpg",
+    "image": "/courses/tecnico-em-eletrotecnica.jpg",
     "modulos": [
       {
         "nome": "Módulo I - 220 horas",
@@ -740,14 +739,14 @@
     ]
   },
   {
-    "nome": "Técnico em Nutrição",
-    "slug": "tecnico-em-nutricao",
+    "nome": "Técnico em Nutrição e Dieta",
+    "slug": "nutricao-e-dieta",
     "price": 899.90,
-    "minTime": 24,
+    "minTime": 6,
     "response": "CRN",
     "modality": "EAD",
-    "description": "O curso Técnico em Nutrição forma profissionais capacitados para atuar na área de alimentação e nutrição, desenvolvendo competências em avaliação nutricional, segurança alimentar e gestão de serviços de alimentação.",
-    "image": "/courses/tecnico-em-nutricao.jpg",
+    "description": "O curso Técnico em Nutrição e Dieta forma profissionais capacitados para atuar na área de alimentação e nutrição, desenvolvendo competências em avaliação nutricional, segurança alimentar e gestão de serviços de alimentação.",
+    "image": "/courses/nutricao-e-dieta.jpg",
     "modulos": [
       {
         "nome": "Módulo I – 620 horas",
@@ -797,14 +796,14 @@
     ]
   },
   {
-    "nome": "Gestão de Recursos Humanos",
-    "slug": "gestao-de-recursos-humanos",
+    "nome": "Técnico em Recursos Humanos",
+    "slug": "recursos-humanos",
     "price": 899.90,
-    "minTime": 15,
+    "minTime": 6,
     "response": "CRA",
     "modality": "EAD",
-    "description": "O curso de Gestão de Recursos Humanos forma profissionais capacitados para atuar na área de recursos humanos, desenvolvendo competências em recrutamento, seleção, treinamento e gestão de pessoas.",
-    "image": "/courses/gestao-de-recursos-humanos.jpg",
+    "description": "O curso de Recursos Humanos forma profissionais capacitados para atuar na área de recursos humanos, desenvolvendo competências em recrutamento, seleção, treinamento e gestão de pessoas.",
+    "image": "/courses/recursos-humanos.jpg",
     "modulos": [
       {
         "nome": "Módulo I – 320 horas",
@@ -850,14 +849,13 @@
     ]
   },
   {
-    "nome": "Pedagogia",
-    "slug": "pedagogia",
+    "nome": "Técnico em Secretaria Escolar",
+    "slug": "secretaria-escolar",
     "price": 899.90,
-    "minTime": 15,
-    "response": "MEC",
+    "minTime": 6,
     "modality": "EAD",
-    "description": "O curso de Pedagogia forma profissionais capacitados para atuar na área educacional, desenvolvendo competências em gestão educacional, currículos pedagógicos e práticas de ensino.",
-    "image": "/courses/pedagogia.jpg",
+    "description": "O curso de Secretaria Escolar forma profissionais capacitados para atuar na área educacional, desenvolvendo competências em gestão educacional, currículos pedagógicos e práticas de ensino.",
+    "image": "/courses/secretaria-escolar.jpg",
     "modulos": [
       {
         "nome": "Módulo I – 440 horas",
@@ -888,14 +886,14 @@
     ]
   },
   {
-    "nome": "Negócios Imobiliários",
-    "slug": "negocios-imobiliarios",
+    "nome": "Técnico em Transação Imobiliária",
+    "slug": "transacao-imobiliaria",
     "price": 899.90,
-    "minTime": 18,
-    "response": "CRECI",
+    "minTime": 6,
+    "response": "CRECI/COFECI",
     "modality": "EAD",
-    "description": "O curso de Negócios Imobiliários forma profissionais capacitados para atuar no mercado imobiliário, desenvolvendo competências em avaliação de imóveis, gestão comercial e legislação imobiliária.",
-    "image": "/courses/negocios-imobiliarios.jpg",
+    "description": "O curso de Transação Imobiliária forma profissionais capacitados para atuar no mercado imobiliário, desenvolvendo competências em avaliação de imóveis, gestão comercial e legislação imobiliária.",
+    "image": "/courses/transacao-imobiliaria.jpg",
     "modulos": [
       {
         "nome": "Módulo I - 200 horas",
@@ -955,10 +953,10 @@
     ]
   },
   {
-    "nome": "Turismo",
+    "nome": "Técnico em Turismo",
     "slug": "turismo",
     "price": 899.90,
-    "minTime": 15,
+    "minTime": 6,
     "response": "CADASTUR",
     "modality": "EAD",
     "description": "O curso de Turismo forma profissionais capacitados para atuar na área turística, desenvolvendo competências em gestão de serviços turísticos, hospitalidade e marketing de eventos.",

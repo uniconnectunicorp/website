@@ -37,7 +37,7 @@ export default function FeaturesSection() {
           <FadeInUp>
            
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Por que escolher a <span className="text-blue-800">Uniconnect</span> para sua formação?
+              Por que escolher a <span className="text-[#0b3b75]">Uniconnect</span> para sua formação?
             </h2>
           </FadeInUp>
           <FadeInUp delay={0.1}>
@@ -51,7 +51,7 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <FadeInUp key={index} delay={0.1 * (index + 1)}>
               <div className="group relative flex flex-col h-full bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-orange-200 hover:-translate-y-1">
-                <div className="rounded-xl bg-blue-600 p-3 inline-flex items-center justify-center w-14 h-14 mb-5">
+                <div className="rounded-xl bg-[#0b3b75] p-3 inline-flex items-center justify-center w-14 h-14 mb-5">
                   <feature.icon className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-3">

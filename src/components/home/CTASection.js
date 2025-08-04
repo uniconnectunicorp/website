@@ -48,7 +48,7 @@ export default function CTASection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-blue-800 text-white">
+    <section className="relative overflow-hidden bg-[#0b3b75] text-white">
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden opacity-5">
         <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-center"></div>
