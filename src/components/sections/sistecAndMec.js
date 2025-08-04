@@ -115,7 +115,7 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-gradient-to-br from-[#ff6600] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#ff6600]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#ff6600]/20">
+            <div className="bg-gradient-to-br from-[#ff6600] to-[#ff6600] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#ff6600]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#ff6600]/20">
               {/* Enhanced Background Elements */}
               <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-y-20 -translate-x-20" />
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-white/5 to-transparent rounded-full translate-y-16 translate-x-16" />
