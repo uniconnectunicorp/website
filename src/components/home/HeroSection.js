@@ -59,7 +59,7 @@ export default function HeroSection() {
               >
                 <Link
                   href="/cursos"
-                  className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-orange-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] hover:shadow-orange-200"
+                  className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] hover:shadow-orange-200"
                 >
                   Conheça Nossos Cursos
                   <motion.span 
@@ -153,11 +153,11 @@ export default function HeroSection() {
               {/* <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg border border-gray-100">
                 <div className="flex items-center">
                   <div className="p-3 bg-orange-100 rounded-lg">
-                    <BookOpen className="h-6 w-6 text-orange-600" />
+                    <BookOpen className="h-6 w-6 text-[#ff6600]" />
                   </div>
                   <div className="ml-3">
                     <p className="text-sm font-medium text-gray-500">Cursos Técnicos</p>
-                    <p className="text-lg font-bold text-blue-800">+20 disponíveis</p>
+                    <p className="text-lg font-bold text-[#0b3b75]">+20 disponíveis</p>
                   </div>
                 </div>
               </div> */}

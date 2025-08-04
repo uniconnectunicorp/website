@@ -8,7 +8,7 @@ const courseTracks = [
   {
     title: 'Cursos Técnicos Regulares',
     icon: Award,
-    color: 'bg-blue-800',
+    color: 'bg-[#0b3b75]',
     duration: '6 meses (12 meses para Segurança do Trabalho)',
     features: [
       'Certificação reconhecida pelo MEC e Sistec',
@@ -22,7 +22,7 @@ const courseTracks = [
   {
     title: 'Cursos por Competência',
     icon: Users,
-    color: 'bg-orange-600',
+    color: 'bg-[#ff6600]',
     duration: 'A partir de 45 dias',
     features: [
       'Reconhecimento pelo MEC e Sistec',
@@ -40,7 +40,7 @@ const steps = [
     title: 'Escolha seu curso',
     description: 'Selecione entre nossos cursos técnicos de alta qualidade, alinhados com as necessidades do mercado de trabalho.',
     icon: Search,
-    color: 'bg-blue-800',
+    color: 'bg-[#0b3b75]',
     features: [
       'Diversas áreas técnicas disponíveis',
       'Cursos atualizados com o mercado',
@@ -51,7 +51,7 @@ const steps = [
     title: 'Faça sua matrícula',
     description: 'Processo 100% online, rápido e sem complicações. Comece em poucos minutos.',
     icon: FileText,
-    color: 'bg-blue-800',
+    color: 'bg-[#0b3b75]',
     features: [
       'Documentação 100% digital',
       'Diversas formas de pagamento',
@@ -62,7 +62,7 @@ const steps = [
     title: 'Acesse a plataforma',
     description: 'Tenha acesso imediato a todo o conteúdo do curso em nossa plataforma EAD.',
     icon: UserCheck,
-    color: 'bg-blue-800',
+    color: 'bg-[#0b3b75]',
     features: [
       'Aulas online e gravadas',
       'Materiais didáticos exclusivos',
@@ -73,7 +73,7 @@ const steps = [
     title: 'Certificação',
     description: 'Ao concluir, receba seu certificado reconhecido pelo MEC e pelo mercado.',
     icon: Award,
-    color: 'bg-blue-800',
+    color: 'bg-[#0b3b75]',
     features: [
       'Certificado digital com QR Code',
       'Válido em todo território nacional',
@@ -83,10 +83,10 @@ const steps = [
 ];
 
 const stats = [
-  { value: '100%', label: 'Online', icon: <Clock className="h-6 w-6 text-orange-600" /> },
-  { value: '5k+', label: 'Alunos Formados', icon: <Users className="h-6 w-6 text-orange-600" /> },
-  { value: '98%', label: 'Aprovação', icon: <CheckCircle className="h-6 w-6 text-orange-600" /> },
-  { value: '24/7', label: 'Suporte', icon: <MessageCircle className="h-6 w-6 text-orange-600" /> },
+  { value: '100%', label: 'Online', icon: <Clock className="h-6 w-6 text-[#ff6600]" /> },
+  { value: '5k+', label: 'Alunos Formados', icon: <Users className="h-6 w-6 text-[#ff6600]" /> },
+  { value: '98%', label: 'Aprovação', icon: <CheckCircle className="h-6 w-6 text-[#ff6600]" /> },
+  { value: '24/7', label: 'Suporte', icon: <MessageCircle className="h-6 w-6 text-[#ff6600]" /> },
 ];
 
 export default function HowItWorksSection() {
@@ -149,7 +149,7 @@ export default function HowItWorksSection() {
                     <div className="mt-6 pt-4 border-t border-gray-100">
                       <Link 
                         href="/cursos" 
-                        className="inline-flex items-center text-sm font-medium text-blue-700 hover:text-blue-800"
+                        className="inline-flex items-center text-sm font-medium text-[#0b3b75]"
                       >
                         Ver cursos disponíveis
                         <ArrowRight className="ml-1 h-4 w-4" />
@@ -167,7 +167,7 @@ export default function HowItWorksSection() {
           {/* Progress bar */}
           <div className="hidden lg:flex absolute left-1/2 top-0 h-full -translate-x-1/2">
             <div className="h-full w-1 bg-gray-200">
-              <div className="h-full w-full bg-orange-600" style={{ height: '25%' }}></div>
+              <div className="h-full w-full bg-[#ff6600]" style={{ height: '25%' }}></div>
             </div>
           </div>
           
@@ -196,7 +196,7 @@ export default function HowItWorksSection() {
                     <ul className="space-y-3">
                       {step.features.map((feature, i) => (
                         <li key={i} className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-orange-600 mt-0.5 mr-3 flex-shrink-0" />
+                          <CheckCircle className="h-5 w-5 text-[#ff6600] mt-0.5 mr-3 flex-shrink-0" />
                           <span className="text-gray-600">{feature}</span>
                         </li>
                       ))}
@@ -232,7 +232,7 @@ export default function HowItWorksSection() {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-4">
                   {stat.icon}
                 </div>
-                <p className="text-3xl font-bold text-blue-800">{stat.value}</p>
+                <p className="text-3xl font-bold text-[#0b3b75]">{stat.value}</p>
                 <p className="mt-1 text-sm font-medium text-gray-600">{stat.label}</p>
               </FadeInUp>
             ))}
@@ -240,7 +240,7 @@ export default function HowItWorksSection() {
           
           <div className="mt-8 text-center text-gray-600 text-sm">
             <p>Nossos cursos são reconhecidos pelo MEC e Sistec, garantindo qualidade e validade em todo território nacional.</p>
-            <p className="mt-2">Dúvidas? <a href="#" className="text-blue-700 hover:underline">Fale com nosso time</a></p>
+            <p className="mt-2">Dúvidas? <a href="#" className="text-[#0b3b75] hover:underline">Fale com nosso time</a></p>
           </div>
         </div>
         
@@ -248,7 +248,7 @@ export default function HowItWorksSection() {
         <FadeInUp delay={0.9} className="mt-16 text-center">
           <Link 
             href="/cursos" 
-            className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+            className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
           >
             Conheça Nossos Cursos
             <ArrowRight className="ml-2 h-5 w-5" />

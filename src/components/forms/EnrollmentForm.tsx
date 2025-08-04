@@ -49,7 +49,7 @@ export function EnrollmentForm({
       <div className="space-y-4">
         <div>
           <h3 className="text-lg font-medium">Curso: {courseTitle}</h3>
-          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-2">
+          <p className="text-2xl font-bold text-[#0b3b75] dark:text-blue-400 mt-2">
             {formatCurrency(coursePrice)}
           </p>
         </div>

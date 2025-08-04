@@ -7,10 +7,10 @@ export function Testimonials({ testimonials = [] }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-1.5 rounded-full bg-orange-50 border border-orange-100 mb-4">
-            <p className="text-sm font-medium text-orange-700">Depoimentos</p>
+            <p className="text-sm font-medium text-[#ff6600a]">Depoimentos</p>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            O que nossos alunos <span className="text-blue-800">dizem</span>
+            O que nossos alunos <span className="text-[#0b3b75]">dizem</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Veja como nossos cursos estão transformando carreiras e realizando sonhos profissionais.
@@ -38,7 +38,7 @@ export function Testimonials({ testimonials = [] }) {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-5 w-5 ${i < testimonial.rating ? 'text-orange-400' : 'text-gray-300'}`}
+                    className={`h-5 w-5 ${i < testimonial.rating ? 'text-[#ff6600]' : 'text-gray-300'}`}
                     fill={i < testimonial.rating ? 'currentColor' : 'none'}
                   />
                 ))}
@@ -46,7 +46,7 @@ export function Testimonials({ testimonials = [] }) {
               <p className="text-gray-600 italic">"{testimonial.content}"</p>
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <p className="text-sm text-gray-500">
-                  Curso: <span className="font-medium text-blue-800">{testimonial.course || 'Técnico em Informática'}</span>
+                  Curso: <span className="font-medium text-[#0b3b75]">{testimonial.course || 'Técnico em Informática'}</span>
                 </p>
               </div>
             </div>

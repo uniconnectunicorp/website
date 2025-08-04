@@ -151,7 +151,7 @@ export function CourseDetailsClient({ course }) {
                   
                   <Button
                     onClick={() => setIsEnrollmentModalOpen(true)}
-                    className="w-full py-6 text-lg font-bold bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
+                    className="w-full py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
                   >
                     QUERO ME MATRICULAR AGORA
                   </Button>
@@ -188,29 +188,29 @@ export function CourseDetailsClient({ course }) {
       <div className="py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full mb-3">POR QUE ESCOLHER NOSSO CURSO?</span>
+            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-3">POR QUE ESCOLHER NOSSO CURSO?</span>
             <h2 className="text-4xl font-bold text-gray-900">Transforme seu futuro com nossa metodologia exclusiva</h2>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                icon: <BarChart2 className="h-10 w-10 text-blue-600" />,
+                icon: <BarChart2 className="h-10 w-10 text-[#0b3b75]" />,
                 title: "Aprendizado Baseado em Projetos",
                 description: "Aprenda na prática desenvolvendo projetos reais que farão diferença no seu portfólio."
               },
               {
-                icon: <Users className="h-10 w-10 text-blue-600" />,
+                icon: <Users className="h-10 w-10 text-[#0b3b75]" />,
                 title: "Comunidade Ativa",
                 description: "Acesso a uma comunidade exclusiva de alunos e profissionais para networking e troca de experiências."
               },
               {
-                icon: <Award className="h-10 w-10 text-blue-600" />,
+                icon: <Award className="h-10 w-10 text-[#0b3b75]" />,
                 title: "Certificado Reconhecido",
                 description: "Certificado digital com verificação online para comprovar sua qualificação profissional."
               },
               {
-                icon: <Clock className="h-10 w-10 text-blue-600" />,
+                icon: <Clock className="h-10 w-10 text-[#0b3b75]" />,
                 title: "Acesso Vitalício",
                 description: "Acesso ilimitado a todo o conteúdo do curso, incluindo todas as atualizações futuras."
               }
@@ -247,7 +247,7 @@ export function CourseDetailsClient({ course }) {
     <AboutUsCourse />
 
     
-      {/* <div className="bg-blue-700">
+      {/* <div className="bg-[#0b3b75]">
         <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
@@ -260,7 +260,7 @@ export function CourseDetailsClient({ course }) {
             <div className="mt-8">
               <Button
                 onClick={() => setIsEnrollmentModalOpen(true)}
-                className="px-8 py-4 text-base font-medium rounded-full bg-white text-blue-700 hover:bg-blue-50 transition-colors duration-200 transform hover:scale-105"
+                className="px-8 py-4 text-base font-medium rounded-full bg-white text-[#0b3b75] hover:bg-blue-50 transition-colors duration-200 transform hover:scale-105"
               >
                 Quero me matricular agora
               </Button>

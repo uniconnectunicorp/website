@@ -18,7 +18,7 @@ export default function FeaturedCoursesSection() {
           <FadeInUp>
            
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Nossos <span className="text-blue-800">Cursos em Destaque</span>
+              Nossos <span className="text-[#0b3b75]">Cursos em Destaque</span>
             </h2>
           </FadeInUp>
           <FadeInUp delay={0.1}>
@@ -45,7 +45,7 @@ export default function FeaturedCoursesSection() {
           <div className="mt-16 text-center">
             <Link 
               href="/cursos"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
             >
               Ver Todos os Cursos Técnicos
               <ArrowRight className="ml-2 h-5 w-5" />

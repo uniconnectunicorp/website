@@ -23,11 +23,11 @@ export function CourseContentSection({
           <h2 className="text-3xl font-bold text-gray-900">Conteúdo do Curso</h2>
           <div className="mt-4 flex justify-center items-center space-x-6 text-gray-600">
             <div className="flex items-center">
-              <PlayCircle className="h-5 w-5 mr-2 text-blue-600" />
+              <PlayCircle className="h-5 w-5 mr-2 text-[#0b3b75]" />
               <span>{totalLessons} módulos</span>
             </div>
             <div className="flex items-center">
-              <Clock className="h-5 w-5 mr-2 text-blue-600" />
+              <Clock className="h-5 w-5 mr-2 text-[#0b3b75]" />
               <span>{totalDuration} horas de conteúdo</span>
             </div>
           </div>
@@ -59,7 +59,7 @@ export function CourseContentSection({
                     {module.lessons.map((lesson, lessonIndex) => (
                       <li key={lesson.nome} className="flex items-start">
                         <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center mr-3">
-                          <PlayCircle className="h-5 w-5 text-blue-600" />
+                          <PlayCircle className="h-5 w-5 text-[#0b3b75]" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-900">

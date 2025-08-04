@@ -65,7 +65,7 @@ export default function CoursesPage() {
                   className="block w-full pl-12 pr-4 py-4 border-0 rounded-lg bg-white/10 text-white placeholder-blue-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none transition-all duration-200"
                   placeholder="Buscar cursos..."
                 />
-                <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-blue-700 px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
+                <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
                   Buscar
                 </button>
               </div>

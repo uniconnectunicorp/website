@@ -29,7 +29,7 @@ export function CourseCard({ course, category, className }) {
               className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <span className="text-white font-medium text-sm flex items-center bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-full transition-colors">
+              <span className="text-white font-medium text-sm flex items-center bg-[#0b3b75] hover:bg-[#0b3b75] px-3 py-1.5 rounded-full transition-colors">
                 Ver detalhes <ArrowRight className="ml-1 h-4 w-4" />
               </span>
             </div>
@@ -42,21 +42,21 @@ export function CourseCard({ course, category, className }) {
       {/* Card Content */}
       <div className="p-5 flex flex-col flex-1">
         {/* Course Info */}
-        <h3 className='text-blue-900 font-semibold text-lg mb-2'>{course.nome}</h3>
+        <h3 className='text-[#0b3b75] font-semibold text-lg mb-2'>{course.nome}</h3>
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center text-xs text-blue-700 bg-blue-50 px-3 py-1 rounded-full font-medium">
+          <div className="flex items-center text-xs text-[#0b3b75] bg-blue-50 px-3 py-1 rounded-full font-medium">
             <Clock className="w-3.5 h-3.5 mr-1.5" />
             Formação a  partir de {course.minTime} meses
           </div>
           
           <div className="flex items-center text-xs text-gray-600">
-            <Users className="w-3.5 h-3.5 mr-1.5 text-blue-600" />
+            <Users className="w-3.5 h-3.5 mr-1.5 text-[#0b3b75]" />
             <span className="font-medium">{course.students ? `${course.students}+` : 'Várias'} alunos</span>
           </div>
         </div>
         
         {/* Course Title */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-blue-700 transition-colors">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-[#0b3b75] transition-colors">
           <Link href={`/courses/${course.slug}`}>
             {course.title}
           </Link>
@@ -71,7 +71,7 @@ export function CourseCard({ course, category, className }) {
         <div className="space-y-2.5 mb-4">
           {course.modality && (
             <div className="flex items-center text-sm text-gray-700">
-              <BookOpen className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
+              <BookOpen className="w-4 h-4 mr-2 text-[#0b3b75] flex-shrink-0" />
               <span className="truncate">{course.modality}</span>
             </div>
           )}
@@ -86,7 +86,7 @@ export function CourseCard({ course, category, className }) {
               {hasDiscount ? (
                 <div className="flex flex-col">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-blue-800">
+                    <span className="text-2xl font-bold text-[#0b3b75]">
                       {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                     <span className="text-sm line-through text-gray-500">
@@ -98,7 +98,7 @@ export function CourseCard({ course, category, className }) {
                   </span>
                 </div>
               ) : (
-                <span className="text-2xl font-bold text-blue-800">
+                <span className="text-2xl font-bold text-[#0b3b75]">
                   {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
               )}
@@ -110,7 +110,7 @@ export function CourseCard({ course, category, className }) {
             <div className="space-y-2">
               <Link 
                 href={`/courses/${course.id}`} 
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all shadow-sm hover:shadow-md"
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md"
               >
                 Matricule-se agora
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -123,7 +123,7 @@ export function CourseCard({ course, category, className }) {
                 </div>
                 <div className="w-1 h-1 rounded-full bg-gray-300 mr-3"></div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 mr-1.5"></div>
+                  <div className="w-2 h-2 rounded-full bg-[#0b3b75] mr-1.5"></div>
                   <span>Início imediato</span>
                 </div>
               </div>

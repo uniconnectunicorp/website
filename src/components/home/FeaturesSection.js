@@ -7,13 +7,13 @@ const features = [
     icon: BookOpen,
     title: "Cursos Técnicos",
     description: "Cursos alinhados com as demandas do mercado de trabalho.",
-    color: "text-orange-600"
+    color: "text-[#ff6600]"
   },
   {
     icon: Users,
     title: "Professores Especialistas",
     description: "Aprenda com profissionais atuantes no mercado.",
-    color: "text-blue-600"
+    color: "text-[#0b3b75]"
   },
   {
     icon: Clock,
@@ -61,7 +61,7 @@ export default function FeaturesSection() {
                   {feature.description}
                 </p>
                 <div className="mt-auto pt-4 border-t border-gray-100">
-                  <span className="inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
+                  <span className="inline-flex items-center text-sm font-medium text-[#0b3b75] group-hover:text-[#0b3b75] transition-colors">
                     Saiba mais
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>

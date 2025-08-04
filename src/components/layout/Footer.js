@@ -20,10 +20,10 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { name: 'Facebook', icon: Facebook, url: '#', color: 'hover:text-blue-600' },
+    { name: 'Facebook', icon: Facebook, url: '#', color: 'hover:text-[#0b3b75]' },
     { name: 'Instagram', icon: Instagram, url: '#', color: 'hover:text-pink-600' },
     { name: 'Twitter', icon: Twitter, url: '#', color: 'hover:text-blue-400' },
-    { name: 'LinkedIn', icon: Linkedin, url: '#', color: 'hover:text-blue-700' },
+    { name: 'LinkedIn', icon: Linkedin, url: '#', color: 'hover:text-[#0b3b75]' },
   ];
 
   const contactInfo = [
@@ -105,9 +105,9 @@ export function Footer() {
                   <li key={link.path}>
                     <Link
                       href={link.path}
-                      className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-300 hover:translate-x-1 flex items-center group"
+                      className="text-gray-600 dark:text-gray-300 hover:text-[#ff6600] dark:hover:text-[#ff6600] transition-all duration-300 hover:translate-x-1 flex items-center group"
                     >
-                      <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-orange-600 to-orange-600 transition-all duration-300 mr-0 group-hover:mr-2 rounded-full"></span>
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-[#ff6600] to-[#ff6600] transition-all duration-300 mr-0 group-hover:mr-2 rounded-full"></span>
                       {link.name}
                     </Link>
                   </li>
@@ -125,7 +125,7 @@ export function Footer() {
                   <li key={category.path}>
                     <Link
                       href={category.path}
-                      className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:translate-x-1 flex items-center group"
+                      className="text-gray-600 dark:text-gray-300 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-all duration-300 hover:translate-x-1 flex items-center group"
                     >
                       <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-blue-600 to-blue-600 transition-all duration-300 mr-0 group-hover:mr-2 rounded-full"></span>
                       {category.name}
@@ -146,9 +146,9 @@ export function Footer() {
                       <li key={index}>
                         <a
                           href={info.href}
-                          className="flex items-center space-x-3 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group text-sm"
+                          className="flex items-center space-x-3 text-gray-600 dark:text-gray-300 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-all duration-300 group text-sm"
                         >
-                          <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors duration-300">
+                          <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-100 dark:group-hover:bg-[#0b3b75]/30 transition-colors duration-300">
                             <Icon className="h-4 w-4" />
                           </div>
                           <span className="group-hover:translate-x-1 transition-transform duration-300">{info.text}</span>
@@ -174,25 +174,25 @@ export function Footer() {
             <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
               <Link
                 href="/privacy"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
+                className="text-gray-600 dark:text-gray-400 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Privacidade
               </Link>
               <Link
                 href="/terms"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
+                className="text-gray-600 dark:text-gray-400 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Termos
               </Link>
               <Link
                 href="/cookies"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
+                className="text-gray-600 dark:text-gray-400 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Cookies
               </Link>
               <Link
                 href="/accessibility"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
+                className="text-gray-600 dark:text-gray-400 hover:text-[#0b3b75] dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Acessibilidade
               </Link>

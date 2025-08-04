@@ -53,8 +53,8 @@ export default function CTASection() {
       <div className="absolute inset-0 overflow-hidden opacity-5">
         <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-center"></div>
       </div>
-      <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-blue-700/20"></div>
-      <div className="absolute -left-40 -bottom-40 h-80 w-80 rounded-full bg-blue-600/20"></div>
+      <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-[#0b3b75]/20"></div>
+      <div className="absolute -left-40 -bottom-40 h-80 w-80 rounded-full bg-[#0b3b75]/20"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -81,7 +81,7 @@ export default function CTASection() {
               <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 mb-2">
                 Solicite mais informações
               </h3>
-              <div className="w-20 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto rounded-full"></div>
+              <div className="w-20 h-1 bg-gradient-to-r from-[#ff6600] to-[#ff6600] mx-auto rounded-full"></div>
             </motion.div>
             
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -97,7 +97,7 @@ export default function CTASection() {
                   <Input
                     id="nome"
                     placeholder="Seu nome"
-                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-[#ff6600] focus:border-transparent ${
                       errors.nome ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
                     }`}
                     {...register('nome')}
@@ -135,7 +135,7 @@ export default function CTASection() {
                     id="email"
                     type="email"
                     placeholder="seu@email.com"
-                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-[#ff6600] focus:border-transparent ${
                       errors.email ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
                     }`}
                     {...register('email')}
@@ -172,7 +172,7 @@ export default function CTASection() {
                   <Input
                     id="telefone"
                     placeholder="(00) 00000-0000"
-                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+                    className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-[#ff6600] focus:border-transparent ${
                       errors.telefone ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
                     }`}
                     {...register('telefone')}
@@ -204,7 +204,7 @@ export default function CTASection() {
               >
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-6 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 transform hover:-translate-y-0.5"
+                  className="w-full bg-[#ff6600] hover:bg-orange-700 text-white py-6 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#ff6600]/20 transition-all duration-300 transform hover:-translate-y-0.5"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -296,7 +296,7 @@ export default function CTASection() {
             >
               <Link 
                 href="/cursos"
-                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
               >
                 Encontre seu curso ideal
                 <ArrowRight className="ml-2 h-5 w-5" />

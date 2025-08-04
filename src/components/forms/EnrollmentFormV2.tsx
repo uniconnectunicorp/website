@@ -271,8 +271,8 @@ export function EnrollmentFormV2({
             type="submit"
             disabled={isSubmitting || !isFormValid}
             className={`w-full flex justify-center items-center py-5 text-base font-semibold rounded-lg text-white
-              bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700
-              focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2
+              bg-[#ff6600] hover:bg-orange-700
+              focus:outline-none focus:ring-2 focus:ring-[#ff6600] focus:ring-offset-2
               transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg
               ${(isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''}`}
           >

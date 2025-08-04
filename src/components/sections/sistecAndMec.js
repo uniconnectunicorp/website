@@ -17,7 +17,7 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-orange-50 border border-blue-100 mb-6"
           >
-            <Shield className="w-4 h-4 text-blue-600" />
+            <Shield className="w-4 h-4 text-[#0b3b75]" />
             <p className="text-sm font-semibold text-gray-700">Credenciamentos Oficiais</p>
           </motion.div>
           <motion.h2
@@ -27,7 +27,7 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Qualidade <span className="text-blue-600">Reconhecida</span>
+            Qualidade <span className="text-[#0b3b75]">Reconhecida</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ export default function SistecAndMec() {
                   href="https://sistec.mec.gov.br/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 bg-white text-blue-800 font-black py-4 px-8 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
+                  className="inline-flex items-center justify-center gap-3 bg-white text-[#0b3b75] font-black py-4 px-8 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
                 >
                   <span className="text-lg">Verificar Credenciamento</span>
                   <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -115,7 +115,7 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-800 rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-orange-500/25 transition-all duration-500 group-hover:scale-[1.02] border border-orange-400/20">
+            <div className="bg-gradient-to-br from-[#ff6600] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#ff6600]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#ff6600]/20">
               {/* Enhanced Background Elements */}
               <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-y-20 -translate-x-20" />
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-white/5 to-transparent rounded-full translate-y-16 translate-x-16" />
