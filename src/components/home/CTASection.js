@@ -8,40 +8,105 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
-  nome: z.string().min(3, { message: 'Nome deve ter pelo menos 3 caracteres' }),
+  name: z.string().min(3, { message: 'Nome deve ter pelo menos 3 caracteres' }),
   email: z.string().email({ message: 'Por favor, insira um e-mail válido' }),
-  telefone: z.string().min(10, { message: 'Telefone inválido' })
+  phone: z.string()
+    .min(14, { message: 'Telefone inválido' })
+    .refine((val) => {
+      const numbers = val.replace(/\D/g, '');
+      return numbers.length >= 11 && numbers[2] === '9';
+    }, {
+      message: 'O número deve começar com 9 após o DDD',
+    })
 });
 
+const successToast = () => {
+  toast.success('Formulário enviado com sucesso!', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });};
 
-export default function CTASection() {
+const errorToast = () => {
+  toast.error('Erro ao enviar formulário', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
+export default function CTASection({ courseName }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue,
+    watch
   } = useForm({
     resolver: zodResolver(formSchema)
   });
 
+  // Função para formatar telefone
+  const formatPhone = (value) => {
+    let numbers = value.replace(/\D/g, '');
+    
+    // Limita o tamanho (DDD + 9 dígitos)
+    numbers = numbers.substring(0, 11);
+    
+    // Aplica a máscara: (00) 00000-0000
+    return numbers
+      .replace(/^(\d{2})(\d)/g, '($1) $2')
+      .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1');
+  };
+  
+  const handlePhoneChange = (e) => {
+    const formattedValue = formatPhone(e.target.value);
+    setValue('phone', formattedValue, { shouldValidate: true });
+  };
+
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Form submitted:', data);
-      setSubmitSuccess(true);
-      reset();
-      // Reset success message after 3 seconds
-      setTimeout(() => setSubmitSuccess(false), 3000);
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: courseName ? JSON.stringify({ 
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          course: courseName
+         }) : JSON.stringify(data),
+      });
+      
+      if (response.ok) {
+        successToast();
+        reset();
+      } else {
+        throw new Error('Erro ao enviar formulário');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      errorToast();
     } finally {
       setIsSubmitting(false);
     }
@@ -98,9 +163,9 @@ export default function CTASection() {
                     id="nome"
                     placeholder="Seu nome"
                     className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-[#ff6600] focus:border-transparent ${
-                      errors.nome ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
+                      errors.name ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
                     }`}
-                    {...register('nome')}
+                    {...register('name')}
                   />
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,7 +173,7 @@ export default function CTASection() {
                     </svg>
                   </div>
                 </div>
-                {errors.nome && (
+                {errors.name && (
                   <motion.p 
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -117,7 +182,7 @@ export default function CTASection() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {errors.nome.message}
+                    {errors.name.message}
                   </motion.p>
                 )}
               </motion.div>
@@ -165,17 +230,19 @@ export default function CTASection() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <label htmlFor="telefone" className="block text-sm font-medium text-blue-100 mb-2 ml-1">
-                  Telefone
+                <label htmlFor="phone" className="block text-sm font-medium text-blue-100 mb-2 ml-1">
+                  Telefone com DDD <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
                   <Input
-                    id="telefone"
-                    placeholder="(00) 00000-0000"
+                    id="phone"
+                    placeholder="(00) 90000-0000"
                     className={`pl-10 pr-4 py-6 bg-white/5 border-2 border-white/10 text-white text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-[#ff6600] focus:border-transparent ${
-                      errors.telefone ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
+                      errors.phone ? 'border-red-400/80 ring-2 ring-red-400/30' : 'hover:border-white/20'
                     }`}
-                    {...register('telefone')}
+                    {...register('phone', {
+                      onChange: handlePhoneChange
+                    })}
                   />
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -183,7 +250,7 @@ export default function CTASection() {
                     </svg>
                   </div>
                 </div>
-                {errors.telefone && (
+                {errors.phone && (
                   <motion.p 
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -192,7 +259,7 @@ export default function CTASection() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {errors.telefone.message}
+                    {errors.phone.message}
                   </motion.p>
                 )}
               </motion.div>
@@ -223,22 +290,7 @@ export default function CTASection() {
                 </Button>
               </motion.div>
               
-              {submitSuccess && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ type: 'spring', stiffness: 100 }}
-                  className="mt-4 p-4 bg-gradient-to-r from-green-500/10 to-green-600/10 border border-green-500/30 rounded-xl text-green-100 text-sm flex items-start"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <div>
-                    <div className="font-medium">Mensagem enviada com sucesso!</div>
-                    <div>Entraremos em contato em breve.</div>
-                  </div>
-                </motion.div>
-              )}
+
               
               <motion.p 
                 initial={{ opacity: 0, y: 10 }}
@@ -295,7 +347,7 @@ export default function CTASection() {
               className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 max-w-md mx-auto lg:mx-0"
             >
               <Link 
-                href="/cursos"
+                href="/courses"
                 className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
               >
                 Encontre seu curso ideal

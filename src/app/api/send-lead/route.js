@@ -1,27 +1,88 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Rate limiting - armazena tentativas por IP
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minuto
+const MAX_REQUESTS = 3; // máximo 3 tentativas por minuto
+
+function getRateLimitKey(request) {
+  // Tenta obter o IP real do usuário
+  const forwarded = request.headers.get('x-forwarded-for');
+  const realIp = request.headers.get('x-real-ip');
+  const ip = forwarded?.split(',')[0] || realIp || 'unknown';
+  return ip;
+}
+
+function isRateLimited(key) {
+  const now = Date.now();
+  const userRequests = rateLimitMap.get(key) || [];
+  
+  // Remove requisições antigas (fora da janela de tempo)
+  const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
+  
+  // Atualiza o mapa com apenas as requisições recentes
+  rateLimitMap.set(key, recentRequests);
+  
+  // Verifica se excedeu o limite
+  if (recentRequests.length >= MAX_REQUESTS) {
+    return true;
+  }
+  
+  // Adiciona a requisição atual
+  recentRequests.push(now);
+  rateLimitMap.set(key, recentRequests);
+  
+  return false;
+}
+
 export async function POST(request) {
   try {
-    const authHeader = request.headers.get('authorization');
-    const apiSecret = process.env.API_SECRET;
-    
-    if (!apiSecret) {
+    // Rate limiting
+    const rateLimitKey = getRateLimitKey(request);
+    if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(
-        { error: 'Burguês Safado!' },
+        { error: 'Vai derrubar o site da sua vó! feat: Rate Limiting' },
+        { status: 429 }
+      );
+    }
+
+    // Validação de segurança interna - não depende do frontend
+    const secretKey = process.env.API_SECRET;
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://localhost:3000',
+      process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    ];
+    
+    if (!secretKey) {
+      return NextResponse.json(
+        { error: 'Configuração do servidor inválida' },
         { status: 500 }
       );
     }
     
-    if (!authHeader || authHeader !== `Bearer ${apiSecret}`) {
+    // Validar origem da requisição
+    const origin = request.headers.get('origin');
+    const referer = request.headers.get('referer');
+    
+    // Verificar se a requisição vem de uma origem permitida
+    const isValidOrigin = origin && allowedOrigins.some(allowed => 
+      origin.startsWith(allowed)
+    );
+    const isValidReferer = referer && allowedOrigins.some(allowed => 
+      referer.startsWith(allowed)
+    );
+    
+    if (!isValidOrigin && !isValidReferer) {
       return NextResponse.json(
-        { error: 'Não autorizado - Token de acesso inválido' },
-        { status: 401 }
+        { error: 'Burguês Safado! Deus ta vendo...' },
+        { status: 403 }
       );
     }
 
     const body = await request.json();
-    const { name, email, phone, course, message } = body;
+    const { name, email, phone, course } = body;
 
     // Validate required fields
     if (!name || !email || !phone) {
@@ -31,25 +92,15 @@ export async function POST(request) {
       );
     }
 
-    // Create transporter (configure with your email provider)
     const transporter = nodemailer.createTransport({
-      // Gmail configuration example
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER, // Your email
         pass: process.env.EMAIL_PASS, // Your app password
       },
-      // Alternative SMTP configuration
-      // host: process.env.SMTP_HOST,
-      // port: process.env.SMTP_PORT,
-      // secure: false, // true for 465, false for other ports
-      // auth: {
-      //   user: process.env.SMTP_USER,
-      //   pass: process.env.SMTP_PASS,
-      // },
+
     });
 
-    // Email content for the lead notification
     const leadEmailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #0b3b75 0%, #1e5799 100%); color: white; padding: 30px; text-align: center;">
@@ -80,18 +131,20 @@ export async function POST(request) {
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${course}</td>
               </tr>
               ` : ''}
-              ${message ? `
-              <tr>
-                <td style="padding: 10px 0; font-weight: bold; color: #0b3b75; vertical-align: top;">Mensagem:</td>
-                <td style="padding: 10px 0;">${message}</td>
-              </tr>
-              ` : ''}
+             
             </table>
           </div>
           
           <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #0b3b75;">
             <p style="margin: 0; color: #0b3b75; font-weight: bold;">📞 Ação Recomendada:</p>
-            <p style="margin: 5px 0 0 0; color: #666;">Entre em contato com o lead o mais rápido possível para maximizar a conversão.</p>
+            <p style="margin: 5px 0 10px 0; color: #666;">Entre em contato com o lead o mais rápido possível para maximizar a conversão.</p>
+            
+            <div style="text-align: center; margin-top: 15px;">
+              <a href="https://wa.me/55${phone.replace(/\D/g, '')}?text=👋%20Olá%20${encodeURIComponent(name)}!%20😊%0A%0A📚%20Vi%20que%20você%20demonstrou%20interesse%20${course ? `no%20curso%20de%20${encodeURIComponent(course)}` : 'em%20nossos%20cursos'}%20através%20do%20nosso%20site.%0A%0A🎓%20Gostaria%20de%20conversar%20com%20você%20sobre%20as%20oportunidades%20educacionais%20que%20temos%20disponíveis.%0A%0A⏰%20Quando%20seria%20um%20bom%20momento%20para%20conversarmos?" 
+                 style="background: #25D366; color: white; padding: 12px 20px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block; margin: 5px;">
+                💬 Chamar no WhatsApp
+              </a>
+            </div>
           </div>
         </div>
         

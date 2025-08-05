@@ -22,6 +22,7 @@ import { CourseContentSection } from '@/components/course-details/CourseContentS
 import CTASection from '@/components/home/CTASection';
 import { CourseFAQ } from '@/components/course-details/faq';
 import AboutUsCourse from '@/components/course-details/AboutUs';
+import { toast } from 'react-toastify';
 
 
 
@@ -69,6 +70,7 @@ export function CourseDetailsClient({ course }) {
     const moduleWorkload = module.carga_horaria;
     return total + moduleWorkload;
   }, 0);
+
   
 
   return (
@@ -252,7 +254,7 @@ export function CourseDetailsClient({ course }) {
         </div>
       </div> */}
 
-      <CTASection />
+      <CTASection courseName={course.nome} />
 
       {/* Modal de Matrícula */}
       <Dialog open={isEnrollmentModalOpen} onOpenChange={setIsEnrollmentModalOpen}>
@@ -275,7 +277,7 @@ export function CourseDetailsClient({ course }) {
             </div>
           ) : (
             <EnrollmentFormV2
-              courseId={course.slug}
+              courseName={course.nome}
               courseTitle={course.title}
               coursePrice={course.price}
               onSuccess={handleEnrollmentSuccess}
@@ -284,6 +286,7 @@ export function CourseDetailsClient({ course }) {
           )}
         </DialogContent>
       </Dialog>
+
     </div>
   );
 }

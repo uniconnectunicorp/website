@@ -31,7 +31,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/data/course.js", "src/components/course-details/CourseContentSection.js", "src/app/courses/[slug]/CourseDetailsClient.js", "src/app/courses/[slug]/page.js", "src/app/courses/page.js", "src/components/sections/Testimonials.js", "src/lib/utils.js", "src/contexts/theme-context.js", "src/app/about/page.js"  ],
+, "src/data/course.js", "src/components/course-details/CourseContentSection.js", "src/app/courses/[slug]/CourseDetailsClient.js", "src/app/courses/[slug]/page.js", "src/app/courses/page.js", "src/components/sections/Testimonials.js", "src/lib/utils.js", "src/contexts/theme-context.js", "src/app/about/page.js", "src/components/forms/EnrollmentFormV2.js"  ],
   "exclude": [
     "node_modules"
   ]

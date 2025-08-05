@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, User, Mail, Phone, Lock, ShieldCheck, AlertCircle } from 'lucide-react';
+import {  User, Mail, Phone, Lock, ShieldCheck, AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
 import { Label } from '../ui/label';
+import { toast } from 'react-toastify';
 
 // Função para formatar moeda
-const formatCurrency = (value: number) => {
+const formatCurrency = (value) => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -36,27 +36,25 @@ const enrollmentFormSchema = z.object({
     })
 });
 
-type EnrollmentFormData = z.infer<typeof enrollmentFormSchema>;
+const successToast = () => {
+  toast.success('Formulário enviado com sucesso!');
+};
 
-interface EnrollmentFormV2Props {
-  courseId: string;
-  courseTitle: string;
-  coursePrice: number;
-  onSuccess: () => void;
-  onClose: () => void;
-}
+const errorToast = () => {
+  toast.error('Erro ao enviar formulário');
+};
 
 export function EnrollmentFormV2({
-  courseId,
+  courseName,
   courseTitle,
   coursePrice,
   onSuccess,
   onClose,
-}: EnrollmentFormV2Props) {
+}) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const form = useForm<EnrollmentFormData>({
+  const form = useForm({
     resolver: zodResolver(enrollmentFormSchema),
     defaultValues: {
       name: '',
@@ -71,6 +69,7 @@ export function EnrollmentFormV2({
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = form;
 
   // Observa mudanças no formulário
@@ -80,33 +79,45 @@ export function EnrollmentFormV2({
                      watchFields.email && 
                      watchFields.phone;
 
-  const onSubmit: SubmitHandler<EnrollmentFormData> = async (data) => {
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
     
     try {
-      // Simulando uma chamada de API
-      console.log('Dados do formulário:', {
-        ...data,
-        courseId,
-        courseTitle,
-        coursePrice,
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          course: courseName
+        }),
       });
       
-      // Simulando delay da API
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Se chegou aqui, deu tudo certo
-      onSuccess();
+      if (response.ok) {
+        successToast();
+        // Limpa o formulário
+        reset();
+        // Fecha o modal após 1.5 segundos (tempo para o usuário ver a mensagem de sucesso)
+        if (onClose) onClose();
+        if (onSuccess) onSuccess();
+      } else {
+        throw new Error('Erro ao enviar formulário');
+      }
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
-      // Aqui você poderia adicionar um toast de erro, por exemplo
+      errorToast();
+      // Em caso de erro, apenas fecha o modal
+      if (onClose) onClose();
     } finally {
       setIsSubmitting(false);
     }
   };
 
   // Função para formatar telefone
-  const formatPhone = (value: string) => {
+  const formatPhone = (value) => {
     let numbers = value.replace(/\D/g, '');
     
     // Limita o tamanho (DDD + 9 dígitos)
@@ -119,7 +130,7 @@ export function EnrollmentFormV2({
       .replace(/(-\d{4})\d+?$/, '$1');
   };
   
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhoneChange = (e) => {
     const formattedValue = formatPhone(e.target.value);
     setValue('phone', formattedValue, { shouldValidate: true });
   };
