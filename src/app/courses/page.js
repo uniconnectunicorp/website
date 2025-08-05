@@ -68,7 +68,7 @@ export default function CoursesPage() {
             </p>
             
             {/* Search Bar */}
-            <div className="max-w-2xl mx-auto mb-16">
+            <div className="max-w-2xl mx-auto">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400"  />
@@ -86,7 +86,7 @@ export default function CoursesPage() {
               </div>
             </div>
 
-            {/* Stats */}
+            {/* Stats
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm">
@@ -97,7 +97,7 @@ export default function CoursesPage() {
                   <div className="text-sm text-blue-100">{stat.title}</div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

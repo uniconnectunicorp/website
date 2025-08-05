@@ -55,10 +55,7 @@ export function CourseCard({ course, category, className, onEnrollClick }) {
             Formação a  partir de {course.minTime} meses
           </div>
           
-          <div className="flex items-center text-xs text-gray-600">
-            <Users className="w-3.5 h-3.5 mr-1.5 text-[#0b3b75]" />
-            <span className="font-medium">{course.students ? `${course.students}+` : 'Várias'} alunos</span>
-          </div>
+         
         </div>
         
         {/* Course Title */}
@@ -114,13 +111,23 @@ export function CourseCard({ course, category, className, onEnrollClick }) {
             </div>
             
             <div className="space-y-2">
-              <button 
-                onClick={handleEnrollClick}
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-[#094066]"
-              >
-                Matricule-se agora
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
+              {onEnrollClick ? (
+                <button 
+                  onClick={handleEnrollClick}
+                  className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-[#094066]"
+                >
+                  Matricule-se agora
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </button>
+              ) : (
+                <Link 
+                  href={`/courses/${course.slug}`}
+                  className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-[#094066]"
+                >
+                  Matricule-se agora
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              )}
               
               <div className="flex items-center justify-center text-xs text-gray-500">
                 <div className="flex items-center mr-3">
