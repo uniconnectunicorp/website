@@ -39,7 +39,7 @@ const AccordionItem = ({ item, isOpen, onClick }) => (
     className={clsx(
       'rounded-lg shadow-md mb-4 overflow-hidden transition-all duration-300 hover:shadow-lg',
       {
-        'bg-[#234AC0] text-white': isOpen,
+        'bg-[#0b3b75] text-white': isOpen,
         'bg-white ': !isOpen,
       },
     )}

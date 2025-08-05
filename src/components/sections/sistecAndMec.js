@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Award, CheckCircle, QrCode, Shield, Star } from 'lucide-react';
 import Link from 'next/link';
+import QRCode from "react-qr-code";
 
 export default function SistecAndMec() {
   return (
@@ -15,10 +16,10 @@ export default function SistecAndMec() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-orange-50 border border-blue-100 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50  border border-blue-100 mb-6"
           >
             <Shield className="w-4 h-4 text-[#0b3b75]" />
-            <p className="text-sm font-semibold text-gray-700">Credenciamentos Oficiais</p>
+            <p className="text-sm font-semibold text-[#0b3b75]">Credenciamentos Oficiais</p>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -87,7 +88,9 @@ export default function SistecAndMec() {
                       <div className="w-32 h-32 bg-gray-900 rounded-xl shadow-inner" style={{
                         backgroundImage: `url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='qr-sistec' width='8' height='8' patternUnits='userSpaceOnUse'%3e%3crect width='4' height='4' fill='%23000'/%3e%3crect x='4' y='4' width='4' height='4' fill='%23000'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100' height='100' fill='url(%23qr-sistec)'/%3e%3c/svg%3e")`,
                         backgroundSize: 'cover'
-                      }} />
+                      }} >
+                        <QRCode size={128} className='rounded-lg' value="https://sistec.mec.gov.br/consultapublicaunidadeensino/" />
+                        </div>
                     </div>
                     <p className="text-xs text-white/80 font-semibold tracking-wider uppercase">Acesso Instantâneo</p>
                   </div>
@@ -95,7 +98,7 @@ export default function SistecAndMec() {
                 
                 {/* Enhanced Button */}
                 <Link
-                  href="https://sistec.mec.gov.br/"
+                  href="https://sistec.mec.gov.br/consultapublicaunidadeensino/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-3 bg-white text-[#0b3b75] font-black py-4 px-8 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
@@ -152,7 +155,9 @@ export default function SistecAndMec() {
                       <div className="w-32 h-32 bg-gray-900 rounded-xl shadow-inner" style={{
                         backgroundImage: `url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='qr-mec' width='8' height='8' patternUnits='userSpaceOnUse'%3e%3crect width='4' height='4' fill='%23000'/%3e%3crect x='4' y='4' width='4' height='4' fill='%23000'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100' height='100' fill='url(%23qr-mec)'/%3e%3c/svg%3e")`,
                         backgroundSize: 'cover'
-                      }} />
+                      }} >
+                        <QRCode size={128} className='rounded-lg' value="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU=" />
+                        </div>
                     </div>
                     <p className="text-xs text-white/80 font-semibold tracking-wider uppercase">Acesso Instantâneo</p>
                   </div>
@@ -160,7 +165,7 @@ export default function SistecAndMec() {
                 
                 {/* Enhanced Button */}
                 <Link
-                  href="https://emec.mec.gov.br/"
+                  href="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-3 bg-white text-orange-800 font-black py-4 px-8 rounded-2xl hover:bg-orange-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"

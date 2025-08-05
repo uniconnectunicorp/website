@@ -1,31 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { 
   Dialog, 
   DialogContent, 
   DialogTitle
 } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  Star, 
   Clock, 
   Users, 
-  Award, 
   BookOpen, 
-  PlayCircle, 
-  FolderOpen, 
   CheckCircle, 
-  ChevronDown, 
-  ThumbsUp, 
-  MessageSquareText, 
-  MessageCircle, 
-  Plus, 
-  Shield, 
-  Headphones,
-  BarChart2
+  Monitor,
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
 import SistecAndMec from '@/components/sections/sistecAndMec';
@@ -151,7 +138,7 @@ export function CourseDetailsClient({ course }) {
                   
                   <Button
                     onClick={() => setIsEnrollmentModalOpen(true)}
-                    className="w-full py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
+                    className="w-full cursor-pointer py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
                   >
                     QUERO ME MATRICULAR AGORA
                   </Button>
@@ -160,11 +147,7 @@ export function CourseDetailsClient({ course }) {
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">100% Online</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">Suporte exclusivo</span>
+                        <span className="text-blue-50">Reconhecido MEC e SISTEC</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -173,10 +156,7 @@ export function CourseDetailsClient({ course }) {
                     </ul>
                   </div>
                   
-                  <p className="text-center text-sm text-blue-100 mt-4">
-                    <Shield className="inline-block h-4 w-4 mr-1 -mt-1" />
-                    Compra 100% segura | 7 dias de garantia
-                  </p>
+                
                 </div>
               </div>
             </div>
@@ -195,24 +175,24 @@ export function CourseDetailsClient({ course }) {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                icon: <BarChart2 className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Aprendizado Baseado em Projetos",
-                description: "Aprenda na prática desenvolvendo projetos reais que farão diferença no seu portfólio."
+                icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,
+                title: "Ambiente 100% Online",
+                description: "Estude de forma totalmente digital — aulas, conteúdos e provas disponíveis onde você estiver."
               },
               {
-                icon: <Users className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Comunidade Ativa",
-                description: "Acesso a uma comunidade exclusiva de alunos e profissionais para networking e troca de experiências."
-              },
-              {
-                icon: <Award className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Certificado Reconhecido",
-                description: "Certificado digital com verificação online para comprovar sua qualificação profissional."
+                icon: <BookOpen className="h-10 w-10 text-[#0b3b75]" />,
+                title: "Material de Apoio Completo",
+                description: "Tenha acesso a videoaulas, apostilas e uma central de suporte com tudo o que você precisa para aprender com qualidade."
               },
               {
                 icon: <Clock className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Acesso Vitalício",
-                description: "Acesso ilimitado a todo o conteúdo do curso, incluindo todas as atualizações futuras."
+                title: "Flexibilidade Total",
+                description: "Você escolhe o melhor horário e lugar para estudar — sem pressa, no seu ritmo."
+              },
+              {
+                icon: <Users className="h-10 w-10 text-[#0b3b75]" />,
+                title: "Suporte Especializado",
+                description: "Conte com professores altamente qualificados prontos para tirar suas dúvidas e te acompanhar na jornada."
               }
             ].map((item, index) => (
               <div 
