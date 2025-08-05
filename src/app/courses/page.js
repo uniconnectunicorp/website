@@ -3,21 +3,23 @@ import { Header } from '@/components/layout/Header';
 import { CourseCard } from '@/components/cards/CourseCard';
 import { Button } from '@/components/ui/button';
 import FadeIn from '@/components/client/FadeIn';
-import { fetchCourses } from '@/data/course';
+import { paginate, getCourseCount } from '@/data/course';
+import CoursesSection from './_components/CoursesSection';
 
 export const metadata = {
   title: 'Nossos Cursos - Uniconnect',
   description: 'Explore nossa grade completa de cursos técnicos e profissionalizantes.',
 };
 
-export default function CoursesPage() {
-  const courses = fetchCourses()
+export default async function CoursesPage() {
+  const courses = getCourseCount()
+  const initialCourses = paginate(1)
 
-  // Stats for the hero section
+
   const stats = [
     { 
       title: 'Cursos Disponíveis', 
-      value: courses.length, 
+      value: courses, 
       icon: <GraduationCap className="h-6 w-6 text-white" />,
       description: 'Diversas opções para você' 
     },
@@ -87,50 +89,8 @@ export default function CoursesPage() {
         </div>
       </section>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Filter Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
-          <div className="text-sm text-gray-600">
-            Mostrando <span className="font-medium">{courses.length} cursos</span> disponíveis
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-              <Filter className="h-4 w-4" />
-              Filtrar
-            </button>
-            <select className="px-4 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent">
-              <option>Ordenar por: Destaque</option>
-              <option>Menor preço</option>
-              <option>Maior preço</option>
-              <option>Mais recentes</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course, index) => (
-            <FadeIn key={course.slug} delay={0.1 * (index % 3)}>
-              <CourseCard 
-                course={{
-                  ...course,
-                  modality: ['Presencial', 'Online', 'Híbrido'][Math.floor(Math.random() * 3)],
-                  location: ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Online'][Math.floor(Math.random() * 4)],
-                  level: ['Iniciante', 'Intermediário', 'Avançado'][Math.floor(Math.random() * 3)],
-                }}
-              />
-            </FadeIn>
-          ))}
-        </div>
-
-        {/* Load More */}
-        <div className="mt-16 text-center">
-          <Button variant="outline" className="px-8 py-6 text-base font-medium">
-            Carregar mais cursos
-          </Button>
-        </div>
-      </main>
+      <CoursesSection coursesQuantity={courses} initialCourses={initialCourses} />
+     
     </div>
   );
 }

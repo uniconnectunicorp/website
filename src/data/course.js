@@ -18,3 +18,7 @@ export function paginate(page) {
     const endIndex = page * coursesPerPage;
     return CourseData.slice(startIndex, endIndex);
 }
+
+export function getCourseCount() {
+    return CourseData.length;
+}
