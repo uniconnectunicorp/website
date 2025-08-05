@@ -7,11 +7,17 @@ import { cn } from '@/lib/utils';
 
 
 
-export function CourseCard({ course, category, className }) {
+export function CourseCard({ course, category, className, onEnrollClick }) {
   const hasDiscount = course.originalPrice && course.originalPrice > course.price;
   const discountPercentage = hasDiscount 
     ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100) 
     : 0;
+
+  const handleEnrollClick = () => {
+    if (onEnrollClick) {
+      onEnrollClick(course);
+    }
+  };
 
   return (
     <div className={cn(
@@ -108,13 +114,13 @@ export function CourseCard({ course, category, className }) {
             </div>
             
             <div className="space-y-2">
-              <Link 
-                href={`/courses/${course.id}`} 
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md"
+              <button 
+                onClick={handleEnrollClick}
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-[#094066]"
               >
                 Matricule-se agora
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+              </button>
               
               <div className="flex items-center justify-center text-xs text-gray-500">
                 <div className="flex items-center mr-3">

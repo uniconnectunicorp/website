@@ -40,7 +40,7 @@ export default function AboutPage() {
               <span className="inline-block px-4 py-2 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-6">
                 Bem-vindo à Uniconnect
               </span>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-[#0b3b75] to-[#0b3b75]">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl bg-clip-text  bg-gradient-to-r from-[#0b3b75] to-[#0b3b75]">
                 Educação Profissional de Excelência
               </h1>
               <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
