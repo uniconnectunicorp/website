@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-// Rate limiting - armazena tentativas por IP
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minuto
-const MAX_REQUESTS = 3; // máximo 3 tentativas por minuto
+const RATE_LIMIT_WINDOW = 60 * 1000; 
+const MAX_REQUESTS = 3; 
 
 function getRateLimitKey(request) {
-  // Tenta obter o IP real do usuário
   const forwarded = request.headers.get('x-forwarded-for');
   const realIp = request.headers.get('x-real-ip');
   const ip = forwarded?.split(',')[0] || realIp || 'unknown';
@@ -18,18 +16,14 @@ function isRateLimited(key) {
   const now = Date.now();
   const userRequests = rateLimitMap.get(key) || [];
   
-  // Remove requisições antigas (fora da janela de tempo)
   const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
   
-  // Atualiza o mapa com apenas as requisições recentes
   rateLimitMap.set(key, recentRequests);
   
-  // Verifica se excedeu o limite
   if (recentRequests.length >= MAX_REQUESTS) {
     return true;
   }
   
-  // Adiciona a requisição atual
   recentRequests.push(now);
   rateLimitMap.set(key, recentRequests);
   
@@ -38,7 +32,6 @@ function isRateLimited(key) {
 
 export async function POST(request) {
   try {
-    // Rate limiting
     const rateLimitKey = getRateLimitKey(request);
     if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(
@@ -47,7 +40,6 @@ export async function POST(request) {
       );
     }
 
-    // Validação de segurança interna - não depende do frontend
     const secretKey = process.env.API_SECRET;
     const allowedOrigins = [
       'http://localhost:3000',
@@ -62,11 +54,9 @@ export async function POST(request) {
       );
     }
     
-    // Validar origem da requisição
     const origin = request.headers.get('origin');
     const referer = request.headers.get('referer');
     
-    // Verificar se a requisição vem de uma origem permitida
     const isValidOrigin = origin && allowedOrigins.some(allowed => 
       origin.startsWith(allowed)
     );
@@ -84,7 +74,6 @@ export async function POST(request) {
     const body = await request.json();
     const { name, email, phone, course } = body;
 
-    // Validate required fields
     if (!name || !email || !phone) {
       return NextResponse.json(
         { error: 'Nome, email e telefone são obrigatórios' },
@@ -95,8 +84,8 @@ export async function POST(request) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // Your email
-        pass: process.env.EMAIL_PASS, // Your app password
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
       },
 
     });
@@ -156,16 +145,14 @@ export async function POST(request) {
       </div>
     `;
 
-    // Email options
     const mailOptions = {
       from: `"Polo Educacional Uniconnect" <${process.env.EMAIL_USER}>`,
-      to: process.env.LEAD_EMAIL || process.env.EMAIL_USER, // Where to send leads
+      to: process.env.LEAD_EMAIL || process.env.EMAIL_USER, 
       subject: `🎓 Novo Lead: ${name} - ${course || 'Interesse Geral'}`,
       html: leadEmailContent,
-      replyTo: email, // Allow direct reply to the lead
+      replyTo: email,
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
     
 
