@@ -3,13 +3,22 @@ import { Button } from '@/components/ui/button'
 import FadeIn from '@/components/client/FadeIn';
 import { CourseCard } from '@/components/cards/CourseCard';
 import { loadMore } from '@/data/server-actions/loadMore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CoursesSection({ coursesQuantity, initialCourses }) {
 
     const [page, setPage] = useState(1);
     const [courses, setCourses] = useState(initialCourses);
     const [loading, setLoading] = useState(false);
+    const [isSearchMode, setIsSearchMode] = useState(false);
+
+    // Sincronizar courses quando initialCourses mudar
+    useEffect(() => {
+        setCourses(initialCourses);
+        setPage(1); // Reset página quando buscar
+        // Detectar se estamos em modo de pesquisa (não é a paginação padrão)
+        setIsSearchMode(initialCourses.length !== 6 || page > 1);
+    }, [initialCourses]);
 
 
     const handleLoadMore = async () => {
@@ -41,7 +50,7 @@ export default function CoursesSection({ coursesQuantity, initialCourses }) {
                 ))}
             </div>
             <div className="mt-16 text-center">
-               {courses.length < coursesQuantity && (
+               {!isSearchMode && courses.length < coursesQuantity && (
                 <Button
                     variant="outline"
                     className="group px-8 py-6 text-base font-medium relative overflow-hidden transition-all duration-300

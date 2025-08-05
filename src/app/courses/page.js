@@ -1,20 +1,31 @@
+'use client'
 import { GraduationCap, Search, Filter, Clock, Star, BookOpen, MapPin, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
-import { CourseCard } from '@/components/cards/CourseCard';
-import { Button } from '@/components/ui/button';
-import FadeIn from '@/components/client/FadeIn';
-import { paginate, getCourseCount } from '@/data/course';
+import { paginate, getCourseCount, getCourseByName } from '@/data/course';
 import CoursesSection from './_components/CoursesSection';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
-export const metadata = {
-  title: 'Nossos Cursos - Uniconnect',
-  description: 'Explore nossa grade completa de cursos técnicos e profissionalizantes.',
-};
 
-export default async function CoursesPage() {
+export default function CoursesPage() {
   const courses = getCourseCount()
-  const initialCourses = paginate(1)
+  const [initialCourses, setInitialCourses] = useState(paginate(1))
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchCourses = (search) => {
+    if (!search) return;
+    const result = getCourseByName(search.toString())
+    if (result) {
+      setInitialCourses(result)
+    }
+    if (!result || result.length === 0) {
+      setInitialCourses(paginate(1))
+      toast.error('Nenhum curso encontrado');
+    }
+  }
+    
+  
 
   const stats = [
     { 
@@ -60,14 +71,16 @@ export default async function CoursesPage() {
             <div className="max-w-2xl mx-auto mb-16">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-gray-400"  />
                 </div>
                 <input
                   type="text"
                   className="block w-full pl-12 pr-4 py-4 border-0 rounded-lg bg-white/10 text-white placeholder-blue-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0b3b75] focus:outline-none transition-all duration-200"
                   placeholder="Buscar cursos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
+                <button onClick={() => searchCourses(searchQuery)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
                   Buscar
                 </button>
               </div>
