@@ -35,14 +35,14 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-12 items-center">
           {/* Lado esquerdo - Informações */}
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border border-orange-100">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 bg-orange-100 rounded-xl flex items-center justify-center mr-4">
                   <Zap className="h-6 w-6 text-[#ff6600]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Formação Acelerada</h3>
-                  <p className="text-orange-600 font-medium">A partir de 45 dias</p>
+                  <p className="text-orange-600 font-medium max-md:text-sm">A partir de 45 dias</p>
                 </div>
               </div>
               <p className="text-gray-600">
@@ -50,14 +50,14 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6shadow-lg border border-orange-100">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 bg-orange-100 rounded-xl flex items-center justify-center mr-4">
                   <Target className="h-6 w-6 text-[#ff6600]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Foco na Prática</h3>
-                  <p className="text-orange-600 font-medium">Avaliação por competências</p>
+                  <p className="text-orange-600 font-medium max-md:text-sm">Avaliação por competências</p>
                 </div>
               </div>
               <p className="text-gray-600">
@@ -65,8 +65,8 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
-              <div className="flex items-center mb-6">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border border-orange-100">
+              <div className="flex items-center mb-6 max-md:text-sm">
                 <div className="h-12 w-12 bg-orange-100 rounded-xl flex items-center justify-center mr-4">
                   <Award className="h-6 w-6 text-[#ff6600]" />
                 </div>
@@ -84,7 +84,7 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
           {/* Lado direito - Comparação e CTA */}
           <div className="space-y-8">
             {/* Comparação de preços */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-[#ff6600]">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border-2 border-[#ff6600]">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Modalidade por Competência</h3>
                 <div className="flex items-center justify-center">
@@ -112,10 +112,10 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
 
               <Link href={`/cursos/competencia/${course.slug}`}>
               <Button
-                className="w-full bg-[#ff6600] hover:bg-[#e55a00] text-white py-6 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="w-full max-md:text-xs bg-[#ff6600] hover:bg-[#e55a00] text-white py-6 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Matricular na Modalidade por Competência
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 max-md:hidden" />
               </Button>
               </Link>
               

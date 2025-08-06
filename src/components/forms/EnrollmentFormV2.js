@@ -169,7 +169,7 @@ export function EnrollmentFormV2({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6 pb-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6 max-md:px-2 pb-6">
         <div className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">

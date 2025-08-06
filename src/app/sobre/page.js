@@ -104,7 +104,7 @@ export default function AboutPage() {
       </section>
 
       {/* Seção Uniconnect */}
-      <section className="py-20 bg-gray-50 relative overflow-hidden">
+      <section className="py-20 max-md:pt-10 bg-gray-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-slate-100/50 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.8))]"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
@@ -129,7 +129,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-4">
+              <span className="inline-block px-4 max-md:mt-8 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-4">
                 Polo Educacional
               </span>
               <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">Uniconnect <span className="text-[#0b3b75]">Coronel Fabriciano</span></h2>

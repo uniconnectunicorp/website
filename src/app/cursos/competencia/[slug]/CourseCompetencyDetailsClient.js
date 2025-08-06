@@ -78,7 +78,7 @@ export function CourseCompetencyDetailsClient({ course }) {
   
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
         <Header />
       {/* Cabeçalho do curso */}
       <div className="relative bg-[#0b3b75] pt-20  text-white overflow-hidden">
@@ -92,7 +92,7 @@ export function CourseCompetencyDetailsClient({ course }) {
             {/* Conteúdo principal (esquerda) */}
             <div className="lg:col-span-7 relative z-10">
               <div className="mb-8">
-                <div className="flex items-center gap-4">
+                <div className="flex max-md:flex-col max-md:items-start items-center gap-4">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
                 Formação a partir de 45 dias
                 </span>
@@ -153,7 +153,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                   
                   <Button
                     onClick={() => setIsEnrollmentModalOpen(true)}
-                    className="w-full cursor-pointer py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
+                    className="w-full max-md:text-sm cursor-pointer py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
                   >
                     QUERO ME MATRICULAR AGORA
                   </Button>
@@ -201,7 +201,7 @@ export function CourseCompetencyDetailsClient({ course }) {
             <h2 className="text-4xl font-bold text-gray-900">Transforme seu futuro com nossa metodologia exclusiva</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {[
               {
                 icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,

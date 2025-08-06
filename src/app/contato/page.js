@@ -208,13 +208,13 @@ export default function ContactPage() {
            
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-12">
             {/* Contact Form - Lado Esquerdo */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 h-full flex flex-col"
+              className="bg-white rounded-2xl shadow-xl p-8 max-md:p-6 border border-gray-100 h-full flex flex-col"
             >
               <div className="mb-8">
                 <div className="flex items-center mb-4">
@@ -227,7 +227,7 @@ export default function ContactPage() {
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-6 mb-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       Nome Completo <span className="text-red-500">*</span>
@@ -284,7 +284,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-6 mb-6">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                       Telefone com DDD
@@ -391,7 +391,7 @@ export default function ContactPage() {
                       Enviando...
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center max-md:text-xs">
                       <Send className="h-5 w-5 mr-2" />
                       Enviar Mensagem
                     </div>
@@ -408,7 +408,7 @@ export default function ContactPage() {
               className="space-y-8"
             >
               {/* WhatsApp CTA - Destaque Principal */}
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-8 text-white shadow-2xl">
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-8 max-md:p-6 text-white shadow-2xl">
                 <div className="flex items-center mb-6">
                   <MessageSquare className="h-10 w-10 mr-4" />
                   <div>
@@ -416,25 +416,25 @@ export default function ContactPage() {
                     <p className="text-green-100 text-sm">Resposta mais rápida!</p>
                   </div>
                 </div>
-                <p className="mb-6 text-green-100 text-lg">
-                  🚀 Atendimento imediato para suas dúvidas sobre cursos, matrículas e certificações.
+                <p className="mb-6 text-green-100 text-lg max-md:text-sm">
+                  Atendimento imediato para suas dúvidas sobre cursos, matrículas e certificações.
                 </p>
                 <a
                   href="https://wa.me/5531988775149?text=Olá! Gostaria de saber mais informações sobre os cursos."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center bg-white text-green-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full justify-center"
+                  className="inline-flex items-center max-md:text-xs bg-white text-green-600 max-md:px-4 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full justify-center"
                 >
                   <MessageSquare className="h-6 w-6 mr-3" />
                   Iniciar Conversa no WhatsApp
                 </a>
                 <p className="text-center text-green-100 text-sm mt-4">
-                  🕰️ Atendimento: Segunda a Sexta, 8h às 18h
+                  Atendimento: Segunda a Sexta, 8h às 18h
                 </p>
               </div>
 
               {/* Informações de Contato */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="bg-white rounded-2xl shadow-xl p-8 max-md:p-6 border border-gray-100">
                 <div className="mb-6">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Outros Canais</h3>
                   <p className="text-gray-600">
@@ -459,7 +459,7 @@ export default function ContactPage() {
                         {item.link ? (
                           <a
                             href={item.link}
-                            className="text-[#0b3b75] hover:text-[#094066] transition-colors font-medium"
+                            className="text-[#0b3b75] max-md:text-xs hover:text-[#094066] transition-colors font-medium"
                           >
                             {item.info}
                           </a>

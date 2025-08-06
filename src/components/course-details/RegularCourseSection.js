@@ -33,17 +33,17 @@ export function RegularCourseSection({ course, formatPrice }) {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-12 items-center">
           {/* Lado esquerdo - Informações */}
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-100">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border border-blue-100">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                   <BookOpen className="h-6 w-6 text-[#0b3b75]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Formação Completa</h3>
-                  <p className="text-blue-600 font-medium">A partir de {course.minTime} meses</p>
+                  <p className="text-blue-600 font-medium max-md:text-sm">A partir de {course.minTime} meses</p>
                 </div>
               </div>
               <p className="text-gray-600">
@@ -51,14 +51,14 @@ export function RegularCourseSection({ course, formatPrice }) {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-100">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border border-blue-100">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                   <Clock className="h-6 w-6 text-[#0b3b75]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Aprendizado Gradual</h3>
-                  <p className="text-blue-600 font-medium">Metodologia estruturada</p>
+                  <p className="text-blue-600 font-medium max-md:text-sm">Metodologia estruturada</p>
                 </div>
               </div>
               <p className="text-gray-600">
@@ -66,14 +66,14 @@ export function RegularCourseSection({ course, formatPrice }) {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-100">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border border-blue-100">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                   <Award className="h-6 w-6 text-[#0b3b75]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Mesma Certificação</h3>
-                  <p className="text-blue-600 font-medium">Reconhecimento MEC e SISTEC</p>
+                  <p className="text-blue-600 font-medium max-md:text-sm">Reconhecimento MEC e SISTEC</p>
                 </div>
               </div>
               <p className="text-gray-600">
@@ -85,7 +85,7 @@ export function RegularCourseSection({ course, formatPrice }) {
           {/* Lado direito - Comparação e CTA */}
           <div className="space-y-8">
             {/* Comparação de preços */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-[#0b3b75]">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border-2 border-[#0b3b75]">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Modalidade Regular</h3>
                 <div className="flex items-center justify-center">
@@ -113,10 +113,10 @@ export function RegularCourseSection({ course, formatPrice }) {
 
               <Link href={`/cursos/${course.slug}`}>
                 <Button
-                  className="w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full bg-[#0b3b75] max-md:text-xs hover:bg-[#094066] text-white py-6 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Matricular na Modalidade Regular
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-5 w-5 max-md:hidden" />
                 </Button>
               </Link>
               

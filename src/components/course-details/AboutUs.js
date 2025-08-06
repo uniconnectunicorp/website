@@ -9,13 +9,13 @@ export default function AboutUsCourse() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-blue-200 to-transparent rounded-full -mr-48 -mb-48 opacity-20"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
+        <div className="lg:grid lg:grid-cols-2 grid-cols-1 lg:gap-16 lg:items-center">
           
           <div className="lg:col-span-1">
             {/* Enhanced left side content */}
             <div className="relative">
              
-              <div className="pl-8">
+              <div className="pl-8 max-md:pl-0">
                 <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-[#0b3b75] text-sm font-semibold rounded-full mb-6">
                   <span className="w-2 h-2 bg-[#0b3b75] rounded-full mr-2 animate-pulse"></span>
                   Coronel Fabriciano - MG

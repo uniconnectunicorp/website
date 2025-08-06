@@ -79,17 +79,18 @@ export function CourseDetailsClient({ course }) {
   
 
   return (
-    <div className="min-h-screen">
-        <Header />
+    <div className="min-h-screen overflow-x-hidden">
+       
       {/* Cabeçalho do curso */}
-      <div className="relative bg-[#0b3b75] pt-20  text-white overflow-hidden">
+      <div className="relative bg-[#0b3b75] pt-20 text-white overflow-hidden">
         {/* Efeitos visuais de fundo */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute -bottom-32 -left-32 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute max-md:hidden inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+        <div className="absolute max-md:hidden -top-32 -right-32 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute max-md:hidden -bottom-32 -left-32 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 w-full">
+           <Header />
+          <div className="lg:grid lg:grid-cols-12 grid-cols-1 lg:gap-8">
             {/* Conteúdo principal (esquerda) */}
             <div className="lg:col-span-7 relative z-10">
               <div className="mb-8">
@@ -190,14 +191,14 @@ export function CourseDetailsClient({ course }) {
       </div>
 
       {/* Seção de benefícios */}
-      <div className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-16 bg-gradient-to-b from-white to-gray-50 overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-3">POR QUE ESCOLHER NOSSO CURSO?</span>
             <h2 className="text-4xl font-bold text-gray-900">Transforme seu futuro com nossa metodologia exclusiva</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               {
                 icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,
@@ -222,13 +223,13 @@ export function CourseDetailsClient({ course }) {
             ].map((item, index) => (
               <div 
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 hover:border-blue-100"
+                className="bg-white p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 hover:border-blue-100 w-full"
               >
-                <div className="h-16 w-16 flex items-center justify-center bg-blue-50 rounded-xl mb-4">
+                <div className="h-12 w-12 md:h-16 md:w-16 flex items-center justify-center bg-blue-50 rounded-xl mb-4 flex-shrink-0">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 leading-tight">{item.title}</h3>
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
