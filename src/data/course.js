@@ -44,3 +44,7 @@ export function getCourseByName(name) {
     });
     return courses;
 }
+
+export function getHighRatedCourses() {
+   
+}

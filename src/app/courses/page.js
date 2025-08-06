@@ -58,7 +58,7 @@ export default function CoursesPage() {
     <div className="min-h-screen pt-20">
       <Header />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white pt-14 pb-6">
+      <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white pt-9 pb-6">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-4xl mx-auto">
