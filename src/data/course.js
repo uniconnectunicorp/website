@@ -12,7 +12,7 @@ export function getThreeCourses() {
     return CourseData.slice(0, 3);
 }
 
-export function paginate(page) {
+export function paginate(page, competency = false) {
     const coursesPerPage = 6;
     const startIndex = (page - 1) * coursesPerPage;
     const endIndex = page * coursesPerPage;
@@ -32,10 +32,16 @@ export function paginate(page) {
     // Combinar cursos ordenados
     const sortedCourses = [...orderedPriorityCourses, ...otherCourses];
     
+    if (competency) {
+        return sortedCourses.filter(course => course.competency).slice(startIndex, endIndex);
+    }
     return sortedCourses.slice(startIndex, endIndex);
 }
 
-export function getCourseCount() {
+export function getCourseCount(competency = false) {
+    if (competency) {
+        return CourseData.filter(course => course.competency).length;
+    }
     return CourseData.length;
 }
 
@@ -69,4 +75,8 @@ export function getHighRatedCourses(courses) {
        return CourseData.find(course => course.slug === slug);
    });
    return mapped;
+}
+
+export function getCompetencyCourses() {
+    return CourseData.filter(course => course.competency);
 }

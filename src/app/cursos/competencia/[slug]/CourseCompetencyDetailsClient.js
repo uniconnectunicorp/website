@@ -31,13 +31,12 @@ import { toast } from 'react-toastify';
 
 
 
-export function CourseDetailsClient({ course }) {
+export function CourseCompetencyDetailsClient({ course }) {
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
   const [enrollmentSuccess, setEnrollmentSuccess] = useState(false);
 
   const handleEnrollmentSuccess = () => {
     setEnrollmentSuccess(true);
-    // Fechar o modal após 3 segundos
     setTimeout(() => {
       setIsEnrollmentModalOpen(false);
       setEnrollmentSuccess(false);
@@ -52,7 +51,7 @@ export function CourseDetailsClient({ course }) {
     }).format(price);
   };
 
-  const currentPrice = formatPrice(course.price);
+  const currentPrice = formatPrice(course.competencyPrice);
   const originalPrice = formatPrice(course.originalPrice);
   const modules = (course.modulos || []).map((module) => {
     const lessons = (module.componentes_curriculares || []).map(lesson => ({
@@ -94,7 +93,7 @@ export function CourseDetailsClient({ course }) {
             <div className="lg:col-span-7 relative z-10">
               <div className="mb-8">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
-                Formação a partir de {course.minTime} meses
+                Formação a partir de 45 dias
                 </span>
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   {course.nome}
@@ -144,7 +143,7 @@ export function CourseDetailsClient({ course }) {
                   </div>
                   
                   <p className="text-blue-100 text-lg">
-                    ou 12x de R$79,90 sem juros
+                    ou 12x de R$109,90 sem juros
                   </p>
                   
                   <Button

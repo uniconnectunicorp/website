@@ -9,6 +9,7 @@ const courseTracks = [
     title: 'Cursos Técnicos Regulares',
     icon: Award,
     color: 'bg-[#0b3b75]',
+    href: '/cursos',
     duration: '6 meses (12 meses para Segurança do Trabalho)',
     features: [
       'Certificação reconhecida pelo MEC e Sistec',
@@ -23,6 +24,7 @@ const courseTracks = [
     title: 'Cursos por Competência',
     icon: Users,
     color: 'bg-[#ff6600]',
+    href: '/cursos/competencia',
     duration: 'A partir de 45 dias',
     features: [
       'Reconhecimento pelo MEC e Sistec',
@@ -148,7 +150,7 @@ export default function HowItWorksSection() {
                     
                     <div className="mt-6 pt-4 border-t border-gray-100">
                       <Link 
-                        href="/cursos" 
+                        href={track.href}
                         className="inline-flex items-center text-sm font-medium text-[#0b3b75]"
                       >
                         Ver cursos disponíveis

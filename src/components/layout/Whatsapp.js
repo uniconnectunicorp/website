@@ -25,7 +25,7 @@ const WhatsappFloat = () => {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ease-out ${
+      className={`fixed bottom-6 right-6  z-50 transition-all duration-500 ease-out ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       }`}
     >
@@ -37,7 +37,7 @@ const WhatsappFloat = () => {
         onClick={handleWhatsappClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative flex items-center justify-center w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 ease-out transform hover:scale-105 group"
+        className="relative flex items-center cursor-pointer justify-center w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 ease-out transform hover:scale-105 group"
         aria-label="Falar no WhatsApp"
       >
         <FaWhatsapp className="text-xl" />
