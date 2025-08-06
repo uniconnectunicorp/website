@@ -98,6 +98,19 @@ export default function CoursesPage() {
                   Buscar
                 </button>
               </div>
+              
+              {/* Mensagem de voltar pesquisa */}
+              {isSearchActive && (
+                <div className="mt-4 text-center">
+                  <button 
+                    onClick={resetSearch}
+                    className="text-sm text-blue-200 hover:text-white underline hover:no-underline transition-colors duration-200 cursor-pointer"
+                  >
+                    ← Voltar à pesquisa completa
+                  </button>
+                </div>
+              )}
+              
               <div className="text-lg text-white mt-8">
                     <span className="font-medium">{courses} cursos</span> disponíveis
                 </div>
