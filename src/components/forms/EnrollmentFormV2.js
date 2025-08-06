@@ -9,6 +9,7 @@ import {  User, Mail, Phone, Lock, ShieldCheck, AlertCircle } from 'lucide-react
 import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 // Função para formatar moeda
 const formatCurrency = (value) => {
@@ -64,6 +65,7 @@ export function EnrollmentFormV2({
     },
   });
 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -102,6 +104,7 @@ export function EnrollmentFormV2({
         successToast();
         // Limpa o formulário
         reset();
+        router.push('/obrigado');
         // Fecha o modal após 1.5 segundos (tempo para o usuário ver a mensagem de sucesso)
         if (onClose) onClose();
         if (onSuccess) onSuccess();

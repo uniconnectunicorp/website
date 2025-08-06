@@ -103,6 +103,7 @@ export default function ContactPage() {
       if (response.ok) {
         toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
         reset();
+        router.push('/obrigado');
       } else {
         throw new Error('Erro ao enviar mensagem');
       }

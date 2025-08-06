@@ -10,6 +10,9 @@ import * as z from 'zod';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
+
 
 const formSchema = z.object({
   name: z.string().min(3, { message: 'Nome deve ter pelo menos 3 caracteres' }),
@@ -51,7 +54,7 @@ const errorToast = () => {
 
 export default function CTASection({ courseName, competency }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -102,6 +105,7 @@ export default function CTASection({ courseName, competency }) {
       if (response.ok) {
         successToast();
         reset();
+        router.push('/obrigado');
       } else {
         throw new Error('Erro ao enviar formulário');
       }
