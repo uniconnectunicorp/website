@@ -42,7 +42,7 @@ export default function SistecAndMec() {
         </div>
 
         {/* Credential Cards - Side by Side */}
-        <div className="grid md:grid-cols-2 gap-10 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-10">
           {/* SISTEC Section */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -51,10 +51,10 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#0b3b75]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#0b3b75]/20">
+            <div className="bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75] rounded-2xl p-6 text-white relative overflow-hidden h-full shadow-xl hover:shadow-[#0b3b75]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#0b3b75]/20">
               {/* Enhanced Background Elements */}
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-white/10 to-transparent rounded-full -translate-y-20 translate-x-20" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-16 -translate-x-16" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full -translate-y-16 translate-x-16" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-12 -translate-x-12" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b75]/20 to-transparent" />
               
               {/* Floating Elements */}
@@ -68,21 +68,25 @@ export default function SistecAndMec() {
                   <div className="w-20 h-20 bg-gradient-to-br from-white/25 to-white/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300">
                     <Award className="w-10 h-10 text-white drop-shadow-lg" />
                   </div>
-                  <div className="mb-4">
-                    <h3 className="text-3xl font-black mb-2 tracking-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">SISTEC</h3>
-                    <div className="w-16 h-1 bg-gradient-to-r from-white/60 to-transparent mx-auto rounded-full" />
+                  <div className="mb-3">
+                    <h3 className="text-2xl font-black mb-2 tracking-tight">
+                      SISTEC
+                    </h3>
+                    <div className="w-16 h-1 bg-gradient-to-r from-white/60 to-white/30 mx-auto rounded-full mb-3" />
+                    <p className="text-base font-semibold text-white/90 tracking-wide">
+                      Sistema Nacional de Informações da Educação Profissional e Tecnológica
+                    </p>
                   </div>
-                  <p className="text-blue-100 text-lg leading-relaxed font-medium px-2">Sistema Nacional de Informações da Educação Profissional e Tecnológica</p>
                 </div>
                 
                 {/* Enhanced QR Code */}
-                <div className="flex-1 flex flex-col items-center justify-center mb-8">
+                <div className="flex-1 flex flex-col items-center justify-center mb-6">
                   <div className="bg-white/15 backdrop-blur-md rounded-3xl p-6 text-center shadow-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
                     <div className="flex items-center justify-center gap-2 mb-4">
                       <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
                         <QrCode className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-sm font-bold text-white tracking-wide">QR CODE</span>
+                      <span className="text-xs font-bold text-white tracking-wide">QR CODE</span>
                     </div>
                     <div className="w-36 h-36 mx-auto bg-white rounded-2xl border-4 border-white/30 flex items-center justify-center mb-3 shadow-2xl group-hover:scale-105 transition-transform duration-300">
                       <div className="w-32 h-32 bg-gray-900 rounded-xl shadow-inner" style={{
@@ -101,10 +105,10 @@ export default function SistecAndMec() {
                   href="https://sistec.mec.gov.br/consultapublicaunidadeensino/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 bg-white text-[#0b3b75] font-black py-4 px-8 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-[#0b3b75] font-black py-3 px-6 rounded-xl hover:bg-gray-50 transition-all duration-300 shadow-xl hover:shadow-white/25 transform hover:-translate-y-1 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
                 >
-                  <span className="text-lg">Verificar Credenciamento</span>
-                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="text-base">Verificar Credenciamento</span>
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
             </div>
@@ -118,10 +122,10 @@ export default function SistecAndMec() {
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-gradient-to-br from-[#ff6600] to-[#ff6600] rounded-3xl p-10 text-white relative overflow-hidden h-full shadow-2xl hover:shadow-[#ff6600]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#ff6600]/20">
+            <div className="bg-gradient-to-br from-[#ff6600] to-[#ff6600] rounded-2xl p-6 text-white relative overflow-hidden h-full shadow-xl hover:shadow-[#ff6600]/25 transition-all duration-500 group-hover:scale-[1.02] border border-[#ff6600]/20">
               {/* Enhanced Background Elements */}
-              <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-y-20 -translate-x-20" />
-              <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-white/5 to-transparent rounded-full translate-y-16 translate-x-16" />
+              <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-y-16 -translate-x-16" />
+              <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-white/5 to-transparent rounded-full translate-y-12 translate-x-12" />
               <div className="absolute inset-0 bg-gradient-to-t from-orange-900/20 to-transparent" />
               
               {/* Floating Elements */}
@@ -135,25 +139,28 @@ export default function SistecAndMec() {
                   <div className="w-20 h-20 bg-gradient-to-br from-white/25 to-white/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300">
                     <Award className="w-10 h-10 text-white drop-shadow-lg" />
                   </div>
-                  <div className="mb-4">
-                    <h3 className="text-3xl font-black mb-2 tracking-tight bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent">MEC</h3>
-                    <div className="w-12 h-1 bg-gradient-to-r from-white/60 to-transparent mx-auto rounded-full" />
-                  </div>
-                  <p className="text-orange-100 text-lg leading-relaxed font-medium px-2">Ministério da Educação</p>
+                  <div className="mb-3">
+                    <h3 className="text-2xl font-black mb-2 tracking-tight">
+                      MEC
+                    </h3>
+                    <div className="w-12 h-1 bg-gradient-to-r from-white/60 to-white/30 mx-auto rounded-full mb-3" />
+                    <p className="text-base font-semibold text-white/90 tracking-wide">
+                      Ministério da Educação
+                    </p>
+                  </div> 
                 </div>
-                
                 {/* Enhanced QR Code */}
-                <div className="flex-1 flex flex-col items-center justify-center mb-8">
-                  <div className="bg-white/15 backdrop-blur-md rounded-3xl p-6 text-center shadow-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                      <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
-                        <QrCode className="w-4 h-4 text-white" />
+                <div className="flex-1 flex flex-col items-center justify-center mb-6">
+                  <div className="bg-white/15 backdrop-blur-md rounded-2xl p-4 text-center shadow-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
+                    <div className="flex items-center justify-center gap-2 mb-3">
+                      <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center">
+                        <QrCode className="w-3 h-3 text-white" />
                       </div>
-                      <span className="text-sm font-bold text-white tracking-wide">QR CODE</span>
+                      <span className="text-xs font-bold text-white tracking-wide">QR CODE</span>
                     </div>
                     <div className="w-36 h-36 mx-auto bg-white rounded-2xl border-4 border-white/30 flex items-center justify-center mb-3 shadow-2xl group-hover:scale-105 transition-transform duration-300">
                       <div className="w-32 h-32 bg-gray-900 rounded-xl shadow-inner" style={{
-                        backgroundImage: `url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='qr-mec' width='8' height='8' patternUnits='userSpaceOnUse'%3e%3crect width='4' height='4' fill='%23000'/%3e%3crect x='4' y='4' width='4' height='4' fill='%23000'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100' height='100' fill='url(%23qr-mec)'/%3e%3c/svg%3e")`,
+                        backgroundImage: `url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='qr-sistec' width='8' height='8' patternUnits='userSpaceOnUse'%3e%3crect width='4' height='4' fill='%23000'/%3e%3crect x='4' y='4' width='4' height='4' fill='%23000'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100' height='100' fill='url(%23qr-sistec)'/%3e%3c/svg%3e")`,
                         backgroundSize: 'cover'
                       }} >
                         <QRCode size={128} className='rounded-lg' value="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU=" />
@@ -168,10 +175,10 @@ export default function SistecAndMec() {
                   href="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU="
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 bg-white text-orange-800 font-black py-4 px-8 rounded-2xl hover:bg-orange-50 transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-orange-800 font-black py-3 px-6 rounded-xl hover:bg-orange-50 transition-all duration-300 shadow-xl hover:shadow-white/25 transform hover:-translate-y-1 hover:scale-105 border-2 border-white/20 group-hover:border-white/40"
                 >
-                  <span className="text-lg">Verificar Credenciamento</span>
-                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="text-base">Verificar Credenciamento</span>
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
             </div>
@@ -186,13 +193,13 @@ export default function SistecAndMec() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-8 border border-gray-100">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Star className="w-6 h-6 text-yellow-500 fill-current" />
-              <h4 className="text-2xl font-bold text-gray-900">Certificação de Excelência</h4>
-              <Star className="w-6 h-6 text-yellow-500 fill-current" />
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-6 border border-gray-100">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Star className="w-5 h-5 text-yellow-500 fill-current" />
+              <h4 className="text-xl font-bold text-gray-900">Certificação de Excelência</h4>
+              <Star className="w-5 h-5 text-yellow-500 fill-current" />
             </div>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base text-gray-700 max-w-3xl mx-auto leading-relaxed">
               Com nossos credenciamentos oficiais, você tem a garantia de receber uma educação de qualidade superior, 
               com certificados reconhecidos nacionalmente e aceitos em todo mercado de trabalho brasileiro.
             </p>

@@ -95,7 +95,11 @@ export function CourseDetailsClient({ course }) {
                   {course.nome}
                 </h1>
                 <p className="mt-4 text-lg md:text-xl text-blue-100">
-                  {course.description}
+                Você está a poucos passos de mudar sua vida profissional. 
+                Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
+                você se torna {course.nome} com validade nacional e ao finalizar 
+                 {course.response ? ` você pode emitir seu ${course.response}` : ' você pode emitir seu Certificado. '} 
+                Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
                 </p>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -153,8 +157,22 @@ export function CourseDetailsClient({ course }) {
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-50">⁠Formação a partir {course.minTime} meses</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-50">100% Online</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                         <span className="text-blue-50">Acesso imediato após a compra</span>
                       </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-50">Certificado até 30 dias após a conclusão</span>
+                      </li>
+                      
+                      
                     </ul>
                   </div>
                   

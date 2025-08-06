@@ -57,15 +57,15 @@ export default function FeaturesSection() {
                 <h3 className="text-lg font-bold text-gray-900 mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-grow">
+                <p className="text-gray-600 text-sm leading-relaxed  flex-grow">
                   {feature.description}
                 </p>
-                <div className="mt-auto pt-4 border-t border-gray-100">
+                {/* <div className="mt-auto pt-4 border-t border-gray-100">
                   <span className="inline-flex items-center text-sm font-medium text-[#0b3b75] group-hover:text-[#0b3b75] transition-colors">
                     Saiba mais
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
-                </div>
+                </div> */}
               </div>
             </FadeInUp>
           ))}

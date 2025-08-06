@@ -77,7 +77,7 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
             
-            <motion.div 
+            {/* <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -121,7 +121,7 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
           
           <motion.div 
@@ -132,9 +132,7 @@ export default function HeroSection() {
           >
             <motion.div 
               className="relative w-full h-full"
-              animate={{
-                y: [0, -10, 0],
-              }}
+              
               transition={{
                 duration: 4,
                 repeat: Infinity,
@@ -143,11 +141,11 @@ export default function HeroSection() {
               }}
             >
               <motion.img 
-                src="/hero-image.png" 
+                src="/root/student.png" 
                 alt="Estudantes em ambiente de aprendizado online" 
-                className="w-full h-full object-cover absolute -bottom-1/6 scale-135"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                className="w-full h-full object-contain absolute -bottom-26 scale-x-[-1]"
+                initial={{ opacity: 0, scale: 1 }}
+                animate={{ opacity: 1, scale: 1, scale: 1.25 }}
                 transition={{ delay: 0.6, duration: 1, type: "spring" }}
               />
               {/* <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg border border-gray-100">

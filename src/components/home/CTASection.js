@@ -354,12 +354,12 @@ export default function CTASection({ courseName }) {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               
-              <Link 
+              {/* <Link 
                 href="/contato"
                 className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-transparent border-2 border-white/20 hover:bg-white/10 rounded-lg transition-all duration-300 hover:-translate-y-0.5"
               >
                 Fale com um consultor
-              </Link>
+              </Link> */}
             </motion.div>
         
             
