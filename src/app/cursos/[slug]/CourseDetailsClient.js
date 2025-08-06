@@ -21,7 +21,7 @@ import { Header } from '@/components/layout/Header';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
 import CTASection from '@/components/home/CTASection';
 import { CourseFAQ } from '@/components/course-details/faq';
-import AboutUsCourse from '@/components/course-details/sobreUs';
+import AboutUsCourse from '@/components/course-details/aboutUs';
 import { toast } from 'react-toastify';
 
 

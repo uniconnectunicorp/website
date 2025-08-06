@@ -2,7 +2,7 @@
 import { GraduationCap, Search, Filter, Clock, Star, BookOpen, MapPin, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { paginate, getCourseCount, getCourseByName } from '@/data/course';
-import CoursesSection from './_components/cursosSection';
+import CoursesSection from './_components/CoursesSection';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 

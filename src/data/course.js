@@ -1,4 +1,4 @@
-import  CourseData  from './cursos.json';
+import  CourseData  from './courses.json';
 
 export function fetchCourseBySlug(slug) {
     return CourseData.find((course) => course.slug === slug);
