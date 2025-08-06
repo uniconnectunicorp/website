@@ -98,7 +98,7 @@ export function CourseDetailsClient({ course }) {
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
                 você se torna {course.nome} com validade nacional e ao finalizar 
-                 {course.response ? ` você pode emitir seu ${course.response} ` : ' você pode emitir seu Certificado. '} 
+                 {course.response ? ` você pode emitir seu ${course.response}. ` : ' você pode emitir seu Certificado. '} 
                 Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
                 </p>
                 

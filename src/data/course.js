@@ -16,7 +16,23 @@ export function paginate(page) {
     const coursesPerPage = 6;
     const startIndex = (page - 1) * coursesPerPage;
     const endIndex = page * coursesPerPage;
-    return CourseData.slice(startIndex, endIndex);
+    
+    // Cursos prioritários
+    const prioritySlugs = ["eletrotecnica", "mecanica", "seguranca-do-trabalho"];
+    
+    // Separar cursos prioritários e outros
+    const priorityCourses = CourseData.filter(course => prioritySlugs.includes(course.slug));
+    const otherCourses = CourseData.filter(course => !prioritySlugs.includes(course.slug));
+    
+    // Ordenar cursos prioritários pela ordem especificada
+    const orderedPriorityCourses = prioritySlugs
+        .map(slug => priorityCourses.find(course => course.slug === slug))
+        .filter(Boolean);
+    
+    // Combinar cursos ordenados
+    const sortedCourses = [...orderedPriorityCourses, ...otherCourses];
+    
+    return sortedCourses.slice(startIndex, endIndex);
 }
 
 export function getCourseCount() {

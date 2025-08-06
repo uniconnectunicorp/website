@@ -12,17 +12,26 @@ export default function CoursesPage() {
   const [initialCourses, setInitialCourses] = useState(paginate(1))
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
   const searchCourses = (search) => {
     if (!search) return;
     const result = getCourseByName(search.toString())
     if (result) {
       setInitialCourses(result)
+      setIsSearchActive(true);
     }
     if (!result || result.length === 0) {
       setInitialCourses(paginate(1))
+      setIsSearchActive(false);
       toast.error('Nenhum curso encontrado');
     }
+  }
+
+  const resetSearch = () => {
+    setSearchQuery('');
+    setInitialCourses(paginate(1));
+    setIsSearchActive(false);
   }
     
   
@@ -79,6 +88,11 @@ export default function CoursesPage() {
                   placeholder="Buscar cursos..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      searchCourses(searchQuery);
+                    }
+                  }}
                 />
                 <button onClick={() => searchCourses(searchQuery)} className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
                   Buscar
