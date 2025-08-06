@@ -1013,5 +1013,66 @@
         ]
       }
     ]
+  },
+  {
+    "nome": "Técnico em Vendas",
+    "slug": "vendas",
+    "price": 899.90,
+    "minTime": 6,
+    "response": "CRA",
+    "modality": "EAD",
+    "description": "O curso Técnico em Vendas forma profissionais capacitados para atuar na área comercial, desenvolvendo competências em técnicas de vendas, atendimento ao cliente, gestão comercial e marketing digital.",
+    "image": "/courses/vendas.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I - 200 horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Introdução ao EAD", "carga_horaria": 20 },
+          { "nome": "Gestão de Recursos Humanos", "carga_horaria": 20 },
+          { "nome": "Fundamentos da Administração", "carga_horaria": 20 },
+          { "nome": "Organização, Sistemas e Métodos", "carga_horaria": 20 },
+          { "nome": "Empreendedorismo", "carga_horaria": 20 },
+          { "nome": "Marketing Digital", "carga_horaria": 20 },
+          { "nome": "Atendimento ao Cliente", "carga_horaria": 40 },
+          { "nome": "Gestão Estratégica de Pessoas", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo II - 260 Horas",
+        "carga_horaria": 260,
+        "componentes_curriculares": [
+          { "nome": "Comunicação Empresarial", "carga_horaria": 60 },
+          { "nome": "Oratória", "carga_horaria": 60 },
+          { "nome": "Logística empresarial", "carga_horaria": 40 },
+          { "nome": "Gestão de Custos", "carga_horaria": 40 },
+          { "nome": "Técnicas de Negociação", "carga_horaria": 20 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 20 },
+          { "nome": "Administração de Sistemas de Informação", "carga_horaria": 20 }
+        ]
+      },
+      {
+        "nome": "Módulo III - 200 Horas",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Negociação Comercial e Comércio Eletrônico", "carga_horaria": 20 },
+          { "nome": "Marketing de serviços e do varejo", "carga_horaria": 20 },
+          { "nome": "Gestão de Compras", "carga_horaria": 20 },
+          { "nome": "Técnicas de vendas", "carga_horaria": 80 },
+          { "nome": "Técnicas de atendimento em help desk", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo IV - 340 Horas",
+        "carga_horaria": 340,
+        "componentes_curriculares": [
+          { "nome": "Telemarketing", "carga_horaria": 20 },
+          { "nome": "Análise de Mercado", "carga_horaria": 20 },
+          { "nome": "Métricas do marketing", "carga_horaria": 60 },
+          { "nome": "Gestão de Inovação Tecnológica", "carga_horaria": 40 },
+          { "nome": "Estágio Supervisionado", "carga_horaria": 200 }
+        ]
+      }
+    ]
   }
 ]
