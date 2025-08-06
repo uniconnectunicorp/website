@@ -10,12 +10,11 @@ const courseTracks = [
     icon: Award,
     color: 'bg-[#0b3b75]',
     href: '/cursos',
-    duration: '6 meses (12 meses para Segurança do Trabalho)',
+    duration: 'A partir de 6 meses',
     features: [
       'Certificação reconhecida pelo MEC e Sistec',
       '100% EAD com flexibilidade total',
       'Emissão de credencial ao final do curso',
-      '18 opções de cursos disponíveis',
       'Acesso a materiais exclusivos',
     ]
   },
@@ -28,7 +27,6 @@ const courseTracks = [
     features: [
       'Reconhecimento pelo MEC e Sistec',
       '100% online e flexível',
-      'Para profissionais com experiência',
       'Necessário 2 anos de experiência comprovada',
       'Validação de conhecimentos prévios'
     ]

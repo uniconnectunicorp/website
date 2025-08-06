@@ -73,21 +73,21 @@ export function Header() {
           <div className="flex items-center justify-between h-20">
             {/* Enhanced Logo with Uniconnect Polo Badge */}
             <Link href="/" className="flex items-center space-x-3 group" aria-label="Home">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 max-md:space-x-0">
                 <Image
                   src="/root/logo-unicorp.png"
                   width={0}
                   height={0}
                   sizes="100%"
                   alt="Logo"
-                  className="object-contain w-36 max-md:w-24 h-auto transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain w-36 max-md:w-26 h-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                   onError={(e) => {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
                   }}
                 />
                 {/* Uniconnect Polo Badge */}
-                <div className="hidden sm:flex flex-col items-start">
+                <div className="sm:flex flex-col items-start">
                   <div className=" px-4 py-2">
                     <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90">
                       Polo 
@@ -108,14 +108,7 @@ export function Header() {
                     </div>
                   </div>
                 </div>
-                {/* Mobile Uniconnect Badge */}
-                <div className="sm:hidden flex items-center">
-                  <div className="bg-[#ff6600] px-3 py-1 rounded-md shadow-md">
-                    <div className="text-white text-sm font-bold">
-                      UNICONNECT
-                    </div>
-                  </div>
-                </div>
+                
               </div>
             </Link>
 
