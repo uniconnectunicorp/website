@@ -1,8 +1,9 @@
 'use client';
-import { Metadata } from 'next';
-import { Check, Users, BookOpen, Award, GraduationCap, Briefcase, ArrowRight } from 'lucide-react';
+
+import { Check, ArrowRight } from 'lucide-react';
+
+
 import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';

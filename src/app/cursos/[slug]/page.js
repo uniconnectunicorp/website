@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation';
-import { fetchCourseBySlug } from "@/data/course";
+import { fetchCourseBySlug, fetchCourses } from "@/data/course";
+
 import { CourseDetailsClient } from "./CourseDetailsClient";
+
+
 
 
 export default async function CourseDetails({ params }) {
@@ -19,4 +22,13 @@ export default async function CourseDetails({ params }) {
       />
     </div>
   );
+}
+
+
+export async function generateStaticParams() {
+  const courses = fetchCourses();
+  
+  return courses.map((course) => ({
+    slug: course.slug,
+  }));
 }

@@ -6,10 +6,12 @@ import FeaturedCoursesSection from "@/components/home/FeaturedCoursesSection";
 import { Testimonials } from "@/components/sections/Testimonials";
 import CTASection from "@/components/home/CTASection";
 import { Header } from '@/components/layout/Header';
+import Head from '@/components/layout/Head';
 
 export default function Home() {
   return (
     <div className="min-h-screen w-full">
+      <Head />
       <HeroSection />
       <Header />
       {/* <BrandsSection /> */}

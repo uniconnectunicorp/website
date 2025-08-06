@@ -16,67 +16,6 @@ const poppins = Poppins({
   preload: true,
 });
 
-export const metadata = {
-  title: {
-    default: "Uniconnect - Cursos Técnicos EAD",
-    template: "%s | Uniconnect"
-  },
-  description: "Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.",
-  keywords: ["cursos técnicos", "EAD", "educação a distância", "cursos profissionalizantes", "Uniconnect"],
-  authors: [{ name: "Uniconnect" }],
-  creator: "Uniconnect",
-  openGraph: {
-    type: "website",
-    locale: "pt_BR",
-    url: "https://uniconnect.com.br",
-    siteName: "Uniconnect",
-    title: "Uniconnect - Cursos Técnicos EAD",
-    description: "Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.",
-    images: [
-      {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Uniconnect - Cursos Técnicos EAD",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Uniconnect - Cursos Técnicos EAD",
-    description: "Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.",
-    images: ["/images/og-image.jpg"],
-    creator: "@uniconnect",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180" },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#3b82f6' },
-    ],
-  },
-  manifest: "/site.webmanifest",
-  metadataBase: new URL('https://uniconnect.com.br'),
-};
-
-// Configuração da viewport
-export const viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
-  ],
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  colorScheme: 'light dark',
-};
 
 export default function RootLayout({
   children,
