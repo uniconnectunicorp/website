@@ -23,7 +23,7 @@ import SistecAndMec from '@/components/sections/sistecAndMec';
 // Importando os tipos do projeto
 import { Header } from '@/components/layout/Header';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
-import { CompetencySection } from '@/components/course-details/CompetencySection';
+import { RegularCourseSection } from '@/components/course-details/RegularCourseSection';
 import CTASection from '@/components/home/CTASection';
 import { CourseFAQ } from '@/components/course-details/faq';
 import AboutUsCourse from '@/components/course-details/AboutUs';
@@ -92,9 +92,14 @@ export function CourseCompetencyDetailsClient({ course }) {
             {/* Conteúdo principal (esquerda) */}
             <div className="lg:col-span-7 relative z-10">
               <div className="mb-8">
+                <div className="flex items-center gap-4">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
                 Formação a partir de 45 dias
                 </span>
+                <span className="inline-flex items-center px-4 py-1.5 bg-[#ff6600] rounded-full text-sm font-semibold text-white ">
+                Competência
+                </span>
+                </div>
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   {course.nome}
                 </h1>
@@ -161,7 +166,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">⁠Formação a partir {course.minTime} meses</span>
+                        <span className="text-blue-50">⁠Formação a partir 45 dias</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -248,8 +253,8 @@ export function CourseCompetencyDetailsClient({ course }) {
     <SistecAndMec />
 
 
-          {/* Seção Modalidade por Competência */}
-         <CompetencySection 
+          {/* Seção Modalidade Regular */}
+         <RegularCourseSection 
         course={course}
         formatPrice={formatPrice}
       />
@@ -282,7 +287,7 @@ export function CourseCompetencyDetailsClient({ course }) {
         </div>
       </div> */}
 
-      <CTASection courseName={course.nome} />
+      <CTASection courseName={course.nome} competency={true} />
 
       {/* Modal de Matrícula */}
       <Dialog open={isEnrollmentModalOpen} onOpenChange={setIsEnrollmentModalOpen}>
@@ -307,7 +312,8 @@ export function CourseCompetencyDetailsClient({ course }) {
             <EnrollmentFormV2
               courseName={course.nome}
               courseTitle={course.title}
-              coursePrice={course.price}
+              coursePrice={course.competencyPrice}
+              competency={true}
               onSuccess={handleEnrollmentSuccess}
               onClose={() => setIsEnrollmentModalOpen(false)}
             />

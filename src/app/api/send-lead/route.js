@@ -72,7 +72,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { name, email, phone, course } = body;
+    const { name, email, phone, course, modality } = body;
 
     if (!name || !email || !phone) {
       return NextResponse.json(
@@ -114,6 +114,12 @@ export async function POST(request) {
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Telefone:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${phone}</td>
               </tr>
+               ${modality ? `
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Modalidade:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${modality}</td>
+              </tr>
+              ` : ''}
               ${course ? `
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Curso de Interesse:</td>

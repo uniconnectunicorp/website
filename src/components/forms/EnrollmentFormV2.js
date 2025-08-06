@@ -50,6 +50,7 @@ export function EnrollmentFormV2({
   coursePrice,
   onSuccess,
   onClose,
+  competency
 }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,7 +93,8 @@ export function EnrollmentFormV2({
           name: data.name,
           email: data.email,
           phone: data.phone,
-          course: courseName
+          course: courseName,
+          modality: competency ? 'Competência' : 'Curso Regular'
         }),
       });
       
@@ -160,7 +162,7 @@ export function EnrollmentFormV2({
                
               </div>
               <p className="text-blue-100 text-sm mt-1">
-                ou 12x de {formatCurrency(coursePrice / 12)} sem juros
+                ou 12x de R${competency ? "109,90" : "79,90"} sem juros
               </p>
             </div>
           </div>
@@ -308,9 +310,6 @@ export function EnrollmentFormV2({
               <span>Pagamento 100% seguro</span>
             </div>
             
-            <p className="text-xs text-gray-400 mt-2">
-              Suas informações estão protegidas com criptografia de ponta a ponta.
-            </p>
           </div>
         </div>
       </form>

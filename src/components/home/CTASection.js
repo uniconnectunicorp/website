@@ -49,7 +49,7 @@ const errorToast = () => {
   });
 };
 
-export default function CTASection({ courseName }) {
+export default function CTASection({ courseName, competency }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -94,7 +94,8 @@ export default function CTASection({ courseName }) {
           name: data.name,
           email: data.email,
           phone: data.phone,
-          course: courseName
+          course: courseName,
+          modality: competency ? 'Competência' : 'Curso Regular'
          }) : JSON.stringify(data),
       });
       
