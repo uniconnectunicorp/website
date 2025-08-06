@@ -148,7 +148,7 @@ export default function HowItWorksSection() {
                     
                     <div className="mt-6 pt-4 border-t border-gray-100">
                       <Link 
-                        href="/cursos" 
+                        href="/courses" 
                         className="inline-flex items-center text-sm font-medium text-[#0b3b75]"
                       >
                         Ver cursos disponíveis
@@ -247,7 +247,7 @@ export default function HowItWorksSection() {
         {/* CTA */}
         <FadeInUp delay={0.9} className="mt-16 text-center">
           <Link 
-            href="/cursos" 
+            href="/courses" 
             className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
           >
             Conheça Nossos Cursos

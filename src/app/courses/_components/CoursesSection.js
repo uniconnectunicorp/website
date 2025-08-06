@@ -33,9 +33,6 @@ export default function CoursesSection({ coursesQuantity, initialCourses }) {
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" >
             <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
-                <div className="text-sm text-gray-600">
-                    Mostrando <span className="font-medium">{coursesQuantity} cursos</span> disponíveis
-                </div>
 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

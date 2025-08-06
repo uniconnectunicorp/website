@@ -58,7 +58,7 @@ export default function CoursesPage() {
     <div className="min-h-screen pt-20">
       <Header />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white py-20 md:py-28">
+      <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white pt-14 pb-6">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-4xl mx-auto">
@@ -80,10 +80,13 @@ export default function CoursesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button onClick={() => searchCourses(searchQuery)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
+                <button onClick={() => searchCourses(searchQuery)} className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 bg-white text-[#0b3b75] px-6 py-2 rounded-md font-medium hover:bg-blue-50 transition-colors">
                   Buscar
                 </button>
               </div>
+              <div className="text-lg text-white mt-8">
+                    <span className="font-medium">{courses} cursos</span> disponíveis
+                </div>
             </div>
 
             {/* Stats

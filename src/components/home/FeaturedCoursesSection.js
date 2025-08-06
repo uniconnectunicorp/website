@@ -44,7 +44,7 @@ export default function FeaturedCoursesSection() {
         <FadeInUp delay={0.3}>
           <div className="mt-16 text-center">
             <Link 
-              href="/cursos"
+              href="/courses"
               className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
             >
               Ver Todos os Cursos Técnicos
