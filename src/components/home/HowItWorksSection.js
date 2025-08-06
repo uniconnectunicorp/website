@@ -30,7 +30,7 @@ const courseTracks = [
       'Reconhecimento pelo MEC e Sistec',
       '100% online e flexível',
       'Para profissionais com experiência',
-      'Requer 2+ anos na área',
+      'Necessário 2 anos de experiência comprovada',
       'Currículo enxuto e objetivo',
       'Validação de conhecimentos prévios'
     ]

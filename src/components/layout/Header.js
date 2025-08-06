@@ -11,7 +11,7 @@ const navigation = [
   { name: 'Início', href: '/' },
   { name: 'Cursos', href: '/cursos' },
   { name: 'Sobre', href: '/sobre' },
-  { name: 'Contato', href: '/contact' },
+  { name: 'Contato', href: '/contato' },
 ];
 
 export function Header() {

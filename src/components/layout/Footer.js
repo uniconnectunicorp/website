@@ -9,7 +9,7 @@ export function Footer() {
     { name: 'Início', path: '/' },
     { name: 'Cursos', path: '/cursos' },
     { name: 'Sobre Nós', path: '/sobre' },
-    { name: 'Contato', path: '/contact' },
+    { name: 'Contato', path: '/contato' },
   ];
 
 

@@ -5,7 +5,7 @@ import { CourseCard } from '@/components/cards/CourseCard';
 import { loadMore } from '@/data/server-actions/loadMore';
 import { useState, useEffect } from 'react';
 
-export default function CoursesSection({ coursesQuantity, initialCourses, competency }) {
+export default function CoursesSection({ coursesQuantity, initialCourses, competency  }) {
 
     const [page, setPage] = useState(1);
     const [courses, setCourses] = useState(initialCourses);

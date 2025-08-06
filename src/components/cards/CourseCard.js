@@ -101,7 +101,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                   </span>
                 </div>
               ) : (
-                course.competency ? 
+                competency ? 
                 <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
                   {course.competencyPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
