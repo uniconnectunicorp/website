@@ -148,7 +148,7 @@ export function EnrollmentFormV2({
       {/* Cabeçalho com informações do curso */}
       <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
         <h2 className="text-2xl font-bold text-white mb-1">Quase lá</h2>
-        <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato com você</p>
+        <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato e te auxiliar no processo de sua matrícula.</p>
         
         <div className="mt-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
           <div className="flex justify-between items-center">
