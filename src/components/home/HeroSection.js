@@ -14,9 +14,9 @@ export default function HeroSection() {
         transition={{ duration: 1 }}
         className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center"
       />
-      <div className="relative max-w-7xl w-full px-4 py-24 sm:py-32">
+      <div className="relative max-w-7xl w-full px-4 pt-24 sm:py-32">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
+          <div className="space-y-8 max-md:mt-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
