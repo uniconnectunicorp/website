@@ -43,7 +43,7 @@ export function Header() {
         }`}
         role="banner"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Enhanced Logo with Uniconnect Polo Badge */}
             <Link href="/" className="flex items-center space-x-3 group" aria-label="Home">
@@ -54,7 +54,7 @@ export function Header() {
                   height={0}
                   sizes="100%"
                   alt="Logo"
-                  className="object-contain w-36 h-auto transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain w-36 max-md:w-24 h-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                   onError={(e) => {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image

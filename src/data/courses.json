@@ -12,7 +12,7 @@
     "image": "/courses/logistica.webp",
     "modulos": [
       {
-        "nome": "Módulo I - Ambientação Organizacional e Empreendedorismo",
+        "nome": "Módulo I",
         "carga_horaria": 260,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -51,7 +51,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - Gestão Integrada",
+        "nome": "Módulo IV",
         "carga_horaria": 380,
         "componentes_curriculares": [
           { "nome": "Logística Reversa", "carga_horaria": 60 },
@@ -73,7 +73,7 @@
     "image": "/courses/seguranca-do-trabalho.webp",
     "modulos": [
       {
-        "nome": "Módulo I - Educação para a Saúde e Segurança do Trabalho",
+        "nome": "Módulo I",
         "carga_horaria": 380,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 80 },
@@ -85,7 +85,7 @@
         ]
       },
       {
-        "nome": "Módulo II - Prevenção e Segurança em Processos Industriais",
+        "nome": "Módulo II",
         "carga_horaria": 220,
         "componentes_curriculares": [
           { "nome": "Prevenção e Combate a Incêndio", "carga_horaria": 80 },
@@ -95,7 +95,7 @@
         ]
       },
       {
-        "nome": "Módulo III - Gestão e Programas de Saúde e Segurança do Trabalho",
+        "nome": "Módulo III",
         "carga_horaria": 300,
         "componentes_curriculares": [
           { "nome": "Gestão da Qualidade", "carga_horaria": 40 },
@@ -131,7 +131,7 @@
     "image": "/courses/administracao.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 460 horas",
+        "nome": "Módulo I",
         "carga_horaria": 460,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -150,7 +150,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 740 horas",
+        "nome": "Módulo II",
         "carga_horaria": 740,
         "componentes_curriculares": [
           { "nome": "Logística Empresarial", "carga_horaria": 80 },
@@ -182,7 +182,7 @@
     "image": "/courses/computacao-grafica.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 260 horas",
+        "nome": "Módulo I",
         "carga_horaria": 260,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 60 },
@@ -193,7 +193,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 380 Horas",
+        "nome": "Módulo II",
         "carga_horaria": 380,
         "componentes_curriculares": [
           { "nome": "Empreendedorismo", "carga_horaria": 80 },
@@ -204,7 +204,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 560 Horas",
+        "nome": "Módulo III",
         "carga_horaria": 560,
         "componentes_curriculares": [
           { "nome": "Ferramentas Cad", "carga_horaria": 80 },
@@ -228,7 +228,7 @@
     "image": "/courses/automacao-industrial.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 200 horas",
+        "nome": "Módulo I",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -240,7 +240,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 580 horas",
+        "nome": "Módulo II",
         "carga_horaria": 580,
         "componentes_curriculares": [
           { "nome": "Lógica de Programação", "carga_horaria": 40 },
@@ -258,7 +258,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 660 horas",
+        "nome": "Módulo III",
         "carga_horaria": 660,
         "componentes_curriculares": [
           { "nome": "Projetos de automação industrial", "carga_horaria": 80 },
@@ -288,7 +288,7 @@
     "image": "/courses/contabilidade.webp",
     "modulos": [
       {
-        "nome": "Módulo I (280 horas) - Ambientação Organizacional e Empreendedorismo",
+        "nome": "Módulo I",
         "carga_horaria": 280,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 60 },
@@ -300,7 +300,7 @@
         ]
       },
       {
-        "nome": "Módulo II (260 horas) - Contabilidade Básica",
+        "nome": "Módulo II",
         "carga_horaria": 260,
         "componentes_curriculares": [
           { "nome": "Relações Humanas no Trabalho", "carga_horaria": 40 },
@@ -311,7 +311,7 @@
         ]
       },
       {
-        "nome": "Módulo III (300 horas) - Auxiliar em Recursos Humanos",
+        "nome": "Módulo III",
         "carga_horaria": 300,
         "componentes_curriculares": [
           { "nome": "Fundamentos Contábeis", "carga_horaria": 40 },
@@ -322,7 +322,7 @@
         ]
       },
       {
-        "nome": "Módulo IV (360 horas) - Auxiliar em Finanças",
+        "nome": "Módulo IV",
         "carga_horaria": 360,
         "componentes_curriculares": [
           { "nome": "Teorias Contábeis", "carga_horaria": 20 },
@@ -346,7 +346,7 @@
     "image": "/courses/edificacoes.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 180 horas",
+        "nome": "Módulo I",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -360,7 +360,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 120 horas",
+        "nome": "Módulo II",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Física Aplicada", "carga_horaria": 20 },
@@ -370,7 +370,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 120 horas",
+        "nome": "Módulo III",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Interpretação do Desenho Técnico", "carga_horaria": 40 },
@@ -380,7 +380,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - 160 horas",
+        "nome": "Módulo IV",
         "carga_horaria": 160,
         "componentes_curriculares": [
           { "nome": "Mecânica dos Solos", "carga_horaria": 20 },
@@ -388,7 +388,7 @@
         ]
       },
       {
-        "nome": "Módulo V - 120 horas",
+        "nome": "Módulo V",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Modelagem de Projetos de Construção com Tecnologia BIM", "carga_horaria": 20 },
@@ -398,7 +398,7 @@
         ]
       },
       {
-        "nome": "Módulo VI - 120 horas",
+        "nome": "Módulo VI",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Topografia", "carga_horaria": 20 },
@@ -409,7 +409,7 @@
         ]
       },
       {
-        "nome": "Módulo VII - 120 horas",
+        "nome": "Módulo VII",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Orçamento e Planejamento", "carga_horaria": 20 },
@@ -419,7 +419,7 @@
         ]
       },
       {
-        "nome": "Módulo VIII - 120 horas",
+        "nome": "Módulo VIII",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Sustentabilidade da Construção Civil", "carga_horaria": 20 },
@@ -430,7 +430,7 @@
         ]
       },
       {
-        "nome": "Módulo IX - 120 horas",
+        "nome": "Módulo IX",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Ergonomia e Medicina do Trabalho", "carga_horaria": 20 },
@@ -440,7 +440,7 @@
         ]
       },
       {
-        "nome": "Módulo X - 100 horas",
+        "nome": "Módulo X",
         "carga_horaria": 100,
         "componentes_curriculares": [
           { "nome": "Tratamento de Resíduos Sólidos", "carga_horaria": 40 },
@@ -449,7 +449,7 @@
         ]
       },
       {
-        "nome": "Módulo X - 300 horas",
+        "nome": "Módulo X",
         "carga_horaria": 300,
         "componentes_curriculares": [
           { "nome": "Estágio Supervisionado", "carga_horaria": 240 }
@@ -470,7 +470,7 @@
     "image": "/courses/eletroeletronica.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 880 horas",
+        "nome": "Módulo I",
         "carga_horaria": 880,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 40 },
@@ -492,7 +492,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 560",
+        "nome": "Módulo II",
         "carga_horaria": 560,
         "componentes_curriculares": [
           { "nome": "Controle e Acionamento de Máquinas", "carga_horaria": 60 },
@@ -517,7 +517,7 @@
     "image": "/courses/mecanica.webp",
     "modulos": [
       {
-        "nome": "Módulo I – 800 horas",
+        "nome": "Módulo I",
         "carga_horaria": 800,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 40 },
@@ -538,7 +538,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 640 Horas",
+        "nome": "Módulo II",
         "carga_horaria": 640,
         "componentes_curriculares": [
           { "nome": "Controle e acionamento de máquinas", "carga_horaria": 20 },
@@ -571,7 +571,7 @@
     "image": "/courses/informatica.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 320 horas",
+        "nome": "Módulo I",
         "carga_horaria": 320,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 60 },
@@ -582,7 +582,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 360 Horas",
+        "nome": "Módulo II",
         "carga_horaria": 360,
         "componentes_curriculares": [
           { "nome": "Ambiente de Desenvolvimento para WEB", "carga_horaria": 80 },
@@ -593,7 +593,7 @@
         ]
       },
       {
-        "nome": "Módulo III – 580 Horas",
+        "nome": "Módulo III",
         "carga_horaria": 580,
         "componentes_curriculares": [
           { "nome": "Administração de sistema operacional proprietário - Windows Server", "carga_horaria": 80 },
@@ -619,7 +619,7 @@
     "image": "/courses/marketing.webp",
     "modulos": [
       {
-        "nome": "Módulo I – 180 horas",
+        "nome": "Módulo I",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -631,7 +631,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 80 Horas",
+        "nome": "Módulo II",
         "carga_horaria": 80,
         "componentes_curriculares": [
           { "nome": "Inbound Marketing", "carga_horaria": 20 },
@@ -641,7 +641,7 @@
         ]
       },
       {
-        "nome": "Módulo III – 120 Horas",
+        "nome": "Módulo III",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Marketing de eventos (01/10/2020)", "carga_horaria": 40 },
@@ -650,7 +650,7 @@
         ]
       },
       {
-        "nome": "Módulo IV – 180 Horas",
+        "nome": "Módulo IV",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Estratégias de marketing", "carga_horaria": 20 },
@@ -660,7 +660,7 @@
         ]
       },
       {
-        "nome": "Módulo V – 120 Horas",
+        "nome": "Módulo V",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Publicidade e propaganda", "carga_horaria": 20 },
@@ -670,7 +670,7 @@
         ]
       },
       {
-        "nome": "Módulo VI – 320 Horas",
+        "nome": "Módulo VI",
         "carga_horaria": 320,
         "componentes_curriculares": [
           { "nome": "Negociação Comercial e Comércio Eletrônico", "carga_horaria": 20 },
@@ -694,7 +694,7 @@
     "image": "/courses/eletrotecnica.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 220 horas",
+        "nome": "Módulo I",
         "carga_horaria": 220,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -707,7 +707,7 @@
         ]
       },
       {
-        "nome": "Módulo II -180 horas",
+        "nome": "Módulo II",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Empreendedorismo", "carga_horaria": 20 },
@@ -719,7 +719,7 @@
         ]
       },
       {
-        "nome": "Módulo III – 480 horas",
+        "nome": "Módulo III",
         "carga_horaria": 480,
         "componentes_curriculares": [
           { "nome": "Interpretação do Desenho Técnico", "carga_horaria": 40 },
@@ -737,7 +737,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - 160 horas",
+        "nome": "Módulo IV",
         "carga_horaria": 160,
         "componentes_curriculares": [
           { "nome": "Análise de Circuitos Eletroeletrônicos", "carga_horaria": 40 },
@@ -747,7 +747,7 @@
         ]
       },
       {
-        "nome": "Módulo V – 400 horas",
+        "nome": "Módulo V",
         "carga_horaria": 400,
         "componentes_curriculares": [
           { "nome": "Instalações elétricas de média e alta tensão", "carga_horaria": 40 },
@@ -773,7 +773,7 @@
     "image": "/courses/nutricao.webp",
     "modulos": [
       {
-        "nome": "Módulo I – 620 horas",
+        "nome": "Módulo I",
         "carga_horaria": 620,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 80 },
@@ -788,7 +788,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 180 horas",
+        "nome": "Módulo II",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Bromatologia", "carga_horaria": 20 },
@@ -798,7 +798,7 @@
         ]
       },
       {
-        "nome": "Módulo III – 240 horas",
+        "nome": "Módulo III",
         "carga_horaria": 240,
         "componentes_curriculares": [
           { "nome": "Nutrição e Dietética", "carga_horaria": 80 },
@@ -807,7 +807,7 @@
         ]
       },
       {
-        "nome": "Módulo IV– 400 horas",
+        "nome": "Módulo IV",
         "carga_horaria": 400,
         "componentes_curriculares": [
           { "nome": "Microbiologia e Imunologia", "carga_horaria": 20 },
@@ -832,7 +832,7 @@
     "image": "/courses/recursos-humanos.webp",
     "modulos": [
       {
-        "nome": "Módulo I – 320 horas",
+        "nome": "Módulo I",
         "carga_horaria": 320,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 60 },
@@ -847,7 +847,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 200 horas",
+        "nome": "Módulo II",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Gestão de departamento pessoal", "carga_horaria": 40 },
@@ -859,7 +859,7 @@
         ]
       },
       {
-        "nome": "Módulo III – 480 horas",
+        "nome": "Módulo III",
         "carga_horaria": 480,
         "componentes_curriculares": [
           { "nome": "Segurança do trabalho e saúde ocupacional", "carga_horaria": 20 },
@@ -886,7 +886,7 @@
     "image": "/courses/secretaria-escolar.webp",
     "modulos": [
       {
-        "nome": "Módulo I – 440 horas",
+        "nome": "Módulo I",
         "carga_horaria": 440,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 80 },
@@ -900,7 +900,7 @@
         ]
       },
       {
-        "nome": "Módulo II – 560 horas",
+        "nome": "Módulo II",
         "carga_horaria": 560,
         "componentes_curriculares": [
           { "nome": "Currículos e Projetos pedagógicos", "carga_horaria": 80 },
@@ -926,7 +926,7 @@
     "image": "/courses/transacao-imobiliaria.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 200 horas",
+        "nome": "Módulo I",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 40 },
@@ -937,7 +937,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 200 horas",
+        "nome": "Módulo II",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Atendimento ao Cliente", "carga_horaria": 40 },
@@ -948,7 +948,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 180 horas",
+        "nome": "Módulo III",
         "carga_horaria": 180,
         "componentes_curriculares": [
           { "nome": "Publicidade e propaganda", "carga_horaria": 20 },
@@ -960,7 +960,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - 220 horas",
+        "nome": "Módulo IV",
         "carga_horaria": 220,
         "componentes_curriculares": [
           { "nome": "Modelagem 3D", "carga_horaria": 80 },
@@ -971,7 +971,7 @@
         ]
       },
       {
-        "nome": "Módulo V - 400 horas",
+        "nome": "Módulo V",
         "carga_horaria": 400,
         "componentes_curriculares": [
           { "nome": "Estratégias de gestão e organização empresarial", "carga_horaria": 40 },
@@ -995,7 +995,7 @@
     "image": "/courses/guia-de-turismo.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 280 horas",
+        "nome": "Módulo I",
         "carga_horaria": 280,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -1008,7 +1008,7 @@
         ]
       },
       {
-        "nome": "Módulo II -120 horas",
+        "nome": "Módulo II",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "Marketing de Eventos", "carga_horaria": 20 },
@@ -1017,7 +1017,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 120 horas",
+        "nome": "Módulo III",
         "carga_horaria": 120,
         "componentes_curriculares": [
           { "nome": "História da Arte Aplicada ao Turismo", "carga_horaria": 40 },
@@ -1026,7 +1026,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - 140 horas",
+        "nome": "Módulo IV",
         "carga_horaria": 140,
         "componentes_curriculares": [
           { "nome": "Manifestação da Cultura Popular Regional e Nacional", "carga_horaria": 40 },
@@ -1035,7 +1035,7 @@
         ]
       },
       {
-        "nome": "Módulo V – 340 horas",
+        "nome": "Módulo V",
         "carga_horaria": 340,
         "componentes_curriculares": [
           { "nome": "Elaboração de Roteiros e Hospedagem", "carga_horaria": 40 },
@@ -1059,7 +1059,7 @@
     "image": "/courses/vendas.webp",
     "modulos": [
       {
-        "nome": "Módulo I - 200 horas",
+        "nome": "Módulo I",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Introdução ao EAD", "carga_horaria": 20 },
@@ -1073,7 +1073,7 @@
         ]
       },
       {
-        "nome": "Módulo II - 260 Horas",
+        "nome": "Módulo II",
         "carga_horaria": 260,
         "componentes_curriculares": [
           { "nome": "Comunicação Empresarial", "carga_horaria": 60 },
@@ -1086,7 +1086,7 @@
         ]
       },
       {
-        "nome": "Módulo III - 200 Horas",
+        "nome": "Módulo III",
         "carga_horaria": 200,
         "componentes_curriculares": [
           { "nome": "Negociação Comercial e Comércio Eletrônico", "carga_horaria": 20 },
@@ -1097,7 +1097,7 @@
         ]
       },
       {
-        "nome": "Módulo IV - 340 Horas",
+        "nome": "Módulo IV",
         "carga_horaria": 340,
         "componentes_curriculares": [
           { "nome": "Telemarketing", "carga_horaria": 20 },

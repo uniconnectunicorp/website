@@ -149,7 +149,7 @@ export function CourseDetailsClient({ course }) {
                   
                   <Button
                     onClick={() => setIsEnrollmentModalOpen(true)}
-                    className="w-full cursor-pointer py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
+                    className="w-full cursor-pointer py-6 text-lg max-md:text-sm font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
                   >
                     QUERO ME MATRICULAR AGORA
                   </Button>

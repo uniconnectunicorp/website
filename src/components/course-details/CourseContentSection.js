@@ -22,11 +22,11 @@ export function CourseContentSection({
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">Conteúdo do Curso</h2>
           <div className="mt-4 flex justify-center items-center space-x-6 text-gray-600">
-            <div className="flex items-center">
+            <div className="flex items-center max-md:text-sm">
               <PlayCircle className="h-5 w-5 mr-2 text-[#0b3b75]" />
               <span>{totalLessons} módulos</span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center max-md:text-sm">
               <Clock className="h-5 w-5 mr-2 text-[#0b3b75]" />
               <span>{totalDuration} horas de conteúdo</span>
             </div>
@@ -41,10 +41,10 @@ export function CourseContentSection({
                 className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center">
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 max-md:text-sm">
                     {module.nome}
                   </span>
-                  <span className="ml-3 text-sm text-gray-500">
+                  <span className="ml-3 text-sm max-md:text-xs text-gray-500">
                     {module.lessons.length} aulas • {module.carga_horaria} horas
                   </span>
                 </div>

@@ -32,7 +32,7 @@ export function CompetencySection({ course, formatPrice, onEnrollClick }) {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-12 items-center">
           {/* Lado esquerdo - Informações */}
           <div className="space-y-8">
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
