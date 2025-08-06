@@ -15,9 +15,8 @@ const courseTracks = [
       'Certificação reconhecida pelo MEC e Sistec',
       '100% EAD com flexibilidade total',
       'Emissão de credencial ao final do curso',
-      '27 opções de cursos disponíveis',
+      '18 opções de cursos disponíveis',
       'Acesso a materiais exclusivos',
-      'Suporte de professores especializados'
     ]
   },
   {
@@ -31,7 +30,6 @@ const courseTracks = [
       '100% online e flexível',
       'Para profissionais com experiência',
       'Necessário 2 anos de experiência comprovada',
-      'Currículo enxuto e objetivo',
       'Validação de conhecimentos prévios'
     ]
   }

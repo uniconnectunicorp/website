@@ -72,7 +72,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { name, email, phone, course, modality } = body;
+    const { name, email, phone, course, modality, message } = body;
 
     if (!name || !email || !phone) {
       return NextResponse.json(
@@ -90,7 +90,62 @@ export async function POST(request) {
 
     });
 
-    const leadEmailContent = `
+    const leadEmailContent = message ? 
+    `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #0b3b75 0%, #1e5799 100%); color: white; padding: 30px; text-align: center;">
+          <h1 style="margin: 0; font-size: 24px;">🎓 Novo Lead - Polo Educacional Uniconnect</h1>
+          <p style="margin: 10px 0 0 0; opacity: 0.9;">Coronel Fabriciano - MG</p>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 30px;">
+          <h2 style="color: #0b3b75; margin-top: 0;">Informações do Lead</h2>
+          
+          <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75; width: 30%;">Nome:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Email:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${email}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Telefone:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${phone}</td>
+              </tr>
+              ${message ? `
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Mensagem:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${message}</td>
+              </tr>
+              ` : ''}             
+            </table>
+          </div>
+          
+          <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #0b3b75;">
+            <p style="margin: 0; color: #0b3b75; font-weight: bold;">📞 Ação Recomendada:</p>
+            <p style="margin: 5px 0 10px 0; color: #666;">Entre em contato com o lead o mais rápido possível para maximizar a conversão.</p>
+            
+            <div style="text-align: center; margin-top: 15px;">
+              <a href="https://wa.me/55${phone.replace(/\D/g, '')}?text=👋%20Olá%20${encodeURIComponent(name)}!%20😊%0A%0A📚%20Vi%20que%20você%20demonstrou%20interesse%20${course ? `no%20curso%20de%20${encodeURIComponent(course)}` : 'em%20nossos%20cursos'}%20através%20do%20nosso%20site.%0A%0A🎓%20Gostaria%20de%20conversar%20com%20você%20sobre%20as%20oportunidades%20educacionais%20que%20temos%20disponíveis.%0A%0A⏰%20Quando%20seria%20um%20bom%20momento%20para%20conversarmos?" 
+                 style="background: #25D366; color: white; padding: 12px 20px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block; margin: 5px;">
+                💬 Chamar no WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div style="background: #0b3b75; color: white; padding: 20px; text-align: center;">
+          <p style="margin: 0; font-size: 14px; opacity: 0.9;">
+            Lead gerado em ${new Date().toLocaleString('pt-BR')} via site Polo Educacional Uniconnect
+          </p>
+        </div>
+      </div>
+    `
+    :
+     `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #0b3b75 0%, #1e5799 100%); color: white; padding: 30px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px;">🎓 Novo Lead - Polo Educacional Uniconnect</h1>
@@ -149,12 +204,12 @@ export async function POST(request) {
           </p>
         </div>
       </div>
-    `;
+    `
 
     const mailOptions = {
       from: `"Polo Educacional Uniconnect" <${process.env.EMAIL_USER}>`,
       to: process.env.LEAD_EMAIL || process.env.EMAIL_USER, 
-      subject: `🎓 Novo Lead: ${name} - ${course || 'Interesse Geral'}`,
+      subject: message ? `Mensagem do site: ${name}` : `🎓 Novo Lead: ${name} - ${course || 'Interesse Geral'}`,
       html: leadEmailContent,
       replyTo: email,
     };

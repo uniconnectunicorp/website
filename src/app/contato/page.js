@@ -1,8 +1,12 @@
 'use client';
 
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useState } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { 
   MapPin, 
   Phone, 
@@ -13,58 +17,97 @@ import {
   CheckCircle,
   Users,
   Award,
-  BookOpen
+  BookOpen,
+  Instagram
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { AlertCircle } from 'lucide-react';
+const contactFormSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  email: z.string().email('E-mail inválido').min(1, 'E-mail é obrigatório'),
+  phone: z.string().optional(),
+  subject: z.string().min(1, 'Assunto é obrigatório'),
+  message: z.string().min(1, 'Mensagem é obrigatória'),
+});
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const form = useForm({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: ''
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+    setValue,
+    reset,
+  } = form;
+
+  // Observa mudanças no formulário
+  const watchFields = watch();
+  const isFormValid = !Object.keys(errors).length && 
+                     watchFields.name && 
+                     watchFields.email && 
+                     watchFields.subject &&
+                     watchFields.message;
+
+  // Função para formatar telefone
+  const formatPhone = (value) => {
+    if (!value) return '';
+    let numbers = value.replace(/\D/g, '');
+    
+    // Limita o tamanho (DDD + 9 dígitos)
+    numbers = numbers.substring(0, 11);
+    
+    // Aplica a máscara: (00) 00000-0000
+    return numbers
+      .replace(/^(\d{2})(\d)/g, '($1) $2')
+      .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1');
+  };
+  
+  const handlePhoneChange = (e) => {
+    const formattedValue = formatPhone(e.target.value);
+    setValue('phone', formattedValue, { shouldValidate: true });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
+  const onSubmit = async (data) => {
     try {
-      const response = await fetch('/api/send-contact', {
+      const response = await fetch('/api/send-lead', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          course: `Contato - ${data.subject}`,
+          message: data.message,
+          modality: 'Contato'
+        }),
       });
 
       if (response.ok) {
         toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        });
+        reset();
       } else {
         throw new Error('Erro ao enviar mensagem');
       }
     } catch (error) {
+      console.error('Erro:', error);
       toast.error('Erro ao enviar mensagem. Tente novamente.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -73,26 +116,21 @@ export default function ContactPage() {
       icon: <Phone className="h-6 w-6" />,
       title: 'Telefone',
       info: '(31) 98877-5149',
-      link: 'tel:+5531988775149'
+      link: 'https://wa.me/5531988775149'
     },
     {
       icon: <Mail className="h-6 w-6" />,
       title: 'E-mail',
-      info: 'contato@uniconnect.com.br',
-      link: 'mailto:contato@uniconnect.com.br'
+      info: 'unicorpconnectead@gmail.com',
+      link: 'mailto:unicorpconnectead@gmail.com'
     },
     {
-      icon: <MapPin className="h-6 w-6" />,
-      title: 'Endereço',
-      info: 'Belo Horizonte, MG',
-      link: null
+      icon: <Instagram className="h-6 w-6" />,
+      title: 'Instagram',
+      info: '@uniconnect01',
+      link: 'https://www.instagram.com/uniconnect01'
     },
-    {
-      icon: <Clock className="h-6 w-6" />,
-      title: 'Horário de Atendimento',
-      info: 'Segunda a Sexta: 8h às 18h',
-      link: null
-    }
+
   ];
 
   const stats = [
@@ -132,15 +170,15 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Entre em <span className="text-yellow-400">Contato</span> Conosco
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 pt-14">
+                Entre em <span className="text-[#ff6600]">Contato</span> Conosco
               </h1>
               <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
                 Estamos aqui para esclarecer suas dúvidas e ajudar você a dar o próximo passo na sua carreira profissional.
               </p>
             </motion.div>
 
-            {/* Stats */}
+            {/* Stats
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
               {stats.map((stat, index) => (
                 <motion.div
@@ -157,7 +195,7 @@ export default function ContactPage() {
                   <div className="text-sm text-blue-100">{stat.label}</div>
                 </motion.div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -167,9 +205,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Como Podemos Ajudar?</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Escolha a forma mais conveniente para entrar em contato conosco. Estamos prontos para esclarecer suas dúvidas!
-            </p>
+           
           </div>
           
           <div className="grid lg:grid-cols-2 gap-12">
@@ -178,7 +214,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100"
+              className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 h-full flex flex-col"
             >
               <div className="mb-8">
                 <div className="flex items-center mb-4">
@@ -190,97 +226,164 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Nome Completo *
+                      Nome Completo <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
-                      placeholder="Seu nome completo"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="name"
+                        placeholder="Seu nome completo"
+                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
+                          errors.name ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                        }`}
+                        {...register('name')}
+                      />
+                      {errors.name && (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                          <AlertCircle className="h-5 w-5 text-red-500" />
+                        </div>
+                      )}
+                    </div>
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-600 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1 text-red-500" />
+                        {errors.name.message}
+                      </p>
+                    )}
                   </div>
+
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      E-mail *
+                      E-mail <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
-                      placeholder="seu@email.com"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="seu@email.com"
+                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
+                          errors.email ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                        }`}
+                        {...register('email')}
+                      />
+                      {errors.email && (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                          <AlertCircle className="h-5 w-5 text-red-500" />
+                        </div>
+                      )}
+                    </div>
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-600 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1 text-red-500" />
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Telefone *
+                      Telefone com DDD
                     </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
-                      placeholder="(11) 99999-9999"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="phone"
+                        placeholder="(00) 90000-0000"
+                        className={`pl-10 py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
+                          errors.phone ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                        }`}
+                        {...register('phone', {
+                          onChange: handlePhoneChange
+                        })}
+                      />
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <Phone className="h-5 w-5" />
+                      </div>
+                      {errors.phone && (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                          <AlertCircle className="h-5 w-5 text-red-500" />
+                        </div>
+                      )}
+                    </div>
+                    {errors.phone && (
+                      <p className="mt-1 text-sm text-red-600 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1 text-red-500" />
+                        {errors.phone.message}
+                      </p>
+                    )}
                   </div>
+
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Assunto
+                      Assunto <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
-                    >
-                      <option value="">Selecione um assunto</option>
-                      <option value="Informações sobre cursos">Informações sobre cursos</option>
-                      <option value="Dúvidas sobre matrícula">Dúvidas sobre matrícula</option>
-                      <option value="Suporte técnico">Suporte técnico</option>
-                      <option value="Parcerias">Parcerias</option>
-                      <option value="Outros">Outros</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        id="subject"
+                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all ${
+                          errors.subject ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                        }`}
+                        {...register('subject')}
+                      >
+                        <option value="">Selecione um assunto</option>
+                        <option value="Informações sobre cursos">Informações sobre cursos</option>
+                        <option value="Dúvidas sobre matrícula">Dúvidas sobre matrícula</option>
+                        <option value="Suporte técnico">Suporte técnico</option>
+                        <option value="Parcerias">Parcerias</option>
+                        <option value="Outros">Outros</option>
+                      </select>
+                      {errors.subject && (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                          <AlertCircle className="h-5 w-5 text-red-500" />
+                        </div>
+                      )}
+                    </div>
+                    {errors.subject && (
+                      <p className="mt-1 text-sm text-red-600 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1 text-red-500" />
+                        {errors.subject.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <div>
+                <div className="flex-1 flex flex-col mb-6">
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Mensagem *
+                    Mensagem <span className="text-red-500">*</span>
                   </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all resize-none"
-                    placeholder="Descreva sua dúvida ou mensagem..."
-                  />
+                  <div className="relative flex-1 flex flex-col">
+                    <textarea
+                      id="message"
+                      className={`flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all resize-none min-h-[120px] ${
+                        errors.message ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                      }`}
+                      placeholder="Descreva sua dúvida ou mensagem..."
+                      {...register('message')}
+                    />
+                    {errors.message && (
+                      <div className="absolute top-3 right-3">
+                        <AlertCircle className="h-5 w-5 text-red-500" />
+                      </div>
+                    )}
+                  </div>
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-600 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-1 text-red-500" />
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
 
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-4 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                  disabled={isSubmitting || !isFormValid}
+                  className={`w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${
+                    (isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''
+                  }`}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
@@ -369,71 +472,12 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Horário de Funcionamento */}
-              <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-                <div className="flex items-center mb-4">
-                  <Clock className="h-6 w-6 text-[#0b3b75] mr-3" />
-                  <h4 className="font-bold text-gray-900">Horário de Atendimento</h4>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Segunda a Sexta:</span>
-                    <span className="font-semibold text-gray-900">8h às 18h</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Fins de semana:</span>
-                    <span className="font-semibold text-gray-900">Fechado</span>
-                  </div>
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Perguntas Frequentes</h2>
-            <p className="text-gray-600">
-              Confira as respostas para as dúvidas mais comuns sobre nossos cursos.
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            {[
-              {
-                question: 'Como funciona a matrícula nos cursos?',
-                answer: 'A matrícula é 100% online. Após o pagamento, você recebe imediatamente o acesso à plataforma de estudos com todo o material do curso.'
-              },
-              {
-                question: 'Os certificados são reconhecidos pelo MEC?',
-                answer: 'Sim! Todos os nossos cursos técnicos são reconhecidos pelo MEC e registrados no SISTEC, garantindo validade nacional.'
-              },
-              {
-                question: 'Qual a diferença entre curso regular e por competência?',
-                answer: 'O curso regular tem duração de 6-12 meses com metodologia estruturada. O por competência é mais rápido (45 dias) e ideal para quem já tem experiência na área.'
-              },
-              {
-                question: 'Posso estudar no meu próprio ritmo?',
-                answer: 'Sim! Nossos cursos são 100% EAD, permitindo que você estude quando e onde quiser, no seu próprio ritmo.'
-              }
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
-              >
-                <h3 className="font-semibold text-gray-900 mb-3">{faq.question}</h3>
-                <p className="text-gray-600">{faq.answer}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
     </div>
   );
 }
