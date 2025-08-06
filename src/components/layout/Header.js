@@ -9,8 +9,8 @@ import Image from 'next/image';
 
 const navigation = [
   { name: 'Início', href: '/' },
-  { name: 'Cursos', href: '/courses' },
-  { name: 'Sobre', href: '/about' },
+  { name: 'Cursos', href: '/cursos' },
+  { name: 'Sobre', href: '/sobre' },
   { name: 'Contato', href: '/contact' },
 ];
 
@@ -96,7 +96,7 @@ export function Header() {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
               {navigation.map((item) => {
-                const isActive = pathname === item.href || (item.href === '/courses' && pathname.startsWith('/courses/'));
+                const isActive = pathname === item.href || (item.href === '/cursos' && pathname.startsWith('/cursos/'));
                 return (
                   <Link
                     key={item.name}
@@ -178,7 +178,7 @@ export function Header() {
             {/* Mobile Navigation */}
             <div className="space-y-3">
               {navigation.map((item) => {
-                const isActive = pathname === item.href || (item.href === '/courses' && pathname.startsWith('/courses/'));
+                const isActive = pathname === item.href || (item.href === '/cursos' && pathname.startsWith('/cursos/'));
                 return (
                   <Link
                     key={item.name}

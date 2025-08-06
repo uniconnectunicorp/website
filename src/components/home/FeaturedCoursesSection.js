@@ -3,14 +3,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import FadeInUp from "@/components/client/FadeInUp";
 import { CourseCard } from "@/components/cards/CourseCard";
-import data from '@/data/courses.json';
-import { getThreeCourses } from '@/data/course';
+import { getHighRatedCourses } from '@/data/course';
 
 
 
 export default function FeaturedCoursesSection() {
-  const featuredCourses = getThreeCourses();
-
+  const featuredCourses = getHighRatedCourses(["eletrotecnica", "mecanica", "seguranca-do-trabalho"]);
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,7 +42,7 @@ export default function FeaturedCoursesSection() {
         <FadeInUp delay={0.3}>
           <div className="mt-16 text-center">
             <Link 
-              href="/courses"
+              href="/cursos"
               className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
             >
               Ver Todos os Cursos Técnicos

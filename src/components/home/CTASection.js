@@ -347,7 +347,7 @@ export default function CTASection({ courseName }) {
               className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 max-w-md mx-auto lg:mx-0"
             >
               <Link 
-                href="/courses"
+                href="/cursos"
                 className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
               >
                 Encontre seu curso ideal

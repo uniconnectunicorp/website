@@ -26,7 +26,7 @@ export function CourseCard({ course, category, className, onEnrollClick }) {
     )}>
       {/* Image with overlay */}
       <div className="relative aspect-video overflow-hidden">
-        <Link href={`/courses/${course.slug}`} className="block h-full">
+        <Link href={`/cursos/${course.slug}`} className="block h-full">
           <div className="relative w-full h-full">
             <Image
               src={course.image}
@@ -60,7 +60,7 @@ export function CourseCard({ course, category, className, onEnrollClick }) {
         
         {/* Course Title */}
         <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-[#0b3b75] transition-colors">
-          <Link href={`/courses/${course.slug}`}>
+          <Link href={`/cursos/${course.slug}`}>
             {course.title}
           </Link>
         </h3>
@@ -121,7 +121,7 @@ export function CourseCard({ course, category, className, onEnrollClick }) {
                 </button>
               ) : (
                 <Link 
-                  href={`/courses/${course.slug}`}
+                  href={`/cursos/${course.slug}`}
                   className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-[#094066]"
                 >
                   Matricule-se agora

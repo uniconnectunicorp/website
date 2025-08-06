@@ -1,4 +1,4 @@
-import  CourseData  from './courses.json';
+import  CourseData  from './cursos.json';
 
 export function fetchCourseBySlug(slug) {
     return CourseData.find((course) => course.slug === slug);
@@ -45,6 +45,12 @@ export function getCourseByName(name) {
     return courses;
 }
 
-export function getHighRatedCourses() {
-   
+export function getHighRatedCourses(courses) {
+   if (!Array.isArray(courses)) {
+    return [];
+   }
+   const mapped = courses.map(slug => {
+       return CourseData.find(course => course.slug === slug);
+   });
+   return mapped;
 }

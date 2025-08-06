@@ -7,7 +7,7 @@
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Logística é uma formação profissionalizante que visa capacitar os alunos a atuar como profissionais na área de logística, desenvolvendo habilidades e competências nas áreas de gestão de estoque, gerenciamento de pessoas, gestão de custos, gestão da qualidade, entre outras.",
-    "image": "/courses/logistica.webp",
+    "image": "/cursos/logistica.webp",
     "modulos": [
       {
         "nome": "Módulo I - Ambientação Organizacional e Empreendedorismo",
@@ -68,7 +68,7 @@
     "response": "CREA/MTE",
     "modality": "EAD",
     "description": "O curso de Técnico em Segurança do Trabalho prepara profissionais para atuar na prevenção de acidentes, promoção da saúde e segurança dos trabalhadores, com foco em ambientes industriais e corporativos.",
-    "image": "/courses/seguranca-do-trabalho.webp",
+    "image": "/cursos/seguranca-do-trabalho.webp",
     "modulos": [
       {
         "nome": "Módulo I - Educação para a Saúde e Segurança do Trabalho",
@@ -124,7 +124,7 @@
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Administração forma profissionais capacitados para atuar na administração de empresas, desenvolvendo competências em gestão de recursos humanos, marketing, finanças e estratégia empresarial.",
-    "image": "/courses/administracao.webp",
+    "image": "/cursos/administracao.webp",
     "modulos": [
       {
         "nome": "Módulo I - 460 horas",
@@ -173,7 +173,7 @@
     "response": "CRT",
     "modality": "EAD",
     "description": "O curso de Técnico em Computação Gráfica capacita profissionais para criar soluções visuais inovadoras, desenvolvendo competências em criação de identidade visual, ilustração digital e produção gráfica.",
-    "image": "/courses/computacao-grafica.webp",
+    "image": "/cursos/computacao-grafica.webp",
     "modulos": [
       {
         "nome": "Módulo I - 260 horas",
@@ -217,7 +217,7 @@
     "minTime": 6,
     "modality": "EAD",
     "description": "O curso Técnico em Automação Industrial tem como objetivo capacitar profissionais para atuar em sistemas de automação, desenvolvendo competências em instalações elétricas, automação industrial e manutenção de equipamentos, garantindo a segurança e eficiência dos sistemas.",
-    "image": "/courses/automacao-industrial.webp",
+    "image": "/cursos/automacao-industrial.webp",
     "modulos": [
       {
         "nome": "Módulo I - 200 horas",
@@ -275,7 +275,7 @@
     "minTime": 8,
     "modality": "EAD",
     "description": "O curso Técnico em Contabilidade forma profissionais capacitados para atuar na área contábil, desenvolvendo competências em escrituração fiscal, análise de demonstrações contábeis e gestão financeira.",
-    "image": "/courses/contabilidade.webp",
+    "image": "/cursos/contabilidade.webp",
     "modulos": [
       {
         "nome": "Módulo I (280 horas) - Ambientação Organizacional e Empreendedorismo",
@@ -331,7 +331,7 @@
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Edificações forma profissionais capacitados para atuar na construção civil, desenvolvendo competências em projetos arquitetônicos, gestão de obras e sustentabilidade na construção.",
-    "image": "/courses/edificacoes.webp",
+    "image": "/cursos/edificacoes.webp",
     "modulos": [
       {
         "nome": "Módulo I - 180 horas",
@@ -453,7 +453,7 @@
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Eletroeletrônica forma profissionais capacitados para desenvolver e manter sistemas eletroeletrônicos, com competências em automação industrial, eletroeletrônica digital e programação de microcontroladores.",
-    "image": "/courses/eletroeletronica.webp",
+    "image": "/cursos/eletroeletronica.webp",
     "modulos": [
       {
         "nome": "Módulo I - 880 horas",
@@ -498,7 +498,7 @@
     "response": "CREA",
     "modality": "EAD",
     "description": "O curso Técnico em Mecânica forma profissionais capacitados para atuar na área de mecânica industrial, desenvolvendo competências em projetos mecânicos, manutenção de máquinas e equipamentos industriais.",
-    "image": "/courses/mecanica.webp",
+    "image": "/cursos/mecanica.webp",
     "modulos": [
       {
         "nome": "Módulo I – 800 horas",
@@ -550,7 +550,7 @@
     "response": "CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Informática forma profissionais capacitados para atuar na área de tecnologia da informação, desenvolvendo competências em programação, redes de computadores e desenvolvimento web.",
-    "image": "/courses/informatica.webp",
+    "image": "/cursos/informatica.webp",
     "modulos": [
       {
         "nome": "Módulo I - 320 horas",
@@ -596,7 +596,7 @@
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Marketing e Comunicação forma profissionais capacitados para atuar na área de marketing e comunicação, desenvolvendo competências em marketing digital, gestão de relacionamento e estratégias comerciais.",
-    "image": "/courses/marketing.webp",
+    "image": "/cursos/marketing.webp",
     "modulos": [
       {
         "nome": "Módulo I – 180 horas",
@@ -669,7 +669,7 @@
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Eletrotécnica forma profissionais especializados em sistemas elétricos industriais, desenvolvendo competências em automação, energias renováveis e instalações elétricas de alta tensão.",
-    "image": "/courses/eletrotecnica.webp",
+    "image": "/cursos/eletrotecnica.webp",
     "modulos": [
       {
         "nome": "Módulo I - 220 horas",
@@ -746,7 +746,7 @@
     "response": "CRN",
     "modality": "EAD",
     "description": "O curso Técnico em Nutrição e Dieta forma profissionais capacitados para atuar na área de alimentação e nutrição, desenvolvendo competências em avaliação nutricional, segurança alimentar e gestão de serviços de alimentação.",
-    "image": "/courses/nutricao.webp",
+    "image": "/cursos/nutricao.webp",
     "modulos": [
       {
         "nome": "Módulo I – 620 horas",
@@ -803,7 +803,7 @@
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Recursos Humanos forma profissionais capacitados para atuar na área de recursos humanos, desenvolvendo competências em recrutamento, seleção, treinamento e gestão de pessoas.",
-    "image": "/courses/recursos-humanos.webp",
+    "image": "/cursos/recursos-humanos.webp",
     "modulos": [
       {
         "nome": "Módulo I – 320 horas",
@@ -855,7 +855,7 @@
     "minTime": 6,
     "modality": "EAD",
     "description": "O curso de Secretaria Escolar forma profissionais capacitados para atuar na área educacional, desenvolvendo competências em gestão educacional, currículos pedagógicos e práticas de ensino.",
-    "image": "/courses/secretaria-escolar.webp",
+    "image": "/cursos/secretaria-escolar.webp",
     "modulos": [
       {
         "nome": "Módulo I – 440 horas",
@@ -893,7 +893,7 @@
     "response": "CRECI/COFECI",
     "modality": "EAD",
     "description": "O curso de Transação Imobiliária forma profissionais capacitados para atuar no mercado imobiliário, desenvolvendo competências em avaliação de imóveis, gestão comercial e legislação imobiliária.",
-    "image": "/courses/transacao-imobiliaria.webp",
+    "image": "/cursos/transacao-imobiliaria.webp",
     "modulos": [
       {
         "nome": "Módulo I - 200 horas",
@@ -960,7 +960,7 @@
     "response": "CADASTUR",
     "modality": "EAD",
     "description": "O curso de Técnico em Guia de Turismo forma profissionais capacitados para atuar na área turística, desenvolvendo competências em gestão de serviços turísticos, hospitalidade e marketing de eventos.",
-    "image": "/courses/guia-de-turismo.webp",
+    "image": "/cursos/guia-de-turismo.webp",
     "modulos": [
       {
         "nome": "Módulo I - 280 horas",

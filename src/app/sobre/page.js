@@ -48,7 +48,7 @@ export default function AboutPage() {
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="group bg-[#0b3b75] hover:bg-[#0b3b75]/90 text-white">
-                  <Link href="/courses" className="flex items-center gap-2">
+                  <Link href="/cursos" className="flex items-center gap-2">
                     Conheça Nossos Cursos
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -213,7 +213,7 @@ export default function AboutPage() {
                 size="lg" 
                 className="bg-white text-[#0b3b75] hover:bg-blue-50 px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
               >
-                <Link href="/courses" className="flex items-center gap-2">
+                <Link href="/cursos" className="flex items-center gap-2">
                   Ver Cursos Disponíveis
                   <ArrowRight className="h-5 w-5" />
                 </Link>

@@ -7,16 +7,16 @@ export function Footer() {
   
   const navLinks = [
     { name: 'Início', path: '/' },
-    { name: 'Cursos', path: '/courses' },
-    { name: 'Sobre Nós', path: '/about' },
+    { name: 'Cursos', path: '/cursos' },
+    { name: 'Sobre Nós', path: '/sobre' },
     { name: 'Contato', path: '/contact' },
   ];
 
   const courseCategories = [
-    { name: 'Tecnologia', path: '/courses/tech' },
-    { name: 'Negócios', path: '/courses/business' },
-    { name: 'Design', path: '/courses/design' },
-    { name: 'Marketing', path: '/courses/marketing' },
+    { name: 'Tecnologia', path: '/cursos/tech' },
+    { name: 'Negócios', path: '/cursos/business' },
+    { name: 'Design', path: '/cursos/design' },
+    { name: 'Marketing', path: '/cursos/marketing' },
   ];
 
   const socialLinks = [
