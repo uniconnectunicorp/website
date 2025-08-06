@@ -147,8 +147,8 @@ export function EnrollmentFormV2({
     <div className="relative ">
       {/* Cabeçalho com informações do curso */}
       <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
-        <h2 className="text-2xl font-bold text-white mb-1">Realizar Matrícula</h2>
-        <p className="text-blue-100 text-sm">Preencha o formulário abaixo para garantir sua vaga</p>
+        <h2 className="text-2xl font-bold text-white mb-1">Quase lá</h2>
+        <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato com você</p>
         
         <div className="mt-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
           <div className="flex justify-between items-center">
@@ -295,22 +295,11 @@ export function EnrollmentFormV2({
                 Processando...
               </>
             ) : (
-              'Realizar inscrição'
+              'Enviar Dados'
             )}
           </Button>
 
-          <div className="flex flex-col items-center justify-center space-y-3 text-center pt-2">
-            <div className="flex items-center text-sm text-gray-500">
-              <Lock className="h-4 w-4 mr-1.5 text-gray-400" />
-              <span>Dados criptografados</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-500">
-              <ShieldCheck className="h-4 w-4 mr-1.5 text-green-500" />
-              <span>Pagamento 100% seguro</span>
-            </div>
-            
-          </div>
+          
         </div>
       </form>
     </div>
