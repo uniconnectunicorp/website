@@ -3,11 +3,11 @@
 import NextHead from 'next/head';
 
 export default function Head({ title, description, image, url }) {
-  const siteTitle = 'Uniconnect - Cursos Técnicos EAD';
+  const siteTitle = 'Uniconnect | Cursos Técnicos EAD';
   const siteDescription = 'Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.';
   const siteUrl = 'https://unicorponline.com.br';
   const siteImage = '/og-image.jpeg';
-  const metaTitle = title ? `${title} | Uniconnect` : siteTitle;
+  const metaTitle = title ? `${title}` : siteTitle;
   const metaDescription = description || siteDescription;
   const metaImage = image || siteImage;
   const metaUrl = url || siteUrl;

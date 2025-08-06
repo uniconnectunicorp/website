@@ -5,6 +5,7 @@ import { paginate, getCourseCount, getCourseByName } from '@/data/course';
 import CoursesSection from '../_components/CoursesSection';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import Head from '@/components/layout/Head';
 
 
 export default function CompetencyPage() {
@@ -65,6 +66,7 @@ export default function CompetencyPage() {
 
   return (
     <div className="min-h-screen pt-20">
+      <Head title="Uniconnect | Cursos por Competência" description="Encontre o seu caminho para o sucesso!" />
       <Header />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white pt-9 pb-6">
@@ -138,3 +140,4 @@ export default function CompetencyPage() {
     </div>
   );
 }
+

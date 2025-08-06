@@ -8,11 +8,14 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Head from '@/components/layout/Head';
 
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <Head title="Uniconnect | Sobre" description="Conheça a trajetória da Unicorp e sua unidade educacional Uniconnect, comprometidas com a excelência em educação profissional." />
+      
       <Header />
       
       

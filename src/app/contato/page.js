@@ -30,6 +30,7 @@ const contactFormSchema = z.object({
   subject: z.string().min(1, 'Assunto é obrigatório'),
   message: z.string().min(1, 'Mensagem é obrigatória'),
 });
+import Head from '@/components/layout/Head';
 
 export default function ContactPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -158,6 +159,8 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen">
+      <Head title="Uniconnect | Contato" description="Entre em contato conosco para obter mais informações sobre nossos cursos e serviços." />
+
       <Header />
       
       {/* Hero Section */}
