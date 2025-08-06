@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from '@/components/layout/Footer';
+import WhatsappFloat from '@/components/layout/Whatsapp';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -127,6 +128,7 @@ export default function RootLayout({
               </div>
             </main>
             <Footer />
+            <WhatsappFloat />
             <ToastContainer 
               position="top-right"
               autoClose={5000}
