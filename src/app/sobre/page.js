@@ -116,8 +116,8 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="bg-white p-2 rounded-2xl shadow-xl border border-gray-100">
-                <div className="bg-gradient-to-br from-blue-100 to-blue-200 aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center">
-                 <Image src="/root/logo.webp" alt="Uniconnect Logo" fill className="object-contain scale-75 drop-shadow-2xl" />
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center">
+                 <Image src="/root/logo-azul.webp" alt="Uniconnect Logo" fill className="object-contain scale-75 drop-shadow-2xl" />
                 </div>
               </div>
              
