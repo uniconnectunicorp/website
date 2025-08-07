@@ -59,7 +59,7 @@ export default function HeroSection() {
               >
                 <Link
                   href="/cursos"
-                  className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] hover:shadow-orange-200"
+                  className="inline-flex z-10 items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#ff6600] rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] hover:shadow-orange-200"
                 >
                   Conheça Nossos Cursos
                   <motion.span 
