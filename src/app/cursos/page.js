@@ -65,8 +65,10 @@ export default function CoursesPage() {
   ];
 
   return (
-    <div className="min-h-screen pt-20">
-      <Head title="Uniconnect | Cursos" description="Explore nossos cursos e descubra como a Uniconnect pode transformar sua carreira." />
+    <>
+    <Head title="Uniconnect | Cursos" description="Explore nossos cursos e descubra como a Uniconnect pode transformar sua carreira." />
+        <div className="min-h-screen pt-20">
+      
       
       <Header />
       {/* Hero Section */}
@@ -138,5 +140,6 @@ export default function CoursesPage() {
       <CoursesSection coursesQuantity={courses} initialCourses={initialCourses} />
      
     </div>
+    </>
   );
 }

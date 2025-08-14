@@ -112,7 +112,6 @@ export function CourseCompetencyDetailsClient({ course }) {
                 </p>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4">
-                  
                   <div className="flex items-center text-blue-200">
                     <BookOpen className="h-5 w-5 mr-2" />
                     <span>{modules?.length || 0} Módulos</span>
@@ -122,6 +121,33 @@ export function CourseCompetencyDetailsClient({ course }) {
                     <Clock className="h-5 w-5 mr-2" />
                     <span>Carga horária de {totalWorkload} horas</span>
                   </div>
+                </div>
+
+                {/* Lista de benefícios no lado esquerdo */}
+                <div className="mt-8 space-y-4">
+                  <h3 className="text-xl font-semibold text-white">Benefícios do Curso</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Reconhecido MEC e SISTEC</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Formação a partir de 45 dias</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">100% Online</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Acesso imediato após a compra</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -151,38 +177,18 @@ export function CourseCompetencyDetailsClient({ course }) {
                     ou 12x de R$109,90 sem juros
                   </p>
                   
-                  <Button
-                    onClick={() => setIsEnrollmentModalOpen(true)}
-                    className="w-full max-md:text-sm cursor-pointer py-6 text-lg font-bold bg-[#ff6600] hover:bg-orange-800 text-white transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl hover:shadow-yellow-500/20"
-                  >
-                    QUERO ME MATRICULAR AGORA
-                  </Button>
-                  
-                  <div className="pt-4 mt-4 border-t border-white/20">
-                    <ul className="space-y-3">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">Reconhecido MEC e SISTEC</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">⁠Formação a partir 45 dias</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">100% Online</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">Acesso imediato após a compra</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-50">Certificado até 30 dias após a conclusão</span>
-                      </li>
-                      
-                      
-                    </ul>
+                  {/* Formulário de Matrícula Direto */}
+                  <div className="">
+                    <h4 className="text-white text-xl font-bold mb-4 text-center">Garanta sua vaga agora mesmo</h4>
+                    <p className="text-blue-100 text-sm text-center mb-4">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
+                    <EnrollmentFormV2 
+                      courseName={course.nome}
+                      courseTitle={course.nome}
+                      coursePrice={course.competencyPrice}
+                      competency={true}
+                      onSuccess={handleEnrollmentSuccess}
+                      compact={true}
+                    />
                   </div>
                   
                 

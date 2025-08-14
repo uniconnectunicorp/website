@@ -51,7 +51,8 @@ export function EnrollmentFormV2({
   coursePrice,
   onSuccess,
   onClose,
-  competency
+  competency,
+  compact = false
 }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -147,35 +148,36 @@ export function EnrollmentFormV2({
   if (!isMounted) return null;
 
   return (
-    <div className="relative ">
-      {/* Cabeçalho com informações do curso */}
-      <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
-        <h2 className="text-2xl font-bold text-white mb-1">Quase lá</h2>
-        <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato e te auxiliar no processo de sua matrícula.</p>
-        
-        <div className="mt-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="font-medium text-white line-clamp-1">{courseTitle}</h3>
-              <div className="flex items-baseline mt-1">
-                <span className="text-2xl font-bold text-white">{formatCurrency(coursePrice)}</span>
-                <span className="ml-2 text-blue-100 text-sm line-through">
-                  {formatCurrency(coursePrice * 1.2)}
-                </span>
-               
+    <div className="relative">
+      {/* Cabeçalho com informações do curso - apenas se não for compacto */}
+      {!compact && (
+        <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
+          <h2 className="text-2xl font-bold text-white mb-1">Quase lá</h2>
+          <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato e te auxiliar no processo de sua matrícula.</p>
+          
+          <div className="mt-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="font-medium text-white line-clamp-1">{courseTitle}</h3>
+                <div className="flex items-baseline mt-1">
+                  <span className="text-2xl font-bold text-white">{formatCurrency(coursePrice)}</span>
+                  <span className="ml-2 text-blue-100 text-sm line-through">
+                    {formatCurrency(coursePrice * 1.2)}
+                  </span>
+                </div>
+                <p className="text-blue-100 text-sm mt-1">
+                  ou 12x de R${competency ? "109,90" : "79,90"} sem juros
+                </p>
               </div>
-              <p className="text-blue-100 text-sm mt-1">
-                ou 12x de R${competency ? "109,90" : "79,90"} sem juros
-              </p>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6 max-md:px-2 pb-6">
+      <form onSubmit={handleSubmit(onSubmit)} className={`space-y-6 ${!compact ? 'px-6 max-md:px-2 pb-6' : 'px-0'}`}>
         <div className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
               Nome completo <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -206,7 +208,7 @@ export function EnrollmentFormV2({
 
           <div>
             <div className="flex items-center mb-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="email" className="text-sm font-medium text-white">
                 E-mail <span className="text-red-500">*</span>
               </Label>
             </div>
@@ -242,15 +244,14 @@ export function EnrollmentFormV2({
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
               Telefone com DDD <span className="text-red-500">*</span>
-              
             </label>
             <div className="relative">
               <Input
                 id="phone"
                 placeholder="(00) 90000-0000"
-                className={`pl-10 py-5 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
+                className={`pl-10 pr-8 py-5 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
                   errors.phone ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
                 }`}
                 {...register('phone', {
@@ -262,11 +263,12 @@ export function EnrollmentFormV2({
               </div>
               {errors.phone && (
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-              </div>
-            )}
+                  <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              )}
+            </div>
             {errors.phone && (
               <p className="mt-1 text-sm text-red-600 flex items-center">
                 <svg className="h-4 w-4 mr-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
@@ -275,11 +277,7 @@ export function EnrollmentFormV2({
                 {errors.phone.message}
               </p>
             )}
-            
           </div>
-
-        </div>
-
         </div>
 
         <div className="pt-6 space-y-4">
@@ -298,7 +296,7 @@ export function EnrollmentFormV2({
                 Processando...
               </>
             ) : (
-              'Enviar Dados'
+              'Tenho Interesse'
             )}
           </Button>
 
