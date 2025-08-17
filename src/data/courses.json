@@ -511,7 +511,7 @@
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
-    "response": "CREA",
+    "response": "CFT",
     "modality": "EAD",
     "description": "O curso Técnico em Mecânica forma profissionais capacitados para atuar na área de mecânica industrial, desenvolvendo competências em projetos mecânicos, manutenção de máquinas e equipamentos industriais.",
     "image": "/courses/mecanica.webp",
