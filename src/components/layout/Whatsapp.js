@@ -35,6 +35,7 @@ const WhatsappFloat = () => {
       {/* Botão principal */}
       <button
         onClick={handleWhatsappClick}
+        id="whatsapp-button"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className="relative flex items-center cursor-pointer justify-center w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 ease-out transform hover:scale-105 group"
