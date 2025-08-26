@@ -53,7 +53,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
         <div className="flex items-center justify-between mb-3">
           <div className={`flex items-center text-xs  px-3 py-1 rounded-full font-medium ${!competency ? 'text-[#0b3b75] bg-blue-50' : 'text-[#ff6600] bg-orange-50'}`}>
             <Clock className="w-3.5 h-3.5 mr-1.5" />
-            Formação a  partir de {course.minTime} meses
+            {competency ? `Formação a partir de 45 dias` : `Formação a partir de ${course.minTime} meses`}
           </div>
           
          
