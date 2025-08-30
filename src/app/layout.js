@@ -49,7 +49,7 @@ export default function RootLayout({
       <body className="min-h-screen w-full bg-white antialiased  overflow-x-hidden">
         {/* Google Tag Manager (noscript) */}
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NM6JQVDX"
-          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          height="0" width="0" style={{display: 'none', visibility: 'hidden'}}></iframe></noscript>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
