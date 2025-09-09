@@ -85,11 +85,11 @@ export function Header() {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
                   }}
                 />
-                {/* <div className="sm:flex flex-col items-start">
+                <div className="sm:flex flex-col items-start">
                   <div className="px-4 py-2">
-                    <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90 mb-1">
+                    {/* <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90 mb-1">
                       Parceiro:
-                    </div>
+                    </div> */}
                     <div className="text-white text-lg font-bold tracking-wide">
                       <Image
                         src="/root/logo-unicorp.png"
@@ -105,7 +105,7 @@ export function Header() {
                       />
                     </div>
                   </div>
-                </div> */}
+                </div>
 
               </div>
             </Link>

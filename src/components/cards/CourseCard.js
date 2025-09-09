@@ -49,6 +49,9 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
       {/* Card Content */}
       <div className="p-5 flex flex-col flex-1">
         {/* Course Info */}
+        <p className={`text-sm text-white w-fit px-3 py-1 rounded-full font-medium ${!competency ? 'bg-[#0b3b75]' : 'bg-[#ff6600]'} mb-4`}>
+          40% de Desconto
+        </p>
         <h3 className={`text-[#0b3b75] font-semibold text-lg mb-2 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>{course.nome}</h3>
         <div className="flex items-center justify-between mb-3">
           <div className={`flex items-center text-xs  px-3 py-1 rounded-full font-medium ${!competency ? 'text-[#0b3b75] bg-blue-50' : 'text-[#ff6600] bg-orange-50'}`}>
@@ -103,13 +106,23 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                 </div>
               ) : (
                 competency ? 
+                <div className="flex flex-col items-baseline gap-2">
+                <span className={`text-sm  line-through text-gray-500 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
+                  De {1999.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                 </span>
                 <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                  {course.competencyPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </span>
+                   {course.competencyPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                 </span>
+                </div>
                : 
+               <div className="flex flex-col items-baseline gap-2">
+               <span className={`text-sm  line-through text-gray-500 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
+                 De {1499.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
                <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
                   {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
+               </div>
                )}
               <p className="text-sm text-gray-500 mt-0.5">
                 ou 12x de {competency ? "109,90" : "79,90"} no cartão
