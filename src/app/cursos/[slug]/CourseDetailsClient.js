@@ -158,8 +158,14 @@ export function CourseDetailsClient({ course }) {
                 <h3 className="text-2xl font-bold text-white mb-6">Investimento</h3>
                 
                 <div className="space-y-6">
-                  <div className="flex items-baseline">
-                    <span className="text-4xl font-bold text-white">{currentPrice}</span>
+                  <div className="flex flex-col items-baseline">
+                    <span className="text-blue-200 line-through">
+                      De R$1499,90
+                    </span>
+                   <div className='flex w-full justify-between'>
+                   <span className="text-4xl font-bold text-white">{currentPrice}</span>
+                   <p className='text-sm text-white bg-[#0b3b75] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
+                   </div>
                     {course.originalPrice > course.price && (
                       <>
                         <span className="ml-3 text-lg text-blue-200 line-through">
