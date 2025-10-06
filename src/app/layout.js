@@ -28,6 +28,7 @@ export default function RootLayout({
       style={{ scrollBehavior: 'smooth' }}
     >
       <head>
+      <meta name="facebook-domain-verification" content="3ik9cwmm7vshne9568jnex2rr968zv" />
         {/* Google Tag Manager */}
         <script dangerouslySetInnerHTML={{
           __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
