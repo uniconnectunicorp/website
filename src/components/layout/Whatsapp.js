@@ -34,7 +34,7 @@ const WhatsappFloat = () => {
       const selectedNumber = whatsappNumbers[selectedIndex];
       const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
       
-      window.open(whatsappUrl, '_blank');
+      window.location.href = whatsappUrl;
     } catch (error) {
       // Fallback para localStorage se a API falhar
       const currentCounter = parseInt(localStorage.getItem('whatsappCounter') || '0');
@@ -45,7 +45,7 @@ const WhatsappFloat = () => {
       const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
       
       localStorage.setItem('whatsappCounter', (currentCounter + 1).toString());
-      window.open(whatsappUrl, '_blank');
+      window.location.href = whatsappUrl;
     }
   };
 
