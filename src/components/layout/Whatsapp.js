@@ -6,6 +6,13 @@ import { FaWhatsapp } from 'react-icons/fa';
 const WhatsappFloat = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Array com os números de WhatsApp
+  const whatsappNumbers = [
+    '5531988775149',
+    '5531998093632'
+  ];
 
   useEffect(() => {
     // Mostrar o botão após um pequeno delay
@@ -16,11 +23,30 @@ const WhatsappFloat = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleWhatsappClick = () => {
-    const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
-    const whatsappUrl = `https://wa.me/5531988775149?text=${encodeURIComponent(message)}`;
-    
-    window.open(whatsappUrl, '_blank');
+  const handleWhatsappClick = async () => {
+    try {
+      // Pega o contador atual da API
+      const response = await fetch('/api/whatsapp-counter');
+      const { counter } = await response.json();
+      const selectedIndex = counter % whatsappNumbers.length;
+      
+      const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
+      const selectedNumber = whatsappNumbers[selectedIndex];
+      const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
+      
+      window.open(whatsappUrl, '_blank');
+    } catch (error) {
+      // Fallback para localStorage se a API falhar
+      const currentCounter = parseInt(localStorage.getItem('whatsappCounter') || '0');
+      const selectedIndex = currentCounter % whatsappNumbers.length;
+      
+      const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
+      const selectedNumber = whatsappNumbers[selectedIndex];
+      const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
+      
+      localStorage.setItem('whatsappCounter', (currentCounter + 1).toString());
+      window.open(whatsappUrl, '_blank');
+    }
   };
 
   return (
