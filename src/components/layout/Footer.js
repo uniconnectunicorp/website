@@ -1,6 +1,10 @@
+"use client" 
+ 
+ 
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, GraduationCap, BookOpen, Users, Award, Heart } from 'lucide-react';
 import Image from 'next/image';
+import { handleWhatsappClick } from './Whatsapp';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,7 +19,7 @@ export function Footer() {
 
 
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/uniconnect01/', color: 'hover:text-pink-600' },
+    { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/uniconnect.ead/', color: 'hover:text-pink-600' },
   ];
 
   const contactInfo = [
@@ -26,8 +30,7 @@ export function Footer() {
     },
     { 
       icon: Phone, 
-      text: '(31) 98877-5149',
-      href: 'https://wa.me/5531988775149'
+      text: 'Envie uma mensagem',
     },
     { 
       icon: MapPin, 
@@ -75,10 +78,10 @@ export function Footer() {
                   return (
                     <a
                       key={social.name}
-                      href={social.url}
+                      href={social.url || ""}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`p-3 rounded-xl bg-white  text-gray-600  ${social.color} shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 border border-gray-200/50`}
+                      className={`p-3 rounded-xl cursor-pointer bg-white  text-gray-600  ${social.color} shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 border border-gray-200/50`}
                       aria-label={social.name}
                     >
                       <Icon className="h-5 w-5" />
@@ -139,6 +142,13 @@ export function Footer() {
                         <a
                           href={info.href}
                           className="flex items-center space-x-3 text-white hover:text-[#0b3b75] transition-all duration-300 group text-sm"
+                          onClick={(e) => {
+                            if (info.text.includes('Envie uma mensagem')) {
+                              e.preventDefault()
+                              handleWhatsappClick();
+                            } 
+                          }
+                        }
                         >
                           <div className="p-2 rounded-lg bg-gray-100 group-hover:bg-blue-100 transition-colors duration-300">
                             <Icon className="h-4 w-4 text-[#0b3b75]" />

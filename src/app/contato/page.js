@@ -7,12 +7,12 @@ import { useState } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  MessageSquare, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  MessageSquare,
   Send,
   CheckCircle,
   Users,
@@ -31,6 +31,7 @@ const contactFormSchema = z.object({
   message: z.string().min(1, 'Mensagem é obrigatória'),
 });
 import Head from '@/components/layout/Head';
+import { handleWhatsappClick } from '@/components/layout/Whatsapp';
 
 export default function ContactPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -57,27 +58,27 @@ export default function ContactPage() {
 
   // Observa mudanças no formulário
   const watchFields = watch();
-  const isFormValid = !Object.keys(errors).length && 
-                     watchFields.name && 
-                     watchFields.email && 
-                     watchFields.subject &&
-                     watchFields.message;
+  const isFormValid = !Object.keys(errors).length &&
+    watchFields.name &&
+    watchFields.email &&
+    watchFields.subject &&
+    watchFields.message;
 
   // Função para formatar telefone
   const formatPhone = (value) => {
     if (!value) return '';
     let numbers = value.replace(/\D/g, '');
-    
+
     // Limita o tamanho (DDD + 9 dígitos)
     numbers = numbers.substring(0, 11);
-    
+
     // Aplica a máscara: (00) 00000-0000
     return numbers
       .replace(/^(\d{2})(\d)/g, '($1) $2')
       .replace(/(\d{5})(\d{1,4})/, '$1-$2')
       .replace(/(-\d{4})\d+?$/, '$1');
   };
-  
+
   const handlePhoneChange = (e) => {
     const formattedValue = formatPhone(e.target.value);
     setValue('phone', formattedValue, { shouldValidate: true });
@@ -118,7 +119,6 @@ export default function ContactPage() {
       icon: <Phone className="h-6 w-6" />,
       title: 'Telefone',
       info: '(31) 98877-5149',
-      link: 'https://wa.me/5531988775149'
     },
     {
       icon: <Mail className="h-6 w-6" />,
@@ -129,8 +129,8 @@ export default function ContactPage() {
     {
       icon: <Instagram className="h-6 w-6" />,
       title: 'Instagram',
-      info: '@uniconnect01',
-      link: 'https://www.instagram.com/uniconnect01'
+      info: '@uniconnect.ead',
+      link: 'https://www.instagram.com/uniconnect.ead/'
     },
 
   ];
@@ -163,7 +163,7 @@ export default function ContactPage() {
       <Head title="Uniconnect | Contato" description="Entre em contato conosco para obter mais informações sobre nossos cursos e serviços." />
 
       <Header />
-      
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] text-white pt-20 pb-16">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-10" />
@@ -209,9 +209,9 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Como Podemos Ajudar?</h2>
-           
+
           </div>
-          
+
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-12">
             {/* Contact Form - Lado Esquerdo */}
             <motion.div
@@ -240,9 +240,8 @@ export default function ContactPage() {
                       <Input
                         id="name"
                         placeholder="Seu nome completo"
-                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
-                          errors.name ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
-                        }`}
+                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${errors.name ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                          }`}
                         {...register('name')}
                       />
                       {errors.name && (
@@ -268,9 +267,8 @@ export default function ContactPage() {
                         id="email"
                         type="email"
                         placeholder="seu@email.com"
-                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
-                          errors.email ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
-                        }`}
+                        className={`py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${errors.email ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                          }`}
                         {...register('email')}
                       />
                       {errors.email && (
@@ -297,9 +295,8 @@ export default function ContactPage() {
                       <Input
                         id="phone"
                         placeholder="(00) 90000-0000"
-                        className={`pl-10 py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${
-                          errors.phone ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
-                        }`}
+                        className={`pl-10 py-6 text-base border-gray-300 focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent ${errors.phone ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                          }`}
                         {...register('phone', {
                           onChange: handlePhoneChange
                         })}
@@ -328,9 +325,8 @@ export default function ContactPage() {
                     <div className="relative">
                       <select
                         id="subject"
-                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all ${
-                          errors.subject ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
-                        }`}
+                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all ${errors.subject ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                          }`}
                         {...register('subject')}
                       >
                         <option value="">Selecione um assunto</option>
@@ -362,9 +358,8 @@ export default function ContactPage() {
                   <div className="relative flex-1 flex flex-col">
                     <textarea
                       id="message"
-                      className={`flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all resize-none min-h-[120px] ${
-                        errors.message ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
-                      }`}
+                      className={`flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all resize-none min-h-[120px] ${errors.message ? 'border-red-500 ring-2 ring-red-200' : 'hover:border-blue-400'
+                        }`}
                       placeholder="Descreva sua dúvida ou mensagem..."
                       {...register('message')}
                     />
@@ -385,9 +380,8 @@ export default function ContactPage() {
                 <Button
                   type="submit"
                   disabled={isSubmitting || !isFormValid}
-                  className={`w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${
-                    (isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''
-                  }`}
+                  className={`w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${(isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''
+                    }`}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
@@ -423,15 +417,13 @@ export default function ContactPage() {
                 <p className="mb-6 text-green-100 text-lg max-md:text-sm">
                   Atendimento imediato para suas dúvidas sobre cursos, matrículas e certificações.
                 </p>
-                <a
-                  href="https://wa.me/5531988775149?text=Olá! Gostaria de saber mais informações sobre os cursos."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center max-md:text-xs bg-white text-green-600 max-md:px-4 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full justify-center"
+                <button
+                  onClick={handleWhatsappClick}
+                  className="inline-flex cursor-pointer items-center max-md:text-xs bg-white text-green-600 max-md:px-4 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full justify-center"
                 >
                   <MessageSquare className="h-6 w-6 mr-3" />
                   Iniciar Conversa no WhatsApp
-                </a>
+                </button>
                 <p className="text-center text-green-100 text-sm mt-4">
                   Atendimento: Segunda a Sexta, 8h às 18h
                 </p>
@@ -468,7 +460,8 @@ export default function ContactPage() {
                             {item.info}
                           </a>
                         ) : (
-                          <p className="text-gray-600">{item.info}</p>
+                          <p onClick={handleWhatsappClick} className="cursor-pointer text-[#0b3b75] max-md:text-xs hover:text-[#094066] transition-colors font-medium"
+                          >{item.info}</p>
                         )}
                       </div>
                     </motion.div>
@@ -481,7 +474,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-     
+
     </div>
   );
 }
