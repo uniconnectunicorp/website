@@ -22,9 +22,38 @@ export function EnrollmentForm({
   onClose,
 }: EnrollmentFormProps) {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const formatPhone = (value: string) => {
+    let numbers = value.replace(/\D/g, '');
+    
+    if (numbers.length >= 3) {
+      const thirdDigit = numbers[2];
+      
+      if (thirdDigit === '3') {
+        numbers = numbers.substring(0, 10);
+        return numbers
+          .replace(/^(\d{2})(\d)/g, '($1) $2')
+          .replace(/(\d{4})(\d{1,4})/, '$1-$2')
+          .replace(/(-\d{4})\d+?$/, '$1');
+      } else if (thirdDigit === '9') {
+        numbers = numbers.substring(0, 11);
+        return numbers
+          .replace(/^(\d{2})(\d)/g, '($1) $2')
+          .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+          .replace(/(-\d{4})\d+?$/, '$1');
+      }
+    }
+    
+    numbers = numbers.substring(0, 11);
+    return numbers
+      .replace(/^(\d{2})(\d)/g, '($1) $2')
+      .replace(/(\d{4,5})(\d{1,4})/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +62,7 @@ export function EnrollmentForm({
 
     try {
       // TODO: Implement actual enrollment logic
-      console.log('Enrolling with:', { courseId, name, email });
+      console.log('Enrolling with:', { courseId, name, phone });
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
       onSuccess();
     } catch (err) {
@@ -66,7 +95,7 @@ export function EnrollmentForm({
             />
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="email">E-mail</Label>
             <Input
               id="email"
@@ -74,6 +103,16 @@ export function EnrollmentForm({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu@email.com"
+              required
+            />
+          </div> */}
+          <div className="space-y-2">
+            <Label htmlFor="phone">Telefone</Label>
+            <Input
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(formatPhone(e.target.value))}
+              placeholder="(00) 90000-0000"
               required
             />
           </div>

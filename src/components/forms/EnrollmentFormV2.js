@@ -24,16 +24,16 @@ const enrollmentFormSchema = z.object({
   name: z.string()
     .min(3, { message: 'Nome deve ter pelo menos 3 caracteres' }),
     
-  email: z.string()
-    .email({ message: 'Por favor, insira um e-mail válido' }),
+  // email: z.string()
+  //   .email({ message: 'Por favor, insira um e-mail válido' }),
     
   phone: z.string()
-    .min(14, { message: 'Telefone inválido' })
+    .min(13, { message: 'Telefone inválido' })
     .refine((val) => {
       const numbers = val.replace(/\D/g, '');
-      return numbers.length >= 11 && numbers[2] === '9';
+      return numbers.length >= 10;
     }, {
-      message: 'O número deve começar com 9 após o DDD',
+      message: 'O número é inválido',
     })
 });
 
@@ -61,7 +61,7 @@ export function EnrollmentFormV2({
     resolver: zodResolver(enrollmentFormSchema),
     defaultValues: {
       name: '',
-      email: '',
+      // email: '',
       phone: '',
     },
   });
@@ -80,7 +80,7 @@ export function EnrollmentFormV2({
   const watchFields = watch();
   const isFormValid = !Object.keys(errors).length && 
                      watchFields.name && 
-                     watchFields.email && 
+                    //  watchFields.email && 
                      watchFields.phone;
 
   const onSubmit = async (data) => {
@@ -94,7 +94,7 @@ export function EnrollmentFormV2({
         },
         body: JSON.stringify({ 
           name: data.name,
-          email: data.email,
+          // email: data.email,
           phone: data.phone,
           course: courseName,
           modality: competency ? 'Competência' : 'Curso Regular'
@@ -126,13 +126,31 @@ export function EnrollmentFormV2({
   const formatPhone = (value) => {
     let numbers = value.replace(/\D/g, '');
     
-    // Limita o tamanho (DDD + 9 dígitos)
-    numbers = numbers.substring(0, 11);
+    if (numbers.length >= 3) {
+      const thirdDigit = numbers[2];
+      
+      if (thirdDigit === '3') {
+        // Telefone fixo: (XX) XXXX-XXXX
+        numbers = numbers.substring(0, 10);
+        return numbers
+          .replace(/^(\d{2})(\d)/g, '($1) $2')
+          .replace(/(\d{4})(\d{1,4})/, '$1-$2')
+          .replace(/(-\d{4})\d+?$/, '$1');
+      } else if (thirdDigit === '9') {
+        // Celular: (XX) XXXXX-XXXX
+        numbers = numbers.substring(0, 11);
+        return numbers
+          .replace(/^(\d{2})(\d)/g, '($1) $2')
+          .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+          .replace(/(-\d{4})\d+?$/, '$1');
+      }
+    }
     
-    // Aplica a máscara: (00) 00000-0000
+    // Formato padrão enquanto digita
+    numbers = numbers.substring(0, 11);
     return numbers
       .replace(/^(\d{2})(\d)/g, '($1) $2')
-      .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+      .replace(/(\d{4,5})(\d{1,4})/, '$1-$2')
       .replace(/(-\d{4})\d+?$/, '$1');
   };
   
@@ -206,7 +224,7 @@ export function EnrollmentFormV2({
             )}
           </div>
 
-          <div>
+          {/* <div>
             <div className="flex items-center mb-2">
               <Label htmlFor="email" className="text-sm font-medium text-white">
                 E-mail <span className="text-red-500">*</span>
@@ -241,7 +259,7 @@ export function EnrollmentFormV2({
                 {errors.email.message}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">

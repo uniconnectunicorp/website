@@ -18,7 +18,11 @@ import { Textarea } from '@/components/ui/textarea'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
-  email: z.string().email({ message: 'Por favor, insira um e-mail válido.' }),
+  // email: z.string().email({ message: 'Por favor, insira um e-mail válido.' }),
+  phone: z.string().min(13, { message: 'Telefone inválido' }).refine((val) => {
+    const numbers = val.replace(/\D/g, '');
+    return numbers.length >= 10;
+  }, { message: 'O número é inválido' }),
   subject: z.string().min(5, { message: 'O assunto deve ter pelo menos 5 caracteres.' }),
   message: z.string().min(10, { message: 'A mensagem deve ter pelo menos 10 caracteres.' }).max(500, { message: 'A mensagem não pode ter mais de 500 caracteres.' }),
 })
@@ -29,7 +33,8 @@ export function ContactForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      email: '',
+      // email: '',
+      phone: '',
       subject: '',
       message: '',
     },
@@ -57,7 +62,7 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -69,6 +74,56 @@ export function ContactForm() {
               <FormMessage />
             </FormItem>
           )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => {
+            const formatPhone = (value: string) => {
+              let numbers = value.replace(/\D/g, '');
+              
+              if (numbers.length >= 3) {
+                const thirdDigit = numbers[2];
+                
+                if (thirdDigit === '3') {
+                  numbers = numbers.substring(0, 10);
+                  return numbers
+                    .replace(/^(\d{2})(\d)/g, '($1) $2')
+                    .replace(/(\d{4})(\d{1,4})/, '$1-$2')
+                    .replace(/(-\d{4})\d+?$/, '$1');
+                } else if (thirdDigit === '9') {
+                  numbers = numbers.substring(0, 11);
+                  return numbers
+                    .replace(/^(\d{2})(\d)/g, '($1) $2')
+                    .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+                    .replace(/(-\d{4})\d+?$/, '$1');
+                }
+              }
+              
+              numbers = numbers.substring(0, 11);
+              return numbers
+                .replace(/^(\d{2})(\d)/g, '($1) $2')
+                .replace(/(\d{4,5})(\d{1,4})/, '$1-$2')
+                .replace(/(-\d{4})\d+?$/, '$1');
+            };
+            
+            return (
+              <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="(00) 90000-0000" 
+                    {...field}
+                    onChange={(e) => {
+                      const formatted = formatPhone(e.target.value);
+                      field.onChange(formatted);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={form.control}

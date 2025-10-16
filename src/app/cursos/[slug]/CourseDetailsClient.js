@@ -163,13 +163,13 @@ export function CourseDetailsClient({ course }) {
                       De R$1499,90
                     </span>
                    <div className='flex w-full justify-between'>
-                   <span className="text-4xl font-bold text-white">{currentPrice}</span>
+                   <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
                    <p className='text-sm text-white bg-[#0b3b75] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
                    </div>
                     {course.originalPrice > course.price && (
                       <>
                         <span className="ml-3 text-lg text-blue-200 line-through">
-                          {originalPrice}
+                          {originalPrice} a vista
                         </span>
                         
                       </>
@@ -177,7 +177,7 @@ export function CourseDetailsClient({ course }) {
                   </div>
                   
                   <p className="text-blue-100 text-lg">
-                    ou 12x de R$79,90 sem juros
+                    ou 12x de R$79,90 sem juros no cartão
                   </p>
                   
                   {/* Formulário de Matrícula Direto */}

@@ -28,6 +28,7 @@ import CTASection from '@/components/home/CTASection';
 import { CourseFAQ } from '@/components/course-details/faq';
 import AboutUsCourse from '@/components/course-details/AboutUs';
 import { toast } from 'react-toastify';
+import { BsFillCheckCircleFill } from "react-icons/bs";
 
 
 
@@ -121,6 +122,11 @@ export function CourseCompetencyDetailsClient({ course }) {
                     <Clock className="h-5 w-5 mr-2" />
                     <span>Carga horária de {totalWorkload} horas</span>
                   </div>
+
+                  <div className="flex items-center text-blue-200">
+                    <BsFillCheckCircleFill className="h-5 w-5 mr-2" />
+                    <span>Necessário 2 anos de experiência comprovada</span>
+                  </div>
                 </div>
 
                 {/* Lista de benefícios no lado esquerdo */}
@@ -166,7 +172,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                       De R$1999,90
                     </span>
                    <div className='flex w-full justify-between'>
-                   <span className="text-4xl font-bold text-white">{currentPrice}</span>
+                   <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
                    <p className='text-sm text-white bg-[#ff6600] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
                    </div>
                     {course.originalPrice > course.price && (
@@ -180,7 +186,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                   </div>
                   
                   <p className="text-blue-100 text-lg">
-                    ou 12x de R$109,90 sem juros
+                    ou 12x de R$109,90 sem juros no cartão
                   </p>
                   
                   {/* Formulário de Matrícula Direto */}
