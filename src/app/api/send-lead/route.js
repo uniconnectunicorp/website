@@ -164,10 +164,13 @@ export async function POST(request) {
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75; width: 30%;">Nome:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${name}</td>
               </tr>
+             ${email ?
               <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Email:</td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${email}</td>
-              </tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Email:</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${email}</td>
+            </tr> 
+            : ""
+             }
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Telefone:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${phone}</td>
