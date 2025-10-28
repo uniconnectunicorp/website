@@ -1,0 +1,51 @@
+import { NextResponse } from 'next/server';
+import { kv } from '@/lib/kv';
+
+export async function GET() {
+  try {
+    const counter = (await kv.get('whatsapp-counter')) || 0;
+    return NextResponse.json({ 
+      success: true, 
+      counter: parseInt(counter, 10)
+    });
+  } catch (error) {
+    console.error('Erro ao obter contador:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erro ao processar a requisição' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request) {
+  try {
+    const { number } = await request.json();
+    const counter = (await kv.get('whatsapp-counter')) || 0;
+    const newCounter = parseInt(counter, 10) + 1;
+    
+    await kv.set('whatsapp-counter', newCounter);
+    
+    // Log no KV
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString('pt-BR'),
+      time: new Date().toLocaleTimeString('pt-BR'),
+      number
+    };
+    
+    const logs = (await kv.get('whatsapp-logs')) || [];
+    logs.push(logEntry);
+    await kv.set('whatsapp-logs', logs.slice(-1000)); // Mantém apenas os últimos 1000 logs
+    
+    return NextResponse.json({ 
+      success: true, 
+      counter: newCounter 
+    });
+  } catch (error) {
+    console.error('Erro ao incrementar contador:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erro ao processar a requisição' },
+      { status: 500 }
+    );
+  }
+}

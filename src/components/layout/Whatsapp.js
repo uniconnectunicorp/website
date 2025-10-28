@@ -3,51 +3,63 @@
 import { useState, useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-
-  // Array com os números de WhatsApp
-  const whatsappNumbers = [
-    '5531988775149',
-    '5531998093632'
-  ];
+// Array com os números de WhatsApp
+const whatsappNumbers = [
+  '5531988775149',
+  '5531998093632'
+];
 
 export const handleWhatsappClick = async () => {
   try {
     // Primeiro, obtém o contador atual
     const getResponse = await fetch('/api/whatsapp-counter');
-    const { counter } = await getResponse.json();
-    const selectedIndex = counter % whatsappNumbers.length;
+    const { counter, success } = await getResponse.json();
     
-    // Prepara a mensagem e a URL do WhatsApp
-    const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
+    if (!success) {
+      console.error('Erro ao obter contador do WhatsApp');
+      // Tenta abrir o primeiro número como fallback
+      const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
+      const whatsappUrl = `https://wa.me/${whatsappNumbers[0]}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      return;
+    }
+    
+    const selectedIndex = counter % whatsappNumbers.length;
     const selectedNumber = whatsappNumbers[selectedIndex];
+    const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
     const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
     
     // Abre a URL do WhatsApp em uma nova aba
-    window.open(whatsappUrl, '_blank');
+    const newWindow = window.open(whatsappUrl, '_blank');
     
     // Incrementa o contador após o redirecionamento bem-sucedido
-    try {
-      await fetch('/api/whatsapp-counter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ number: selectedNumber })
-      });
-    } catch (error) {
-      console.error('Erro ao incrementar o contador:', error);
-      // Não interrompe o fluxo se o contador falhar
+    if (newWindow) {
+      try {
+        const response = await fetch('/api/whatsapp-counter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ number: selectedNumber })
+        });
+        
+        if (!response.ok) {
+          console.error('Erro ao registrar o contato no contador');
+        }
+      } catch (error) {
+        console.error('Erro ao registrar o contato:', error);
+      }
     }
   } catch (error) {
     console.error('Erro ao abrir o WhatsApp:', error);
+    // Fallback para o primeiro número em caso de erro
+    const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
+    const whatsappUrl = `https://wa.me/${whatsappNumbers[0]}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   }
 };
-
 
 const WhatsappFloat = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
 
 

@@ -1,86 +1,22 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { NextResponse } from 'next/server';
+import { query, initDb } from '@/lib/db';
 
-const counterPath = path.join(process.cwd(), 'data', 'counter.json');
-const logPath = path.join(process.cwd(), 'data', 'whatsapp-logs.json');
-
-async function getCounter() {
-  try {
-    const data = await fs.readFile(counterPath, 'utf-8');
-    return JSON.parse(data).counter;
-  } catch (error) {
-    // Se o arquivo não existir, retorna 0
-    return 0;
-  }
-}
-
-async function logWhatsAppNumber(number) {
-  try {
-    const now = new Date();
-    const logEntry = {
-      timestamp: now.toISOString(),
-      date: now.toLocaleDateString('pt-BR'),
-      time: now.toLocaleTimeString('pt-BR'),
-      number: number
-    };
-
-    let logs = [];
-    
-    // Tenta ler os logs existentes
-    try {
-      const logsData = await fs.readFile(logPath, 'utf-8');
-      logs = JSON.parse(logsData);
-    } catch (error) {
-      // Se o arquivo não existir, começa com array vazio
-    }
-
-    // Adiciona o novo log e mantém apenas os últimos 1000 registros
-    logs.push(logEntry);
-    const recentLogs = logs.slice(-1000);
-
-    // Garante que o diretório existe
-    await fs.mkdir(path.dirname(logPath), { recursive: true });
-    
-    // Salva os logs atualizados
-    await fs.writeFile(
-      logPath,
-      JSON.stringify(recentLogs, null, 2),
-      'utf-8'
-    );
-  } catch (error) {
-    console.error('Erro ao registrar log do WhatsApp:', error);
-  }
-}
-
-async function incrementCounter() {
-  const currentCounter = await getCounter();
-  const newCounter = currentCounter + 1;
-  
-  // Garante que o diretório existe
-  await fs.mkdir(path.dirname(counterPath), { recursive: true });
-  
-  // Salva o novo valor
-  await fs.writeFile(
-    counterPath,
-    JSON.stringify({ counter: newCounter }, null, 2),
-    'utf-8'
-  );
-  
-  return newCounter;
-}
+// Inicializa o banco de dados
+await initDb();
 
 export async function GET() {
   try {
-    const currentCounter = await getCounter();
-    // Retorna apenas o contador atual
-    return Response.json({ 
+    const result = await query('SELECT counter FROM whatsapp_counter WHERE id = 1');
+    const counter = result.rows[0]?.counter || 0;
+    
+    return NextResponse.json({ 
       success: true, 
-      counter: currentCounter 
+      counter: parseInt(counter, 10)
     });
   } catch (error) {
-    console.error('Error in GET /api/whatsapp-counter:', error);
-    return Response.json(
-      { success: false, error: 'Failed to get counter' },
+    console.error('Erro ao obter contador:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erro ao processar a requisição' },
       { status: 500 }
     );
   }
@@ -89,21 +25,42 @@ export async function GET() {
 export async function POST(request) {
   try {
     const { number } = await request.json();
-    const newCounter = await incrementCounter();
     
-    // Registra qual número foi utilizado
-    if (number) {
-      await logWhatsAppNumber(number);
-    }
+    // Incrementa o contador e obtém o novo valor
+    const counterResult = await query(
+      'UPDATE whatsapp_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter'
+    );
+    const newCounter = counterResult.rows[0].counter;
     
-    return Response.json({ 
+    // Adiciona o log
+    await query(
+      'INSERT INTO whatsapp_logs (date, time, number) VALUES ($1, $2, $3)',
+      [
+        new Date().toLocaleDateString('pt-BR'),
+        new Date().toLocaleTimeString('pt-BR'),
+        number
+      ]
+    );
+    
+    // Remove logs antigos (mantém apenas os 1000 mais recentes)
+    await query(`
+      DELETE FROM whatsapp_logs 
+      WHERE id NOT IN (
+        SELECT id 
+        FROM whatsapp_logs 
+        ORDER BY id DESC 
+        LIMIT 1000
+      )
+    `);
+    
+    return NextResponse.json({ 
       success: true, 
       counter: newCounter 
     });
   } catch (error) {
-    console.error('Error in POST /api/whatsapp-counter:', error);
-    return Response.json(
-      { success: false, error: 'Failed to increment counter' },
+    console.error('Erro ao incrementar contador:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erro ao processar a requisição' },
       { status: 500 }
     );
   }
