@@ -12,27 +12,34 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 export const handleWhatsappClick = async () => {
   try {
-    // Pega o contador atual da API
-    const response = await fetch('/api/whatsapp-counter');
-    const { counter } = await response.json();
+    // Primeiro, obtém o contador atual
+    const getResponse = await fetch('/api/whatsapp-counter');
+    const { counter } = await getResponse.json();
     const selectedIndex = counter % whatsappNumbers.length;
     
+    // Prepara a mensagem e a URL do WhatsApp
     const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
     const selectedNumber = whatsappNumbers[selectedIndex];
     const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
     
-    window.location.href = whatsappUrl;
+    // Abre a URL do WhatsApp em uma nova aba
+    window.open(whatsappUrl, '_blank');
+    
+    // Incrementa o contador após o redirecionamento bem-sucedido
+    try {
+      await fetch('/api/whatsapp-counter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ number: selectedNumber })
+      });
+    } catch (error) {
+      console.error('Erro ao incrementar o contador:', error);
+      // Não interrompe o fluxo se o contador falhar
+    }
   } catch (error) {
-    // Fallback para localStorage se a API falhar
-    const currentCounter = parseInt(localStorage.getItem('whatsappCounter') || '0');
-    const selectedIndex = currentCounter % whatsappNumbers.length;
-    
-    const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
-    const selectedNumber = whatsappNumbers[selectedIndex];
-    const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
-    
-    localStorage.setItem('whatsappCounter', (currentCounter + 1).toString());
-    window.location.href = whatsappUrl;
+    console.error('Erro ao abrir o WhatsApp:', error);
   }
 };
 

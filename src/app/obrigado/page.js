@@ -6,6 +6,8 @@ import { Footer } from '@/components/layout/Footer';
 import { CheckCircle, MessageCircle, Home, Phone, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Head from '@/components/layout/Head';
+import { handleWhatsappClick } from '@/components/layout/Whatsapp';
+
 
 export default function ObrigadoPage() {
   const whatsappNumber = '5531988775149';
@@ -48,15 +50,13 @@ export default function ObrigadoPage() {
                 asChild
                 className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => handleWhatsappClick()}
                   className="flex items-center py-6 justify-center "
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span>Chamar no WhatsApp</span>
-                </a>
+                </button>
               </Button>
               
               <Button
