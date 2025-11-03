@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
 const navigation = [
@@ -14,7 +14,7 @@ const navigation = [
   { name: 'Contato', href: '/contato', icon: Phone },
 ];
 
-export function Header() {
+export function Header({ isBlackNovember = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -63,8 +63,12 @@ export function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-            ? 'bg-[#0b3b75]/95 backdrop-blur-xl shadow-lg'
-            : 'bg-[#0b3b75]'
+            ? isBlackNovember 
+              ? 'bg-black/95 backdrop-blur-xl shadow-lg shadow-yellow-500/20 border-b border-yellow-500/30'
+              : 'bg-[#0b3b75]/95 backdrop-blur-xl shadow-lg'
+            : isBlackNovember
+              ? 'bg-gradient-to-r from-black via-gray-900 to-black border-b border-yellow-500/30'
+              : 'bg-[#0b3b75]'
           }`}
         role="banner"
       >
@@ -110,6 +114,15 @@ export function Header() {
               </div>
             </Link>
 
+            {/* Black November Badge */}
+            {isBlackNovember && (
+              <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg shadow-lg shadow-orange-500/50">
+                <Sparkles className="w-4 h-4 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                <span className="text-sm font-bold text-white uppercase tracking-wider">Black November</span>
+                <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
+              </div>
+            )}
+
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
               {navigation.map((item) => {
@@ -119,14 +132,20 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={`relative px-6 py-3 text-sm font-semibold transition-all duration-300 rounded-xl group ${isActive
-                        ? 'text-white bg-[#ff6600] shadow-lg'
-                        : 'text-white hover:text-white hover:bg-[#ff6600]/30'
+                        ? isBlackNovember
+                          ? 'text-black bg-gradient-to-r from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/50'
+                          : 'text-white bg-[#ff6600] shadow-lg'
+                        : isBlackNovember
+                          ? 'text-white hover:text-black hover:bg-yellow-400/90'
+                          : 'text-white hover:text-white hover:bg-[#ff6600]/30'
                       }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     <span className="relative z-10">{item.name}</span>
                     {!isActive && (
-                      <div className="absolute inset-0 bg-[#ff4c00]/30 rounded-xl scale-0 group-hover:scale-100 transition-transform duration-300" />
+                      <div className={`absolute inset-0 rounded-xl scale-0 group-hover:scale-100 transition-transform duration-300 ${
+                        isBlackNovember ? 'bg-yellow-400/30' : 'bg-[#ff4c00]/30'
+                      }`} />
                     )}
                   </Link>
                 );
@@ -140,7 +159,9 @@ export function Header() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleMenu}
-                className="relative w-12 h-12 p-0 rounded-xl text-white hover:bg-[#ff4c00]/30 transition-all duration-300 group"
+                className={`relative w-12 h-12 p-0 rounded-xl text-white transition-all duration-300 group ${
+                  isBlackNovember ? 'hover:bg-yellow-400/30' : 'hover:bg-[#ff4c00]/30'
+                }`}
                 aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={isMenuOpen}
               >
@@ -183,15 +204,27 @@ export function Header() {
             }`}
         >
           {/* Header do Menu */}
-          <div className="bg-gradient-to-r from-[#0b3b75] to-[#1e40af] px-6 py-4 text-white">
+          <div className={`px-6 py-4 text-white ${
+            isBlackNovember 
+              ? 'bg-gradient-to-r from-black via-gray-900 to-black border-b-2 border-yellow-500'
+              : 'bg-gradient-to-r from-[#0b3b75] to-[#1e40af]'
+          }`}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                  <GraduationCap className="h-6 w-6 text-white" />
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  isBlackNovember ? 'bg-gradient-to-br from-yellow-400 to-orange-500' : 'bg-white/20'
+                }`}>
+                  {isBlackNovember ? (
+                    <Sparkles className="h-6 w-6 text-black" />
+                  ) : (
+                    <GraduationCap className="h-6 w-6 text-white" />
+                  )}
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">Menu</h2>
-                  <p className="text-sm text-blue-100">Navegação</p>
+                  <h2 className="text-lg font-bold">{isBlackNovember ? 'Black November' : 'Menu'}</h2>
+                  <p className={`text-sm ${
+                    isBlackNovember ? 'text-yellow-400' : 'text-blue-100'
+                  }`}>{isBlackNovember ? 'Ofertas Especiais' : 'Navegação'}</p>
                 </div>
               </div>
               <Button
@@ -224,22 +257,32 @@ export function Header() {
                     document.body.style.overflow = 'unset';
                   }}
                   className={`group flex items-center justify-between px-4 py-4 text-base font-medium transition-all duration-300 rounded-xl transform hover:scale-[1.02] ${isActive
-                      ? 'text-white bg-gradient-to-r from-[#0b3b75] to-[#1e40af] shadow-lg'
-                      : 'text-gray-700 hover:text-[#0b3b75] hover:bg-blue-50 active:bg-blue-100'
+                      ? isBlackNovember
+                        ? 'text-black bg-gradient-to-r from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/50'
+                        : 'text-white bg-gradient-to-r from-[#0b3b75] to-[#1e40af] shadow-lg'
+                      : isBlackNovember
+                        ? 'text-gray-700 hover:text-black hover:bg-yellow-50 active:bg-yellow-100'
+                        : 'text-gray-700 hover:text-[#0b3b75] hover:bg-blue-50 active:bg-blue-100'
                     }`}
                   style={{ animationDelay: `${index * 50}ms` }}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${isActive
-                        ? 'bg-white/20'
-                        : 'bg-gray-100 group-hover:bg-[#0b3b75] group-hover:text-white'
+                        ? isBlackNovember ? 'bg-black/20' : 'bg-white/20'
+                        : isBlackNovember
+                          ? 'bg-gray-100 group-hover:bg-yellow-400 group-hover:text-black'
+                          : 'bg-gray-100 group-hover:bg-[#0b3b75] group-hover:text-white'
                       }`}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <span className="font-semibold">{item.name}</span>
                   </div>
-                  <ChevronRight className={`h-5 w-5 transition-transform duration-300 ${isActive ? 'text-white/80' : 'text-gray-400 group-hover:text-[#0b3b75] group-hover:translate-x-1'
+                  <ChevronRight className={`h-5 w-5 transition-transform duration-300 ${isActive 
+                    ? isBlackNovember ? 'text-black/80' : 'text-white/80' 
+                    : isBlackNovember
+                      ? 'text-gray-400 group-hover:text-black group-hover:translate-x-1'
+                      : 'text-gray-400 group-hover:text-[#0b3b75] group-hover:translate-x-1'
                     }`} />
                 </Link>
               );

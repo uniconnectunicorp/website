@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -136,13 +136,14 @@ export default function CTASection({ courseName, competency }) {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#0b3b75] text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
       {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden opacity-5">
-        <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-center"></div>
+      <div className="absolute inset-0 overflow-hidden opacity-10">
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center"></div>
       </div>
-      <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-[#0b3b75]/20"></div>
-      <div className="absolute -left-40 -bottom-40 h-80 w-80 rounded-full bg-[#0b3b75]/20"></div>
+      <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-orange-500/20 blur-3xl"></div>
+      <div className="absolute -left-40 -bottom-40 h-80 w-80 rounded-full bg-yellow-500/20 blur-3xl"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-orange-500/10 blur-3xl"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -158,7 +159,7 @@ export default function CTASection({ courseName, competency }) {
               hover: { duration: 0.2 }
             }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-[#0b3b75]/30 to-[#0b3b75]/40 backdrop-blur-lg p-8 rounded-2xl border border-white/10 shadow-2xl shadow-[#0b3b75]/30"
+            className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-lg p-8 rounded-2xl border border-orange-500/20 shadow-2xl shadow-orange-500/20"
           >
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -166,10 +167,15 @@ export default function CTASection({ courseName, competency }) {
               transition={{ delay: 0.2 }}
               className="text-center mb-8"
             >
-              <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 mb-2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full shadow-lg">
+                <Sparkles className="w-3 h-3 text-white" />
+                <span className="text-xs font-bold text-white uppercase tracking-wider">Black November</span>
+                <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
+              </div>
+              <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 mb-2">
                 Solicite mais informações
               </h3>
-              <div className="w-20 h-1 bg-gradient-to-r from-[#ff6600] to-[#ff6600] mx-auto rounded-full"></div>
+              <div className="w-20 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto rounded-full"></div>
             </motion.div>
             
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -294,7 +300,7 @@ export default function CTASection({ courseName, competency }) {
               >
                 <Button
                   type="submit"
-                  className="w-full bg-[#ff6600] hover:bg-orange-700 text-white py-6 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#ff6600]/20 transition-all duration-300 transform hover:-translate-y-0.5"
+                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black py-6 text-base font-bold rounded-xl shadow-lg hover:shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:-translate-y-0.5"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -304,10 +310,9 @@ export default function CTASection({ courseName, competency }) {
                     </>
                   ) : (
                     <span className="flex items-center justify-center">
+                      <Sparkles className="h-5 w-5 mr-2" />
                       <span>Enviar mensagem</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
+                      <ArrowRight className="h-5 w-5 ml-2" />
                     </span>
                   )}
                 </Button>
@@ -319,9 +324,9 @@ export default function CTASection({ courseName, competency }) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="text-xs text-blue-200/80 text-center mt-6 flex items-center justify-center space-x-1"
+                className="text-xs text-gray-400 text-center mt-6 flex items-center justify-center space-x-1"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#0b3b75]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <span>Seus dados estão seguros conosco. Não compartilhamos suas informações.</span>

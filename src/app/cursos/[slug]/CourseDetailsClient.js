@@ -17,11 +17,13 @@ import {
   Zap,
   Target,
   ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
 import SistecAndMec from '@/components/sections/sistecAndMec';
 // Importando os tipos do projeto
 import { Header } from '@/components/layout/Header';
+import Link from 'next/link';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
 import { CompetencySection } from '@/components/course-details/CompetencySection';
 import CTASection from '@/components/home/CTASection';
@@ -31,7 +33,7 @@ import { toast } from 'react-toastify';
 
 
 
-export function CourseDetailsClient({ course }) {
+export function CourseDetailsClient({ course, isBlackNovember = true }) {
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
   const [enrollmentSuccess, setEnrollmentSuccess] = useState(false);
 
@@ -82,25 +84,35 @@ export function CourseDetailsClient({ course }) {
     <div className="min-h-screen overflow-x-hidden">
        
       {/* Cabeçalho do curso */}
-      <div className="relative bg-[#0b3b75] pt-20 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 pt-20 text-white overflow-hidden">
         {/* Efeitos visuais de fundo */}
         <div className="absolute max-md:hidden inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
-        <div className="absolute max-md:hidden -top-32 -right-32 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute max-md:hidden -bottom-32 -left-32 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute max-md:hidden -top-32 -right-32 w-64 h-64 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute max-md:hidden -bottom-32 -left-32 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute max-md:hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 w-full">
-           <Header />
+           <Header isBlackNovember />
           <div className="lg:grid lg:grid-cols-12 grid-cols-1 lg:gap-8">
             {/* Conteúdo principal (esquerda) */}
             <div className="lg:col-span-7 relative z-10">
               <div className="mb-8">
-                <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
-                Formação a partir de {course.minTime} meses
-                </span>
+                <div className="flex flex-wrap items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-gray-300 border border-orange-500/20">
+                    Formação a partir de {course.minTime} meses
+                  </span>
+                  {isBlackNovember && (
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full shadow-lg">
+                      <Sparkles className="w-4 h-4 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                      <span className="text-sm font-bold text-white uppercase tracking-wide">Black November</span>
+                      <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
+                    </div>
+                  )}
+                </div>
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   {course.nome}
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-blue-100">
+                <p className="mt-4 text-lg md:text-xl text-gray-300">
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
                 você se torna {course.nome} com validade nacional e ao finalizar 
@@ -109,13 +121,13 @@ export function CourseDetailsClient({ course }) {
                 </p>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <div className="flex items-center text-blue-200">
-                    <BookOpen className="h-5 w-5 mr-2" />
+                  <div className="flex items-center text-gray-300">
+                    <BookOpen className="h-5 w-5 mr-2 text-orange-400" />
                     <span>{modules?.length || 0} Módulos</span>
                   </div>
                   
-                  <div className="flex items-center text-blue-200">
-                    <Clock className="h-5 w-5 mr-2" />
+                  <div className="flex items-center text-gray-300">
+                    <Clock className="h-5 w-5 mr-2 text-orange-400" />
                     <span>Carga horária de {totalWorkload} horas</span>
                   </div>
                 </div>
@@ -125,24 +137,20 @@ export function CourseDetailsClient({ course }) {
                   <h3 className="text-xl font-semibold text-white">Benefícios do Curso</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Reconhecido MEC e SISTEC</span>
+                      <CheckCircle className="h-5 w-5 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">Certificado reconhecido pelo MEC e registrado no SISTEC</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Formação a partir de {course.minTime} meses</span>
+                      <CheckCircle className="h-5 w-5 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">Validade em todo território nacional</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">100% Online</span>
+                      <CheckCircle className="h-5 w-5 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">Acesso imediato à plataforma de estudos</span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Acesso imediato após a compra</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
+                      <CheckCircle className="h-5 w-5 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">Suporte pedagógico especializado</span>
                     </li>
                   </ul>
                 </div>
@@ -154,44 +162,50 @@ export function CourseDetailsClient({ course }) {
 
             {/* Card de investimento (direita) */}
             <div className="lg:col-span-5 mt-10 lg:mt-0">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-6 lg:sticky lg:top-6">
-                <h3 className="text-2xl font-bold text-white mb-6">Investimento</h3>
+              <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm rounded-2xl border border-orange-500/20 p-6 lg:sticky lg:top-6 shadow-2xl shadow-orange-500/10 relative overflow-hidden">
+                {/* Orb decorativo */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl"></div>
                 
-                <div className="space-y-6">
-                  <div className="flex flex-col items-baseline">
-                    <span className="text-blue-200 line-through">
-                      De R$1499,90
-                    </span>
-                   <div className='flex w-full justify-between'>
-                   <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
-                   <p className='text-sm text-white bg-[#0b3b75] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
-                   </div>
-                    {course.originalPrice > course.price && (
-                      <>
-                        <span className="ml-3 text-lg text-blue-200 line-through">
-                          {originalPrice} a vista
-                        </span>
-                        
-                      </>
-                    )}
-                  </div>
+                <div className="relative z-10">
                   
-                  <p className="text-blue-100 text-lg">
-                    ou 12x de R$79,90 sem juros no cartão
-                  </p>
                   
-                  {/* Formulário de Matrícula Direto */}
-                  <div className="">
-                    <h4 className="text-white text-xl font-bold mb-4 text-center">Garanta sua vaga agora mesmo</h4>
-                    <p className="text-blue-100 text-sm text-center mb-4">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
-                    <EnrollmentFormV2 
-                      courseName={course.nome}
-                      courseTitle={course.nome}
-                      coursePrice={course.price}
-                      competency={false}
-                      onSuccess={handleEnrollmentSuccess}
-                      compact={true}
-                    />
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text mb-6">Investimento</h3>
+                  
+                  <div className="space-y-6">
+                    <div className="flex flex-col items-baseline">
+                      <span className="text-gray-400 line-through text-sm">
+                        De R$1499,90
+                      </span>
+                     <div className='flex w-full justify-between items-center mt-2'>
+                       <span className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text">{currentPrice} <span className='font-normal text-sm text-gray-300'>à vista</span></span>
+                     </div>
+                      {course.originalPrice > course.price && (
+                        <>
+                          <span className="ml-3 text-lg text-gray-400 line-through">
+                            {originalPrice} à vista
+                          </span>
+                          
+                        </>
+                      )}
+                    </div>
+                    
+                    <p className="text-gray-300 text-lg">
+                      ou 12x de R$79,90 sem juros no cartão
+                    </p>
+                    
+                    {/* Formulário de Matrícula Direto */}
+                    <div className="pt-4 border-t border-gray-700">
+                      <h4 className="text-white text-xl font-bold mb-4 text-center">Garanta sua vaga agora mesmo</h4>
+                      <p className="text-gray-300 text-sm text-center mb-4">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
+                      <EnrollmentFormV2 
+                        courseName={course.nome}
+                        courseTitle={course.nome}
+                        coursePrice={course.price}
+                        competency={false}
+                        onSuccess={handleEnrollmentSuccess}
+                        compact={true}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
