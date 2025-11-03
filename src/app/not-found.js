@@ -73,7 +73,7 @@ export default function NotFound() {
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-              className="mb-8"
+              className="mb-8 mt-40"
             >
               <h1 className="text-[180px] md:text-[250px] font-black leading-none bg-gradient-to-br from-[#0b3b75] via-[#1e40af] to-[#0b3b75] text-transparent bg-clip-text drop-shadow-2xl">
                 404
@@ -157,7 +157,7 @@ export default function NotFound() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-12 pt-8 border-t border-gray-200"
+              className="mt-12 pt-8 pb-4 border-t border-gray-200"
             >
               <p className="text-sm text-gray-600 mb-4">Você também pode estar procurando por:</p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -178,17 +178,7 @@ export default function NotFound() {
               </div>
             </motion.div>
 
-            {/* Error Code */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="mt-12"
-            >
-              <p className="text-xs text-gray-400 font-mono">
-                ERROR_CODE: PAGE_NOT_FOUND_404
-              </p>
-            </motion.div>
+         
           </motion.div>
         </div>
       </div>

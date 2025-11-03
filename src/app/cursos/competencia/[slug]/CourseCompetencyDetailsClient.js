@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 import { 
   Dialog, 
   DialogContent, 
@@ -103,13 +104,35 @@ export function CourseCompetencyDetailsClient({ course, isBlackNovember = true }
                 <span className="inline-flex items-center px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full text-sm font-semibold text-white shadow-lg">
                 Competência
                 </span>
-                {isBlackNovember && (
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full shadow-lg">
-                    <Sparkles className="w-4 h-4 text-white animate-spin" style={{ animationDuration: '3s' }} />
-                    <span className="text-sm font-bold text-white uppercase tracking-wide">Black November</span>
-                    <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
-                  </div>
-                )}
+                 {isBlackNovember && (
+                    <>
+                      <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full shadow-lg">
+                        <Sparkles className="w-4 h-4 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                        <span className="text-sm font-bold text-white uppercase tracking-wide">Black November</span>
+                        <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
+                      </div>
+                      {[...Array(20)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                          }}
+                          animate={{
+                            y: [-20, 20],
+                            opacity: [0, 1, 0],
+                            scale: [0, 1.5, 0],
+                          }}
+                          transition={{
+                            duration: 3 + Math.random() * 2,
+                            repeat: Infinity,
+                            delay: Math.random() * 2,
+                          }}
+                        />
+                      ))}
+                    </>
+                  )}
                 </div>
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   {course.nome}
