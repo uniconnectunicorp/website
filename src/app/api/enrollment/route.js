@@ -282,8 +282,8 @@ export async function POST(request) {
 
     // Enviar email para o endereço de leads (não para o aluno)
     await transporter.sendMail({
-      from: `"Uniconnect - Matrículas" <${process.env.SMTP_USER}>`,
-      to: process.env.LEAD_EMAIL || process.env.SMTP_USER,
+      from: `"Uniconnect - Matrículas" <${process.env.EMAIL_USER}>`,
+      to: process.env.LEAD_EMAIL || process.env.EMAIL_USER,
       subject: `Matricula - ${data.fullName} - ${data.seller}`,
       html: emailHtml,
     });
