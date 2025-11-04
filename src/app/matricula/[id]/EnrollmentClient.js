@@ -254,7 +254,7 @@ export default function EnrollmentClient({ seller }) {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">Dados Pessoais</h2>
-                    <p className="text-sm text-gray-600">Preencha suas informações pessoais</p>
+                    <p className="text-sm text-gray-600">Preencha suas informações pessoais e após concluir será enviado o link de pagamento para você no WhatsApp.</p>
                   </div>
                 </div>
                 
