@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 
 // Array com os números de WhatsApp
@@ -58,10 +59,12 @@ export const handleWhatsappClick = async () => {
 };
 
 const WhatsappFloat = () => {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-
+  // Não mostrar o WhatsApp na página de matrícula
+  const isEnrollmentPage = pathname?.startsWith('/matricula');
 
   useEffect(() => {
     // Mostrar o botão após um pequeno delay
@@ -73,6 +76,11 @@ const WhatsappFloat = () => {
   }, []);
 
 
+
+  // Não renderizar o componente na página de matrícula
+  if (isEnrollmentPage) {
+    return null;
+  }
 
   return (
     <div
