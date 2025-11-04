@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {  User, Mail, Phone, Lock, ShieldCheck, AlertCircle } from 'lucide-react';
+import {  User, Mail, Phone, Lock, ShieldCheck, AlertCircle, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';
 import { toast } from 'react-toastify';
@@ -169,23 +169,34 @@ export function EnrollmentFormV2({
     <div className="relative">
       {/* Cabeçalho com informações do curso - apenas se não for compacto */}
       {!compact && (
-        <div className="bg-gradient-to-r from-[#0b3b75] to-[#0b3b75] p-6 rounded-t-lg -mx-6 -mt-6 mb-6">
-          <h2 className="text-2xl font-bold text-white mb-1">Quase lá</h2>
-          <p className="text-blue-100 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato e te auxiliar no processo de sua matrícula.</p>
+        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-t-lg -mx-6 -mt-6 mb-6 relative overflow-hidden">
+          {/* Animated orb */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl"></div>
           
-          <div className="mt-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="font-medium text-white line-clamp-1">{courseTitle}</h3>
-                <div className="flex items-baseline mt-1">
-                  <span className="text-2xl font-bold text-white">{formatCurrency(coursePrice)}</span>
-                  <span className="ml-2 text-blue-100 text-sm line-through">
-                    {formatCurrency(coursePrice * 1.2)}
-                  </span>
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-3 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full shadow-lg">
+              <Sparkles className="w-3 h-3 text-white" />
+              <span className="text-xs font-bold text-white uppercase tracking-wider">Black November</span>
+              <span className="text-xs font-bold text-black bg-white px-2 py-0.5 rounded-full">40% OFF</span>
+            </div>
+            
+            <h2 className="text-2xl font-bold text-white mb-1">Quase lá!</h2>
+            <p className="text-gray-300 text-sm">Preencha o formulário que um de nossos consultores irá entrar em contato e te auxiliar no processo de sua matrícula.</p>
+            
+            <div className="mt-4 p-4 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-medium text-white line-clamp-1">{courseTitle}</h3>
+                  <div className="flex items-baseline mt-1 gap-2">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text">{formatCurrency(coursePrice)}</span>
+                    <span className="text-gray-400 text-sm line-through">
+                      {formatCurrency(coursePrice * 1.67)}
+                    </span>
+                  </div>
+                  <p className="text-gray-300 text-sm mt-1">
+                    ou 12x de R${competency ? "109,90" : "79,90"} sem juros
+                  </p>
                 </div>
-                <p className="text-blue-100 text-sm mt-1">
-                  ou 12x de R${competency ? "109,90" : "79,90"} sem juros
-                </p>
               </div>
             </div>
           </div>
@@ -302,19 +313,22 @@ export function EnrollmentFormV2({
           <Button
             type="submit"
             disabled={isSubmitting || !isFormValid}
-            className={`w-full flex justify-center items-center py-5 text-base font-semibold rounded-lg text-white
-              bg-[#ff6600] hover:bg-orange-700
-              focus:outline-none focus:ring-2 focus:ring-[#ff6600] focus:ring-offset-2
-              transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg
+            className={`w-full flex justify-center items-center py-5 text-base font-bold rounded-lg
+              bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black
+              focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2
+              transition-all duration-200 transform hover:scale-[1.02] hover:shadow-xl hover:shadow-yellow-500/50
               ${(isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''}`}
           >
             {isSubmitting ? (
               <>
-                <div className="animate-spin h-5 w-5 mr-2 border-2 border-white border-t-transparent rounded-full"></div>
+                <div className="animate-spin h-5 w-5 mr-2 border-2 border-black border-t-transparent rounded-full"></div>
                 Processando...
               </>
             ) : (
-              'Tenho Interesse'
+              <>
+                <Sparkles className="w-5 h-5 mr-2" />
+                Tenho Interesse
+              </>
             )}
           </Button>
 

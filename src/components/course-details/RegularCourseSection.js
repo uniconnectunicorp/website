@@ -7,11 +7,12 @@ import {
   Clock,
   Users,
   ArrowRight,
-  CheckCircle
+  CheckCircle,
+  Sparkles
 } from 'lucide-react';
 import Link from 'next/link';
 
-export function RegularCourseSection({ course, formatPrice }) {
+export function RegularCourseSection({ course, formatPrice, isBlackNovember = true }) {
   // Não renderizar se o curso não tiver modalidade por competência
   if (!course.competency) {
     return null;
@@ -85,7 +86,16 @@ export function RegularCourseSection({ course, formatPrice }) {
           {/* Lado direito - Comparação e CTA */}
           <div className="space-y-8">
             {/* Comparação de preços */}
-            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border-2 border-[#0b3b75]">
+            <div className="bg-white rounded-2xl p-8 max-md:p-6 shadow-lg border-2 border-[#0b3b75] relative overflow-hidden">
+              {/* Black November Badge */}
+              {isBlackNovember && (
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg shadow-lg">
+                    <Sparkles className="w-3 h-3 text-white" />
+                    <span className="text-xs font-bold text-white">40% OFF</span>
+                  </div>
+                </div>
+              )}
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Modalidade Regular</h3>
                 <div className="flex items-center justify-center">

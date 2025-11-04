@@ -2,12 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Users, Star, BookOpen, Award, MapPin, ArrowRight, Check } from 'lucide-react';
+import { Clock, Users, Star, BookOpen, Award, MapPin, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 
 
-export function CourseCard({ course, category, className, onEnrollClick, competency }) {
+export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = true }) {
   const hasDiscount = course.originalPrice && course.originalPrice > course.price;
   const discountPercentage = hasDiscount 
     ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100) 
@@ -43,7 +43,15 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
           </div>
         </Link>
         
-       
+        {/* Black November Badge */}
+        {isBlackNovember && (
+          <div className="absolute top-3 right-3 z-10">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg shadow-lg animate-pulse">
+              <Sparkles className="w-3 h-3 text-white" />
+              <span className="text-xs font-bold text-white uppercase tracking-wide">Black November</span>
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Card Content */}
