@@ -66,7 +66,7 @@ export default function EnrollmentClient({ seller }) {
 
   const paymentMethods = [
     { value: 'pix', label: 'PIX' },
-    { value: 'boleto', label: 'Boleto Bancário' },
+    // { value: 'boleto', label: 'Boleto Bancário' },
     { value: 'cartao-credito', label: 'Cartão de Crédito' },
   ];
 
@@ -595,7 +595,11 @@ export default function EnrollmentClient({ seller }) {
               </p>
             </div>
             <button
-              onClick={() => router.push('/')}
+              onClick={() => {
+                console.log('Confirmar clicked');
+                setShowSuccessModal(false);
+                router.push('/');
+              }}
               className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300"
             >
               Confirmar
