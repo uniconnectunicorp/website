@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Link } from 'next/link';
 import { motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { 
   User, 
   Mail, 
@@ -571,43 +572,41 @@ export default function EnrollmentClient({ seller }) {
       </div>
 
       {/* Success Modal */}
-      {showSuccessModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-        >
+      <AnimatePresence>
+        {showSuccessModal && (
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           >
-            <div className="mb-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Parabéns!
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Parabéns pela sua matrícula, enviaremos o link de pagamento e logo após o pagamento você já poderá acessar o seu portal do aluno.
-              </p>
-            </div>
-            <Link
-              href="/"
-              onClick={() => {
-                console.log('Confirmar clicked');
-                setShowSuccessModal(false);
-              }}
-              className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-center block"
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"
             >
-              Confirmar
-            </Link>
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Parabéns!
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Parabéns pela sua matrícula, enviaremos o link de pagamento e logo após o pagamento você já poderá acessar o seu portal do aluno.
+                </p>
+              </div>
+              <Link
+                href="/"
+                className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-center block"
+              >
+                Confirmar
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }
