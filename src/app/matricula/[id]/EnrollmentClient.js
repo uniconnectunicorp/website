@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Link } from 'next/link';
 import { motion } from 'framer-motion';
 import { 
   User, 
@@ -594,16 +595,16 @@ export default function EnrollmentClient({ seller }) {
                 Parabéns pela sua matrícula, enviaremos o link de pagamento e logo após o pagamento você já poderá acessar o seu portal do aluno.
               </p>
             </div>
-            <button
+            <Link
+              href="/"
               onClick={() => {
                 console.log('Confirmar clicked');
                 setShowSuccessModal(false);
-                router.push('/');
               }}
-              className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300"
+              className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-center block"
             >
               Confirmar
-            </button>
+            </Link>
           </motion.div>
         </motion.div>
       )}
