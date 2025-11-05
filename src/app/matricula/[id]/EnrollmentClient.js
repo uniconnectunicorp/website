@@ -22,9 +22,9 @@ import { fetchCourses } from '@/data/course';
 import { Header } from '@/components/layout/Header';
 
 export default function EnrollmentClient({ seller }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [loadingCep, setLoadingCep] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const courses = fetchCourses();
   
   const [formData, setFormData] = useState({
@@ -121,10 +121,7 @@ export default function EnrollmentClient({ seller }) {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Matrícula realizada com sucesso!');
-        setTimeout(() => {
-          router.push('/');
-        }, 2000);
+        setShowSuccessModal(true);
       } else {
         toast.error(data.message || 'Erro ao realizar matrícula. Tente novamente.');
       }
@@ -571,6 +568,41 @@ export default function EnrollmentClient({ seller }) {
           </motion.div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"
+          >
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Parabéns!
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Parabéns pela sua matrícula, enviaremos o link de pagamento e logo após o pagamento você já poderá acessar o seu portal do aluno.
+              </p>
+            </div>
+            <button
+              onClick={() => router.push('/')}
+              className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-3 px-6 rounded-xl font-bold hover:shadow-xl transition-all duration-300"
+            >
+              Confirmar
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }
