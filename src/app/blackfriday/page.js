@@ -73,7 +73,7 @@ export default function BlackFridayPage() {
 
       {/* Logo Header */}
       <div className="relative pt-8 pb-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <Link href="/" className="flex items-center justify-center gap-4 group">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -91,6 +91,26 @@ export default function BlackFridayPage() {
             </motion.div>
            
           </Link>
+          
+          {/* Super Black Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex justify-center"
+          >
+            <div className="relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-full shadow-2xl">
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-full blur-xl opacity-60"></div>
+              
+              {/* Content */}
+              <Sparkles className="w-5 h-5 text-white relative z-10" />
+              <span className="text-white font-black text-lg md:text-xl uppercase tracking-wider relative z-10">
+                Super Black Uniconnect
+              </span>
+              <Zap className="w-5 h-5 text-white relative z-10" />
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -179,20 +199,16 @@ export default function BlackFridayPage() {
               { icon: Users, title: 'Grupo VIP', description: 'Acesso prioritário às ofertas' },
               { icon: Zap, title: '60% OFF', description: 'Desconto imperdível' }
             ].map((benefit, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-black/40 backdrop-blur-lg border border-yellow-400/20 rounded-xl p-6 hover:border-yellow-400/50 transition-all duration-300"
+                className="bg-black/40 backdrop-blur-lg border border-yellow-400/20 rounded-xl p-6 hover:border-yellow-400/50 transition-colors duration-300"
               >
                 <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <benefit.icon className="w-6 h-6 text-black" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{benefit.title}</h3>
                 <p className="text-sm text-gray-400">{benefit.description}</p>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
@@ -209,21 +225,9 @@ export default function BlackFridayPage() {
               whileTap={{ scale: 0.95 }}
               className="group relative inline-flex items-center justify-center max-md:w-full max-md:px-3 py-6 text-xl font-black rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 text-black shadow-2xl shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300 overflow-hidden"
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-orange-400"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 0.6 }}
-              />
-              <MessageCircle className="w-6 h-6 mr-3 relative z-10" />
-              <span className="relative z-10 ">ENTRAR NO GRUPO VIP</span>
-              <motion.div
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="relative z-10 ml-3"
-              >
-                <ArrowRight className="w-6 h-6" />
-              </motion.div>
+              <MessageCircle className="w-6 h-6 mr-3" />
+              <span>ENTRAR NO GRUPO VIP</span>
+              <ArrowRight className="w-6 h-6 ml-3" />
             </motion.button>
 
            
@@ -266,16 +270,13 @@ export default function BlackFridayPage() {
               'Material didático completo incluso',
               'Suporte especializado durante todo o curso'
             ].map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.4 + index * 0.05 }}
                 className="flex items-center gap-3 text-gray-300"
               >
                 <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
                 <span>{feature}</span>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
