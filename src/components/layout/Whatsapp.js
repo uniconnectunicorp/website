@@ -63,8 +63,9 @@ const WhatsappFloat = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Não mostrar o WhatsApp na página de matrícula
+  // Não mostrar o WhatsApp na página de matrícula e Black Friday
   const isEnrollmentPage = pathname?.startsWith('/matricula');
+  const isBlackFridayPage = pathname?.startsWith('/blackfriday');
 
   useEffect(() => {
     // Mostrar o botão após um pequeno delay
@@ -77,8 +78,8 @@ const WhatsappFloat = () => {
 
 
 
-  // Não renderizar o componente na página de matrícula
-  if (isEnrollmentPage) {
+  // Não renderizar o componente na página de matrícula e Black Friday
+  if (isEnrollmentPage || isBlackFridayPage) {
     return null;
   }
 
