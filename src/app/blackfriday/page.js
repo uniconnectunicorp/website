@@ -99,13 +99,13 @@ export default function BlackFridayPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex justify-center"
           >
-            <div className="relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-full shadow-2xl">
+            <div className="relative inline-flex items-center gap-3 px-8 max-md:px-4 py-4 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-full shadow-2xl">
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-full blur-xl opacity-60"></div>
               
               {/* Content */}
               <Sparkles className="w-5 h-5 text-white relative z-10" />
-              <span className="text-white font-black text-lg md:text-xl uppercase tracking-wider relative z-10">
+              <span className="text-white font-black md:text-xl uppercase tracking-wider relative z-10">
                 Super Black Uniconnect
               </span>
               <Zap className="w-5 h-5 text-white relative z-10" />
