@@ -115,7 +115,7 @@ export default function BlackFridayPage() {
       </div>
 
       {/* Main Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center py-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center py-12 max-md:py-6">
         <div className="w-full text-center space-y-12">
           
           {/* Badge */}
@@ -149,6 +149,27 @@ export default function BlackFridayPage() {
                 Curso Técnico 100% Online | Formação a partir de 6 meses | Reconhecidos MEC e SISTEC
               </p>
             </div>
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+            className="space-y-6"
+          >
+            <motion.button
+              onClick={handleWhatsAppClick}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative inline-flex items-center justify-center max-md:w-full max-md:px-3 px-8 py-6 text-xl font-black rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 text-black shadow-2xl shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300 overflow-hidden"
+            >
+              <MessageCircle className="w-6 h-6 mr-3" />
+              <span>ENTRAR NO GRUPO VIP</span>
+              <ArrowRight className="w-6 h-6 ml-3" />
+            </motion.button>
+
+           
           </motion.div>
 
           {/* Countdown Timer */}
@@ -212,26 +233,7 @@ export default function BlackFridayPage() {
             ))}
           </motion.div>
 
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="space-y-6"
-          >
-            <motion.button
-              onClick={handleWhatsAppClick}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative inline-flex items-center justify-center max-md:w-full max-md:px-3 py-6 text-xl font-black rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 text-black shadow-2xl shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300 overflow-hidden"
-            >
-              <MessageCircle className="w-6 h-6 mr-3" />
-              <span>ENTRAR NO GRUPO VIP</span>
-              <ArrowRight className="w-6 h-6 ml-3" />
-            </motion.button>
-
-           
-          </motion.div>
+          
 
           {/* Important Notice */}
           <motion.div
