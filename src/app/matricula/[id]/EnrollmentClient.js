@@ -188,17 +188,19 @@ export default function EnrollmentClient({ seller }) {
     }));
   };
 
+  const isBlackFriday = seller.id === "black-friday";
+
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className={`min-h-screen ${isBlackFriday ? 'bg-gradient-to-br from-gray-900 via-black to-gray-900' : ''}`}>
+      <Header isBlackNovember />
       
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75] pt-24 pb-16 overflow-hidden">
+      <div className={`relative ${isBlackFriday ? '' : 'bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75]'} pt-24 pb-16 overflow-hidden`}>
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
         
         {/* Animated orbs */}
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl"
+          className={`absolute top-20 left-10 w-72 h-72 ${isBlackFriday ? 'bg-orange-500/20' : 'bg-orange-500/20'} rounded-full blur-3xl`}
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -210,21 +212,59 @@ export default function EnrollmentClient({ seller }) {
           }}
         />
         
+        {isBlackFriday && (
+          <motion.div
+            className="absolute bottom-20 right-10 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          />
+        )}
+        
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-           
+            {isBlackFriday && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center mb-8"
+              >
+                
+              </motion.div>
+            )}
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-10 mb-4">
-              Complete sua Matrícula
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold ${isBlackFriday ? 'text-white' : 'text-white'} mt-10 mb-4`}>
+              {isBlackFriday ? (
+                <>
+                  <span className="bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 text-transparent bg-clip-text">
+                    Black Friday
+                  </span>
+                  <br />
+                  Complete sua Matrícula
+                </>
+              ) : (
+                'Complete sua Matrícula'
+              )}
             </h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-6">
-              Você está a poucos passos de transformar sua carreira profissional!
+            <p className={`text-xl ${isBlackFriday ? 'text-gray-300' : 'text-blue-100'} max-w-3xl mx-auto mb-6`}>
+              {isBlackFriday 
+                ? '🔥 Aproveite 60% OFF! Você está a poucos passos de transformar sua carreira profissional com desconto exclusivo!'
+                : 'Você está a poucos passos de transformar sua carreira profissional!'
+              }
             </p>
-            {seller.id !== "black-friday" && (
+            {!isBlackFriday && (
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
                 <User className="w-5 h-5 text-yellow-400" />
                 <span className="text-white font-medium">
@@ -243,8 +283,10 @@ export default function EnrollmentClient({ seller }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-2xl shadow-2xl p-8 md:p-12"
+            className={`${isBlackFriday ? 'bg-gray-800/50 backdrop-blur-lg border-2 border-yellow-400/20' : 'bg-white'} rounded-2xl shadow-2xl p-8 md:p-12`}
           >
+            
+            
             <form onSubmit={handleSubmit} className="space-y-10">
               
               {/* Dados Pessoais */}
@@ -254,14 +296,14 @@ export default function EnrollmentClient({ seller }) {
                     <User className="w-6 h-6 text-[#0b3b75]" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Dados Pessoais</h2>
-                    <p className="text-sm text-gray-600">Preencha suas informações pessoais e após concluir será enviado o link de pagamento para você no WhatsApp.</p>
+                    <h2 className={`text-2xl font-bold ${isBlackFriday ? 'text-white' : 'text-gray-900'}`}>Dados Pessoais</h2>
+                    <p className={`text-sm ${isBlackFriday ? 'text-gray-300' : 'text-gray-600'}`}>Preencha suas informações pessoais e após concluir será enviado o link de pagamento para você no WhatsApp.</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Nome Completo *
                     </label>
                     <input
@@ -270,13 +312,13 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.fullName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="Digite seu nome completo"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Data de Nascimento *
                     </label>
                     <input
@@ -286,13 +328,13 @@ export default function EnrollmentClient({ seller }) {
                       onChange={handleChange}
                       required
                       maxLength="10"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="DD/MM/AAAA"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       CPF *
                     </label>
                     <input
@@ -302,13 +344,13 @@ export default function EnrollmentClient({ seller }) {
                       onChange={handleChange}
                       required
                       maxLength="14"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="000.000.000-00"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       RG *
                     </label>
                     <input
@@ -317,13 +359,13 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.rg}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="00.000.000-0"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Estado Civil *
                     </label>
                     <select
@@ -331,7 +373,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.maritalStatus}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all bg-white"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                     >
                       <option value="">Selecione</option>
                       {estadosCivis.map(estado => (
@@ -343,7 +385,7 @@ export default function EnrollmentClient({ seller }) {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Telefone *
                     </label>
                     <input
@@ -353,13 +395,13 @@ export default function EnrollmentClient({ seller }) {
                       onChange={handleChange}
                       required
                       maxLength="15"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="(00) 00000-0000"
                     />
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       E-mail *
                     </label>
                     <input
@@ -368,7 +410,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="seu@email.com"
                     />
                   </div>
@@ -382,14 +424,14 @@ export default function EnrollmentClient({ seller }) {
                     <MapPin className="w-6 h-6 text-[#ff6600]" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Endereço</h2>
-                    <p className="text-sm text-gray-600">Informações de localização</p>
+                    <h2 className={`text-2xl font-bold ${isBlackFriday ? 'text-white' : 'text-gray-900'}`}>Endereço</h2>
+                    <p className={`text-sm ${isBlackFriday ? 'text-gray-300' : 'text-gray-600'}`}>Informações de localização</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       CEP *
                     </label>
                     <div className="relative">
@@ -401,7 +443,7 @@ export default function EnrollmentClient({ seller }) {
                         onBlur={handleCepBlur}
                         required
                         maxLength="9"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                         placeholder="00000-000"
                       />
                       {loadingCep && (
@@ -411,7 +453,7 @@ export default function EnrollmentClient({ seller }) {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Estado *
                     </label>
                     <select
@@ -419,7 +461,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.state}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all bg-white"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                     >
                       <option value="">Selecione</option>
                       {estados.map(estado => (
@@ -431,7 +473,7 @@ export default function EnrollmentClient({ seller }) {
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Rua *
                     </label>
                     <input
@@ -440,13 +482,13 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.street}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="Nome da rua"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Número *
                     </label>
                     <input
@@ -455,13 +497,13 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.number}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="Nº"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Bairro *
                     </label>
                     <input
@@ -470,13 +512,13 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.neighborhood}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="Bairro"
                     />
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Cidade *
                     </label>
                     <input
@@ -485,7 +527,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.city}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                       placeholder="Cidade"
                     />
                   </div>
@@ -499,14 +541,14 @@ export default function EnrollmentClient({ seller }) {
                     <BookOpen className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Curso Escolhido</h2>
-                    <p className="text-sm text-gray-600">Selecione o curso e forma de pagamento</p>
+                    <h2 className={`text-2xl font-bold ${isBlackFriday ? 'text-white' : 'text-gray-900'}`}>Curso Escolhido</h2>
+                    <p className={`text-sm ${isBlackFriday ? 'text-gray-300' : 'text-gray-600'}`}>Selecione o curso e forma de pagamento</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Nome do Curso *
                     </label>
                     <select
@@ -514,7 +556,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.courseName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all bg-white"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                     >
                       <option value="">Selecione um curso</option>
                       {courses.map(course => (
@@ -526,7 +568,7 @@ export default function EnrollmentClient({ seller }) {
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className={`block text-sm font-semibold ${isBlackFriday ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
                       Forma de Pagamento *
                     </label>
                     <select
@@ -534,7 +576,7 @@ export default function EnrollmentClient({ seller }) {
                       value={formData.paymentMethod}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0b3b75] focus:border-transparent transition-all bg-white"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                     >
                       <option value="">Selecione</option>
                       {paymentMethods.map(method => (
@@ -548,11 +590,11 @@ export default function EnrollmentClient({ seller }) {
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6 border-t border-gray-200">
+              <div className={`pt-6 border-t ${isBlackFriday ? 'border-yellow-400/20' : 'border-gray-200'}`}>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white py-4 px-8 rounded-xl font-bold text-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  className={`w-full ${isBlackFriday ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-black hover:shadow-yellow-500/50' : 'bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white'} py-4 px-8 rounded-xl font-bold text-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3`}
                 >
                   {loading ? (
                     <>
