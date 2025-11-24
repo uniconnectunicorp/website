@@ -5,9 +5,18 @@ import Head from '@/components/layout/Head';
 
 export default async function EnrollmentPage({ params }) {
   const { id } = await params;
-  const sellerId = parseInt(id);
+
+  let sellerId;
+
+  if (id === "black-friday") {
+     sellerId = id;
+  }
+  else {
+     sellerId = parseInt(id);
+  }
   
   const seller = sellers.find(s => s.id === sellerId);
+
   
   if (!seller) {
     return notFound();

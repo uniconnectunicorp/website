@@ -68,7 +68,7 @@ export default function EnrollmentClient({ seller }) {
 
   const paymentMethods = [
     { value: 'pix', label: 'PIX' },
-    // { value: 'boleto', label: 'Boleto Bancário' },
+    { value: 'boleto', label: 'Boleto Bancário' },
     { value: 'cartao-credito', label: 'Cartão de Crédito' },
   ];
 
@@ -224,12 +224,14 @@ export default function EnrollmentClient({ seller }) {
             <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-6">
               Você está a poucos passos de transformar sua carreira profissional!
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <User className="w-5 h-5 text-yellow-400" />
-              <span className="text-white font-medium">
-                Atendente responsável: <span className="font-bold text-yellow-400">{seller.name}</span>
-              </span>
-            </div>
+            {seller.id !== "black-friday" && (
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+                <User className="w-5 h-5 text-yellow-400" />
+                <span className="text-white font-medium">
+                  Atendente responsável: <span className="font-bold text-yellow-400">{seller.name}</span>
+                </span>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
