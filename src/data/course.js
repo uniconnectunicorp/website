@@ -8,8 +8,12 @@ export function fetchCourses() {
     return CourseData;
 }
 
+export function fetchCoursesForDisplay() {
+    return CourseData.filter(course => !course.enrollmentOnly);
+}
+
 export function getThreeCourses() {
-    return CourseData.slice(0, 3);
+    return CourseData.filter(course => !course.enrollmentOnly).slice(0, 3);
 }
 
 export function paginate(page, competency = false) {
@@ -17,12 +21,15 @@ export function paginate(page, competency = false) {
     const startIndex = (page - 1) * coursesPerPage;
     const endIndex = page * coursesPerPage;
     
+    // Filtrar cursos que não são enrollmentOnly
+    const displayCourses = CourseData.filter(course => !course.enrollmentOnly);
+    
     // Cursos prioritários
     const prioritySlugs = ["eletrotecnica", "mecanica", "seguranca-do-trabalho"];
     
     // Separar cursos prioritários e outros
-    const priorityCourses = CourseData.filter(course => prioritySlugs.includes(course.slug));
-    const otherCourses = CourseData.filter(course => !prioritySlugs.includes(course.slug));
+    const priorityCourses = displayCourses.filter(course => prioritySlugs.includes(course.slug));
+    const otherCourses = displayCourses.filter(course => !prioritySlugs.includes(course.slug));
     
     // Ordenar cursos prioritários pela ordem especificada
     const orderedPriorityCourses = prioritySlugs
@@ -39,10 +46,11 @@ export function paginate(page, competency = false) {
 }
 
 export function getCourseCount(competency = false) {
+    const displayCourses = CourseData.filter(course => !course.enrollmentOnly);
     if (competency) {
-        return CourseData.filter(course => course.competency).length;
+        return displayCourses.filter(course => course.competency).length;
     }
-    return CourseData.length;
+    return displayCourses.length;
 }
 
 export function getCourseByName(name) {
@@ -78,5 +86,5 @@ export function getHighRatedCourses(courses) {
 }
 
 export function getCompetencyCourses() {
-    return CourseData.filter(course => course.competency);
+    return CourseData.filter(course => course.competency && !course.enrollmentOnly);
 }
