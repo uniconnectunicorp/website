@@ -125,7 +125,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                : 
                <div className="flex flex-col items-baseline gap-2">
                <span className={`text-sm  line-through text-gray-500 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                 De {1499.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                 De {1799.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
                <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
                   {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}

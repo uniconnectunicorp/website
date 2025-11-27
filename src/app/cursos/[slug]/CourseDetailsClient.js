@@ -197,7 +197,7 @@ export function CourseDetailsClient({ course, isBlackNovember = true }) {
                   <div className="space-y-6">
                     <div className="flex flex-col items-baseline">
                       <span className="text-gray-400 line-through text-sm">
-                        De R$1499,90
+                        De R$1799,90
                       </span>
                      <div className='flex w-full justify-between items-center mt-2'>
                        <span className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text">{currentPrice} <span className='font-normal text-sm text-gray-300'>à vista</span></span>
