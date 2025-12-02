@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 
 
-export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = true }) {
+export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = false }) {
   const hasDiscount = course.originalPrice && course.originalPrice > course.price;
   const discountPercentage = hasDiscount 
     ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100) 

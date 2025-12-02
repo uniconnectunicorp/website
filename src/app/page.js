@@ -15,8 +15,8 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full">
       <Head />
-      <HeroSection isBlackNovember={isBlackNovember} />
-      <Header isBlackNovember={isBlackNovember} />
+      <HeroSection />
+      <Header />
       {/* <BrandsSection /> */}
       <FeaturesSection />
       <HowItWorksSection />
