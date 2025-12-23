@@ -7,6 +7,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import CTASection from "@/components/home/CTASection";
 import { Header } from '@/components/layout/Header';
 import Head from '@/components/layout/Head';
+import WelcomePopup from '@/components/ui/WelcomePopup';
 
 export default function Home() {
   // Ativar/desativar tema Black November
@@ -23,6 +24,7 @@ export default function Home() {
       <FeaturedCoursesSection />
       {/* <Testimonials /> */}
       <CTASection />
+      <WelcomePopup />
     </div>
   );
 }

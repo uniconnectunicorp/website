@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
 import SistecAndMec from '@/components/sections/sistecAndMec';
-// Importando os tipos do projeto
 import { Header } from '@/components/layout/Header';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
 import { CompetencySection } from '@/components/course-details/CompetencySection';
@@ -28,6 +27,7 @@ import CTASection from '@/components/home/CTASection';
 import { CourseFAQ } from '@/components/course-details/faq';
 import AboutUsCourse from '@/components/course-details/AboutUs';
 import { toast } from 'react-toastify';
+import CourseDetailPopup from '@/components/ui/CourseDetailPopup';
 
 
 
@@ -327,6 +327,7 @@ export function CourseDetailsClient({ course }) {
         </DialogContent>
       </Dialog>
 
+      <CourseDetailPopup course={course} />
     </div>
   );
 }

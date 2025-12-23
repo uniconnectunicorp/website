@@ -50,6 +50,7 @@ export function EnrollmentFormV2({
   courseTitle,
   coursePrice,
   onSuccess,
+  blackText,
   onClose,
   competency,
   compact = false
@@ -206,7 +207,7 @@ export function EnrollmentFormV2({
       <form onSubmit={handleSubmit(onSubmit)} className={`space-y-6 ${!compact ? 'px-6 max-md:px-2 pb-6' : 'px-0'}`}>
         <div className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+            <label htmlFor="name" className={`block text-sm font-medium ${blackText ? 'text-black' : 'text-white'} mb-2`}>
               Nome completo <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -273,7 +274,7 @@ export function EnrollmentFormV2({
           </div> */}
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
+            <label htmlFor="phone" className={`block text-sm font-medium  ${blackText ? 'text-black' : 'text-white'} mb-2`}>
               Telefone com DDD <span className="text-red-500">*</span>
             </label>
             <div className="relative">
