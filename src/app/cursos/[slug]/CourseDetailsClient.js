@@ -100,6 +100,49 @@ export function CourseDetailsClient({ course }) {
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   {course.nome}
                 </h1>
+                <div className="lg:col-span-5 mt-4 lg:mt-0 md:hidden">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-6 lg:sticky lg:top-6">
+                <h3 className="text-2xl font-bold text-white mb-6 max-md:text-xl max-md:mb-2">Investimento</h3>
+                
+                <div className="space-y-6 max-md:space-y-3">
+                  <div className="flex flex-col items-baseline">
+                    <span className="text-blue-200 line-through">
+                      De R$1499,90
+                    </span>
+                   <div className='flex w-full justify-between'>
+                   <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
+                   <span className='text-sm text-white bg-[#0b3b75] max-md:h-fit max-md:p-2 max-md:text-center px-4 max-md:text-xs flex items-center justify-center rounded-full'>40% de Desconto</span>
+                   </div>
+                    {course.originalPrice > course.price && (
+                      <>
+                        <span className="ml-3 max-md:text-sm max-md:ml-0 text-lg text-blue-200 line-through">
+                          {originalPrice} a vista
+                        </span>
+                        
+                      </>
+                    )}
+                  </div>
+                  
+                  <p className="text-blue-100 text-lg max-md:text-sm">
+                    ou 12x de R$79,90 sem juros no cartão
+                  </p>
+                  
+                  {/* Formulário de Matrícula Direto */}
+                  <div className="">
+                    <h4 className="text-white text-xl font-bold mb-4 max-md:text-base text-center">Garanta sua vaga agora mesmo</h4>
+                    <p className="text-blue-100 text-sm text-center mb-4 max-md:hidden">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
+                    <EnrollmentFormV2 
+                      courseName={course.nome}
+                      courseTitle={course.nome}
+                      coursePrice={course.price}
+                      competency={false}
+                      onSuccess={handleEnrollmentSuccess}
+                      compact={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
                 <p className="mt-4 text-lg md:text-xl text-blue-100">
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
@@ -153,22 +196,22 @@ export function CourseDetailsClient({ course }) {
             </div>
 
             {/* Card de investimento (direita) */}
-            <div className="lg:col-span-5 mt-10 lg:mt-0">
+            <div className="lg:col-span-5 mt-10 lg:mt-0 max-md:hidden">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-6 lg:sticky lg:top-6">
-                <h3 className="text-2xl font-bold text-white mb-6">Investimento</h3>
+                <h3 className="text-2xl font-bold text-white mb-6 max-md:text-xl max-md:mb-2">Investimento</h3>
                 
-                <div className="space-y-6">
+                <div className="space-y-6 max-md:space-y-3">
                   <div className="flex flex-col items-baseline">
                     <span className="text-blue-200 line-through">
                       De R$1499,90
                     </span>
                    <div className='flex w-full justify-between'>
-                   <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
-                   <p className='text-sm text-white bg-[#0b3b75] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
+                   <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
+                   <span className='text-sm text-white bg-[#0b3b75] max-md:h-fit max-md:p-2 max-md:text-center px-4 max-md:text-xs flex items-center justify-center rounded-full'>40% de Desconto</span>
                    </div>
                     {course.originalPrice > course.price && (
                       <>
-                        <span className="ml-3 text-lg text-blue-200 line-through">
+                        <span className="ml-3 max-md:text-sm max-md:ml-0 text-lg text-blue-200 line-through">
                           {originalPrice} a vista
                         </span>
                         
@@ -176,14 +219,14 @@ export function CourseDetailsClient({ course }) {
                     )}
                   </div>
                   
-                  <p className="text-blue-100 text-lg">
+                  <p className="text-blue-100 text-lg max-md:text-sm">
                     ou 12x de R$79,90 sem juros no cartão
                   </p>
                   
                   {/* Formulário de Matrícula Direto */}
                   <div className="">
-                    <h4 className="text-white text-xl font-bold mb-4 text-center">Garanta sua vaga agora mesmo</h4>
-                    <p className="text-blue-100 text-sm text-center mb-4">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
+                    <h4 className="text-white text-xl font-bold mb-4 max-md:text-base text-center">Garanta sua vaga agora mesmo</h4>
+                    <p className="text-blue-100 text-sm text-center mb-4 max-md:hidden">Preencha os dados abaixo e dê o primeiro passo na sua jornada profissional</p>
                     <EnrollmentFormV2 
                       courseName={course.nome}
                       courseTitle={course.nome}

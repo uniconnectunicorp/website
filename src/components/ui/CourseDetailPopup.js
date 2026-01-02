@@ -79,12 +79,12 @@ export default function CourseDetailPopup({ course }) {
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.7, rotateX: 20 }}
             transition={{ type: "spring", duration: 0.7, bounce: 0.35 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
             onClick={handleClose}
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-gradient-to-br from-white via-gray-50 to-blue-50 rounded-[2.5rem] shadow-2xl max-w-7xl w-full overflow-hidden"
+              className="relative bg-gradient-to-br from-white via-gray-50 to-blue-50 rounded-2xl sm:rounded-[2.5rem] shadow-2xl max-w-lg sm:max-w-7xl w-full overflow-hidden max-h-[90vh] sm:max-h-none overflow-y-auto overscroll-contain"
             >
               <motion.div
                 className="absolute top-0 left-0 right-0 h-2.5 bg-gradient-to-r from-[#0b3b75] via-[#ff6600] via-[#0b3b75] to-[#ff6600]"
@@ -112,7 +112,7 @@ export default function CourseDetailPopup({ course }) {
                   repeat: Infinity,
                   ease: "linear"
                 }}
-                className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#ff6600]/20 to-[#0b3b75]/20 rounded-full blur-3xl -mr-48 -mt-48"
+                className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#ff6600]/20 to-[#0b3b75]/20 rounded-full blur-3xl -mr-48 -mt-48 hidden sm:block"
               />
               
               <motion.div
@@ -126,7 +126,7 @@ export default function CourseDetailPopup({ course }) {
                   repeat: Infinity,
                   ease: "linear"
                 }}
-                className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#0b3b75]/20 to-[#ff6600]/20 rounded-full blur-3xl -ml-48 -mb-48"
+                className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#0b3b75]/20 to-[#ff6600]/20 rounded-full blur-3xl -ml-48 -mb-48 hidden sm:block"
               />
 
               <button
@@ -137,14 +137,14 @@ export default function CourseDetailPopup({ course }) {
               </button>
 
               <div className="relative">
-                <div className="p-6 sm:p-8 lg:p-10">
-                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                <div className="p-5 sm:p-8 lg:p-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
                     <div>
                       <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
-                        className="flex justify-center lg:justify-start mb-5"
+                        className="flex justify-center lg:justify-start mb-4 sm:mb-5 max-md:hidden"
                       >
                         <div className="relative">
                           <motion.div
@@ -157,7 +157,7 @@ export default function CourseDetailPopup({ course }) {
                               repeat: Infinity,
                               ease: "easeInOut"
                             }}
-                            className="bg-gradient-to-br from-[#0b3b75] via-[#0d4d99] to-[#0b3b75] p-6 rounded-3xl shadow-2xl"
+                            className="bg-gradient-to-br from-[#0b3b75] via-[#0d4d99] to-[#0b3b75] p-5 sm:p-6 rounded-3xl shadow-2xl"
                           >
                             <GraduationCap className="h-16 w-16 text-white" />
                           </motion.div>
@@ -197,32 +197,32 @@ export default function CourseDetailPopup({ course }) {
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="text-center lg:text-left mb-6"
+                        className="text-center lg:text-left mb-4 sm:mb-6 max-md:pt-4"
                       >
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ delay: 0.4, type: "spring" }}
-                          className="inline-block px-5 py-2 rounded-full bg-gradient-to-r from-[#ff6600] to-[#ff8800] text-white font-bold text-sm mb-4 shadow-lg"
+                          className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-[#ff6600] to-[#ff8800] text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4 shadow-lg"
                         >
-                          🎓 CURSO TÉCNICO
+                          🎓 Técnico Uniconnect
                         </motion.div>
                         
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-gray-900 mb-3 sm:mb-4 leading-tight">
                           {course.nome}
                         </h2>
-                        <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6">
+                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4 sm:mb-6 line-clamp-3">
                           {course.description || `Torne-se um profissional qualificado em ${course.nome} com certificação reconhecida pelo MEC`}
                         </p>
 
-                        <div className="flex gap-3 justify-center lg:justify-start mb-6">
+                        <div className="hidden sm:flex gap-3 justify-center lg:justify-start mb-6">
                           {highlights.map((item, index) => (
                             <motion.div
                               key={index}
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: 0.5 + (index * 0.1) }}
-                              className="flex flex-col items-center gap-1 px-4 py-3 w-full bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-gray-200"
+                              className="flex flex-col items-center gap-1 p-3 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-gray-200"
                             >
                               <item.icon className="h-5 w-5 text-[#0b3b75]" />
                               <span className="text-xs font-medium text-gray-500">{item.label}</span>
@@ -252,23 +252,23 @@ export default function CourseDetailPopup({ course }) {
                         initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="space-y-5"
+                        className="space-y-4 sm:space-y-5"
                       >
                         {/* Card de Preço */}
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.6 }}
-                          className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 border-2 border-gray-200 shadow-xl relative overflow-hidden"
+                          className="bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 border-2 border-gray-200 shadow-xl relative overflow-hidden"
                         >
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff6600]/10 rounded-full blur-3xl" />
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff6600]/10 rounded-full blur-3xl hidden sm:block" />
                           <div className="relative">
-                            <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center justify-between mb-3 sm:mb-4">
                               <span className="text-sm font-medium text-gray-600">Investimento</span>
                               <motion.div
                                 animate={{ scale: [1, 1.1, 1] }}
                                 transition={{ duration: 2, repeat: Infinity }}
-                                className="px-3 py-1 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold"
+                                className="px-3 py-1 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[11px] sm:text-xs font-bold"
                               >
                                 OFERTA LIMITADA
                               </motion.div>
@@ -282,14 +282,14 @@ export default function CourseDetailPopup({ course }) {
                               )}
                             </div>
                             
-                            <div className="flex items-baseline gap-2 mb-3">
-                              <span className="text-5xl font-extrabold bg-gradient-to-r from-[#0b3b75] to-[#0d4d99] text-transparent bg-clip-text">
+                            <div className="flex items-baseline gap-2 mb-2 sm:mb-3">
+                              <span className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-[#0b3b75] to-[#0d4d99] text-transparent bg-clip-text">
                                 {formatPrice(course.price)}
                               </span>
-                              <span className="text-sm text-gray-500">à vista</span>
+                              <span className="text-xs sm:text-sm text-gray-500">à vista</span>
                             </div>
                             
-                            <p className="text-sm text-gray-600 flex items-center gap-2">
+                            <p className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
                               <CheckCircle className="h-4 w-4 text-green-500" />
                               ou em até 12x sem juros no cartão
                             </p>
@@ -301,15 +301,15 @@ export default function CourseDetailPopup({ course }) {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.7 }}
-                          className="bg-white rounded-3xl p-6 border-2 border-gray-200 shadow-xl"
+                          className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border-2 border-gray-200 shadow-xl"
                         >
-                          <div className="text-center mb-5">
+                          <div className="text-center mb-4 sm:mb-5">
                             
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">
+                            <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">
                               Garanta sua vaga agora!
                             </h4>
-                            <p className="text-sm text-gray-600">
-                              Preencha o formulário e receba atendimento personalizado
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              Preencha e um consultor te responde rápido
                             </p>
                           </div>
                           
@@ -333,7 +333,7 @@ export default function CourseDetailPopup({ course }) {
                   </div>
                   <button
                           onClick={handleClose}
-                          className="w-full text-gray-500 hover:text-gray-700 font-medium cursor-pointer mt-10 text-sm transition-colors"
+                          className="w-full text-gray-500 hover:text-gray-700 font-medium cursor-pointer mt-6 sm:mt-10 text-sm transition-colors"
                         >
                           Continuar explorando o curso
                         </button>
