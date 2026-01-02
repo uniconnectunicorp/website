@@ -68,7 +68,7 @@ export default function EnrollmentClient({ seller }) {
 
   const paymentMethods = [
     { value: 'pix', label: 'PIX' },
-    { value: 'boleto', label: 'Boleto Bancário' },
+    // { value: 'boleto', label: 'Boleto Bancário' },
     { value: 'cartao-credito', label: 'Cartão de Crédito' },
   ];
 
