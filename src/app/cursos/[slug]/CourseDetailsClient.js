@@ -143,6 +143,31 @@ export function CourseDetailsClient({ course }) {
                 </div>
               </div>
             </div>
+             <div className="mt-8 space-y-4 md:hidden">
+                  <h3 className="text-xl font-semibold text-white">Benefícios do Curso</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Reconhecido MEC e SISTEC</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Formação a partir de {course.minTime} meses</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">100% Online</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Acesso imediato após a compra</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
+                    </li>
+                  </ul>
+                </div>
                 <p className="mt-4 text-lg md:text-xl text-blue-100">
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
@@ -164,7 +189,7 @@ export function CourseDetailsClient({ course }) {
                 </div>
 
                 {/* Lista de benefícios movida para o lado esquerdo */}
-                <div className="mt-8 space-y-4">
+                <div className="mt-8 space-y-4 max-md:hidden">
                   <h3 className="text-xl font-semibold text-white">Benefícios do Curso</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
