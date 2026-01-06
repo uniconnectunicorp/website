@@ -245,7 +245,7 @@ export function CourseDetailsClient({ course }) {
                   </div>
                   
                   <p className="text-blue-100 text-lg max-md:text-sm">
-                    ou 12x de R$79,90 sem juros no cartão
+                    ou 12xR$81,90 no cartão de Crédito
                   </p>
                   
                   {/* Formulário de Matrícula Direto */}
