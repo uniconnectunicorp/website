@@ -19,7 +19,7 @@ export function Footer() {
 
 
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/uniconnect.ead/', color: 'hover:text-pink-600' },
+    { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/uniconnect_oficial/', color: 'hover:text-pink-600' },
   ];
 
   const contactInfo = [

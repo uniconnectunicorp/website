@@ -129,8 +129,8 @@ export default function ContactPage() {
     {
       icon: <Instagram className="h-6 w-6" />,
       title: 'Instagram',
-      info: '@uniconnect.ead',
-      link: 'https://www.instagram.com/uniconnect.ead/'
+      info: '@uniconnect_oficial',
+      link: 'https://www.instagram.com/uniconnect_oficial/'
     },
 
   ];
