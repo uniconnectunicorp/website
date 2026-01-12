@@ -192,7 +192,7 @@ export default function EnrollmentClient({ seller }) {
 
   return (
     <div className={`min-h-screen ${isBlackFriday ? 'bg-gradient-to-br from-gray-900 via-black to-gray-900' : ''}`}>
-      <Header isBlackNovember />
+      <Header />
       
       {/* Hero Section */}
       <div className={`relative ${isBlackFriday ? '' : 'bg-gradient-to-br from-[#0b3b75] via-[#0b3b75] to-[#0b3b75]'} pt-24 pb-16 overflow-hidden`}>
