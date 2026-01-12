@@ -1,5 +1,51 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { query, initDb } from '@/lib/db';
+
+// Inicializa o banco de dados
+await initDb();
+
+// Array com os responsáveis pelos leads (altere os nomes conforme necessário)
+const emailResponsaveis = [
+  'Clara',
+  'Lidiane',
+  'Jaiany'
+];
+
+// Função para obter o responsável atual
+async function getResponsavelAtual() {
+  try {
+    const result = await query('SELECT counter FROM email_counter WHERE id = 1');
+    const counter = result.rows[0]?.counter || 0;
+    const selectedIndex = counter % emailResponsaveis.length;
+    return emailResponsaveis[selectedIndex];
+  } catch (error) {
+    console.error('Erro ao obter responsável:', error);
+    return emailResponsaveis[0]; // Fallback para o primeiro
+  }
+}
+
+// Função para incrementar o contador de email
+async function incrementarContadorEmail(responsavel, leadName) {
+  try {
+    await query(
+      'UPDATE email_counter SET counter = counter + 1 WHERE id = 1'
+    );
+    
+    // Adiciona o log
+    await query(
+      'INSERT INTO email_logs (date, time, responsavel, lead_name) VALUES ($1, $2, $3, $4)',
+      [
+        new Date().toLocaleDateString('pt-BR'),
+        new Date().toLocaleTimeString('pt-BR'),
+        responsavel,
+        leadName
+      ]
+    );
+  } catch (error) {
+    console.error('Erro ao incrementar contador de email:', error);
+  }
+}
 
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60 * 1000; 
@@ -81,6 +127,9 @@ export async function POST(request) {
       );
     }
 
+    // Obtém o responsável atual pela alternância
+    const responsavelAtual = await getResponsavelAtual();
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -99,6 +148,9 @@ export async function POST(request) {
         </div>
         
         <div style="background: #f8f9fa; padding: 30px;">
+          <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+            <p style="margin: 0; color: #856404; font-weight: bold;">👤 Responsável por este lead: ${responsavelAtual}</p>
+          </div>
           <h2 style="color: #0b3b75; margin-top: 0;">Informações do Lead</h2>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -108,11 +160,11 @@ export async function POST(request) {
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${name}</td>
               </tr>
               ${email ? 
-                <tr>
+                `<tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Email:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${email}</td>
-              </tr>
-              : ""
+              </tr>`
+              : ''
               }
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Telefone:</td>
@@ -156,6 +208,9 @@ export async function POST(request) {
         </div>
         
         <div style="background: #f8f9fa; padding: 30px;">
+          <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+            <p style="margin: 0; color: #856404; font-weight: bold;">👤 Responsável por este lead: ${responsavelAtual}</p>
+          </div>
           <h2 style="color: #0b3b75; margin-top: 0;">Informações do Lead</h2>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -165,17 +220,17 @@ export async function POST(request) {
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${name}</td>
               </tr>
              ${email ?
-              <tr>
+              `<tr>
               <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Email:</td>
               <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${email}</td>
-            </tr> 
-            : ""
+            </tr>` 
+            : ''
              }
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Telefone:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${phone}</td>
               </tr>
-               ${modality ? `
+              ${modality ? `
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #0b3b75;">Modalidade:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${modality}</td>
@@ -215,13 +270,15 @@ export async function POST(request) {
     const mailOptions = {
       from: `"Polo Educacional Uniconnect" <${process.env.EMAIL_USER}>`,
       to: process.env.LEAD_EMAIL || process.env.EMAIL_USER, 
-      subject: message ? `Mensagem do site: ${name}` : `🎓 Novo Lead: ${name} - ${course || 'Interesse Geral'}`,
+      subject: message ? `[${responsavelAtual}] Mensagem do site: ${name}` : `[${responsavelAtual}] 🎓 Novo Lead: ${name} - ${course || 'Interesse Geral'}`,
       html: leadEmailContent,
       replyTo: email,
     };
 
     await transporter.sendMail(mailOptions);
     
+    // Incrementa o contador após envio bem-sucedido
+    await incrementarContadorEmail(responsavelAtual, name);
 
     return NextResponse.json(
       { 

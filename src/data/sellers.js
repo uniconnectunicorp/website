@@ -8,6 +8,10 @@ export const sellers = [
         name: "Lidiane",
     },
     {
+        id: 3,
+        name: "Jaiany",
+    },
+    {
         id: `black-friday`,
         name: "Black Friday",
     }

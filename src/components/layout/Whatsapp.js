@@ -7,7 +7,8 @@ import { FaWhatsapp } from 'react-icons/fa';
 // Array com os números de WhatsApp
 const whatsappNumbers = [
   '5531988775149',
-  '5531971844456'
+  '5531971844456',
+  '5531990715637'
 ];
 
 export const handleWhatsappClick = async () => {
