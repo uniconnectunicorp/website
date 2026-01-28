@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { getLeadSessionId, setLeadSession } from '@/lib/cookies';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
@@ -97,7 +98,8 @@ export default function ContactPage() {
           phone: data.phone || '',
           course: `Contato - ${data.subject}`,
           message: data.message,
-          modality: 'Contato'
+          modality: 'Contato',
+          sessionId: getLeadSessionId()
         }),
       });
 

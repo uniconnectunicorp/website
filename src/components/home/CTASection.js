@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { getLeadSessionId, setLeadSession } from '@/lib/cookies';
 
 
 
@@ -116,8 +117,9 @@ export default function CTASection({ courseName, competency }) {
           // email: data.email,
           phone: data.phone,
           course: courseName,
-          modality: competency ? 'Competência' : 'Curso Regular'
-         }) : JSON.stringify(data),
+          modality: competency ? 'Competência' : 'Curso Regular',
+          sessionId: getLeadSessionId()
+         }) : JSON.stringify({ ...data, sessionId: getLeadSessionId() }),
       });
       
       if (response.ok) {

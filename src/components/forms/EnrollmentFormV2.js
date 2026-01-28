@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { getLeadSessionId, setLeadSession } from '@/lib/cookies';
 
 // Função para formatar moeda
 const formatCurrency = (value) => {
@@ -98,7 +99,8 @@ export function EnrollmentFormV2({
           // email: data.email,
           phone: data.phone,
           course: courseName,
-          modality: competency ? 'Competência' : 'Curso Regular'
+          modality: competency ? 'Competência' : 'Curso Regular',
+          sessionId: getLeadSessionId()
         }),
       });
       

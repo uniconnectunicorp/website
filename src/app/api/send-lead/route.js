@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { query, initDb } from '@/lib/db';
+import { v4 as uuidv4 } from 'uuid';
 
 // Inicializa o banco de dados
 await initDb();
@@ -12,27 +13,85 @@ const emailResponsaveis = [
   'Jaiany'
 ];
 
-// Função para obter o responsável atual
-async function getResponsavelAtual() {
+// Função para obter o próximo responsável e incrementar contador
+async function getProximoResponsavel() {
   try {
-    const result = await query('SELECT counter FROM email_counter WHERE id = 1');
+    const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
     const counter = result.rows[0]?.counter || 0;
     const selectedIndex = counter % emailResponsaveis.length;
+    
+    // Incrementa o contador
+    await query('UPDATE lead_counter SET counter = counter + 1 WHERE id = 1');
+    
     return emailResponsaveis[selectedIndex];
   } catch (error) {
     console.error('Erro ao obter responsável:', error);
-    return emailResponsaveis[0]; // Fallback para o primeiro
+    return emailResponsaveis[0];
   }
 }
 
-// Função para incrementar o contador de email
-async function incrementarContadorEmail(responsavel, leadName) {
-  try {
-    await query(
-      'UPDATE email_counter SET counter = counter + 1 WHERE id = 1'
+// Função para verificar/criar sessão e obter responsável
+async function getResponsavelPorSessao(sessionId, phone) {
+  const normalizedPhone = phone?.replace(/\D/g, '');
+  
+  // 1. Verifica se o telefone já existe no banco
+  if (normalizedPhone) {
+    const existingPhone = await query(
+      'SELECT responsavel FROM lead_sessions WHERE phone = $1',
+      [normalizedPhone]
     );
     
-    // Adiciona o log
+    if (existingPhone.rows.length > 0) {
+      // Telefone duplicado - retorna o responsável mas marca como duplicado
+      return {
+        responsavel: existingPhone.rows[0].responsavel,
+        isDuplicate: true
+      };
+    }
+  }
+  
+  // 2. Verifica se tem sessão existente
+  if (sessionId) {
+    const existingSession = await query(
+      'SELECT responsavel FROM lead_sessions WHERE session_id = $1',
+      [sessionId]
+    );
+    
+    if (existingSession.rows.length > 0) {
+      // Atualiza o telefone na sessão se ainda não tiver
+      if (normalizedPhone) {
+        await query(
+          'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
+          [normalizedPhone, sessionId]
+        );
+      }
+      
+      return {
+        responsavel: existingSession.rows[0].responsavel,
+        isDuplicate: false
+      };
+    }
+  }
+  
+  // 3. Cria nova sessão com novo responsável
+  const responsavel = await getProximoResponsavel();
+  const newSessionId = sessionId || uuidv4();
+  
+  await query(
+    'INSERT INTO lead_sessions (session_id, phone, responsavel) VALUES ($1, $2, $3) ON CONFLICT (session_id) DO NOTHING',
+    [newSessionId, normalizedPhone, responsavel]
+  );
+  
+  return {
+    responsavel,
+    isDuplicate: false,
+    newSessionId
+  };
+}
+
+// Função para registrar log de email
+async function registrarLogEmail(responsavel, leadName) {
+  try {
     await query(
       'INSERT INTO email_logs (date, time, responsavel, lead_name) VALUES ($1, $2, $3, $4)',
       [
@@ -43,7 +102,7 @@ async function incrementarContadorEmail(responsavel, leadName) {
       ]
     );
   } catch (error) {
-    console.error('Erro ao incrementar contador de email:', error);
+    console.error('Erro ao registrar log de email:', error);
   }
 }
 
@@ -118,7 +177,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { name, email, phone, course, modality, message } = body;
+    const { name, email, phone, course, modality, message, sessionId } = body;
 
     if (!name || !phone) {
       return NextResponse.json(
@@ -127,8 +186,21 @@ export async function POST(request) {
       );
     }
 
-    // Obtém o responsável atual pela alternância
-    const responsavelAtual = await getResponsavelAtual();
+    // Obtém o responsável baseado na sessão/telefone
+    const { responsavel: responsavelAtual, isDuplicate, newSessionId } = await getResponsavelPorSessao(sessionId, phone);
+    
+    // Se for telefone duplicado, retorna sucesso mas não envia email
+    if (isDuplicate) {
+      console.log(`Lead duplicado ignorado: ${name} - ${phone}`);
+      return NextResponse.json(
+        { 
+          message: 'Lead enviado com sucesso!',
+          success: true,
+          sessionId: sessionId
+        },
+        { status: 200 }
+      );
+    }
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -277,13 +349,15 @@ export async function POST(request) {
 
     await transporter.sendMail(mailOptions);
     
-    // Incrementa o contador após envio bem-sucedido
-    await incrementarContadorEmail(responsavelAtual, name);
+    // Registra o log do email
+    await registrarLogEmail(responsavelAtual, name);
 
     return NextResponse.json(
       { 
         message: 'Lead enviado com sucesso!',
-        success: true 
+        success: true,
+        sessionId: newSessionId || sessionId,
+        responsavel: responsavelAtual
       },
       { status: 200 }
     );

@@ -64,6 +64,35 @@ export async function initDb() {
         lead_name TEXT NOT NULL
       );
     `);
+
+    // Tabela para contador unificado de leads (WhatsApp + Email)
+    await query(`
+      CREATE TABLE IF NOT EXISTS lead_counter (
+        id SERIAL PRIMARY KEY,
+        counter INTEGER NOT NULL DEFAULT 0
+      );
+    `);
+
+    // Insere o contador inicial unificado se não existir
+    await query(
+      'INSERT INTO lead_counter (id, counter) VALUES (1, 0) ON CONFLICT (id) DO NOTHING'
+    );
+
+    // Tabela para sessões de leads (vincula session_id e telefone a um responsável)
+    await query(`
+      CREATE TABLE IF NOT EXISTS lead_sessions (
+        id SERIAL PRIMARY KEY,
+        session_id TEXT UNIQUE NOT NULL,
+        phone TEXT,
+        responsavel TEXT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Índice para busca rápida por telefone
+    await query(`
+      CREATE INDEX IF NOT EXISTS idx_lead_sessions_phone ON lead_sessions(phone);
+    `);
   } catch (error) {
     console.error('Erro ao inicializar o banco de dados:', error);
     throw error;

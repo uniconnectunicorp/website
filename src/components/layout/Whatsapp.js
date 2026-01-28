@@ -4,48 +4,75 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 
-// Array com os números de WhatsApp
-const whatsappNumbers = [
-  '5531988775149',
-  '5531971844456',
-  '5531990715637'
-];
+// Mapeamento de responsáveis para números de WhatsApp
+const responsavelToNumber = {
+  'Clara': '5531988775149',
+  'Lidiane': '5531971844456',
+  'Jaiany': '5531990715637'
+};
+
+// Fallback para o primeiro número
+const defaultNumber = '5531988775149';
+
+// Função para obter cookie
+function getCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+// Função para definir cookie (expira em 30 dias)
+function setCookie(name, value, days = 30) {
+  if (typeof document === 'undefined') return;
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+}
 
 export const handleWhatsappClick = async () => {
   try {
-    // Primeiro, obtém o contador atual
-    const getResponse = await fetch('/api/whatsapp-counter');
-    const { counter, success } = await getResponse.json();
+    // Verifica se já tem sessão no cookie
+    let sessionId = getCookie('lead_session_id');
+    let responsavel = getCookie('lead_responsavel');
     
-    if (!success) {
-      console.error('Erro ao obter contador do WhatsApp');
-      // Tenta abrir o primeiro número como fallback
-      const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
-      const whatsappUrl = `https://wa.me/${whatsappNumbers[0]}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-      return;
+    // Se não tem sessão, cria uma nova
+    if (!sessionId || !responsavel) {
+      const headers = {};
+      if (sessionId) {
+        headers['x-lead-session'] = sessionId;
+      }
+      
+      const response = await fetch('/api/lead-session', { headers });
+      const data = await response.json();
+      
+      if (data.success) {
+        sessionId = data.sessionId;
+        responsavel = data.responsavel;
+        
+        // Salva nos cookies
+        setCookie('lead_session_id', sessionId);
+        setCookie('lead_responsavel', responsavel);
+      }
     }
     
-    const selectedIndex = counter % whatsappNumbers.length;
-    const selectedNumber = whatsappNumbers[selectedIndex];
+    // Obtém o número do WhatsApp baseado no responsável
+    const selectedNumber = responsavelToNumber[responsavel] || defaultNumber;
     const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
     const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
     
     // Abre a URL do WhatsApp em uma nova aba
     const newWindow = window.open(whatsappUrl, '_blank');
     
-    // Incrementa o contador após o redirecionamento bem-sucedido
+    // Registra o log do WhatsApp
     if (newWindow) {
       try {
-        const response = await fetch('/api/whatsapp-counter', {
+        await fetch('/api/whatsapp-counter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ number: selectedNumber })
         });
-        
-        if (!response.ok) {
-          console.error('Erro ao registrar o contato no contador');
-        }
       } catch (error) {
         console.error('Erro ao registrar o contato:', error);
       }
@@ -54,7 +81,7 @@ export const handleWhatsappClick = async () => {
     console.error('Erro ao abrir o WhatsApp:', error);
     // Fallback para o primeiro número em caso de erro
     const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
-    const whatsappUrl = `https://wa.me/${whatsappNumbers[0]}?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/${defaultNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   }
 };

@@ -6,7 +6,7 @@ await initDb();
 
 export async function GET() {
   try {
-    const result = await query('SELECT counter FROM whatsapp_counter WHERE id = 1');
+    const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
     const counter = result.rows[0]?.counter || 0;
     
     return NextResponse.json({ 
@@ -28,7 +28,7 @@ export async function POST(request) {
     
     // Incrementa o contador e obtém o novo valor
     const counterResult = await query(
-      'UPDATE whatsapp_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter'
+      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter'
     );
     const newCounter = counterResult.rows[0].counter;
     
