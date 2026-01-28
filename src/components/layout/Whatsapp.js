@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
+import { getLeadSessionId, getLeadResponsavel, setLeadSession } from '@/lib/cookies';
 
 // Mapeamento de responsáveis para números de WhatsApp
 const responsavelToNumber = {
@@ -14,28 +15,11 @@ const responsavelToNumber = {
 // Fallback para o primeiro número
 const defaultNumber = '5531988775149';
 
-// Função para obter cookie
-function getCookie(name) {
-  if (typeof document === 'undefined') return null;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
-
-// Função para definir cookie (expira em 30 dias)
-function setCookie(name, value, days = 30) {
-  if (typeof document === 'undefined') return;
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
-}
-
 export const handleWhatsappClick = async () => {
   try {
-    // Verifica se já tem sessão no cookie
-    let sessionId = getCookie('lead_session_id');
-    let responsavel = getCookie('lead_responsavel');
+    // Verifica se já tem sessão (cookie ou localStorage)
+    let sessionId = getLeadSessionId();
+    let responsavel = getLeadResponsavel();
     
     // Se não tem sessão, cria uma nova
     if (!sessionId || !responsavel) {
@@ -51,9 +35,8 @@ export const handleWhatsappClick = async () => {
         sessionId = data.sessionId;
         responsavel = data.responsavel;
         
-        // Salva nos cookies
-        setCookie('lead_session_id', sessionId);
-        setCookie('lead_responsavel', responsavel);
+        // Salva em cookie + localStorage
+        setLeadSession(sessionId, responsavel);
       }
     }
     

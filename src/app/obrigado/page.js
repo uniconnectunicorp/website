@@ -10,10 +10,6 @@ import { handleWhatsappClick } from '@/components/layout/Whatsapp';
 
 
 export default function ObrigadoPage() {
-  const whatsappNumber = '5531988775149';
-  const whatsappMessage = encodeURIComponent('');
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-
   return (
     <>
     

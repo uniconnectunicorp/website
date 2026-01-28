@@ -1,27 +1,76 @@
-// Funções utilitárias para gerenciar cookies de sessão de lead
+// Funções utilitárias para gerenciar sessão de lead
+// Usa cookie + localStorage como fallback para quando cookies são rejeitados
 
-export function getCookie(name) {
+// ============ COOKIE FUNCTIONS ============
+function getCookie(name) {
   if (typeof document === 'undefined') return null;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+  try {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  } catch (e) {
+    console.warn('Erro ao ler cookie:', e);
+  }
   return null;
 }
 
-export function setCookie(name, value, days = 30) {
+function setCookie(name, value, days = 30) {
   if (typeof document === 'undefined') return;
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+  try {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+  } catch (e) {
+    console.warn('Erro ao definir cookie:', e);
+  }
 }
 
+// ============ LOCALSTORAGE FUNCTIONS ============
+function getLocalStorage(name) {
+  if (typeof window === 'undefined') return null;
+  try {
+    return localStorage.getItem(name);
+  } catch (e) {
+    console.warn('Erro ao ler localStorage:', e);
+    return null;
+  }
+}
+
+function setLocalStorage(name, value) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(name, value);
+  } catch (e) {
+    console.warn('Erro ao definir localStorage:', e);
+  }
+}
+
+// ============ UNIFIED STORAGE (Cookie + LocalStorage) ============
+function getValue(name) {
+  // Tenta cookie primeiro, depois localStorage
+  return getCookie(name) || getLocalStorage(name);
+}
+
+function setValue(name, value, days = 30) {
+  // Salva em ambos para garantir persistência
+  setCookie(name, value, days);
+  setLocalStorage(name, value);
+}
+
+// ============ LEAD SESSION EXPORTS ============
 export function getLeadSessionId() {
-  return getCookie('lead_session_id');
+  return getValue('lead_session_id');
+}
+
+export function getLeadResponsavel() {
+  return getValue('lead_responsavel');
 }
 
 export function setLeadSession(sessionId, responsavel) {
-  setCookie('lead_session_id', sessionId);
+  if (sessionId) {
+    setValue('lead_session_id', sessionId);
+  }
   if (responsavel) {
-    setCookie('lead_responsavel', responsavel);
+    setValue('lead_responsavel', responsavel);
   }
 }
