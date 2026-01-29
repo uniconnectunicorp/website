@@ -16,7 +16,7 @@ export async function sendLeadFallback(leadData) {
   try {
     const { name, sessionId, responsavel, phone } = leadData;
     
-    // Formata a data e hora atual
+    // Formata a data e hora atual no horário de Brasília
     const now = new Date();
     const dateTime = now.toLocaleString('pt-BR', {
       day: '2-digit',
@@ -24,7 +24,8 @@ export async function sendLeadFallback(leadData) {
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
+      timeZone: 'America/Sao_Paulo'
     });
     
     // Monta a mensagem com os dados do lead

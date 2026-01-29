@@ -173,9 +173,6 @@ export async function POST(request) {
   <div class="container">
     <div class="header">
       <h1>🎓 Nova Matrícula Realizada</h1>
-      <div class="badge">
-        ✨ Black November - 40% OFF
-      </div>
     </div>
     
     <div class="content">
