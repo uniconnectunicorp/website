@@ -123,6 +123,11 @@ export default function CTASection({ courseName, competency }) {
       });
       
       if (response.ok) {
+        const result = await response.json();
+        // Salva a sessão para garantir que o WhatsApp use o mesmo responsável
+        if (result.sessionId && result.responsavel) {
+          setLeadSession(result.sessionId, result.responsavel);
+        }
         successToast();
         reset();
         router.push('/obrigado');

@@ -104,6 +104,11 @@ export default function ContactPage() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        // Salva a sessão para garantir que o WhatsApp use o mesmo responsável
+        if (result.sessionId && result.responsavel) {
+          setLeadSession(result.sessionId, result.responsavel);
+        }
         toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
         reset();
         router.push('/obrigado');

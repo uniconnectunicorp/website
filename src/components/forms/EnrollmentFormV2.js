@@ -105,6 +105,11 @@ export function EnrollmentFormV2({
       });
       
       if (response.ok) {
+        const result = await response.json();
+        // Salva a sessão para garantir que o WhatsApp use o mesmo responsável
+        if (result.sessionId && result.responsavel) {
+          setLeadSession(result.sessionId, result.responsavel);
+        }
         successToast();
         // Limpa o formulário
         reset();

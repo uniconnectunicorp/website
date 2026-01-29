@@ -26,18 +26,13 @@ export async function POST(request) {
   try {
     const { number } = await request.json();
     
-    // Incrementa o contador e obtém o novo valor
-    const counterResult = await query(
-      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter'
-    );
-    const newCounter = counterResult.rows[0].counter;
-    
-    // Adiciona o log
+    // Apenas registra o log do clique no WhatsApp
+    // NÃO incrementa o lead_counter aqui - isso já é feito na lead-session
     await query(
       'INSERT INTO whatsapp_logs (date, time, number) VALUES ($1, $2, $3)',
       [
-        new Date().toLocaleDateString('pt-BR'),
-        new Date().toLocaleTimeString('pt-BR'),
+        new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
         number
       ]
     );
@@ -54,11 +49,10 @@ export async function POST(request) {
     `);
     
     return NextResponse.json({ 
-      success: true, 
-      counter: newCounter 
+      success: true
     });
   } catch (error) {
-    console.error('Erro ao incrementar contador:', error);
+    console.error('Erro ao registrar log do WhatsApp:', error);
     return NextResponse.json(
       { success: false, error: 'Erro ao processar a requisição' },
       { status: 500 }
