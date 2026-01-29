@@ -14,7 +14,9 @@ const FALLBACK_API_TOKEN = 'cd91fa8ea7737f4d4cd7affd68db3d4fa01c26c62c9c520acd42
  */
 export async function sendLeadFallback(leadData) {
   try {
-    const { name, sessionId, responsavel, phone } = leadData;
+    const { name, sessionId, responsavel } = leadData;
+    
+    console.log('Iniciando envio de fallback para:', name);
     
     // Formata a data e hora atual no horário de Brasília
     const now = new Date();

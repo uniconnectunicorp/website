@@ -193,6 +193,19 @@ export async function POST(request) {
     // Se for telefone duplicado, retorna sucesso mas não envia email
     if (isDuplicate) {
       console.log(`Lead duplicado ignorado: ${name} - ${phone}`);
+      
+      // Envia fallback mesmo para duplicados (para registro)
+      try {
+        await sendLeadFallback({
+          name: `[DUPLICADO] ${name}`,
+          sessionId: sessionId,
+          responsavel: responsavelAtual,
+          phone
+        });
+      } catch (err) {
+        console.error('Erro no fallback duplicado:', err);
+      }
+      
       return NextResponse.json(
         { 
           message: 'Lead enviado com sucesso!',
@@ -353,13 +366,17 @@ export async function POST(request) {
     // Registra o log do email
     await registrarLogEmail(responsavelAtual, name);
 
-    // Envia fallback para API externa (não bloqueia o fluxo)
-    sendLeadFallback({
-      name,
-      sessionId: newSessionId || sessionId,
-      responsavel: responsavelAtual,
-      phone
-    }).catch(err => console.error('Erro no fallback (não crítico):', err));
+    // Envia fallback para API externa
+    try {
+      await sendLeadFallback({
+        name,
+        sessionId: newSessionId || sessionId,
+        responsavel: responsavelAtual,
+        phone
+      });
+    } catch (err) {
+      console.error('Erro no fallback (não crítico):', err);
+    }
 
     return NextResponse.json(
       { 
