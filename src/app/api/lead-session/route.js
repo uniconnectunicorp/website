@@ -12,15 +12,15 @@ const responsaveis = [
   'Jaiany'
 ];
 
-// Função para obter o próximo responsável e incrementar contador
+// Função para obter o próximo responsável e incrementar contador (operação atômica)
 async function getProximoResponsavel() {
   try {
-    const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
-    const counter = result.rows[0]?.counter || 0;
+    // Operação atômica: incrementa e retorna o valor ANTES do incremento
+    const result = await query(
+      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter'
+    );
+    const counter = result.rows[0]?.previous_counter || 0;
     const selectedIndex = counter % responsaveis.length;
-    
-    // Incrementa o contador
-    await query('UPDATE lead_counter SET counter = counter + 1 WHERE id = 1');
     
     return responsaveis[selectedIndex];
   } catch (error) {
