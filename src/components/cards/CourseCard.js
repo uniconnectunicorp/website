@@ -133,7 +133,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                </div>
                )}
               <p className="text-sm text-gray-500 mt-0.5">
-                ou 12x de {competency ? "109,90" : "79,90"} no cartão
+                ou 12x de {competency ? "109,90" : "89,90"} no cartão
               </p>
             </div>
             

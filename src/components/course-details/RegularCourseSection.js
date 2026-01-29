@@ -103,7 +103,7 @@ export function RegularCourseSection({ course, formatPrice, isBlackNovember = tr
                     {formatPrice(course.price)}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 mt-2">ou 12x de R$ 79,90 no cartão</p>
+                <p className="text-sm text-gray-500 mt-2">ou 12x de R$ 89,90 no cartão</p>
               </div>
 
               <div className="space-y-4 mb-3">

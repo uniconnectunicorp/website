@@ -2,7 +2,7 @@
   {
     "nome": "Técnico em Logística",
     "slug": "logistica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -65,7 +65,7 @@
   {
     "nome": "Técnico em Segurança do Trabalho",
     "slug": "seguranca-do-trabalho",
-    "price": 899.90,
+    "price": 999.90,
     "minTime": 12,
     "response": "CREA/MTE",
     "modality": "EAD",
@@ -121,7 +121,7 @@
   {
     "nome": "Técnico em Administração",
     "slug": "administracao",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -172,7 +172,7 @@
   {
     "nome": "Técnico em Computação Gráfica",
     "slug": "computacao-grafica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -219,7 +219,7 @@
   {
     "nome": "Técnico em Automação Industrial",
     "slug": "automacao-industrial",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -279,7 +279,7 @@
   {
     "nome": "Técnico em Contabilidade",
     "slug": "contabilidade",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 8,
     "competency": true,
@@ -336,7 +336,7 @@
   {
     "nome": "Técnico em Edificações",
     "slug": "edificacoes",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -460,7 +460,7 @@
   {
     "nome": "Técnico em Eletroeletrônica",
     "slug": "eletroeletronica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -507,7 +507,7 @@
   {
     "nome": "Técnico em Mecânica",
     "slug": "mecanica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -561,7 +561,7 @@
   {
     "nome": "Técnico em Informática",
     "slug": "informatica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -609,7 +609,7 @@
   {
     "nome": "Técnico em Marketing e Comunicação",
     "slug": "marketing-e-comunicacao",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -684,7 +684,7 @@
   {
     "nome": "Técnico em Eletrotécnica",
     "slug": "eletrotecnica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -763,7 +763,7 @@
   {
     "nome": "Técnico em Nutrição e Dieta",
     "slug": "nutricao-e-dieta",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -822,7 +822,7 @@
   {
     "nome": "Técnico em Recursos Humanos",
     "slug": "recursos-humanos",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -877,7 +877,7 @@
   {
     "nome": "Técnico em Secretaria Escolar",
     "slug": "secretaria-escolar",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -916,7 +916,7 @@
   {
     "nome": "Técnico em Transações Imobiliárias",
     "slug": "transacao-imobiliarias",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -985,7 +985,7 @@
   {
     "nome": "Técnico em Guia de Turismo",
     "slug": "guia-de-turismo",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -1049,7 +1049,7 @@
   {
     "nome": "Técnico em Vendas",
     "slug": "vendas",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 6,
     "competency": true,
@@ -1112,7 +1112,7 @@
   {
     "nome": "Técnico em Eletrônica",
     "slug": "eletronica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1126,7 +1126,7 @@
   {
     "nome": "Técnico em Estética e Cosmetologia",
     "slug": "estetica-e-cosmetologia",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1139,7 +1139,7 @@
   {
     "nome": "Técnico em Informática para Internet",
     "slug": "informatica-para-internet",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1153,7 +1153,7 @@
   {
     "nome": "Técnico em Serviços Jurídicos",
     "slug": "servicos-juridicos",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1166,7 +1166,7 @@
   {
     "nome": "Técnico em Redes de Computadores",
     "slug": "redes-de-computadores",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1180,7 +1180,7 @@
   {
     "nome": "Técnico em Manutenção e Suporte em Informática",
     "slug": "manutencao-suporte-informatica",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1194,7 +1194,7 @@
   {
     "nome": "Técnico em Programação de Jogos Digitais",
     "slug": "programacao-jogos-digitais",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
@@ -1208,7 +1208,7 @@
   {
     "nome": "Técnico em Desenvolvimento de Sistemas",
     "slug": "desenvolvimento-de-sistemas",
-    "price": 899.90,
+    "price": 999.90,
     "competencyPrice": 1199.90,
     "minTime": 12,
     "competency": true,
