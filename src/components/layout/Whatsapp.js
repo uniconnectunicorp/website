@@ -48,13 +48,25 @@ export const handleWhatsappClick = async () => {
     // Abre a URL do WhatsApp em uma nova aba
     const newWindow = window.open(whatsappUrl, '_blank');
     
-    // Registra o log do WhatsApp
+    // Registra o log do WhatsApp e envia fallback
     if (newWindow) {
       try {
+        // Registra no contador
         await fetch('/api/whatsapp-counter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ number: selectedNumber })
+        });
+        
+        // Envia fallback para API externa
+        await fetch('/api/whatsapp-fallback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            responsavel,
+            number: selectedNumber
+          })
         });
       } catch (error) {
         console.error('Erro ao registrar o contato:', error);

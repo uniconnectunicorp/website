@@ -291,7 +291,7 @@ export default function CourseDetailPopup({ course }) {
                             
                             <p className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
                               <CheckCircle className="h-4 w-4 text-green-500" />
-                              ou em até 12x sem juros no cartão
+                              ou 12x de R$89,90 no Cartão de Crédito
                             </p>
                           </div>
                         </motion.div>

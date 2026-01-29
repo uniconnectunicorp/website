@@ -197,7 +197,7 @@ export function EnrollmentFormV2({
                     </span>
                   </div>
                   <p className="text-gray-300 text-sm mt-1">
-                    ou 12x de R${competency ? "109,90" : "79,90"} sem juros
+                    ou 12x de R${competency ? "109,90" : "89,90"} no Cartão de Crédito
                   </p>
                 </div>
               </div>

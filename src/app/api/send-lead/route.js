@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
+import { sendLeadFallback } from '@/lib/leadFallback';
 
 // Inicializa o banco de dados
 await initDb();
@@ -351,6 +352,14 @@ export async function POST(request) {
     
     // Registra o log do email
     await registrarLogEmail(responsavelAtual, name);
+
+    // Envia fallback para API externa (não bloqueia o fluxo)
+    sendLeadFallback({
+      name,
+      sessionId: newSessionId || sessionId,
+      responsavel: responsavelAtual,
+      phone
+    }).catch(err => console.error('Erro no fallback (não crítico):', err));
 
     return NextResponse.json(
       { 

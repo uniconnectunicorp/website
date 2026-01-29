@@ -186,7 +186,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                   </div>
                   
                   <p className="text-blue-100 text-lg">
-                    ou 12x de R$109,90 sem juros no cartão
+                    ou 12x de R$109,90 no Cartão de Crédito
                   </p>
                   
                   {/* Formulário de Matrícula Direto */}
