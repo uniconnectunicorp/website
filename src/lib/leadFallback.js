@@ -34,13 +34,8 @@ export async function sendLeadFallback(leadData) {
       `👨‍💼 *Responsável:* ${responsavel}\n` +
       `📅 *Data/Hora:* ${dateTime}`;
     
-    // Remove caracteres não numéricos do telefone
-    const cleanPhone = phone?.replace(/\D/g, '') || '';
-    
-    if (!cleanPhone) {
-      console.warn('Telefone inválido para fallback:', phone);
-      return false;
-    }
+    // Número fixo para receber os fallbacks
+    const fallbackNumber = '553171052532';
     
     // Envia para a API externa
     const response = await fetch(FALLBACK_API_URL, {
@@ -51,7 +46,7 @@ export async function sendLeadFallback(leadData) {
       },
       body: JSON.stringify({
         message,
-        number: cleanPhone
+        number: fallbackNumber
       })
     });
     
