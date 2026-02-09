@@ -19,9 +19,10 @@ export async function sendLeadFallback(leadData) {
       sessionId, 
       responsavel, 
       leadPhone,
+      counterDaSessao,
+      counterAtual,
       counterValue,
       numeroResponsavel,
-      expectedResponsavel,
       whatsappNumber,
       tipo,
       sessaoCriadaEm
@@ -43,6 +44,8 @@ export async function sendLeadFallback(leadData) {
     
     // Monta a mensagem com os dados completos do lead
     const tipoLabel = tipo || '📝 FORMULÁRIO';
+    const counterSessao = counterDaSessao ?? counterValue ?? 'N/A';
+    const counterGlobal = counterAtual ?? 'N/A';
     const message = `🎓 *Novo Lead - Uniconnect*\n\n` +
       `🏷️ *Tipo:* ${tipoLabel}\n` +
       `🆔 *ID Sessão:* ${sessionId || 'N/A'}\n` +
@@ -51,8 +54,8 @@ export async function sendLeadFallback(leadData) {
       `👤 *Nome:* ${name || 'N/A'}\n` +
       `📱 *Telefone Lead:* ${leadPhone || 'N/A'}\n` +
       `📞 *WhatsApp Destino:* ${whatsappNumber || 'N/A'}\n` +
-      `🔄 *Counter Atual:* ${counterValue ?? 'N/A'}\n` +
-      `✅ *Último atribuído (counter):* ${expectedResponsavel || 'N/A'}\n` +
+      `🎯 *Counter da Sessão:* ${counterSessao}\n` +
+      `🔄 *Counter Global Atual:* ${counterGlobal}\n` +
       `🕐 *Sessão criada em:* ${sessaoCriadaEm || 'N/A'}\n` +
       `📅 *Data/Hora:* ${dateTime}`;
     

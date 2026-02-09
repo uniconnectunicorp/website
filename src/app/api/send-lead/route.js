@@ -24,15 +24,16 @@ async function getProximoResponsavel() {
   try {
     // Operação atômica: incrementa e retorna o valor ANTES do incremento
     const result = await query(
-      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter'
+      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter, counter as new_counter'
     );
     const counter = result.rows[0]?.previous_counter || 0;
+    const newCounter = result.rows[0]?.new_counter || 0;
     const selectedIndex = counter % emailResponsaveis.length;
     
-    return emailResponsaveis[selectedIndex];
+    return { responsavel: emailResponsaveis[selectedIndex], counterValue: newCounter };
   } catch (error) {
     console.error('Erro ao obter responsável:', error);
-    return emailResponsaveis[0];
+    return { responsavel: emailResponsaveis[0], counterValue: null };
   }
 }
 
@@ -80,12 +81,12 @@ async function getResponsavelPorSessao(sessionId, phone) {
   }
   
   // 3. Cria nova sessão com novo responsável
-  const responsavel = await getProximoResponsavel();
+  const { responsavel, counterValue } = await getProximoResponsavel();
   const newSessionId = sessionId || uuidv4();
   
   await query(
-    'INSERT INTO lead_sessions (session_id, phone, responsavel) VALUES ($1, $2, $3) ON CONFLICT (session_id) DO NOTHING',
-    [newSessionId, normalizedPhone, responsavel]
+    'INSERT INTO lead_sessions (session_id, phone, responsavel, counter_value) VALUES ($1, $2, $3, $4) ON CONFLICT (session_id) DO NOTHING',
+    [newSessionId, normalizedPhone, responsavel, counterValue]
   );
   
   return {

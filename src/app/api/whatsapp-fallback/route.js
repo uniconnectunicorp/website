@@ -27,33 +27,30 @@ export async function POST(request) {
       console.error('Erro ao verificar fallback duplicado:', e);
     }
 
-    // Busca o counter atual para rastrear a sequência
-    let counterValue = 'N/A';
-    let expectedResponsavel = 'N/A';
+    // Busca dados da sessão e counter atual
+    let counterAtual = 'N/A';
+    let counterDaSessao = 'N/A';
+    let sessaoCriadaEm = 'N/A';
     try {
-      const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
-      const counter = result.rows[0]?.counter || 0;
-      counterValue = counter;
-      const expectedIndex = (counter - 1) % responsaveis.length;
-      expectedResponsavel = responsaveis[expectedIndex >= 0 ? expectedIndex : 0];
+      // Counter atual global
+      const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
+      counterAtual = counterResult.rows[0]?.counter || 0;
+
+      // Counter e data de quando a sessão foi criada
+      const sessaoResult = await query(
+        'SELECT counter_value, created_at FROM lead_sessions WHERE session_id = $1',
+        [sessionId]
+      );
+      if (sessaoResult.rows.length > 0) {
+        counterDaSessao = sessaoResult.rows[0].counter_value ?? 'N/A (antigo)';
+        sessaoCriadaEm = new Date(sessaoResult.rows[0].created_at).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+      }
     } catch (e) {
-      console.error('Erro ao buscar counter:', e);
+      console.error('Erro ao buscar dados da sessão:', e);
     }
 
     // Determina o número sequencial (1, 2 ou 3) baseado no responsável
     const numeroResponsavel = responsaveis.indexOf(responsavel) + 1;
-
-    // Busca quando a sessão foi criada no banco
-    let sessaoCriadaEm = 'N/A';
-    try {
-      const sessaoResult = await query(
-        'SELECT created_at FROM lead_sessions WHERE session_id = $1',
-        [sessionId]
-      );
-      if (sessaoResult.rows.length > 0) {
-        sessaoCriadaEm = new Date(sessaoResult.rows[0].created_at).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-      }
-    } catch (e) {}
 
     // Determina o tipo de interação
     const temFormulario = leadName && leadName !== 'null';
@@ -70,9 +67,9 @@ export async function POST(request) {
       responsavel,
       phone: number,
       leadPhone: leadPhone && leadPhone !== 'null' ? leadPhone : 'N/A',
-      counterValue,
+      counterDaSessao,
+      counterAtual,
       numeroResponsavel,
-      expectedResponsavel,
       whatsappNumber: number,
       tipo,
       sessaoCriadaEm

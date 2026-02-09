@@ -22,15 +22,16 @@ async function getProximoResponsavel() {
   try {
     // Operação atômica: incrementa e retorna o valor ANTES do incremento
     const result = await query(
-      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter'
+      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter, counter as new_counter'
     );
     const counter = result.rows[0]?.previous_counter || 0;
+    const newCounter = result.rows[0]?.new_counter || 0;
     const selectedIndex = counter % responsaveis.length;
     
-    return responsaveis[selectedIndex];
+    return { responsavel: responsaveis[selectedIndex], counterValue: newCounter };
   } catch (error) {
     console.error('Erro ao obter responsável:', error);
-    return responsaveis[0];
+    return { responsavel: responsaveis[0], counterValue: null };
   }
 }
 
@@ -59,11 +60,11 @@ export async function GET(request) {
     
     // Cria nova sessão
     const newSessionId = uuidv4();
-    const responsavel = await getProximoResponsavel();
+    const { responsavel, counterValue } = await getProximoResponsavel();
     
     await query(
-      'INSERT INTO lead_sessions (session_id, responsavel) VALUES ($1, $2)',
-      [newSessionId, responsavel]
+      'INSERT INTO lead_sessions (session_id, responsavel, counter_value) VALUES ($1, $2, $3)',
+      [newSessionId, responsavel, counterValue]
     );
     
     return NextResponse.json({

@@ -85,8 +85,14 @@ export async function initDb() {
         session_id TEXT UNIQUE NOT NULL,
         phone TEXT,
         responsavel TEXT NOT NULL,
+        counter_value INTEGER,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
+    `);
+
+    // Adiciona coluna counter_value se não existir (migração)
+    await query(`
+      ALTER TABLE lead_sessions ADD COLUMN IF NOT EXISTS counter_value INTEGER;
     `);
 
     // Índice para busca rápida por telefone
