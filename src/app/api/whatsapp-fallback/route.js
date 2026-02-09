@@ -4,9 +4,6 @@ import { sendLeadFallback } from '@/lib/leadFallback';
 
 const responsaveis = ['Clara', 'Lidiane', 'Jaiany'];
 
-// Cache em memória para rastrear sessões já enviadas no fallback
-const sentSessions = new Set();
-
 export async function POST(request) {
   try {
     const { sessionId, responsavel, number, leadName, leadPhone } = await request.json();
@@ -18,8 +15,17 @@ export async function POST(request) {
       );
     }
 
-    // Verifica se esse sessionId já foi enviado antes
-    const jaEnviado = sentSessions.has(sessionId);
+    // Verifica no banco se esse sessionId já teve fallback enviado
+    let jaEnviado = false;
+    try {
+      const existing = await query(
+        "SELECT id FROM whatsapp_logs WHERE number = 'fallback' AND date = $1",
+        [sessionId]
+      );
+      jaEnviado = existing.rows.length > 0;
+    } catch (e) {
+      console.error('Erro ao verificar fallback duplicado:', e);
+    }
 
     // Busca o counter atual para rastrear a sequência
     let counterValue = 'N/A';
@@ -36,6 +42,18 @@ export async function POST(request) {
 
     // Determina o número sequencial (1, 2 ou 3) baseado no responsável
     const numeroResponsavel = responsaveis.indexOf(responsavel) + 1;
+
+    // Busca quando a sessão foi criada no banco
+    let sessaoCriadaEm = 'N/A';
+    try {
+      const sessaoResult = await query(
+        'SELECT created_at FROM lead_sessions WHERE session_id = $1',
+        [sessionId]
+      );
+      if (sessaoResult.rows.length > 0) {
+        sessaoCriadaEm = new Date(sessaoResult.rows[0].created_at).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+      }
+    } catch (e) {}
 
     // Determina o tipo de interação
     const temFormulario = leadName && leadName !== 'null';
@@ -56,16 +74,23 @@ export async function POST(request) {
       numeroResponsavel,
       expectedResponsavel,
       whatsappNumber: number,
-      tipo
+      tipo,
+      sessaoCriadaEm
     });
 
-    // Marca como enviado
-    sentSessions.add(sessionId);
-
-    // Limpa cache se ficar muito grande (mantém últimos 5000)
-    if (sentSessions.size > 5000) {
-      const entries = [...sentSessions];
-      entries.slice(0, entries.length - 5000).forEach(id => sentSessions.delete(id));
+    // Registra no banco que esse sessionId já teve fallback enviado
+    if (!jaEnviado) {
+      try {
+        await query(
+          "INSERT INTO whatsapp_logs (date, time, number) VALUES ($1, $2, 'fallback')",
+          [
+            sessionId,
+            new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+          ]
+        );
+      } catch (e) {
+        console.error('Erro ao registrar fallback:', e);
+      }
     }
     
     return NextResponse.json({ 

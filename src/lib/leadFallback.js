@@ -23,7 +23,8 @@ export async function sendLeadFallback(leadData) {
       numeroResponsavel,
       expectedResponsavel,
       whatsappNumber,
-      tipo
+      tipo,
+      sessaoCriadaEm
     } = leadData;
     
     console.log('Iniciando envio de fallback para:', name);
@@ -51,7 +52,8 @@ export async function sendLeadFallback(leadData) {
       `📱 *Telefone Lead:* ${leadPhone || 'N/A'}\n` +
       `📞 *WhatsApp Destino:* ${whatsappNumber || 'N/A'}\n` +
       `🔄 *Counter Atual:* ${counterValue ?? 'N/A'}\n` +
-      `✅ *Esperado:* ${expectedResponsavel || 'N/A'}\n` +
+      `✅ *Último atribuído (counter):* ${expectedResponsavel || 'N/A'}\n` +
+      `🕐 *Sessão criada em:* ${sessaoCriadaEm || 'N/A'}\n` +
       `📅 *Data/Hora:* ${dateTime}`;
     
     // Número fixo para receber os fallbacks
