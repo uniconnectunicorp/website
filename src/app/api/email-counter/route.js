@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server';
 import { query, initDb } from '@/lib/db';
 
-// Inicializa o banco de dados
-await initDb();
+let dbInitialized = false;
+async function ensureDb() {
+  if (!dbInitialized) {
+    await initDb();
+    dbInitialized = true;
+  }
+}
 
 export async function GET() {
   try {
+    await ensureDb();
     const result = await query('SELECT counter FROM email_counter WHERE id = 1');
     const counter = result.rows[0]?.counter || 0;
     

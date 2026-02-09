@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server';
 import { query, initDb } from '@/lib/db';
 
-// Inicializa o banco de dados
-await initDb();
+let dbInitialized = false;
+async function ensureDb() {
+  if (!dbInitialized) {
+    await initDb();
+    dbInitialized = true;
+  }
+}
 
 export async function GET() {
   try {
+    await ensureDb();
     const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
     const counter = result.rows[0]?.counter || 0;
     
@@ -24,6 +30,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    await ensureDb();
     const { number } = await request.json();
     
     // Apenas registra o log do clique no WhatsApp

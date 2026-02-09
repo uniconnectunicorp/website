@@ -4,8 +4,13 @@ import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { sendLeadFallback } from '@/lib/leadFallback';
 
-// Inicializa o banco de dados
-await initDb();
+let dbInitialized = false;
+async function ensureDb() {
+  if (!dbInitialized) {
+    await initDb();
+    dbInitialized = true;
+  }
+}
 
 // Array com os responsáveis pelos leads (altere os nomes conforme necessário)
 const emailResponsaveis = [
@@ -138,6 +143,7 @@ function isRateLimited(key) {
 
 export async function POST(request) {
   try {
+    await ensureDb();
     const rateLimitKey = getRateLimitKey(request);
     if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(

@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server';
 import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 
-// Inicializa o banco de dados
-await initDb();
+let dbInitialized = false;
+async function ensureDb() {
+  if (!dbInitialized) {
+    await initDb();
+    dbInitialized = true;
+  }
+}
 
 // Array com os responsáveis pelos leads
 const responsaveis = [
@@ -32,6 +37,7 @@ async function getProximoResponsavel() {
 // GET: Obtém ou cria uma sessão de lead
 export async function GET(request) {
   try {
+    await ensureDb();
     const sessionId = request.headers.get('x-lead-session');
     
     // Se já tem sessão, busca o responsável
@@ -78,6 +84,7 @@ export async function GET(request) {
 // POST: Verifica telefone duplicado e atualiza sessão
 export async function POST(request) {
   try {
+    await ensureDb();
     const { sessionId, phone } = await request.json();
     
     if (!phone) {
