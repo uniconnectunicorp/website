@@ -8,7 +8,7 @@ import { Header } from '@/components/layout/Header';
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
-      <Header isBlackNovember={true} />
+      <Header  />
       
       <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
         {/* Animated background elements */}

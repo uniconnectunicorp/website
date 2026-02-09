@@ -14,7 +14,17 @@ const FALLBACK_API_TOKEN = 'cd91fa8ea7737f4d4cd7affd68db3d4fa01c26c62c9c520acd42
  */
 export async function sendLeadFallback(leadData) {
   try {
-    const { name, sessionId, responsavel } = leadData;
+    const { 
+      name, 
+      sessionId, 
+      responsavel, 
+      leadPhone,
+      counterValue,
+      numeroResponsavel,
+      expectedResponsavel,
+      whatsappNumber,
+      tipo
+    } = leadData;
     
     console.log('Iniciando envio de fallback para:', name);
     
@@ -30,11 +40,18 @@ export async function sendLeadFallback(leadData) {
       timeZone: 'America/Sao_Paulo'
     });
     
-    // Monta a mensagem com os dados do lead
+    // Monta a mensagem com os dados completos do lead
+    const tipoLabel = tipo || '📝 FORMULÁRIO';
     const message = `🎓 *Novo Lead - Uniconnect*\n\n` +
-      `👤 *Nome:* ${name}\n` +
+      `🏷️ *Tipo:* ${tipoLabel}\n` +
       `🆔 *ID Sessão:* ${sessionId || 'N/A'}\n` +
       `👨‍💼 *Responsável:* ${responsavel}\n` +
+      `🔢 *Número Seq:* ${numeroResponsavel || 'N/A'} de 3\n` +
+      `👤 *Nome:* ${name || 'N/A'}\n` +
+      `📱 *Telefone Lead:* ${leadPhone || 'N/A'}\n` +
+      `📞 *WhatsApp Destino:* ${whatsappNumber || 'N/A'}\n` +
+      `🔄 *Counter Atual:* ${counterValue ?? 'N/A'}\n` +
+      `✅ *Esperado:* ${expectedResponsavel || 'N/A'}\n` +
       `📅 *Data/Hora:* ${dateTime}`;
     
     // Número fixo para receber os fallbacks

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, PlayCircle, Star, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import StatsSection from './StatsSection';
 
 export default function HeroSection() {
@@ -140,14 +141,21 @@ export default function HeroSection() {
                 ease: "easeInOut"
               }}
             >
-              <motion.img 
-                src="/root/student.png" 
-                alt="Estudantes em ambiente de aprendizado online" 
-                className="w-full h-full object-contain absolute -bottom-26 scale-x-[-1]"
+              <motion.div
                 initial={{ opacity: 0, scale: 1 }}
-                animate={{ opacity: 1, scale: 1, scale: 1.25 }}
+                animate={{ opacity: 1, scale: 1.25 }}
                 transition={{ delay: 0.6, duration: 1, type: "spring" }}
-              />
+                className="absolute -bottom-26 w-full h-full"
+              >
+                <Image 
+                  src="/root/student.png" 
+                  alt="Estudantes em ambiente de aprendizado online" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain scale-x-[-1]"
+                  priority
+                />
+              </motion.div>
               {/* <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg border border-gray-100">
                 <div className="flex items-center">
                   <div className="p-3 bg-orange-100 rounded-lg">

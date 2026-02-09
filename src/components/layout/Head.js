@@ -1,7 +1,3 @@
-'use client';
-
-import NextHead from 'next/head';
-
 export default function Head({ title, description, image, url }) {
   const siteTitle = 'Uniconnect | Cursos Técnicos EAD';
   const siteDescription = 'Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.';
@@ -13,7 +9,7 @@ export default function Head({ title, description, image, url }) {
   const metaUrl = url || siteUrl;
 
   return (
-    <head>
+    <>
       <title>{metaTitle}</title>
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content="cursos técnicos, EAD, educação a distância, cursos profissionalizantes, Uniconnect" />
@@ -45,6 +41,6 @@ export default function Head({ title, description, image, url }) {
       <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
       <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: dark)" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
+    </>
   );
 }

@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { getLeadSessionId, setLeadSession } from '@/lib/cookies';
+import { useSendLead } from '@/hooks/useSendLead';
 
 // Função para formatar moeda
 const formatCurrency = (value) => {
@@ -57,8 +57,23 @@ export function EnrollmentFormV2({
   compact = false
 }) {
   const [isMounted, setIsMounted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   
+  const router = useRouter();
+
+  const { mutate: sendLead, isPending: isSubmitting } = useSendLead({
+    onSuccess: () => {
+      toast.success('Formulário enviado com sucesso!');
+      reset();
+      router.push('/obrigado');
+      if (onClose) onClose();
+      if (onSuccess) onSuccess();
+    },
+    onError: () => {
+      toast.error('Erro ao enviar formulário');
+      if (onClose) onClose();
+    },
+  });
+
   const form = useForm({
     resolver: zodResolver(enrollmentFormSchema),
     defaultValues: {
@@ -67,8 +82,6 @@ export function EnrollmentFormV2({
       phone: '',
     },
   });
-
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -85,49 +98,19 @@ export function EnrollmentFormV2({
                     //  watchFields.email && 
                      watchFields.phone;
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    
+  const onSubmit = (data) => {
+    // Salva nome e telefone no localStorage para rastreamento no fallback do WhatsApp
     try {
-      const response = await fetch('/api/send-lead', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          name: data.name,
-          // email: data.email,
-          phone: data.phone,
-          course: courseName,
-          modality: competency ? 'Competência' : 'Curso Regular',
-          sessionId: getLeadSessionId()
-        }),
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        // Salva a sessão para garantir que o WhatsApp use o mesmo responsável
-        if (result.sessionId && result.responsavel) {
-          setLeadSession(result.sessionId, result.responsavel);
-        }
-        successToast();
-        // Limpa o formulário
-        reset();
-        router.push('/obrigado');
-        // Fecha o modal após 1.5 segundos (tempo para o usuário ver a mensagem de sucesso)
-        if (onClose) onClose();
-        if (onSuccess) onSuccess();
-      } else {
-        throw new Error('Erro ao enviar formulário');
-      }
-    } catch (error) {
-      console.error('Erro ao enviar formulário:', error);
-      errorToast();
-      // Em caso de erro, apenas fecha o modal
-      if (onClose) onClose();
-    } finally {
-      setIsSubmitting(false);
-    }
+      localStorage.setItem('lead_name', data.name);
+      localStorage.setItem('lead_phone', data.phone);
+    } catch (e) {}
+
+    sendLead({
+      name: data.name,
+      phone: data.phone,
+      course: courseName,
+      modality: competency ? 'Competência' : 'Curso Regular',
+    });
   };
 
   // Função para formatar telefone

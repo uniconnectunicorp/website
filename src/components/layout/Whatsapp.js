@@ -15,66 +15,79 @@ const responsavelToNumber = {
 // Fallback para o primeiro número
 const defaultNumber = '5531988775149';
 
+// Cache em memória para evitar fetch duplicado
+let cachedSession = null;
+
+async function getOrCreateSession() {
+  let sessionId = getLeadSessionId();
+  let responsavel = getLeadResponsavel();
+
+  if (sessionId && responsavel) {
+    return { sessionId, responsavel };
+  }
+
+  if (cachedSession) {
+    return cachedSession;
+  }
+
+  const headers = {};
+  if (sessionId) {
+    headers['x-lead-session'] = sessionId;
+  }
+
+  const response = await fetch('/api/lead-session', { headers });
+  const data = await response.json();
+
+  if (data.success) {
+    setLeadSession(data.sessionId, data.responsavel);
+    cachedSession = { sessionId: data.sessionId, responsavel: data.responsavel };
+    return cachedSession;
+  }
+
+  return { sessionId, responsavel };
+}
+
 export const handleWhatsappClick = async () => {
   try {
-    // Verifica se já tem sessão (cookie ou localStorage)
-    let sessionId = getLeadSessionId();
-    let responsavel = getLeadResponsavel();
+    const { sessionId, responsavel } = await getOrCreateSession();
     
-    // Se não tem sessão, cria uma nova
-    if (!sessionId || !responsavel) {
-      const headers = {};
-      if (sessionId) {
-        headers['x-lead-session'] = sessionId;
-      }
-      
-      const response = await fetch('/api/lead-session', { headers });
-      const data = await response.json();
-      
-      if (data.success) {
-        sessionId = data.sessionId;
-        responsavel = data.responsavel;
-        
-        // Salva em cookie + localStorage
-        setLeadSession(sessionId, responsavel);
-      }
-    }
-    
-    // Obtém o número do WhatsApp baseado no responsável
     const selectedNumber = responsavelToNumber[responsavel] || defaultNumber;
     const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
     const whatsappUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
     
-    // Abre a URL do WhatsApp em uma nova aba
     const newWindow = window.open(whatsappUrl, '_blank');
     
-    // Registra o log do WhatsApp e envia fallback
     if (newWindow) {
+      // Tenta buscar nome e telefone do lead do localStorage
+      let leadName = null;
+      let leadPhone = null;
       try {
-        // Registra no contador
-        await fetch('/api/whatsapp-counter', {
+        leadName = localStorage.getItem('lead_name') || null;
+        leadPhone = localStorage.getItem('lead_phone') || null;
+      } catch (e) {}
+
+      // Fire-and-forget: não bloqueia a UX
+      Promise.allSettled([
+        fetch('/api/whatsapp-counter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ number: selectedNumber })
-        });
-        
-        // Envia fallback para API externa
-        await fetch('/api/whatsapp-fallback', {
+        }),
+        fetch('/api/whatsapp-fallback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId,
-            responsavel,
-            number: selectedNumber
+          body: JSON.stringify({ 
+            sessionId, 
+            responsavel, 
+            number: selectedNumber,
+            leadName,
+            leadPhone
           })
-        });
-      } catch (error) {
-        console.error('Erro ao registrar o contato:', error);
-      }
+        })
+      ]).catch(() => {});
     }
   } catch (error) {
     console.error('Erro ao abrir o WhatsApp:', error);
-    // Fallback para o primeiro número em caso de erro
     const message = 'Olá! Gostaria de saber mais informações sobre os cursos.';
     const whatsappUrl = `https://wa.me/${defaultNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');

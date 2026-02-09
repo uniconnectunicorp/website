@@ -1,7 +1,5 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function makeQueryClient() {
@@ -31,13 +29,12 @@ function getQueryClient() {
   }
 }
 
-export function ThemeProvider({ children, ...props }) {
+export default function QueryProvider({ children }) {
   const queryClient = getQueryClient()
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextThemesProvider {...props}>{children}</NextThemesProvider>
+      {children}
     </QueryClientProvider>
   )
 }
-  

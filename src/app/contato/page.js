@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { getLeadSessionId, setLeadSession } from '@/lib/cookies';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
@@ -24,6 +23,11 @@ import {
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { AlertCircle } from 'lucide-react';
+import Head from '@/components/layout/Head';
+import { handleWhatsappClick } from '@/components/layout/Whatsapp';
+import { useSendLead } from '@/hooks/useSendLead';
+import { useRouter } from 'next/navigation';
+
 const contactFormSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   email: z.string().email('E-mail inválido').min(1, 'E-mail é obrigatório'),
@@ -31,11 +35,21 @@ const contactFormSchema = z.object({
   subject: z.string().min(1, 'Assunto é obrigatório'),
   message: z.string().min(1, 'Mensagem é obrigatória'),
 });
-import Head from '@/components/layout/Head';
-import { handleWhatsappClick } from '@/components/layout/Whatsapp';
 
 export default function ContactPage() {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  const { mutate: sendLead, isPending: isSending } = useSendLead({
+    onSuccess: () => {
+      toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+      reset();
+      router.push('/obrigado');
+    },
+    onError: () => {
+      toast.error('Erro ao enviar mensagem. Tente novamente.');
+    },
+  });
 
   const form = useForm({
     resolver: zodResolver(contactFormSchema),
@@ -51,7 +65,7 @@ export default function ContactPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     watch,
     setValue,
     reset,
@@ -85,40 +99,21 @@ export default function ContactPage() {
     setValue('phone', formattedValue, { shouldValidate: true });
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
+    // Salva nome e telefone no localStorage para rastreamento no fallback do WhatsApp
     try {
-      const response = await fetch('/api/send-lead', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone || '',
-          course: `Contato - ${data.subject}`,
-          message: data.message,
-          modality: 'Contato',
-          sessionId: getLeadSessionId()
-        }),
-      });
+      localStorage.setItem('lead_name', data.name);
+      if (data.phone) localStorage.setItem('lead_phone', data.phone);
+    } catch (e) {}
 
-      if (response.ok) {
-        const result = await response.json();
-        // Salva a sessão para garantir que o WhatsApp use o mesmo responsável
-        if (result.sessionId && result.responsavel) {
-          setLeadSession(result.sessionId, result.responsavel);
-        }
-        toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-        reset();
-        router.push('/obrigado');
-      } else {
-        throw new Error('Erro ao enviar mensagem');
-      }
-    } catch (error) {
-      console.error('Erro:', error);
-      toast.error('Erro ao enviar mensagem. Tente novamente.');
-    }
+    sendLead({
+      name: data.name,
+      email: data.email,
+      phone: data.phone || '',
+      course: `Contato - ${data.subject}`,
+      message: data.message,
+      modality: 'Contato',
+    });
   };
 
   const contactInfo = [
@@ -386,11 +381,11 @@ export default function ContactPage() {
 
                 <Button
                   type="submit"
-                  disabled={isSubmitting || !isFormValid}
-                  className={`w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${(isSubmitting || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''
+                  disabled={isSending || !isFormValid}
+                  className={`w-full bg-[#0b3b75] hover:bg-[#094066] text-white py-6 rounded-lg font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${(isSending || !isFormValid) ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                 >
-                  {isSubmitting ? (
+                  {isSending ? (
                     <div className="flex items-center justify-center">
                       <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
                       Enviando...

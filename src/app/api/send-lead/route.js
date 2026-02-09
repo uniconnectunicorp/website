@@ -196,11 +196,20 @@ export async function POST(request) {
       
       // Envia fallback mesmo para duplicados (para registro)
       try {
+        const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
+        const counterVal = counterResult.rows[0]?.counter || 0;
+        const numResp = emailResponsaveis.indexOf(responsavelAtual) + 1;
+
         await sendLeadFallback({
           name: `[DUPLICADO] ${name}`,
           sessionId: sessionId,
           responsavel: responsavelAtual,
-          phone
+          phone,
+          leadPhone: phone,
+          counterValue: counterVal,
+          numeroResponsavel: numResp,
+          expectedResponsavel: emailResponsaveis[(counterVal - 1) % emailResponsaveis.length],
+          whatsappNumber: 'N/A (formulário)'
         });
       } catch (err) {
         console.error('Erro no fallback duplicado:', err);
@@ -366,13 +375,22 @@ export async function POST(request) {
     // Registra o log do email
     await registrarLogEmail(responsavelAtual, name);
 
-    // Envia fallback para API externa
+    // Envia fallback para API externa com dados completos
     try {
+      const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
+      const counterVal = counterResult.rows[0]?.counter || 0;
+      const numResp = emailResponsaveis.indexOf(responsavelAtual) + 1;
+
       await sendLeadFallback({
         name,
         sessionId: newSessionId || sessionId,
         responsavel: responsavelAtual,
-        phone
+        phone,
+        leadPhone: phone,
+        counterValue: counterVal,
+        numeroResponsavel: numResp,
+        expectedResponsavel: emailResponsaveis[(counterVal - 1) % emailResponsaveis.length],
+        whatsappNumber: 'N/A (formulário)'
       });
     } catch (err) {
       console.error('Erro no fallback (não crítico):', err);

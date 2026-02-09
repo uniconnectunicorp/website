@@ -1,6 +1,5 @@
-"use client" 
- 
- 
+"use client"
+
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, GraduationCap, BookOpen, Users, Award, Heart } from 'lucide-react';
 import Image from 'next/image';
