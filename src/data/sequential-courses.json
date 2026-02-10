@@ -1,0 +1,642 @@
+[
+  {
+    "nome": "Gestão de Capela",
+    "slug": "gestao-de-capela",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Capela capacita profissionais para administrar capelas e espaços religiosos, desenvolvendo competências em gestão administrativa, organização de cerimônias e atendimento comunitário.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Administração de Capelas",
+      "Organização de Cerimônias",
+      "Gestão Comunitária",
+      "Planejamento de Eventos Religiosos",
+      "Atendimento ao Público"
+    ]
+  },
+  {
+    "nome": "Gestão de Comércio Exterior",
+    "slug": "gestao-de-comercio-exterior",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Comércio Exterior forma profissionais para atuar em operações de importação e exportação, logística internacional, câmbio e legislação aduaneira.",
+    "image": "/courses/logistica.webp",
+    "highlights": [
+      "Importação e Exportação",
+      "Logística Internacional",
+      "Legislação Aduaneira",
+      "Câmbio e Negociação",
+      "Comércio Internacional"
+    ]
+  },
+  {
+    "nome": "Gestão da Construção Civil",
+    "slug": "gestao-da-construcao-civil",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão da Construção Civil prepara profissionais para gerenciar obras, projetos e equipes na construção civil, com foco em planejamento, orçamento e controle de qualidade.",
+    "image": "/courses/edificacoes.webp",
+    "highlights": [
+      "Planejamento de Obras",
+      "Orçamento e Custos",
+      "Gestão de Equipes",
+      "Controle de Qualidade",
+      "Segurança na Construção"
+    ]
+  },
+  {
+    "nome": "Gestão da Contabilidade",
+    "slug": "gestao-da-contabilidade",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão da Contabilidade capacita profissionais para atuar na área contábil, desenvolvendo competências em escrituração fiscal, análise de demonstrações contábeis e gestão tributária.",
+    "image": "/courses/contabilidade.webp",
+    "highlights": [
+      "Escrituração Fiscal",
+      "Análise Contábil",
+      "Gestão Tributária",
+      "Demonstrações Financeiras",
+      "Controladoria"
+    ]
+  },
+  {
+    "nome": "Gestão em Design Gráfico",
+    "slug": "gestao-em-design-grafico",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão em Design Gráfico forma profissionais para gerenciar projetos de design, identidade visual, produção gráfica e comunicação visual com foco em resultados criativos.",
+    "image": "/courses/computacao-grafica.webp",
+    "highlights": [
+      "Identidade Visual",
+      "Produção Gráfica",
+      "Comunicação Visual",
+      "Gestão de Projetos Criativos",
+      "Design Digital"
+    ]
+  },
+  {
+    "nome": "Gestão de Arbitragem",
+    "slug": "gestao-de-arbitragem",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Arbitragem capacita profissionais para atuar na mediação e resolução de conflitos, desenvolvendo competências em arbitragem, negociação e legislação aplicada.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Mediação de Conflitos",
+      "Arbitragem Comercial",
+      "Legislação Aplicada",
+      "Negociação Avançada",
+      "Resolução de Disputas"
+    ]
+  },
+  {
+    "nome": "Gestão de Empresas",
+    "slug": "gestao-de-empresas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Empresas forma profissionais para administrar negócios com visão estratégica, desenvolvendo competências em planejamento, finanças, marketing e liderança empresarial.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Planejamento Estratégico",
+      "Gestão Financeira",
+      "Liderança Empresarial",
+      "Marketing e Vendas",
+      "Empreendedorismo"
+    ]
+  },
+  {
+    "nome": "Gestão de Futebol",
+    "slug": "gestao-de-futebol",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Futebol prepara profissionais para atuar na administração de clubes, eventos esportivos e carreiras no futebol, com foco em gestão, marketing esportivo e legislação.",
+    "image": "/courses/marketing.webp",
+    "highlights": [
+      "Administração de Clubes",
+      "Marketing Esportivo",
+      "Legislação Desportiva",
+      "Gestão de Carreiras",
+      "Eventos Esportivos"
+    ]
+  },
+  {
+    "nome": "Gestão Esportiva",
+    "slug": "gestao-esportiva",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Esportiva forma profissionais para gerenciar organizações esportivas, eventos, academias e projetos sociais ligados ao esporte, com visão administrativa e estratégica.",
+    "image": "/courses/marketing.webp",
+    "highlights": [
+      "Gestão de Organizações Esportivas",
+      "Eventos e Competições",
+      "Marketing Esportivo",
+      "Projetos Sociais no Esporte",
+      "Administração de Academias"
+    ]
+  },
+  {
+    "nome": "Gestão Financeira",
+    "slug": "gestao-financeira",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Financeira capacita profissionais para atuar no controle financeiro de empresas, análise de investimentos, planejamento orçamentário e gestão de custos com visão estratégica.",
+    "image": "/courses/contabilidade.webp",
+    "highlights": [
+      "Análise de Investimentos",
+      "Planejamento Orçamentário",
+      "Gestão de Custos",
+      "Matemática Financeira",
+      "Controladoria"
+    ]
+  },
+  {
+    "nome": "Gestão Hospitalar",
+    "slug": "gestao-hospitalar",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Hospitalar forma profissionais para administrar hospitais, clínicas e unidades de saúde, com foco em qualidade, eficiência operacional e gestão de pessoas na área da saúde.",
+    "image": "/courses/nutricao.webp",
+    "highlights": [
+      "Administração Hospitalar",
+      "Gestão da Qualidade em Saúde",
+      "Logística Hospitalar",
+      "Gestão de Pessoas na Saúde",
+      "Legislação em Saúde"
+    ]
+  },
+  {
+    "nome": "Gestão Pública",
+    "slug": "gestao-publica",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Pública capacita profissionais para atuar na administração pública, desenvolvendo competências em políticas públicas, orçamento governamental e gestão de serviços públicos.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Políticas Públicas",
+      "Orçamento Governamental",
+      "Gestão de Serviços Públicos",
+      "Legislação Administrativa",
+      "Planejamento Público"
+    ]
+  },
+  {
+    "nome": "Gestão de Instituições Religiosas",
+    "slug": "gestao-de-instituicoes-religiosas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Instituições Religiosas forma profissionais para administrar igrejas, templos e organizações religiosas, com foco em gestão financeira, liderança e planejamento comunitário.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Administração Religiosa",
+      "Gestão Financeira de Igrejas",
+      "Liderança Comunitária",
+      "Planejamento de Eventos",
+      "Gestão de Pessoas"
+    ]
+  },
+  {
+    "nome": "Gestão Logística",
+    "slug": "gestao-logistica",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Logística forma profissionais para gerenciar cadeias de suprimentos, otimizar processos logísticos, controlar estoques e coordenar operações de transporte e distribuição.",
+    "image": "/courses/logistica.webp",
+    "highlights": [
+      "Gestão de Estoques",
+      "Cadeia de Suprimentos",
+      "Transporte e Distribuição",
+      "Logística Reversa",
+      "Gestão de Custos Logísticos"
+    ]
+  },
+  {
+    "nome": "Gestão de Marketing",
+    "slug": "gestao-de-marketing",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Marketing prepara profissionais para desenvolver estratégias de marketing, branding, comunicação e análise de mercado para impulsionar marcas e negócios.",
+    "image": "/courses/marketing.webp",
+    "highlights": [
+      "Estratégias de Marketing",
+      "Branding e Posicionamento",
+      "Marketing Digital",
+      "Análise de Mercado",
+      "Comunicação Empresarial"
+    ]
+  },
+  {
+    "nome": "Gestão de Minimercados",
+    "slug": "gestao-de-minimercados",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Minimercados capacita profissionais para administrar pequenos comércios varejistas, com foco em controle de estoque, atendimento ao cliente, finanças e gestão de equipes.",
+    "image": "/courses/vendas.webp",
+    "highlights": [
+      "Controle de Estoque",
+      "Atendimento ao Cliente",
+      "Gestão Financeira do Varejo",
+      "Gestão de Equipes",
+      "Layout e Visual Merchandising"
+    ]
+  },
+  {
+    "nome": "Gestão Meio Ambiente",
+    "slug": "gestao-meio-ambiente",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Meio Ambiente capacita profissionais para atuar na preservação ambiental, gestão de resíduos, sustentabilidade corporativa e conformidade com a legislação ambiental.",
+    "image": "/courses/edificacoes.webp",
+    "highlights": [
+      "Sustentabilidade Corporativa",
+      "Gestão de Resíduos",
+      "Legislação Ambiental",
+      "Auditoria Ambiental",
+      "Educação Ambiental"
+    ]
+  },
+  {
+    "nome": "Gestão de Negócios",
+    "slug": "gestao-de-negocios",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Negócios forma profissionais com visão empreendedora para criar, desenvolver e gerenciar negócios, com competências em estratégia, finanças e inovação.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Empreendedorismo",
+      "Estratégia de Negócios",
+      "Gestão Financeira",
+      "Inovação e Tecnologia",
+      "Liderança"
+    ]
+  },
+  {
+    "nome": "Gestão de Oficinas Mecânicas",
+    "slug": "gestao-de-oficinas-mecanicas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Oficinas Mecânicas prepara profissionais para administrar oficinas automotivas, com foco em gestão financeira, atendimento ao cliente, controle de estoque e gestão de equipes.",
+    "image": "/courses/mecanica.webp",
+    "highlights": [
+      "Administração de Oficinas",
+      "Gestão Financeira Automotiva",
+      "Controle de Estoque de Peças",
+      "Atendimento ao Cliente",
+      "Gestão de Equipes Técnicas"
+    ]
+  },
+  {
+    "nome": "Gestão da Produção de Conteúdo para Mídias Digitais",
+    "slug": "gestao-producao-conteudo-midias-digitais",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão da Produção de Conteúdo para Mídias Digitais forma profissionais para criar, planejar e gerenciar conteúdos digitais para redes sociais, blogs, vídeos e plataformas online.",
+    "image": "/courses/computacao-grafica.webp",
+    "highlights": [
+      "Produção de Conteúdo Digital",
+      "Redes Sociais e Engajamento",
+      "Planejamento Editorial",
+      "Vídeo e Audiovisual",
+      "Métricas e Análise de Dados"
+    ]
+  },
+  {
+    "nome": "Gestão da Segurança Pública e Privada",
+    "slug": "gestao-da-seguranca-publica-e-privada",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão da Segurança Pública e Privada capacita profissionais para atuar na gestão de segurança patrimonial, pessoal e pública, com foco em planejamento, prevenção e legislação.",
+    "image": "/courses/seguranca-do-trabalho.webp",
+    "highlights": [
+      "Segurança Patrimonial",
+      "Gestão de Riscos",
+      "Legislação de Segurança",
+      "Planejamento de Segurança",
+      "Prevenção de Perdas"
+    ]
+  },
+  {
+    "nome": "Gestão de Vendas",
+    "slug": "gestao-de-vendas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Vendas forma profissionais para liderar equipes comerciais, desenvolver estratégias de vendas, negociação e relacionamento com clientes para maximizar resultados.",
+    "image": "/courses/vendas.webp",
+    "highlights": [
+      "Técnicas de Vendas",
+      "Negociação Comercial",
+      "Gestão de Equipes Comerciais",
+      "CRM e Relacionamento",
+      "Estratégias de Mercado"
+    ]
+  },
+  {
+    "nome": "Gestão em Pequenas Empresas",
+    "slug": "gestao-em-pequenas-empresas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão em Pequenas Empresas capacita empreendedores e gestores para administrar micro e pequenas empresas com eficiência, abordando finanças, marketing, pessoas e operações.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Empreendedorismo",
+      "Finanças para PMEs",
+      "Marketing para Pequenos Negócios",
+      "Gestão de Pessoas",
+      "Planejamento Estratégico"
+    ]
+  },
+  {
+    "nome": "Gestão Educacional e Pedagógica",
+    "slug": "gestao-educacional-e-pedagogica",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Educacional e Pedagógica forma profissionais para atuar na administração de instituições de ensino, com foco em gestão escolar, projetos pedagógicos e políticas educacionais.",
+    "image": "/courses/secretaria-escolar.webp",
+    "highlights": [
+      "Gestão Escolar",
+      "Projetos Pedagógicos",
+      "Políticas Educacionais",
+      "Liderança Educacional",
+      "Avaliação Institucional"
+    ]
+  },
+  {
+    "nome": "Gestão de Políticas Públicas",
+    "slug": "gestao-de-politicas-publicas",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Políticas Públicas capacita profissionais para formular, implementar e avaliar políticas públicas, com foco em planejamento governamental e gestão social.",
+    "image": "/courses/administracao.webp",
+    "highlights": [
+      "Formulação de Políticas",
+      "Planejamento Governamental",
+      "Gestão Social",
+      "Avaliação de Programas",
+      "Orçamento Público"
+    ]
+  },
+  {
+    "nome": "Gestão de Franquias",
+    "slug": "gestao-de-franquias",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Franquias forma profissionais para administrar e expandir redes de franquias, com competências em modelo de negócio, padronização, marketing e gestão de franqueados.",
+    "image": "/courses/vendas.webp",
+    "highlights": [
+      "Modelo de Franquias",
+      "Padronização de Processos",
+      "Gestão de Franqueados",
+      "Expansão de Redes",
+      "Marketing de Franquias"
+    ]
+  },
+  {
+    "nome": "Gestão de Laboratórios Clínicos",
+    "slug": "gestao-de-laboratorios-clinicos",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Laboratórios Clínicos capacita profissionais para administrar laboratórios de análises clínicas, com foco em qualidade, biossegurança e gestão de processos laboratoriais.",
+    "image": "/courses/nutricao.webp",
+    "highlights": [
+      "Gestão Laboratorial",
+      "Controle de Qualidade",
+      "Biossegurança",
+      "Processos Laboratoriais",
+      "Legislação Sanitária"
+    ]
+  },
+  {
+    "nome": "Gestão de Farmácias",
+    "slug": "gestao-de-farmacias",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Farmácias forma profissionais para administrar farmácias e drogarias, com competências em gestão de estoque, atendimento farmacêutico, legislação e gestão financeira.",
+    "image": "/courses/nutricao.webp",
+    "highlights": [
+      "Administração de Farmácias",
+      "Gestão de Estoque Farmacêutico",
+      "Atendimento Farmacêutico",
+      "Legislação Farmacêutica",
+      "Gestão Financeira"
+    ]
+  },
+  {
+    "nome": "Gestão de Trânsito",
+    "slug": "gestao-de-transito",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Trânsito capacita profissionais para atuar na gestão e planejamento do trânsito urbano, com foco em segurança viária, legislação de trânsito e mobilidade urbana.",
+    "image": "/courses/logistica.webp",
+    "highlights": [
+      "Segurança Viária",
+      "Legislação de Trânsito",
+      "Mobilidade Urbana",
+      "Planejamento de Trânsito",
+      "Educação para o Trânsito"
+    ]
+  },
+  {
+    "nome": "Gestão de Recursos Humanos",
+    "slug": "gestao-de-recursos-humanos",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão de Recursos Humanos forma profissionais aptos a gerenciar pessoas, processos de recrutamento, seleção, treinamento e desenvolvimento organizacional com foco em resultados.",
+    "image": "/courses/recursos-humanos.webp",
+    "highlights": [
+      "Recrutamento e Seleção",
+      "Treinamento e Desenvolvimento",
+      "Gestão de Pessoas",
+      "Departamento Pessoal",
+      "Clima Organizacional"
+    ]
+  },
+  {
+    "nome": "Gestão em Informática",
+    "slug": "gestao-em-informatica",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão em Informática capacita profissionais para gerenciar equipes e projetos de TI, infraestrutura tecnológica, sistemas de informação e transformação digital nas organizações.",
+    "image": "/courses/informatica.webp",
+    "highlights": [
+      "Gestão de TI",
+      "Infraestrutura Tecnológica",
+      "Sistemas de Informação",
+      "Transformação Digital",
+      "Segurança da Informação"
+    ]
+  },
+  {
+    "nome": "Gestão Imobiliária",
+    "slug": "gestao-imobiliaria",
+    "price": 1109.90,
+    "originalPrice": 1849.90,
+    "installment": 101.90,
+    "installments": 12,
+    "duration": "4 a 6 meses",
+    "modality": "EaD",
+    "workload": 560,
+    "description": "O curso sequencial em Gestão Imobiliária forma profissionais para atuar no mercado imobiliário, com competências em avaliação de imóveis, gestão comercial, legislação imobiliária e negociação.",
+    "image": "/courses/transacao-imobiliaria.webp",
+    "highlights": [
+      "Avaliação de Imóveis",
+      "Gestão Comercial Imobiliária",
+      "Legislação Imobiliária",
+      "Negociação e Vendas",
+      "Mercado Imobiliário"
+    ]
+  }
+]

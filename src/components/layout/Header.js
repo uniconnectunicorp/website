@@ -4,12 +4,24 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight, Sparkles } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight, ChevronDown, Sparkles, Layers, Globe, FileText } from 'lucide-react';
 import Image from 'next/image';
 
 const navigation = [
   { name: 'Início', href: '/', icon: Home },
-  { name: 'Cursos', href: '/cursos', icon: BookOpen },
+  { 
+    name: 'Cursos', 
+    href: '/cursos', 
+    icon: BookOpen,
+    hasDropdown: true,
+    subItems: [
+      { name: 'Técnicos Regulares', href: '/cursos', icon: BookOpen },
+      { name: 'Por Competência', href: '/cursos/competencia', icon: GraduationCap },
+      { name: 'Sequenciais', href: '/sequenciais', icon: Layers },
+      { name: 'Curso de Inglês', href: '/curso-de-ingles', icon: Globe },
+      { name: 'EJA', href: '/eja', icon: FileText },
+    ]
+  },
   { name: 'Sobre', href: '/sobre', icon: Users },
   { name: 'Contato', href: '/contato', icon: Phone },
 ];
@@ -17,6 +29,7 @@ const navigation = [
 export function Header({ isBlackNovember = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCursosOpen, setIsCursosOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -126,7 +139,60 @@ export function Header({ isBlackNovember = false }) {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
               {navigation.map((item) => {
-                const isActive = pathname === item.href || (item.href === '/cursos' && pathname.startsWith('/cursos/'));
+                const isCursosActive = item.hasDropdown && (
+                  pathname === '/cursos' || 
+                  pathname.startsWith('/cursos/') || 
+                  pathname === '/sequenciais' || 
+                  pathname.startsWith('/sequenciais/') || 
+                  pathname === '/curso-de-ingles' || 
+                  pathname === '/eja'
+                );
+                const isActive = item.hasDropdown ? isCursosActive : pathname === item.href;
+
+                if (item.hasDropdown) {
+                  return (
+                    <div key={item.name} className="relative group">
+                      <button
+                        className={`relative px-6 py-3 text-sm font-semibold transition-all duration-300 rounded-xl flex items-center gap-1 cursor-pointer ${isActive
+                            ? isBlackNovember
+                              ? 'text-black bg-gradient-to-r from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/50'
+                              : 'text-white bg-[#ff6600] shadow-lg'
+                            : isBlackNovember
+                              ? 'text-white hover:text-black hover:bg-yellow-400/90'
+                              : 'text-white hover:text-white hover:bg-[#ff6600]/30'
+                          }`}
+                      >
+                        <span className="relative z-10">{item.name}</span>
+                        <ChevronDown className="h-4 w-4 relative z-10 transition-transform duration-300 group-hover:rotate-180" />
+                      </button>
+                      
+                      {/* Dropdown */}
+                      <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="bg-white rounded-xl shadow-2xl border border-gray-100 py-2 min-w-[220px] overflow-hidden">
+                          {item.subItems.map((sub) => {
+                            const SubIcon = sub.icon;
+                            const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
+                            return (
+                              <Link
+                                key={sub.name}
+                                href={sub.href}
+                                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                                  isSubActive
+                                    ? 'bg-[#0b3b75] text-white'
+                                    : 'text-gray-700 hover:bg-blue-50 hover:text-[#0b3b75]'
+                                }`}
+                              >
+                                <SubIcon className="h-4 w-4 flex-shrink-0" />
+                                <span>{sub.name}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.name}
@@ -150,7 +216,6 @@ export function Header({ isBlackNovember = false }) {
                   </Link>
                 );
               })}
-
             </nav>
 
             {/* Mobile Menu Button */}
@@ -245,9 +310,75 @@ export function Header({ isBlackNovember = false }) {
           {/* Navigation Items */}
           <div className="px-4 py-6 space-y-2">
             {navigation.map((item, index) => {
-              const isActive = pathname === item.href || (item.href === '/cursos' && pathname.startsWith('/cursos/'));
               const Icon = item.icon;
 
+              if (item.hasDropdown) {
+                const isCursosActive = pathname === '/cursos' || pathname.startsWith('/cursos/') || pathname === '/sequenciais' || pathname.startsWith('/sequenciais/') || pathname === '/curso-de-ingles' || pathname === '/eja';
+                return (
+                  <div key={item.name}>
+                    {/* Accordion trigger */}
+                    <button
+                      onClick={() => setIsCursosOpen(!isCursosOpen)}
+                      className={`w-full group flex items-center justify-between px-4 py-4 text-base font-medium transition-all duration-300 rounded-xl cursor-pointer ${isCursosActive
+                          ? isBlackNovember
+                            ? 'text-black bg-gradient-to-r from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/50'
+                            : 'text-white bg-gradient-to-r from-[#0b3b75] to-[#1e40af] shadow-lg'
+                          : isBlackNovember
+                            ? 'text-gray-700 hover:text-black hover:bg-yellow-50 active:bg-yellow-100'
+                            : 'text-gray-700 hover:text-[#0b3b75] hover:bg-blue-50 active:bg-blue-100'
+                        }`}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${isCursosActive
+                            ? isBlackNovember ? 'bg-black/20' : 'bg-white/20'
+                            : isBlackNovember
+                              ? 'bg-gray-100 group-hover:bg-yellow-400 group-hover:text-black'
+                              : 'bg-gray-100 group-hover:bg-[#0b3b75] group-hover:text-white'
+                          }`}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <span className="font-semibold">{item.name}</span>
+                      </div>
+                      <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${isCursosOpen ? 'rotate-180' : ''} ${isCursosActive 
+                        ? isBlackNovember ? 'text-black/80' : 'text-white/80' 
+                        : 'text-gray-400'
+                        }`} />
+                    </button>
+
+                    {/* Accordion content */}
+                    <div className={`overflow-hidden transition-all duration-300 ${isCursosOpen ? 'max-h-96 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}>
+                      <div className="ml-6 pl-4 border-l-2 border-blue-100 space-y-1">
+                        {item.subItems.map((sub) => {
+                          const SubIcon = sub.icon;
+                          const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
+                          return (
+                            <Link
+                              key={sub.name}
+                              href={sub.href}
+                              onClick={() => {
+                                setIsMenuOpen(false);
+                                setIsCursosOpen(false);
+                                document.body.style.overflow = 'unset';
+                              }}
+                              className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                                isSubActive
+                                  ? 'bg-[#0b3b75] text-white shadow-md'
+                                  : 'text-gray-600 hover:bg-blue-50 hover:text-[#0b3b75]'
+                              }`}
+                            >
+                              <SubIcon className="h-4 w-4 flex-shrink-0" />
+                              <span>{sub.name}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.name}
