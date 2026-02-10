@@ -127,7 +127,7 @@ export function SequentialCourseDetailsClient({ course }) {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Reconhecido MEC e SISTEC</span>
+                      <span className="text-blue-100">Reconhecido pelo MEC</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -175,7 +175,7 @@ export function SequentialCourseDetailsClient({ course }) {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Reconhecido MEC e SISTEC</span>
+                      <span className="text-blue-100">Reconhecido pelo MEC</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />

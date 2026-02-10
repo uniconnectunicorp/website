@@ -38,14 +38,12 @@ const course = {
   installment: 91.90,
   installments: 12,
   modality: "EaD",
-  description: "O programa EJA (Educação de Jovens e Adultos) é a oportunidade ideal para quem deseja concluir os estudos do Ensino Fundamental ou Médio de forma rápida, flexível e 100% online. Com certificado reconhecido pelo MEC, o EJA permite que você conquiste seu diploma e abra novas portas no mercado de trabalho e na vida acadêmica.",
+  description: "A EJA (Educação de Jovens e Adultos) é a oportunidade ideal para quem deseja concluir o Ensino Médio de forma rápida e flexível. Com certificado reconhecido pelo MEC, a EJA permite que você conquiste seu diploma e abra novas portas no mercado de trabalho e na vida acadêmica.",
   image: "/courses/secretaria-escolar.webp",
   highlights: [
-    "Conclusão do Ensino Fundamental",
     "Conclusão do Ensino Médio",
     "Certificado Reconhecido pelo MEC",
     "Estude no Seu Ritmo",
-    "100% Online",
     "Acesso Imediato"
   ]
 };
@@ -73,7 +71,7 @@ export default function EjaPage() {
 
   return (
     <>
-      <Head title="EJA - Educação de Jovens e Adultos | Uniconnect" image={course.image} description="Conclua o Ensino Fundamental ou Médio com o EJA 100% online. Certificado reconhecido pelo MEC. Estude no seu ritmo." />
+      <Head title="EJA - Educação de Jovens e Adultos | Uniconnect" image={course.image} description="Conclua o Ensino Médio com a EJA. Certificado reconhecido pelo MEC. Estude no seu ritmo." />
       <div className="min-h-screen overflow-x-hidden">
         
         {/* Hero */}
@@ -139,15 +137,11 @@ export default function EjaPage() {
 
                   {/* Mobile benefits */}
                   <div className="mt-8 space-y-4 md:hidden">
-                    <h3 className="text-xl font-semibold text-white">Por que escolher o EJA?</h3>
+                    <h3 className="text-xl font-semibold text-white">Por que escolher a EJA?</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Reconhecido pelo MEC e SISTEC</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">100% Online (EaD)</span>
+                        <span className="text-blue-100">Reconhecido pelo MEC</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -171,11 +165,7 @@ export default function EjaPage() {
                   <div className="mt-6 flex flex-wrap items-center gap-4">
                     <div className="flex items-center text-blue-200">
                       <GraduationCap className="h-5 w-5 mr-2" />
-                      <span>Ensino Fundamental e Médio</span>
-                    </div>
-                    <div className="flex items-center text-blue-200">
-                      <Monitor className="h-5 w-5 mr-2" />
-                      <span>Modalidade {course.modality}</span>
+                      <span>Ensino Médio</span>
                     </div>
                     <div className="flex items-center text-blue-200">
                       <Award className="h-5 w-5 mr-2" />
@@ -185,15 +175,11 @@ export default function EjaPage() {
 
                   {/* Desktop benefits */}
                   <div className="mt-8 space-y-4 max-md:hidden">
-                    <h3 className="text-xl font-semibold text-white">Por que escolher o EJA?</h3>
+                    <h3 className="text-xl font-semibold text-white">Por que escolher a EJA?</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Reconhecido pelo MEC e SISTEC</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">100% Online (EaD)</span>
+                        <span className="text-blue-100">Reconhecido pelo MEC</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -254,21 +240,16 @@ export default function EjaPage() {
         <div className="py-16 bg-gradient-to-b from-white to-gray-50 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="text-center mb-16">
-              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-purple-700 bg-purple-100 rounded-full mb-3">POR QUE ESCOLHER O EJA?</span>
+              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-purple-700 bg-purple-100 rounded-full mb-3">POR QUE ESCOLHER A EJA?</span>
               <h2 className="text-4xl font-bold text-gray-900">Conquiste seu diploma e transforme sua vida</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {[
                 {
                   icon: <GraduationCap className="h-10 w-10 text-[#0b3b75]" />,
                   title: "Diploma Reconhecido",
-                  description: "Certificado válido em todo o território nacional, reconhecido pelo MEC e registrado no SISTEC."
-                },
-                {
-                  icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,
-                  title: "100% Online",
-                  description: "Estude de qualquer lugar, a qualquer hora. Plataforma acessível pelo computador ou celular."
+                  description: "Certificado válido em todo o território nacional, reconhecido pelo MEC."
                 },
                 {
                   icon: <Clock className="h-10 w-10 text-[#0b3b75]" />,
@@ -300,8 +281,8 @@ export default function EjaPage() {
         <div className="py-16 bg-white overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-3">PARA QUEM É O EJA?</span>
-              <h2 className="text-4xl font-bold text-gray-900">O EJA é ideal para você que</h2>
+              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-3">PARA QUEM É A EJA?</span>
+              <h2 className="text-4xl font-bold text-gray-900">A EJA é ideal para você que</h2>
               <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
                 Não importa a idade ou o motivo — o importante é dar o próximo passo
               </p>
@@ -309,10 +290,25 @@ export default function EjaPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
-                "Não concluiu o Ensino Fundamental",
                 "Não concluiu o Ensino Médio",
                 "Precisa do diploma para o trabalho",
                 "Quer prestar concursos públicos",
+              ].map((item, index) => (
+                <div 
+                  key={index}
+                  className="group flex items-center gap-4 p-5 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-200 hover:border-purple-200 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#0b3b75] to-[#0d4d99] rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                    <CheckCircle className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900">{item}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto mt-6">
+              {[
                 "Deseja ingressar na faculdade",
                 "Busca crescimento pessoal e profissional"
               ].map((item, index) => (
@@ -372,7 +368,7 @@ export default function EjaPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">Registrado no SISTEC</span>
+                  <span className="text-blue-100">Estude no seu ritmo</span>
                 </div>
               </div>
               <Button
@@ -433,24 +429,24 @@ function EjaFAQ() {
 
   const faqData = [
     {
-      question: 'O que é o EJA?',
-      answer: 'O EJA (Educação de Jovens e Adultos) é um programa educacional destinado a pessoas que não concluíram o Ensino Fundamental ou Médio na idade regular. Ele permite que jovens e adultos obtenham seu diploma de forma acelerada e flexível.'
+      question: 'O que é a EJA?',
+      answer: 'A EJA (Educação de Jovens e Adultos) é um programa educacional destinado a pessoas que não concluíram o Ensino Médio na idade regular. Ela permite que jovens e adultos obtenham seu diploma de forma acelerada e flexível.'
     },
     {
-      question: 'O diploma do EJA é reconhecido?',
-      answer: 'Sim! O diploma do EJA é reconhecido pelo MEC (Ministério da Educação) e tem a mesma validade de um diploma obtido no ensino regular. É aceito em concursos públicos, faculdades e no mercado de trabalho.'
+      question: 'O diploma da EJA é reconhecido?',
+      answer: 'Sim! O diploma da EJA é reconhecido pelo MEC (Ministério da Educação) e tem a mesma validade de um diploma obtido no ensino regular. É aceito em concursos públicos, faculdades e no mercado de trabalho.'
     },
     {
-      question: 'O curso é totalmente online?',
-      answer: 'Sim, o EJA é 100% online (EaD). Você pode estudar de qualquer lugar, a qualquer hora, usando computador, tablet ou celular. Toda a plataforma é acessível e intuitiva.'
+      question: 'Como funciona a EJA?',
+      answer: 'A EJA é um programa flexível que permite concluir o Ensino Médio no seu ritmo. Você estuda com material didático completo e conta com suporte durante todo o processo.'
     },
     {
-      question: 'Qual a idade mínima para fazer o EJA?',
-      answer: 'Para o Ensino Fundamental, a idade mínima é de 15 anos. Para o Ensino Médio, a idade mínima é de 18 anos.'
+      question: 'Qual a idade mínima para fazer a EJA?',
+      answer: 'Para o Ensino Médio, a idade mínima é de 18 anos.'
     },
     {
       question: 'Como funciona o pagamento?',
-      answer: 'Você pode pagar à vista por R$999,90 no PIX ou parcelar em até 12x de R$91,90 no cartão de crédito. Entre em contato para conhecer outras condições especiais.'
+      answer: 'Você pode pagar à vista por R$999,90 ou parcelar em até 12x de R$91,90 no cartão de crédito. Entre em contato para conhecer outras condições especiais.'
     }
   ];
 
@@ -461,7 +457,7 @@ function EjaFAQ() {
           Perguntas Frequentes
         </h2>
         <p className="mt-4 text-lg text-gray-500">
-          Tire suas dúvidas sobre o EJA.
+          Tire suas dúvidas sobre a EJA.
         </p>
       </div>
       <div className="mt-8">

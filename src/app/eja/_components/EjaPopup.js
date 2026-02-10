@@ -35,8 +35,7 @@ export default function EjaPopup() {
 
   const highlights = [
     { icon: Award, text: 'Certificado MEC', label: 'Reconhecido' },
-    { icon: Monitor, text: '100% EaD', label: 'Modalidade' },
-    { icon: GraduationCap, text: 'Fund. e Médio', label: 'Níveis' }
+    { icon: GraduationCap, text: 'Ensino Médio', label: 'Nível' }
   ];
 
   return (
@@ -160,10 +159,10 @@ export default function EjaPopup() {
                           Conclua seus estudos agora
                         </h2>
                         <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4 sm:mb-6 line-clamp-3">
-                          Diploma do Ensino Fundamental ou Médio, 100% online, reconhecido pelo MEC. Invista no seu futuro.
+                          Diploma do Ensino Médio reconhecido pelo MEC. Invista no seu futuro.
                         </p>
 
-                        <div className="hidden sm:grid grid-cols-3 gap-3 mb-6">
+                        <div className="hidden sm:grid grid-cols-2 gap-3 mb-6">
                           {highlights.map((item, index) => (
                             <motion.div
                               key={index}
