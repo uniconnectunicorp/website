@@ -169,7 +169,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                 <div className="space-y-6">
                   <div className="flex flex-col items-baseline">
                     <span className="text-blue-200 line-through">
-                      De R$1999,90
+                      De {originalPrice}
                     </span>
                    <div className='flex w-full justify-between'>
                    <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
