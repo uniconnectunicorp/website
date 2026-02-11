@@ -107,7 +107,7 @@ export function CourseDetailsClient({ course }) {
                 <div className="space-y-6 max-md:space-y-3">
                   <div className="flex flex-col items-baseline">
                     <span className="text-blue-200 line-through">
-                      De R$1749,90
+                      De {originalPrice}
                     </span>
                    <div className='flex w-full justify-between'>
                    <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
@@ -228,7 +228,7 @@ export function CourseDetailsClient({ course }) {
                 <div className="space-y-6 max-md:space-y-3">
                   <div className="flex flex-col items-baseline">
                     <span className="text-blue-200 line-through">
-                      De R$1749,90
+                      De {originalPrice}
                     </span>
                    <div className='flex w-full justify-between'>
                    <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
