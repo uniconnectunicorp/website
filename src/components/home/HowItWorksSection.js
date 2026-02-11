@@ -51,7 +51,7 @@ const courseTracks = [
     href: '/eja',
     duration: 'Ensino Médio',
     features: [
-      'Diploma reconhecido pelo MEC',
+      'Cadastro na Secretaria da Educação',
       'Conclusão do Ensino Médio',
       'Estude no seu ritmo',
       'Acesso imediato'

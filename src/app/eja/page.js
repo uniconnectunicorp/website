@@ -23,7 +23,6 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
-import SistecAndMec from '@/components/sections/sistecAndMec';
 import { Header } from '@/components/layout/Header';
 import CTASection from '@/components/home/CTASection';
 import AboutUsCourse from '@/components/course-details/AboutUs';
@@ -38,11 +37,11 @@ const course = {
   installment: 91.90,
   installments: 12,
   modality: "EaD",
-  description: "A EJA (Educação de Jovens e Adultos) é a oportunidade ideal para quem deseja concluir o Ensino Médio de forma rápida e flexível. Com certificado reconhecido pelo MEC, a EJA permite que você conquiste seu diploma e abra novas portas no mercado de trabalho e na vida acadêmica.",
+  description: "A EJA (Educação de Jovens e Adultos) é a oportunidade ideal para quem deseja concluir o Ensino Médio de forma rápida e flexível. Com cadastro na Secretaria da Educação, a EJA permite que você conquiste seu diploma e abra novas portas no mercado de trabalho e na vida acadêmica.",
   image: "/courses/secretaria-escolar.webp",
   highlights: [
     "Conclusão do Ensino Médio",
-    "Certificado Reconhecido pelo MEC",
+    "Cadastro na Secretaria da Educação",
     "Estude no Seu Ritmo",
     "Acesso Imediato"
   ]
@@ -71,7 +70,7 @@ export default function EjaPage() {
 
   return (
     <>
-      <Head title="EJA - Educação de Jovens e Adultos | Uniconnect" image={course.image} description="Conclua o Ensino Médio com a EJA. Certificado reconhecido pelo MEC. Estude no seu ritmo." />
+      <Head title="EJA - Educação de Jovens e Adultos | Uniconnect" image={course.image} description="Conclua o Ensino Médio com a EJA. Cadastro na Secretaria da Educação. Estude no seu ritmo." />
       <div className="min-h-screen overflow-x-hidden">
         
         {/* Hero */}
@@ -141,7 +140,7 @@ export default function EjaPage() {
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Reconhecido pelo MEC</span>
+                        <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -169,7 +168,7 @@ export default function EjaPage() {
                     </div>
                     <div className="flex items-center text-blue-200">
                       <Award className="h-5 w-5 mr-2" />
-                      <span>Certificado MEC</span>
+                      <span>Cadastro na Secretaria da Educação</span>
                     </div>
                   </div>
 
@@ -179,7 +178,7 @@ export default function EjaPage() {
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Reconhecido pelo MEC</span>
+                        <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -249,7 +248,7 @@ export default function EjaPage() {
                 {
                   icon: <GraduationCap className="h-10 w-10 text-[#0b3b75]" />,
                   title: "Diploma Reconhecido",
-                  description: "Certificado válido em todo o território nacional, reconhecido pelo MEC."
+                  description: "Certificado válido em todo o território nacional, com cadastro na Secretaria da Educação."
                 },
                 {
                   icon: <Clock className="h-10 w-10 text-[#0b3b75]" />,
@@ -337,7 +336,7 @@ export default function EjaPage() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Invista no seu futuro</h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Conclua seus estudos com certificado reconhecido pelo MEC
+              Conclua seus estudos com cadastro na Secretaria da Educação
             </p>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 max-w-lg mx-auto">
@@ -360,7 +359,7 @@ export default function EjaPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">Diploma reconhecido pelo MEC</span>
+                  <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
@@ -385,7 +384,6 @@ export default function EjaPage() {
         {/* FAQ */}
         <EjaFAQ />
 
-        <SistecAndMec />
         <AboutUsCourse />
         <CTASection courseName={course.nome} />
 
@@ -434,7 +432,7 @@ function EjaFAQ() {
     },
     {
       question: 'O diploma da EJA é reconhecido?',
-      answer: 'Sim! O diploma da EJA é reconhecido pelo MEC (Ministério da Educação) e tem a mesma validade de um diploma obtido no ensino regular. É aceito em concursos públicos, faculdades e no mercado de trabalho.'
+      answer: 'Sim! O diploma da EJA possui cadastro na Secretaria da Educação e tem a mesma validade de um diploma obtido no ensino regular. É aceito em concursos públicos, faculdades e no mercado de trabalho.'
     },
     {
       question: 'Como funciona a EJA?',
