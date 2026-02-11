@@ -9,9 +9,10 @@ import { cn } from '@/lib/utils';
 
 export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = false }) {
   const displayPrice = competency ? course.competencyPrice : course.price;
-  const hasDiscount = course.originalPrice && course.originalPrice > displayPrice;
+  const displayOriginalPrice = competency ? course.competencyOriginalPrice : course.originalPrice;
+  const hasDiscount = displayOriginalPrice && displayOriginalPrice > displayPrice;
   const discountPercentage = hasDiscount 
-    ? Math.round(((course.originalPrice - displayPrice) / course.originalPrice) * 100) 
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100) 
     : 0;
 
   const handleEnrollClick = () => {
@@ -106,11 +107,11 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                       {displayPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                     <span className="text-sm line-through text-gray-500">
-                      {course.originalPrice?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      {displayOriginalPrice?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
                   <span className="text-xs text-green-600 font-medium">
-                    Economize {discountPercentage}% • {course.originalPrice && (course.originalPrice - displayPrice).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    Economize {discountPercentage}% • {displayOriginalPrice && (displayOriginalPrice - displayPrice).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
                 </div>
               ) : (

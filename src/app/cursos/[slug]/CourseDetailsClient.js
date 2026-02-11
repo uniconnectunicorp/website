@@ -113,14 +113,6 @@ export function CourseDetailsClient({ course }) {
                    <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
                    <span className='text-sm text-white bg-[#0b3b75] max-md:h-fit max-md:p-2 max-md:text-center px-4 max-md:text-xs flex items-center justify-center rounded-full'>40% de Desconto</span>
                    </div>
-                    {course.originalPrice > course.price && (
-                      <>
-                        <span className="ml-3 max-md:text-sm max-md:ml-0 text-lg text-blue-200 line-through">
-                          {originalPrice} a vista
-                        </span>
-                        
-                      </>
-                    )}
                   </div>
                   
                   <p className="text-blue-100 text-lg max-md:text-sm">
@@ -234,14 +226,6 @@ export function CourseDetailsClient({ course }) {
                    <span className="text-4xl font-bold text-white max-md:text-2xl">{currentPrice} <br className='md:hidden'/> <span className='font-normal text-sm text-gray-200'>a vista</span></span>
                    <span className='text-sm text-white bg-[#0b3b75] max-md:h-fit max-md:p-2 max-md:text-center px-4 max-md:text-xs flex items-center justify-center rounded-full'>40% de Desconto</span>
                    </div>
-                    {course.originalPrice > course.price && (
-                      <>
-                        <span className="ml-3 max-md:text-sm max-md:ml-0 text-lg text-blue-200 line-through">
-                          {originalPrice} a vista
-                        </span>
-                        
-                      </>
-                    )}
                   </div>
                   
                   <p className="text-blue-100 text-lg max-md:text-sm">

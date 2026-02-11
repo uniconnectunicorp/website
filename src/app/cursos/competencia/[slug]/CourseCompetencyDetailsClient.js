@@ -53,7 +53,7 @@ export function CourseCompetencyDetailsClient({ course }) {
   };
 
   const currentPrice = formatPrice(course.competencyPrice);
-  const originalPrice = formatPrice(course.originalPrice);
+  const originalPrice = formatPrice(course.competencyOriginalPrice);
   const modules = (course.modulos || []).map((module) => {
     const lessons = (module.componentes_curriculares || []).map(lesson => ({
       ...lesson,
@@ -175,14 +175,6 @@ export function CourseCompetencyDetailsClient({ course }) {
                    <span className="text-4xl font-bold text-white">{currentPrice} <span className='font-normal text-sm text-gray-200'>a vista</span></span>
                    <p className='text-sm text-white bg-[#ff6600] px-4 flex items-center justify-center rounded-full'>40% de Desconto</p>
                    </div>
-                    {course.originalPrice > course.price && (
-                      <>
-                        <span className="ml-3 text-lg text-blue-200 line-through">
-                          {originalPrice}
-                        </span>
-                        
-                      </>
-                    )}
                   </div>
                   
                   <p className="text-blue-100 text-lg">
