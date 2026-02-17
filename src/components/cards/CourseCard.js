@@ -110,9 +110,6 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                       {displayOriginalPrice?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
-                  <span className="text-xs text-green-600 font-medium">
-                    Economize {discountPercentage}% • {displayOriginalPrice && (displayOriginalPrice - displayPrice).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                  </span>
                 </div>
               ) : (
                <div className="flex flex-col items-baseline gap-2">
