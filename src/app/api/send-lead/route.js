@@ -81,8 +81,44 @@ async function getResponsavelPorSessao(sessionId, phone) {
     }
   }
   
-  // 3. Cria nova sessão com novo responsável
-  const { responsavel, counterValue } = await getProximoResponsavel();
+  // 3. Sessão não encontrada — tenta encontrar sessão órfã recente (cookie perdido)
+  //    antes de criar uma nova e incrementar o counter novamente.
+  let responsavel;
+  let counterValue;
+  
+  // Busca sessão recente sem telefone (criada pelo lead-session nos últimos 30min)
+  // que provavelmente pertence a este visitante cujo cookie se perdeu
+  try {
+    const orphanSession = await query(
+      `SELECT session_id, responsavel, counter_value FROM lead_sessions 
+       WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
+       ORDER BY created_at DESC LIMIT 1`
+    );
+    
+    if (orphanSession.rows.length > 0) {
+      // Reutiliza a sessão órfã em vez de incrementar o counter
+      const orphan = orphanSession.rows[0];
+      if (normalizedPhone) {
+        await query(
+          'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2',
+          [normalizedPhone, orphan.session_id]
+        );
+      }
+      return {
+        responsavel: orphan.responsavel,
+        isDuplicate: false,
+        newSessionId: orphan.session_id
+      };
+    }
+  } catch (error) {
+    console.error('Erro ao buscar sessão órfã:', error);
+  }
+  
+  // Nenhuma sessão órfã encontrada — cria nova sessão com incremento normal
+  const { responsavel: newResponsavel, counterValue: newCounterValue } = await getProximoResponsavel();
+  responsavel = newResponsavel;
+  counterValue = newCounterValue;
+
   const newSessionId = sessionId || uuidv4();
   
   await query(
