@@ -9,7 +9,8 @@ import { getLeadSessionId, getLeadResponsavel, setLeadSession } from '@/lib/cook
 const responsavelToNumber = {
   'Clara': '5531988775149',
   'Lidiane': '5531971844456',
-  'Jaiany': '5531990715637'
+  'Jaiany': '5531990715637',
+  'Vitoria': '5531995740904'
 };
 
 // Fallback para o primeiro número

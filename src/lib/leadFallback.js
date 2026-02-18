@@ -50,7 +50,7 @@ export async function sendLeadFallback(leadData) {
       `🏷️ *Tipo:* ${tipoLabel}\n` +
       `🆔 *ID Sessão:* ${sessionId || 'N/A'}\n` +
       `👨‍💼 *Responsável:* ${responsavel}\n` +
-      `🔢 *Número Seq:* ${numeroResponsavel || 'N/A'} de 3\n` +
+      `🔢 *Número Seq:* ${numeroResponsavel || 'N/A'} de 4\n` +
       `👤 *Nome:* ${name || 'N/A'}\n` +
       `📱 *Telefone Lead:* ${leadPhone || 'N/A'}\n` +
       `📞 *WhatsApp Destino:* ${whatsappNumber || 'N/A'}\n` +

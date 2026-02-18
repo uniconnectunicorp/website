@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { sendLeadFallback } from '@/lib/leadFallback';
 
-const responsaveis = ['Clara', 'Lidiane', 'Jaiany'];
+const responsaveis = ['Clara', 'Lidiane', 'Jaiany', 'Vitoria'];
 
 export async function POST(request) {
   try {

@@ -14,7 +14,8 @@ async function ensureDb() {
 const responsaveis = [
   'Clara',
   'Lidiane',
-  'Jaiany'
+  'Jaiany',
+  'Vitoria'
 ];
 
 // Função para obter o próximo responsável e incrementar contador (operação atômica)
