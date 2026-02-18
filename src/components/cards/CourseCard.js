@@ -8,9 +8,11 @@ import { cn } from '@/lib/utils';
 
 
 export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = false }) {
-  const hasDiscount = course.originalPrice && course.originalPrice > course.price;
+  const displayPrice = competency ? course.competencyPrice : course.price;
+  const displayOriginalPrice = competency ? course.competencyOriginalPrice : course.originalPrice;
+  const hasDiscount = displayOriginalPrice && displayOriginalPrice > displayPrice;
   const discountPercentage = hasDiscount 
-    ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100) 
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100) 
     : 0;
 
   const handleEnrollClick = () => {
@@ -102,33 +104,17 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                 <div className="flex flex-col">
                   <div className="flex items-baseline gap-2">
                     <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                      {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      {displayPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                     <span className="text-sm line-through text-gray-500">
-                      {course.originalPrice?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      {displayOriginalPrice?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
-                  <span className="text-xs text-green-600 font-medium">
-                    Economize {discountPercentage}% • {course.originalPrice && (course.originalPrice - course.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                  </span>
                 </div>
               ) : (
-                competency ? 
-                <div className="flex flex-col items-baseline gap-2">
-                <span className={`text-sm  line-through text-gray-500 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                  De {1999.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                 </span>
-                <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                   {course.competencyPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                 </span>
-                </div>
-               : 
                <div className="flex flex-col items-baseline gap-2">
-               <span className={`text-sm  line-through text-gray-500 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                 De {1799.90.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </span>
                <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
-                  {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  {displayPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
                </div>
                )}

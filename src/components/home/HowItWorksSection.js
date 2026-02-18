@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, FileText, UserCheck, MessageCircle, Award, Clock, Users, CheckCircle, ArrowRight } from 'lucide-react';
+import { Search, FileText, UserCheck, MessageCircle, Award, Clock, Users, CheckCircle, ArrowRight, GraduationCap, BookOpen, Languages } from 'lucide-react';
 import FadeInUp from "@/components/client/FadeInUp";
 import Link from 'next/link';
 
@@ -27,9 +27,50 @@ const courseTracks = [
     features: [
       'Reconhecimento pelo MEC e Sistec',
       '100% online e flexível',
-      'Necessário 2 anos de experiência comprovada',
+      'Necessário 2 anos de experiência comprovada',
       'Validação de conhecimentos prévios'
     ]
+  },
+  {
+    title: 'Cursos Sequenciais',
+    icon: BookOpen,
+    color: 'bg-emerald-600',
+    href: '/sequenciais',
+    duration: 'A partir de 6 meses',
+    features: [
+      'Certificação reconhecida pelo MEC',
+      'Formação de nível superior',
+      'Diversas áreas disponíveis',
+      'Estude no seu ritmo'
+    ]
+  },
+  {
+    title: 'EJA - Educação de Jovens e Adultos',
+    icon: GraduationCap,
+    color: 'bg-purple-600',
+    href: '/eja',
+    duration: 'Ensino Médio',
+    features: [
+      'Cadastro na Secretaria da Educação',
+      'Conclusão do Ensino Médio',
+      'Estude no seu ritmo',
+      'Acesso imediato'
+    ],
+    linkText: 'Ver curso disponível'
+  },
+  {
+    title: 'Curso de Inglês',
+    icon: Languages,
+    color: 'bg-sky-600',
+    href: '/curso-de-ingles',
+    duration: 'Flexível',
+    features: [
+      'Aprenda do zero ao avançado',
+      'Material didático completo',
+      'Certificado ao concluir',
+      'Melhor custo-benefício'
+    ],
+    linkText: 'Ver curso disponível'
   }
 ];
 
@@ -117,12 +158,12 @@ export default function HowItWorksSection() {
             </h3>
           </FadeInUp>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            {courseTracks.map((track, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courseTracks.slice(0, 3).map((track, index) => (
               <FadeInUp key={index} delay={index * 0.1}>
-                <div className="relative h-full bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                <div className="relative h-full bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
                   <div className={`h-2 ${track.color}`}></div>
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center mb-4">
                       <div className={`p-3 rounded-lg ${track.color} bg-opacity-10 mr-4`}>
                         <track.icon className={`h-8 w-8 ${track.color} text-white`} />
@@ -144,12 +185,53 @@ export default function HowItWorksSection() {
                       ))}
                     </ul>
                     
-                    <div className="mt-6 pt-4 border-t border-gray-100">
+                    <div className="mt-auto pt-4 border-t border-gray-100">
                       <Link 
                         href={track.href}
                         className="inline-flex items-center text-sm font-medium text-[#0b3b75]"
                       >
-                        Ver cursos disponíveis
+                        {track.linkText || 'Ver cursos disponíveis'}
+                        <ArrowRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </FadeInUp>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mt-6">
+            {courseTracks.slice(3).map((track, index) => (
+              <FadeInUp key={index + 3} delay={(index + 3) * 0.1}>
+                <div className="relative h-full bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
+                  <div className={`h-2 ${track.color}`}></div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center mb-4">
+                      <div className={`p-3 rounded-lg ${track.color} bg-opacity-10 mr-4`}>
+                        <track.icon className={`h-8 w-8 ${track.color} text-white`} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900">{track.title}</h3>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-600 mb-4">
+                      <Clock className="h-4 w-4 mr-1 text-gray-500" />
+                      <span>Duração: {track.duration}</span>
+                    </div>
+                    
+                    <ul className="space-y-3 mt-6">
+                      {track.features.map((feature, i) => (
+                        <li key={i} className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <div className="mt-auto pt-4 border-t border-gray-100">
+                      <Link 
+                        href={track.href}
+                        className="inline-flex items-center text-sm font-medium text-[#0b3b75]"
+                      >
+                        {track.linkText || 'Ver cursos disponíveis'}
                         <ArrowRight className="ml-1 h-4 w-4" />
                       </Link>
                     </div>

@@ -1,0 +1,118 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { Clock, BookOpen, ArrowRight, Monitor } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export function SequentialCourseCard({ course, className }) {
+  return (
+    <div className={cn(
+      "group relative bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full border border-gray-100 hover:border-emerald-50 hover:-translate-y-1.5",
+      className
+    )}>
+      {/* Image with overlay */}
+      <div className="relative aspect-video overflow-hidden">
+        <Link href={`/sequenciais/${course.slug}`} className="block h-full">
+          <div className="relative w-full h-full">
+            <Image
+              src={course.image}
+              alt={course.nome}
+              fill
+              priority
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span className="text-white font-medium text-sm flex items-center bg-[#0b3b75] hover:bg-[#0b3b75] px-3 py-1.5 rounded-full transition-colors">
+                Ver detalhes <ArrowRight className="ml-1 h-4 w-4" />
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        {/* Badge Sequencial + Desconto */}
+        <div className="absolute top-3 left-3 z-10 flex gap-2">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg shadow-lg">
+            <Monitor className="w-3 h-3 text-white" />
+            <span className="text-xs font-bold text-white uppercase tracking-wide">Sequencial</span>
+          </div>
+          <div className="flex items-center px-2.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg shadow-lg">
+            <span className="text-xs font-bold text-white">40% OFF</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Card Content */}
+      <div className="p-5 flex flex-col flex-1">
+        {/* Course Info */}
+        <p className="text-sm text-white w-fit px-3 py-1 rounded-full font-medium bg-[#0b3b75] mb-4">
+          Curso Sequencial
+        </p>
+        <h3 className="text-[#0b3b75] font-semibold text-lg mb-2">{course.nome}</h3>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center text-xs text-[#0b3b75] bg-blue-50 px-3 py-1 rounded-full font-medium">
+            <Clock className="w-3.5 h-3.5 mr-1.5" />
+            Duração de {course.duration}
+          </div>
+        </div>
+        
+        {/* Description */}
+        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+          {course.description}
+        </p>
+        
+        {/* Course Details */}
+        <div className="space-y-2.5 mb-4">
+          {course.modality && (
+            <div className="flex items-center text-sm text-gray-700">
+              <BookOpen className="w-4 h-4 mr-2 text-[#0b3b75] flex-shrink-0" />
+              <span className="truncate">{course.modality} • {course.workload}h</span>
+            </div>
+          )}
+        </div>
+        
+        {/* Price & CTA */}
+        <div className="mt-auto border-t border-gray-100">
+          <div className="flex flex-col space-y-3">
+            <div>
+              <div className="flex flex-col items-baseline gap-1">
+                {course.originalPrice && (
+                  <span className="text-sm line-through text-gray-400">
+                    De {course.originalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </span>
+                )}
+                <span className="text-2xl font-bold text-[#0b3b75]">
+                  {course.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  <span className="text-sm font-normal text-gray-500 ml-1">à vista</span>
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 mt-0.5">
+                ou {course.installments}x de {course.installment.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} no cartão
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <Link 
+                href={`/sequenciais/${course.slug}`}
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-[#0b3b75] rounded-lg transition-all shadow-sm hover:shadow-md"
+              >
+                Matricule-se agora
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+              
+              <div className="flex items-center justify-center text-xs text-gray-500">
+                <div className="flex items-center mr-3">
+                  <div className="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></div>
+                  <span>Vagas limitadas</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-gray-300 mr-3"></div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 rounded-full bg-[#0b3b75] mr-1.5"></div>
+                  <span>Início imediato</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

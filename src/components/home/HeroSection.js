@@ -19,8 +19,7 @@ export default function HeroSection() {
               </h1>
               
               <p className="text-lg text-gray-600">
-                Cursos técnicos reconhecidos pelo MEC com certificação válida em todo o Brasil. 
-                Aprenda com especialistas e dê um salto na sua carreira profissional.
+                Cursos Profissionalizantes, Técnicos, EJA e Superior Sequencial de alta qualidade e com certificação válida em todo o Brasil. Aprende com especialistas e dê um salto na sua carreira profissional.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">

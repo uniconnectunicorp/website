@@ -5,7 +5,7 @@ import FadeInUp from "@/components/client/FadeInUp";
 const features = [
   {
     icon: BookOpen,
-    title: "Cursos Técnicos",
+    title: "Cursos de alta qualidade",
     description: "Cursos alinhados com as demandas do mercado de trabalho.",
     color: "text-[#ff6600]"
   },

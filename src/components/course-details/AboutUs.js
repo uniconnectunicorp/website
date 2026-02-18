@@ -40,14 +40,14 @@ export default function AboutUsCourse() {
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-2 h-2 bg-blue-400 rounded-full mt-3"></div>
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      Estamos aqui para ajudar você a <strong>impulsionar sua carreira profissional</strong> com um curso técnico <strong className="text-[#0b3b75]">100% EAD</strong>.
+                      Estamos aqui para ajudar a você a <strong>impulsionar sua carreira profissional</strong> com um curso de <strong className="text-[#0b3b75]">alta qualidade</strong>.
                     </p>
                   </div>
                   
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-2 h-2 bg-[#0b3b75] rounded-full mt-3"></div>
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      Nossos cursos são <strong>validados pelo MEC e SISTEC</strong>, garantindo qualidade e credibilidade em sua formação.
+                      Nossos cursos te ajudam a <strong>ir além em sua carreira profissional</strong>: cursos profissionalizantes, técnicos, EJA, Superior Sequencial e <strong className="text-[#0b3b75]">muito mais</strong>.
                     </p>
                   </div>
                 </div>
