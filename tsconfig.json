@@ -33,6 +33,7 @@
     "**/*.tsx"
 , "src/data/course.js", "src/components/course-details/CourseContentSection.js", "src/app/cursos/[slug]/CourseDetailsClient.js", "src/app/cursos/[slug]/page.js", "src/app/cursos/page.js", "src/components/sections/Testimonials.js", "src/lib/utils.js", "src/contexts/theme-context.js", "src/app/sobre/page.js", "src/components/forms/EnrollmentFormV2.js", "src/app/contato/page.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "prisma/seed.ts"
   ]
 }
