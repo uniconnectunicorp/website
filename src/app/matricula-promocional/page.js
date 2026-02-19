@@ -284,23 +284,7 @@ export default function MatriculaPromocional() {
                       </motion.p>
                     )}
                   </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex items-center gap-4 p-4 bg-green-50 border border-green-200 rounded-xl"
-                  >
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Percent className="w-6 h-6 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-green-700 font-bold text-lg">50% de Desconto Ativado</p>
-                      <p className="text-gray-600 text-sm">
-                        Preencha os campos abaixo para finalizar sua matrícula com desconto
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
+                ) : null}
               </div>
 
               {/* Pricing Display — sempre visível */}
@@ -308,16 +292,13 @@ export default function MatriculaPromocional() {
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-2">Valor do Curso</p>
                   {!promoApplied ? (
-                    <>
-                      <p className="text-3xl font-bold text-gray-900">R$ 999,90 <span className="text-base font-normal text-gray-600">à vista</span></p>
-                      <p className="text-gray-600 mt-1">ou 12x de R$ 89,90 no cartão</p>
-                    </>
+                    <p className="text-3xl font-bold text-[#0b3b75]">R$ 1.665,90</p>
                   ) : (
                     <>
-                      <p className="text-lg text-gray-500 line-through">R$ 999,90</p>
                       <p className="text-3xl font-bold text-green-600">R$ 799,90 <span className="text-base font-normal text-gray-600">à vista</span></p>
                       <p className="text-gray-600 mt-1">ou 12x de R$ 74,90 no cartão</p>
-                      <p className="text-sm text-green-600 font-semibold mt-2">✓ Cupom promocional aplicado!</p>
+                      <p className="text-sm text-gray-500 line-through mt-2">De R$ 1.665,90</p>
+                      <p className="text-sm text-green-600 font-semibold mt-1">✓ Cupom promocional aplicado!</p>
                     </>
                   )}
                 </div>
@@ -436,7 +417,6 @@ export default function MatriculaPromocional() {
                         <p className="text-sm text-gray-600">Selecione o curso e forma de pagamento</p>
                       </div>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="md:col-span-2">
                         <label className={labelClass}>Nome do Curso *</label>
