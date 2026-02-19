@@ -303,6 +303,26 @@ export default function MatriculaPromocional() {
                 )}
               </div>
 
+              {/* Pricing Display — sempre visível */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 mb-2">Valor do Curso</p>
+                  {!promoApplied ? (
+                    <>
+                      <p className="text-3xl font-bold text-gray-900">R$ 999,90 <span className="text-base font-normal text-gray-600">à vista</span></p>
+                      <p className="text-gray-600 mt-1">ou 12x de R$ 89,90 no cartão</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-lg text-gray-500 line-through">R$ 999,90</p>
+                      <p className="text-3xl font-bold text-green-600">R$ 799,90 <span className="text-base font-normal text-gray-600">à vista</span></p>
+                      <p className="text-gray-600 mt-1">ou 12x de R$ 74,90 no cartão</p>
+                      <p className="text-sm text-green-600 font-semibold mt-2">✓ Cupom promocional aplicado!</p>
+                    </>
+                  )}
+                </div>
+              </div>
+
               {/* Restante do formulário — só aparece após cupom */}
               {promoApplied && (
                 <>
@@ -416,7 +436,7 @@ export default function MatriculaPromocional() {
                         <p className="text-sm text-gray-600">Selecione o curso e forma de pagamento</p>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="md:col-span-2">
                         <label className={labelClass}>Nome do Curso *</label>
@@ -439,15 +459,15 @@ export default function MatriculaPromocional() {
                     </div>
                   </div>
 
-                  {/* Discount Banner */}
+                  {/* Payment Info Banner */}
                   <div className="bg-green-50 border border-green-200 rounded-xl p-6">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                         <Percent className="w-6 h-6 text-green-600" />
                       </div>
                       <div>
-                        <p className="text-green-700 font-bold text-lg">Desconto de 50% aplicado!</p>
-                        <p className="text-gray-600 text-sm">O desconto será aplicado automaticamente no link de pagamento enviado via WhatsApp.</p>
+                        <p className="text-green-700 font-bold text-lg">Link de pagamento via WhatsApp</p>
+                        <p className="text-gray-600 text-sm">Após finalizar, você receberá o link de pagamento com o desconto aplicado via WhatsApp.</p>
                       </div>
                     </div>
                   </div>

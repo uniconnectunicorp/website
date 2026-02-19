@@ -176,11 +176,6 @@ export async function POST(request) {
     </div>
     
     <div class="content">
-      <div class="highlight">
-        <p class="highlight-title">Atendente Responsável</p>
-        <p class="highlight-value">${data.seller}</p>
-      </div>
-
       <div class="section">
         <h2 class="section-title">
           <span class="icon">👤</span>
