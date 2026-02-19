@@ -8,9 +8,7 @@ import CTASection from "@/components/home/CTASection";
 import { Header } from '@/components/layout/Header';
 
 export default function Home() {
-  // Ativar/desativar tema Black November
-  const isBlackNovember = true;
-  
+ 
   return (
     <div className="min-h-screen w-full">
       <HeroSection />
