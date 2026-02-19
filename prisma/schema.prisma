@@ -138,12 +138,9 @@ model Finance {
   transactionDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@map("finance")
 }
-
-
-
 
 
 enum Role {
