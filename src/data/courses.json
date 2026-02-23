@@ -4,10 +4,10 @@
     "slug": "logistica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Logística é uma formação profissionalizante que visa capacitar os alunos a atuar como profissionais na área de logística, desenvolvendo habilidades e competências nas áreas de gestão de estoque, gerenciamento de pessoas, gestão de custos, gestão da qualidade, entre outras.",
@@ -126,10 +126,10 @@
     "slug": "administracao",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Administração forma profissionais capacitados para atuar na administração de empresas, desenvolvendo competências em gestão de recursos humanos, marketing, finanças e estratégia empresarial.",
@@ -179,10 +179,10 @@
     "slug": "computacao-grafica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "description": "O curso de Técnico em Computação Gráfica capacita profissionais para criar soluções visuais inovadoras, desenvolvendo competências em criação de identidade visual, ilustração digital e produção gráfica.",
@@ -228,10 +228,10 @@
     "slug": "automacao-industrial",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "modality": "EAD",
     "description": "O curso Técnico em Automação Industrial tem como objetivo capacitar profissionais para atuar em sistemas de automação, desenvolvendo competências em instalações elétricas, automação industrial e manutenção de equipamentos, garantindo a segurança e eficiência dos sistemas.",
     "image": "/courses/automacao-industrial.webp",
@@ -290,10 +290,10 @@
     "slug": "contabilidade",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 8,
-    "competency": true,
+    "aproveitamento": true,
     "modality": "EAD",
     "description": "O curso Técnico em Contabilidade forma profissionais capacitados para atuar na área contábil, desenvolvendo competências em escrituração fiscal, análise de demonstrações contábeis e gestão financeira.",
     "image": "/courses/contabilidade.webp",
@@ -349,10 +349,10 @@
     "slug": "edificacoes",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Edificações forma profissionais capacitados para atuar na construção civil, desenvolvendo competências em projetos arquitetônicos, gestão de obras e sustentabilidade na construção.",
@@ -475,10 +475,10 @@
     "slug": "eletroeletronica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Eletroeletrônica forma profissionais capacitados para desenvolver e manter sistemas eletroeletrônicos, com competências em automação industrial, eletroeletrônica digital e programação de microcontroladores.",
@@ -524,10 +524,10 @@
     "slug": "mecanica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CFT",
     "modality": "EAD",
     "description": "O curso Técnico em Mecânica forma profissionais capacitados para atuar na área de mecânica industrial, desenvolvendo competências em projetos mecânicos, manutenção de máquinas e equipamentos industriais.",
@@ -580,10 +580,10 @@
     "slug": "informatica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Informática forma profissionais capacitados para atuar na área de tecnologia da informação, desenvolvendo competências em programação, redes de computadores e desenvolvimento web.",
@@ -630,10 +630,10 @@
     "slug": "marketing-e-comunicacao",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Técnico em Marketing e Comunicação forma profissionais capacitados para atuar na área de marketing e comunicação, desenvolvendo competências em marketing digital, gestão de relacionamento e estratégias comerciais.",
@@ -707,10 +707,10 @@
     "slug": "eletrotecnica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CFT/CRT",
     "modality": "EAD",
     "description": "O curso Técnico em Eletrotécnica forma profissionais especializados em sistemas elétricos industriais, desenvolvendo competências em automação, energias renováveis e instalações elétricas de alta tensão.",
@@ -788,10 +788,10 @@
     "slug": "nutricao-e-dieta",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRN",
     "modality": "EAD",
     "description": "O curso Técnico em Nutrição e Dieta forma profissionais capacitados para atuar na área de alimentação e nutrição, desenvolvendo competências em avaliação nutricional, segurança alimentar e gestão de serviços de alimentação.",
@@ -849,10 +849,10 @@
     "slug": "recursos-humanos",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso de Recursos Humanos forma profissionais capacitados para atuar na área de recursos humanos, desenvolvendo competências em recrutamento, seleção, treinamento e gestão de pessoas.",
@@ -906,10 +906,10 @@
     "slug": "secretaria-escolar",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "modality": "EAD",
     "description": "O curso de Secretaria Escolar forma profissionais capacitados para atuar na área educacional, desenvolvendo competências em gestão educacional, currículos pedagógicos e práticas de ensino.",
     "image": "/courses/secretaria-escolar.webp",
@@ -947,10 +947,10 @@
     "slug": "transacao-imobiliarias",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRECI/COFECI",
     "modality": "EAD",
     "description": "O curso de Transação Imobiliária forma profissionais capacitados para atuar no mercado imobiliário, desenvolvendo competências em avaliação de imóveis, gestão comercial e legislação imobiliária.",
@@ -1018,10 +1018,10 @@
     "slug": "guia-de-turismo",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CADASTUR",
     "modality": "EAD",
     "description": "O curso de Técnico em Guia de Turismo forma profissionais capacitados para atuar na área turística, desenvolvendo competências em gestão de serviços turísticos, hospitalidade e marketing de eventos.",
@@ -1084,10 +1084,10 @@
     "slug": "vendas",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 6,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRA",
     "modality": "EAD",
     "description": "O curso Técnico em Vendas forma profissionais capacitados para atuar na área comercial, desenvolvendo competências em técnicas de vendas, atendimento ao cliente, gestão comercial e marketing digital.",
@@ -1149,10 +1149,10 @@
     "slug": "eletronica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CFT/CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
@@ -1165,10 +1165,10 @@
     "slug": "estetica-e-cosmetologia",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "modality": "EAD",
     "enrollmentOnly": true,
     "description": "O curso Técnico em Estética e Cosmetologia forma profissionais capacitados para atuar na área de estética, desenvolvendo competências em tratamentos estéticos, cosmetologia e gestão de salões de beleza.",
@@ -1180,10 +1180,10 @@
     "slug": "informatica-para-internet",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
@@ -1196,10 +1196,10 @@
     "slug": "servicos-juridicos",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "modality": "EAD",
     "enrollmentOnly": true,
     "description": "O curso Técnico em Serviços Jurídicos forma profissionais capacitados para atuar em escritórios de advocacia e departamentos jurídicos, desenvolvendo competências em rotinas processuais e legislação.",
@@ -1211,10 +1211,10 @@
     "slug": "redes-de-computadores",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
@@ -1227,10 +1227,10 @@
     "slug": "manutencao-suporte-informatica",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
@@ -1243,10 +1243,10 @@
     "slug": "programacao-jogos-digitais",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
@@ -1259,15 +1259,679 @@
     "slug": "desenvolvimento-de-sistemas",
     "price": 999.90,
     "originalPrice": 1665.90,
-    "competencyPrice": 1199.90,
-    "competencyOriginalPrice": 1999.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
     "minTime": 12,
-    "competency": true,
+    "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
     "enrollmentOnly": true,
     "description": "O curso Técnico em Desenvolvimento de Sistemas forma profissionais capacitados para atuar no desenvolvimento de software, desenvolvendo competências em programação, banco de dados e análise de sistemas.",
     "image": "/courses/desenvolvimento-sistemas.webp",
     "modulos": []
+  },
+  {
+    "nome": "Técnico em Agrimesura",
+    "slug": "agrimesura",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Agrimesura forma profissionais capacitados para atuar em levantamentos topográficos, georreferenciamento, cartografia e planejamento urbano, com reconhecimento pelo MEC e registro no SISTEC.",
+    "image": "/courses/edificacoes.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Informática Aplicada", "carga_horaria": 80 },
+          { "nome": "Cartografia", "carga_horaria": 80 },
+          { "nome": "Geodésia e Topografia", "carga_horaria": 80 },
+          { "nome": "Georreferenciamento", "carga_horaria": 80 },
+          { "nome": "Sensoriamento Remoto", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Geografia Aplicada", "carga_horaria": 60 },
+          { "nome": "Solo Urbano e Rural", "carga_horaria": 70 },
+          { "nome": "Cadastro Técnico Multifinalitário", "carga_horaria": 80 },
+          { "nome": "Legislação Aplicada", "carga_horaria": 50 },
+          { "nome": "Hidrografia", "carga_horaria": 70 },
+          { "nome": "Planejamento Urbano", "carga_horaria": 70 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Métodos de Posicionamento por Satélites", "carga_horaria": 80 },
+          { "nome": "Projeto Geométrico de Estradas", "carga_horaria": 80 },
+          { "nome": "Sistemas de Informações Geográfica", "carga_horaria": 80 },
+          { "nome": "Planejamento de Loteamentos, Desmembramentos e Obras de Engenharia", "carga_horaria": 80 },
+          { "nome": "Vistorias e Arbitramentos Relativos à Agrimensura", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Biotecnologia",
+    "slug": "biotecnologia",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Biotecnologia forma profissionais capacitados para atuar em laboratórios de pesquisa e análise, desenvolvendo competências em biologia molecular, microbiologia, bioquímica e biotecnologia aplicada.",
+    "image": "/courses/nutricao.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 220,
+        "componentes_curriculares": [
+          { "nome": "Fundamentos de Laboratório", "carga_horaria": 50 },
+          { "nome": "Biologia Celular", "carga_horaria": 50 },
+          { "nome": "Química Aplicada", "carga_horaria": 50 },
+          { "nome": "Biossegurança", "carga_horaria": 40 },
+          { "nome": "Biologia Molecular", "carga_horaria": 30 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 330,
+        "componentes_curriculares": [
+          { "nome": "Bioquímica", "carga_horaria": 60 },
+          { "nome": "Parasitologia", "carga_horaria": 50 },
+          { "nome": "Histologia", "carga_horaria": 60 },
+          { "nome": "Bioestatística", "carga_horaria": 50 },
+          { "nome": "Imunologia", "carga_horaria": 60 },
+          { "nome": "Microbiologia", "carga_horaria": 50 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 280,
+        "componentes_curriculares": [
+          { "nome": "Toxicologia", "carga_horaria": 60 },
+          { "nome": "Biotecnologia", "carga_horaria": 60 },
+          { "nome": "Biofarmacos", "carga_horaria": 60 },
+          { "nome": "Análise Físico-Química", "carga_horaria": 40 },
+          { "nome": "Tecnologia Enzimática", "carga_horaria": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Qualidade",
+    "slug": "qualidade",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Qualidade forma profissionais capacitados para atuar na gestão da qualidade em organizações, desenvolvendo competências em auditoria, controle de processos, ferramentas da qualidade e melhoria contínua.",
+    "image": "/courses/administracao.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Fundamentos da Administração", "carga_horaria": 60 },
+          { "nome": "Gestão de Pessoas", "carga_horaria": 60 },
+          { "nome": "Informática Aplicada", "carga_horaria": 50 },
+          { "nome": "Fundamentos da Qualidade", "carga_horaria": 70 },
+          { "nome": "Sistemas de Gestão da Qualidade", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 310,
+        "componentes_curriculares": [
+          { "nome": "Estatística aplicada", "carga_horaria": 50 },
+          { "nome": "Gestão de Projetos", "carga_horaria": 60 },
+          { "nome": "Economia e Mercado", "carga_horaria": 40 },
+          { "nome": "Ferramentas da Qualidade", "carga_horaria": 50 },
+          { "nome": "Gestão da produção e operações", "carga_horaria": 50 },
+          { "nome": "Qualidade e Produtividade", "carga_horaria": 50 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 200,
+        "componentes_curriculares": [
+          { "nome": "Auditoria da Qualidade", "carga_horaria": 70 },
+          { "nome": "Custos da Qualidade", "carga_horaria": 70 },
+          { "nome": "Gestão e Melhoria de Processos", "carga_horaria": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Prevenção e Combate a Incêndio",
+    "slug": "prevencao-combate-incendio",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Prevenção e Combate a Incêndio forma profissionais capacitados para atuar na prevenção, combate e controle de incêndios, desenvolvendo competências em segurança, legislação e procedimentos de emergência.",
+    "image": "/courses/seguranca-do-trabalho.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Legislação Aplicada", "carga_horaria": 60 },
+          { "nome": "Processo de Combustão e Dinâmica do Fogo", "carga_horaria": 60 },
+          { "nome": "Segurança do Trabalho Aplicada", "carga_horaria": 60 },
+          { "nome": "Técnicas de Combate a Incêndio I", "carga_horaria": 60 },
+          { "nome": "Riscos em Incêndios", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Materiais e Equipamentos", "carga_horaria": 50 },
+          { "nome": "Técnicas de Combate a Incêndio II", "carga_horaria": 70 },
+          { "nome": "Primeiros Socorros", "carga_horaria": 80 },
+          { "nome": "Sustentabilidade Ambiental", "carga_horaria": 50 },
+          { "nome": "Procedimentos em Emergências", "carga_horaria": 50 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Gerenciamento dos recursos móveis de combate a incêndio", "carga_horaria": 80 },
+          { "nome": "Armazenamento e proteção de líquidos combustíveis e inflamáveis", "carga_horaria": 80 },
+          { "nome": "Sistema de Comando de Incidentes", "carga_horaria": 80 },
+          { "nome": "Inspeção de segurança contra incêndio e explosão", "carga_horaria": 80 },
+          { "nome": "Plano de ação de emergência e resgate", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Mineração",
+    "slug": "mineracao",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Mineração forma profissionais capacitados para atuar na indústria mineral, desenvolvendo competências em geologia, topografia, planejamento de lavra, geoprocessamento e beneficiamento de minérios.",
+    "image": "/courses/automacao-industrial.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Geologia Geral", "carga_horaria": 60 },
+          { "nome": "Introdução a Mineração", "carga_horaria": 60 },
+          { "nome": "Mineralogia Macroscópica", "carga_horaria": 50 },
+          { "nome": "Mineração no Brasil e no Pará", "carga_horaria": 50 },
+          { "nome": "Petrografia de Rochas", "carga_horaria": 50 },
+          { "nome": "Gênese de Depósitos Minerais", "carga_horaria": 60 },
+          { "nome": "Pesquisa e Prospecção Mineral", "carga_horaria": 70 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Química Aplicada a Mineração", "carga_horaria": 50 },
+          { "nome": "Topografia", "carga_horaria": 40 },
+          { "nome": "Princípios de Fotogeologia e Sensoriamento Remoto", "carga_horaria": 40 },
+          { "nome": "Geoprocessamento", "carga_horaria": 40 },
+          { "nome": "Perfuração e Desmonte de Rochas", "carga_horaria": 50 },
+          { "nome": "Planejamento de Lavra", "carga_horaria": 50 },
+          { "nome": "Métodos de Lavra", "carga_horaria": 60 },
+          { "nome": "Instalações de Minas", "carga_horaria": 70 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Química Aplicada a Mineração", "carga_horaria": 60 },
+          { "nome": "Topografia", "carga_horaria": 70 },
+          { "nome": "Princípios de Fotogeologia e Sensoriamento Remoto", "carga_horaria": 40 },
+          { "nome": "Geoprocessamento", "carga_horaria": 60 },
+          { "nome": "Perfuração e Desmonte de Rochas", "carga_horaria": 50 },
+          { "nome": "Planejamento de Lavra", "carga_horaria": 60 },
+          { "nome": "Métodos de Lavra", "carga_horaria": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Sistema de Energia Renovável",
+    "slug": "sistema-energia-renovavel",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Sistema de Energia Renovável forma profissionais capacitados para atuar na instalação, manutenção e gestão de sistemas de energia solar, eólica, fotovoltaica e outras fontes renováveis.",
+    "image": "/courses/eletrotecnica.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 480,
+        "componentes_curriculares": [
+          { "nome": "Legislação Aplicada", "carga_horaria": 80 },
+          { "nome": "Informática", "carga_horaria": 80 },
+          { "nome": "Matemática", "carga_horaria": 80 },
+          { "nome": "Física", "carga_horaria": 80 },
+          { "nome": "Eletricidade", "carga_horaria": 80 },
+          { "nome": "Legislação Aplicada", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Química", "carga_horaria": 60 },
+          { "nome": "Eletrônica", "carga_horaria": 70 },
+          { "nome": "Energias Renováveis", "carga_horaria": 80 },
+          { "nome": "Inglês Instrumental", "carga_horaria": 50 },
+          { "nome": "Sustentabilidade Ambiental", "carga_horaria": 70 },
+          { "nome": "Desenho Assistido por Computador", "carga_horaria": 70 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Energia Solar e Térmica", "carga_horaria": 80 },
+          { "nome": "Energia Fotovoltaica", "carga_horaria": 80 },
+          { "nome": "Manutenção em Sistemas de Energia", "carga_horaria": 80 },
+          { "nome": "Gestão do Projeto de Instalação", "carga_horaria": 80 },
+          { "nome": "Energia Eólica e Hidráulica", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Telecomunicações",
+    "slug": "telecomunicacoes",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Telecomunicações forma profissionais capacitados para atuar na instalação, manutenção e operação de sistemas de telecomunicações, incluindo redes de dados, telefonia e transmissão de sinais.",
+    "image": "/courses/eletroeletronica.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 480,
+        "componentes_curriculares": [
+          { "nome": "Informática Aplicada", "carga_horaria": 80 },
+          { "nome": "Eletricidade", "carga_horaria": 80 },
+          { "nome": "Eletrônica Digital", "carga_horaria": 80 },
+          { "nome": "Sistemas Telefônicos", "carga_horaria": 80 },
+          { "nome": "Comunicação de Dados I", "carga_horaria": 80 },
+          { "nome": "Informática Aplicada", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Sistemas de Difusão", "carga_horaria": 60 },
+          { "nome": "Transmissão de Ondas Eletromagnéticas", "carga_horaria": 70 },
+          { "nome": "Fibras Ópticas", "carga_horaria": 80 },
+          { "nome": "Comunicação de Dados II", "carga_horaria": 50 },
+          { "nome": "Antenas", "carga_horaria": 70 },
+          { "nome": "Sistemas de Televisão", "carga_horaria": 70 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Cabeamento", "carga_horaria": 80 },
+          { "nome": "Comutação Telefônica", "carga_horaria": 80 },
+          { "nome": "Telefonia Móvel", "carga_horaria": 80 },
+          { "nome": "Controle de indicadores Operacionais", "carga_horaria": 80 },
+          { "nome": "Telefonia Voip", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Agropecuária",
+    "slug": "agropecuaria",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Agropecuária forma profissionais capacitados para atuar na produção vegetal e animal, gestão de propriedades rurais, mecanização agrícola e manejo sustentável de recursos naturais.",
+    "image": "/courses/guia-de-turismo.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Matemática Aplicada", "carga_horaria": 80 },
+          { "nome": "Produção Vegetal", "carga_horaria": 80 },
+          { "nome": "Produção Animal", "carga_horaria": 80 },
+          { "nome": "Construção e Instalações Rurais", "carga_horaria": 80 },
+          { "nome": "Informática", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 350,
+        "componentes_curriculares": [
+          { "nome": "Segurança do Trabalho", "carga_horaria": 60 },
+          { "nome": "Topografia", "carga_horaria": 60 },
+          { "nome": "Geoprocessamento", "carga_horaria": 70 },
+          { "nome": "Inglês Instrumental", "carga_horaria": 40 },
+          { "nome": "Irrigação e Drenagem", "carga_horaria": 60 },
+          { "nome": "Gestão de Recursos Hídricos", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Mecanização Agrícola", "carga_horaria": 80 },
+          { "nome": "Manejo e Conservação do Solo", "carga_horaria": 80 },
+          { "nome": "Logística Aplicada", "carga_horaria": 80 },
+          { "nome": "Produção Agropecuária", "carga_horaria": 80 },
+          { "nome": "Administração Rural", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Meio Ambiente",
+    "slug": "meio-ambiente",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Meio Ambiente forma profissionais capacitados para atuar na gestão ambiental, controle de poluição, saneamento, educação ambiental e conservação de recursos naturais.",
+    "image": "/courses/edificacoes.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Redação Técnica", "carga_horaria": 40 },
+          { "nome": "Psicologia do Trabalho", "carga_horaria": 40 },
+          { "nome": "Elementos de Matemática", "carga_horaria": 40 },
+          { "nome": "Microbiologia", "carga_horaria": 100 },
+          { "nome": "Legislação Ambiental I", "carga_horaria": 80 },
+          { "nome": "Processo de Conservação I", "carga_horaria": 100 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Processo de Conservação II", "carga_horaria": 80 },
+          { "nome": "Legislação Ambiental II", "carga_horaria": 20 },
+          { "nome": "Educação Ambiental I", "carga_horaria": 80 },
+          { "nome": "Saneamento Ambiental I", "carga_horaria": 40 },
+          { "nome": "Técnicas de Controle de Poluição I", "carga_horaria": 40 },
+          { "nome": "Gestão Ambiental I", "carga_horaria": 40 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Educação Ambiental II", "carga_horaria": 80 },
+          { "nome": "Técnicas de Controle de Poluição II", "carga_horaria": 80 },
+          { "nome": "Gestão Ambiental II", "carga_horaria": 80 },
+          { "nome": "Turismo Ecológico", "carga_horaria": 80 },
+          { "nome": "Saneamento Ambiental II", "carga_horaria": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Agricultura",
+    "slug": "agricultura",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Agricultura forma profissionais capacitados para atuar na produção agrícola, manejo de culturas, mecanização, silvicultura e gestão rural com foco em sustentabilidade e produtividade.",
+    "image": "/courses/guia-de-turismo.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Fundamentos de Administração", "carga_horaria": 70 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 60 },
+          { "nome": "Agricultura Geral", "carga_horaria": 50 },
+          { "nome": "Formação, Classificação e Fertilidade dos Solos", "carga_horaria": 80 },
+          { "nome": "Matemática financeira e Comercial", "carga_horaria": 80 },
+          { "nome": "Irrigação e Drenagem", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 300,
+        "componentes_curriculares": [
+          { "nome": "Informática Aplicada", "carga_horaria": 50 },
+          { "nome": "Tecnologia e Produção de Sementes", "carga_horaria": 40 },
+          { "nome": "Topografia", "carga_horaria": 80 },
+          { "nome": "Fruticultura", "carga_horaria": 100 },
+          { "nome": "Culturas Graníferas e Não Graníferas", "carga_horaria": 80 },
+          { "nome": "Redação Técnica e Oficial", "carga_horaria": 50 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Mecanização Agrícola", "carga_horaria": 80 },
+          { "nome": "Olericultura/Jardinocultura", "carga_horaria": 80 },
+          { "nome": "Silvicultura e Manejo Florestal", "carga_horaria": 100 },
+          { "nome": "Gestão Rural e Documentação Rural", "carga_horaria": 100 },
+          { "nome": "Empreendedorismo", "carga_horaria": 40 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Refrigeração e Climatização",
+    "slug": "refrigeracao-climatizacao",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Refrigeração e Climatização forma profissionais capacitados para atuar na instalação, manutenção e operação de sistemas de refrigeração comercial, residencial, industrial e automotiva.",
+    "image": "/courses/mecanica.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Informática aplicada", "carga_horaria": 50 },
+          { "nome": "Desenho Técnico", "carga_horaria": 60 },
+          { "nome": "Matemática Aplicada", "carga_horaria": 50 },
+          { "nome": "Redação Técnica", "carga_horaria": 40 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 50 },
+          { "nome": "Termodinâmica", "carga_horaria": 70 },
+          { "nome": "Refrigeração e Climatização I", "carga_horaria": 80 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Mecânica dos Fluidos", "carga_horaria": 60 },
+          { "nome": "Eletricidade", "carga_horaria": 70 },
+          { "nome": "Meio Ambiente", "carga_horaria": 60 },
+          { "nome": "Eletrônica", "carga_horaria": 70 },
+          { "nome": "Refrigeração e Climatização II", "carga_horaria": 80 },
+          { "nome": "Refrigeração Comercial e Residencial", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Refrigeração Automotiva", "carga_horaria": 100 },
+          { "nome": "Gestão da Qualidade", "carga_horaria": 60 },
+          { "nome": "Refrigeração Industrial", "carga_horaria": 100 },
+          { "nome": "Refrigeração e Climatização III", "carga_horaria": 100 },
+          { "nome": "Empreendedorismo", "carga_horaria": 40 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Eletromecânica",
+    "slug": "eletromecanica",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Eletromecânica forma profissionais capacitados para atuar na manutenção e operação de sistemas eletromecânicos, incluindo máquinas, motores, sistemas hidráulicos e pneumáticos.",
+    "image": "/courses/mecanica.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 360,
+        "componentes_curriculares": [
+          { "nome": "Redação Técnica", "carga_horaria": 60 },
+          { "nome": "Psicologia do Trabalho", "carga_horaria": 60 },
+          { "nome": "Informática Aplicada e Eletrodinâmica", "carga_horaria": 60 },
+          { "nome": "Gestão de Qualidade", "carga_horaria": 70 },
+          { "nome": "Educação Ambiental", "carga_horaria": 50 },
+          { "nome": "Elétrica Básica", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 430,
+        "componentes_curriculares": [
+          { "nome": "Segurança no Trabalho", "carga_horaria": 50 },
+          { "nome": "Metrologia Dimensional", "carga_horaria": 50 },
+          { "nome": "Desenho Técnico", "carga_horaria": 50 },
+          { "nome": "Tecnologia de Mecânica", "carga_horaria": 50 },
+          { "nome": "Controlador Lógico Programável", "carga_horaria": 50 },
+          { "nome": "Tecnologia de Soldagem", "carga_horaria": 60 },
+          { "nome": "Tecnologia de Materiais", "carga_horaria": 60 },
+          { "nome": "Eletricidade Aplicada", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 410,
+        "componentes_curriculares": [
+          { "nome": "Desenho Auxiliado por Computador", "carga_horaria": 80 },
+          { "nome": "Motores a Diesel", "carga_horaria": 70 },
+          { "nome": "Sistema de Trem de Força, Freio e Direção", "carga_horaria": 70 },
+          { "nome": "Hidráulica e Pneumática", "carga_horaria": 70 },
+          { "nome": "Manutenção Mecânica", "carga_horaria": 70 },
+          { "nome": "Sistema de Produção", "carga_horaria": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Técnico em Soldagem",
+    "slug": "soldagem",
+    "price": 999.90,
+    "originalPrice": 1665.90,
+    "aproveitamentoPrice": 1199.90,
+    "aproveitamentoOriginalPrice": 1999.90,
+    "minTime": 8,
+    "aproveitamento": true,
+    "response": "CRT",
+    "modality": "EAD",
+    "description": "O curso Técnico em Soldagem forma profissionais capacitados para atuar em processos de soldagem industrial, incluindo técnicas de soldagem, metalurgia, ensaios de materiais e controle de qualidade.",
+    "image": "/courses/automacao-industrial.webp",
+    "modulos": [
+      {
+        "nome": "Módulo I",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Desenho Técnico", "carga_horaria": 50 },
+          { "nome": "Fundamentos de Materiais", "carga_horaria": 60 },
+          { "nome": "Processos de Soldagem I", "carga_horaria": 80 },
+          { "nome": "Segurança do Trabalho", "carga_horaria": 70 },
+          { "nome": "Eletricidade Aplicada", "carga_horaria": 80 },
+          { "nome": "Máquinas e Elementos", "carga_horaria": 60 }
+        ]
+      },
+      {
+        "nome": "Módulo II",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Ensaios de Materiais", "carga_horaria": 50 },
+          { "nome": "Metrologia", "carga_horaria": 60 },
+          { "nome": "Processos de Soldagem II", "carga_horaria": 100 },
+          { "nome": "Usinagem", "carga_horaria": 60 },
+          { "nome": "Projetos de Soldas", "carga_horaria": 80 },
+          { "nome": "Informática Aplicada", "carga_horaria": 50 }
+        ]
+      },
+      {
+        "nome": "Módulo III",
+        "carga_horaria": 400,
+        "componentes_curriculares": [
+          { "nome": "Normas de Soldagem", "carga_horaria": 80 },
+          { "nome": "Metalurgia Aplicada", "carga_horaria": 80 },
+          { "nome": "Resistencia de Materiais", "carga_horaria": 80 },
+          { "nome": "Processos de Soldagem II", "carga_horaria": 100 },
+          { "nome": "Tecnologia de Soldagem", "carga_horaria": 60 }
+        ]
+      }
+    ]
   }
 ]

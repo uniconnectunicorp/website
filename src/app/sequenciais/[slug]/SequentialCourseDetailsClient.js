@@ -112,7 +112,7 @@ export function SequentialCourseDetailsClient({ course }) {
                           courseName={course.nome}
                           courseTitle={course.nome}
                           coursePrice={course.price}
-                          competency={false}
+                          aproveitamento={false}
                           onSuccess={handleEnrollmentSuccess}
                           compact={true}
                         />
@@ -227,7 +227,7 @@ export function SequentialCourseDetailsClient({ course }) {
                       courseName={course.nome}
                       courseTitle={course.nome}
                       coursePrice={course.price}
-                      competency={false}
+                      aproveitamento={false}
                       onSuccess={handleEnrollmentSuccess}
                       compact={true}
                     />

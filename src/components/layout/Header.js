@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight, ChevronDown, Sparkles, Layers, Globe, FileText } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap, Home, BookOpen, Users, Phone, ChevronRight, ChevronDown, Sparkles, Layers, Globe, FileText, Award } from 'lucide-react';
 import Image from 'next/image';
 
 const navigation = [
@@ -16,7 +16,8 @@ const navigation = [
     hasDropdown: true,
     subItems: [
       { name: 'Técnicos Regulares', href: '/cursos', icon: BookOpen },
-      { name: 'Por Competência', href: '/cursos/competencia', icon: GraduationCap },
+      { name: 'Por Aproveitamento', href: '/cursos/aproveitamento', icon: GraduationCap },
+      { name: 'Por Competência', href: '/cursos/competencia', icon: Award },
       { name: 'Sequenciais', href: '/sequenciais', icon: Layers },
       { name: 'Curso de Inglês', href: '/curso-de-ingles', icon: Globe },
       { name: 'EJA', href: '/eja', icon: FileText },
@@ -171,7 +172,7 @@ export function Header({ isBlackNovember = false }) {
                         <div className="bg-white rounded-xl shadow-2xl border border-gray-100 py-2 min-w-[220px] overflow-hidden">
                           {item.subItems.map((sub) => {
                             const SubIcon = sub.icon;
-                            const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
+                            const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia') && !pathname.startsWith('/cursos/aproveitamento')) || (sub.href === '/cursos/aproveitamento' && pathname.startsWith('/cursos/aproveitamento')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
                             return (
                               <Link
                                 key={sub.name}
@@ -351,7 +352,7 @@ export function Header({ isBlackNovember = false }) {
                       <div className="ml-6 pl-4 border-l-2 border-blue-100 space-y-1">
                         {item.subItems.map((sub) => {
                           const SubIcon = sub.icon;
-                          const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
+                          const isSubActive = pathname === sub.href || (sub.href === '/cursos' && pathname.startsWith('/cursos/') && !pathname.startsWith('/cursos/competencia') && !pathname.startsWith('/cursos/aproveitamento')) || (sub.href === '/cursos/aproveitamento' && pathname.startsWith('/cursos/aproveitamento')) || (sub.href === '/cursos/competencia' && pathname.startsWith('/cursos/competencia'));
                           return (
                             <Link
                               key={sub.name}

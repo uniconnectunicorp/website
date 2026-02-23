@@ -278,7 +278,7 @@ export default function CoursePopup() {
                             courseName="Cursos Técnicos Uniconnect"
                             courseTitle="Interesse em Cursos"
                             coursePrice={899}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleCTA}
                             blackText={true}
                             compact={true}

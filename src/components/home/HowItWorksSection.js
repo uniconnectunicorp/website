@@ -19,16 +19,29 @@ const courseTracks = [
     ]
   },
   {
-    title: 'Cursos por Competência',
+    title: 'Cursos por Aproveitamento',
     icon: Users,
     color: 'bg-[#ff6600]',
-    href: '/cursos/competencia',
-    duration: 'A partir de 45 dias',
+    href: '/cursos/aproveitamento',
+    duration: 'A partir de 30 dias',
     features: [
       'Reconhecimento pelo MEC e Sistec',
       '100% online e flexível',
       'Necessário 2 anos de experiência comprovada',
       'Validação de conhecimentos prévios'
+    ]
+  },
+  {
+    title: 'Cursos por Competência',
+    icon: GraduationCap,
+    color: 'bg-[#0b3b75]',
+    href: '/cursos/competencia',
+    duration: 'Diploma em 5 dias',
+    features: [
+      'Reconhecimento pelo MEC e Sistec',
+      '100% online',
+      'Diploma em até 5 dias úteis',
+      'Validação por competência profissional'
     ]
   },
   {

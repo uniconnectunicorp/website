@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils';
 
 
 
-export function CourseCard({ course, category, className, onEnrollClick, competency, isBlackNovember = false }) {
-  const displayPrice = competency ? course.competencyPrice : course.price;
-  const displayOriginalPrice = competency ? course.competencyOriginalPrice : course.originalPrice;
+export function CourseCard({ course, category, className, onEnrollClick, aproveitamento, isBlackNovember = false }) {
+  const displayPrice = aproveitamento ? course.aproveitamentoPrice : course.price;
+  const displayOriginalPrice = aproveitamento ? course.aproveitamentoOriginalPrice : course.originalPrice;
   const hasDiscount = displayOriginalPrice && displayOriginalPrice > displayPrice;
   const discountPercentage = hasDiscount 
     ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100) 
@@ -28,7 +28,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
     )}>
       {/* Image with overlay */}
       <div className="relative aspect-video overflow-hidden">
-        <Link href={competency ? `/cursos/competencia/${course.slug}` : `/cursos/${course.slug}`} className="block h-full">
+        <Link href={aproveitamento ? `/cursos/aproveitamento/${course.slug}` : `/cursos/${course.slug}`} className="block h-full">
           <div className="relative w-full h-full">
             <Image
               src={course.image}
@@ -38,7 +38,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
               className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <span className={`text-white font-medium text-sm flex items-center ${!competency ? 'bg-[#0b3b75] hover:bg-[#0b3b75]' : 'bg-[#ff6600] hover:bg-[#ff6600]'} px-3 py-1.5 rounded-full transition-colors`}>
+              <span className={`text-white font-medium text-sm flex items-center ${!aproveitamento ? 'bg-[#0b3b75] hover:bg-[#0b3b75]' : 'bg-[#ff6600] hover:bg-[#ff6600]'} px-3 py-1.5 rounded-full transition-colors`}>
                 Ver detalhes <ArrowRight className="ml-1 h-4 w-4" />
               </span>
             </div>
@@ -59,14 +59,14 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
       {/* Card Content */}
       <div className="p-5 flex flex-col flex-1">
         {/* Course Info */}
-        <p className={`text-sm text-white w-fit px-3 py-1 rounded-full font-medium ${!competency ? 'bg-[#0b3b75]' : 'bg-[#ff6600]'} mb-4`}>
+        <p className={`text-sm text-white w-fit px-3 py-1 rounded-full font-medium ${!aproveitamento ? 'bg-[#0b3b75]' : 'bg-[#ff6600]'} mb-4`}>
           40% de Desconto
         </p>
-        <h3 className={`text-[#0b3b75] font-semibold text-lg mb-2 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>{course.nome}</h3>
+        <h3 className={`text-[#0b3b75] font-semibold text-lg mb-2 ${!aproveitamento ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>{course.nome}</h3>
         <div className="flex items-center justify-between mb-3">
-          <div className={`flex items-center text-xs  px-3 py-1 rounded-full font-medium ${!competency ? 'text-[#0b3b75] bg-blue-50' : 'text-[#ff6600] bg-orange-50'}`}>
+          <div className={`flex items-center text-xs  px-3 py-1 rounded-full font-medium ${!aproveitamento ? 'text-[#0b3b75] bg-blue-50' : 'text-[#ff6600] bg-orange-50'}`}>
             <Clock className="w-3.5 h-3.5 mr-1.5" />
-            {competency ? `Formação a partir de 45 dias` : `Formação a partir de ${course.minTime} meses`}
+            {aproveitamento ? `Formação a partir de 30 dias` : `Formação a partir de ${course.minTime} meses`}
           </div>
           
          
@@ -74,7 +74,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
         
         {/* Course Title
         <h3 className={`text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight `}>
-          <Link href={competency ? `/cursos/competencia/${course.slug}` : `/cursos/${course.slug}`}>
+          <Link href={aproveitamento ? `/cursos/aproveitamento/${course.slug}` : `/cursos/${course.slug}`}>
             {course.title}
           </Link>
         </h3>
@@ -88,7 +88,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
         <div className="space-y-2.5 mb-4">
           {course.modality && (
             <div className="flex items-center text-sm text-gray-700">
-              <BookOpen className={`w-4 h-4 mr-2  flex-shrink-0 ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`} />
+              <BookOpen className={`w-4 h-4 mr-2  flex-shrink-0 ${!aproveitamento ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`} />
               <span className="truncate">{course.modality}</span>
             </div>
           )}
@@ -103,7 +103,7 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
               {hasDiscount ? (
                 <div className="flex flex-col">
                   <div className="flex items-baseline gap-2">
-                    <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
+                    <span className={`text-2xl font-bold ${!aproveitamento ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
                       {displayPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                     <span className="text-sm line-through text-gray-500">
@@ -113,13 +113,13 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                 </div>
               ) : (
                <div className="flex flex-col items-baseline gap-2">
-               <span className={`text-2xl font-bold ${!competency ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
+               <span className={`text-2xl font-bold ${!aproveitamento ? 'text-[#0b3b75]' : 'text-[#ff6600]'}`}>
                   {displayPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
                </div>
                )}
               <p className="text-sm text-gray-500 mt-0.5">
-                ou 12x de {competency ? "109,90" : "89,90"} no cartão
+                ou 12x de {aproveitamento ? "109,90" : "89,90"} no cartão
               </p>
             </div>
             
@@ -134,8 +134,8 @@ export function CourseCard({ course, category, className, onEnrollClick, compete
                 </button>
               ) : (
                 <Link 
-                  href={competency ? `/cursos/competencia/${course.slug}` : `/cursos/${course.slug}`}
-                  className={`w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white ${!competency ? 'bg-[#0b3b75] ' : 'bg-[#ff6600] hover:bg-[#ff6600]'} rounded-lg transition-all shadow-sm hover:shadow-md `}
+                  href={aproveitamento ? `/cursos/aproveitamento/${course.slug}` : `/cursos/${course.slug}`}
+                  className={`w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white ${!aproveitamento ? 'bg-[#0b3b75] ' : 'bg-[#ff6600] hover:bg-[#ff6600]'} rounded-lg transition-all shadow-sm hover:shadow-md `}
                 >
                   Matricule-se agora
                   <ArrowRight className="w-4 h-4 ml-2" />

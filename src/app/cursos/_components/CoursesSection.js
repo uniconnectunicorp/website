@@ -5,7 +5,7 @@ import { CourseCard } from '@/components/cards/CourseCard';
 import { loadMore } from '@/data/server-actions/loadMore';
 import { useState, useEffect } from 'react';
 
-export default function CoursesSection({ coursesQuantity, initialCourses, competency  }) {
+export default function CoursesSection({ coursesQuantity, initialCourses, aproveitamento  }) {
 
     const [page, setPage] = useState(1);
     const [courses, setCourses] = useState(initialCourses);
@@ -42,7 +42,7 @@ export default function CoursesSection({ coursesQuantity, initialCourses, compet
                             course={{
                                 ...course,
                             }}
-                            competency={competency}
+                            aproveitamento={aproveitamento}
                                 />
                     </FadeIn>
                 ))}
@@ -52,7 +52,7 @@ export default function CoursesSection({ coursesQuantity, initialCourses, compet
                 <Button
                     variant="outline"
                     className={`group px-8 py-6 text-base font-medium relative overflow-hidden transition-all duration-300
-                    border-2 ${!competency ? 'border-[#0b3b75] text-[#0b3b75] hover:bg-[#0b3b75] hover:shadow-md hover:border-[#0b3b75]' : 'border-[#ff6600] text-[#ff6600] hover:bg-[#ff6600] hover:shadow-md hover:border-[#ff6600]'}
+                    border-2 ${!aproveitamento ? 'border-[#0b3b75] text-[#0b3b75] hover:bg-[#0b3b75] hover:shadow-md hover:border-[#0b3b75]' : 'border-[#ff6600] text-[#ff6600] hover:bg-[#ff6600] hover:shadow-md hover:border-[#ff6600]'}
                     hover:scale-[1.02] hover:text-white cursor-pointer active:scale-95 rounded-lg`}
                     onClick={handleLoadMore}
                     disabled={loading}
@@ -65,7 +65,7 @@ export default function CoursesSection({ coursesQuantity, initialCourses, compet
                     </span>
                     {loading && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className={`h-5 w-5 border-2 ${!competency ? 'border-[#0b3b75] border-t-transparent' : 'border-[#ff6600] border-t-transparent'} rounded-full animate-spin`} />
+                            <div className={`h-5 w-5 border-2 ${!aproveitamento ? 'border-[#0b3b75] border-t-transparent' : 'border-[#ff6600] border-t-transparent'} rounded-full animate-spin`} />
                         </div>
                     )}
                 </Button>

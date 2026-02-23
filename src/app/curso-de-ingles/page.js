@@ -128,7 +128,7 @@ export default function CursoDeInglesPage() {
                             courseName={course.nome}
                             courseTitle={course.nome}
                             coursePrice={course.price}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleEnrollmentSuccess}
                             compact={true}
                           />
@@ -238,7 +238,7 @@ export default function CursoDeInglesPage() {
                         courseName={course.nome}
                         courseTitle={course.nome}
                         coursePrice={course.price}
-                        competency={false}
+                        aproveitamento={false}
                         onSuccess={handleEnrollmentSuccess}
                         compact={true}
                       />

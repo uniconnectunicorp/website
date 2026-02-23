@@ -11,3 +11,28 @@ export async function getLeads() {
     return []
    }
 }
+
+export async function createLead(data: any) {
+   try {
+      const lead = await prisma.lead.create({
+         data
+      })
+      return lead
+   } catch (error) {
+      console.error(error)
+      return null
+   }
+}
+
+export async function updateLead(id: string, data: any) {
+   try {
+      const lead = await prisma.lead.update({
+         where: { id },
+         data
+      })
+      return lead
+   } catch (error) {
+      console.error(error)
+      return null
+   }
+}

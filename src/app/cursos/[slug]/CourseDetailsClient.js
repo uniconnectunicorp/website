@@ -127,7 +127,7 @@ export function CourseDetailsClient({ course }) {
                       courseName={course.nome}
                       courseTitle={course.nome}
                       coursePrice={course.price}
-                      competency={false}
+                      aproveitamento={false}
                       onSuccess={handleEnrollmentSuccess}
                       compact={true}
                     />
@@ -240,7 +240,7 @@ export function CourseDetailsClient({ course }) {
                       courseName={course.nome}
                       courseTitle={course.nome}
                       coursePrice={course.price}
-                      competency={false}
+                      aproveitamento={false}
                       onSuccess={handleEnrollmentSuccess}
                       compact={true}
                     />
@@ -312,7 +312,7 @@ export function CourseDetailsClient({ course }) {
     <SistecAndMec />
 
 
-          {/* Seção Modalidade por Competência */}
+          {/* Seção Modalidade por Aproveitamento */}
          <CompetencySection 
         course={course}
         formatPrice={formatPrice}

@@ -1,4 +1,5 @@
 import  CourseData  from './courses.json';
+import  CompetenciaCourseData  from './competencia-courses.json';
 
 export function fetchCourseBySlug(slug) {
     return CourseData.find((course) => course.slug === slug);
@@ -16,7 +17,7 @@ export function getThreeCourses() {
     return CourseData.filter(course => !course.enrollmentOnly).slice(0, 3);
 }
 
-export function paginate(page, competency = false) {
+export function paginate(page, aproveitamento = false) {
     const coursesPerPage = 6;
     const startIndex = (page - 1) * coursesPerPage;
     const endIndex = page * coursesPerPage;
@@ -39,16 +40,16 @@ export function paginate(page, competency = false) {
     // Combinar cursos ordenados
     const sortedCourses = [...orderedPriorityCourses, ...otherCourses];
     
-    if (competency) {
-        return sortedCourses.filter(course => course.competency).slice(startIndex, endIndex);
+    if (aproveitamento) {
+        return sortedCourses.filter(course => course.aproveitamento).slice(startIndex, endIndex);
     }
     return sortedCourses.slice(startIndex, endIndex);
 }
 
-export function getCourseCount(competency = false) {
+export function getCourseCount(aproveitamento = false) {
     const displayCourses = CourseData.filter(course => !course.enrollmentOnly);
-    if (competency) {
-        return displayCourses.filter(course => course.competency).length;
+    if (aproveitamento) {
+        return displayCourses.filter(course => course.aproveitamento).length;
     }
     return displayCourses.length;
 }
@@ -85,6 +86,52 @@ export function getHighRatedCourses(courses) {
    return mapped;
 }
 
-export function getCompetencyCourses() {
-    return CourseData.filter(course => course.competency && !course.enrollmentOnly);
+export function getAproveitamentoCourses() {
+    return CourseData.filter(course => course.aproveitamento && !course.enrollmentOnly);
+}
+
+// Competência courses helpers
+export function fetchCompetenciaCourses() {
+    return CompetenciaCourseData;
+}
+
+export function fetchCompetenciaCourseBySlug(slug) {
+    return CompetenciaCourseData.find((course) => course.slug === slug);
+}
+
+export function getCompetenciaCourseCount() {
+    return CompetenciaCourseData.length;
+}
+
+export function paginateCompetencia(page) {
+    const coursesPerPage = 12;
+    const startIndex = (page - 1) * coursesPerPage;
+    const endIndex = page * coursesPerPage;
+    return CompetenciaCourseData.slice(startIndex, endIndex);
+}
+
+export function getCompetenciaCourseByName(name) {
+    let courses = [];
+    if (!name) return null;
+    function normalizeForCompare(str) {
+        if (!str || typeof str !== 'string') return '';
+        return str
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '');
+    }
+    const cleanName = normalizeForCompare(name);
+    CompetenciaCourseData.map(course => {
+        if (normalizeForCompare(course.nome).includes(cleanName)) {
+            courses.push(course);
+        }
+    });
+    return courses;
+}
+
+export function getAllCompetenciaCourses() {
+    return CompetenciaCourseData;
 }

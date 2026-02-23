@@ -165,6 +165,7 @@ export default function NotFound() {
                   { label: 'Sobre Nós', href: '/sobre' },
                   { label: 'Contato', href: '/contato' },
                   { label: 'Cursos Técnicos', href: '/cursos' },
+                  { label: 'Por Aproveitamento', href: '/cursos/aproveitamento' },
                   { label: 'Por Competência', href: '/cursos/competencia' },
                 ].map((link, index) => (
                   <Link

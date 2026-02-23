@@ -273,7 +273,7 @@ export default function WelcomePopup() {
                             courseName="Cursos Técnicos Uniconnect"
                             courseTitle="Interesse Geral"
                             coursePrice={899}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleCTA}
                             blackText={true}
                             compact={true}

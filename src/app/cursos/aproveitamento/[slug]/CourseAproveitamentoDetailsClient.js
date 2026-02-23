@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { EnrollmentFormV2 } from '@/components/forms/EnrollmentFormV2';
 import SistecAndMec from '@/components/sections/sistecAndMec';
-// Importando os tipos do projeto
 import { Header } from '@/components/layout/Header';
 import { CourseContentSection } from '@/components/course-details/CourseContentSection';
 import { RegularCourseSection } from '@/components/course-details/RegularCourseSection';
@@ -32,7 +31,7 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 
 
 
-export function CourseCompetencyDetailsClient({ course }) {
+export function CourseAproveitamentoDetailsClient({ course }) {
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
   const [enrollmentSuccess, setEnrollmentSuccess] = useState(false);
 
@@ -52,8 +51,8 @@ export function CourseCompetencyDetailsClient({ course }) {
     }).format(price);
   };
 
-  const currentPrice = formatPrice(course.competencyPrice);
-  const originalPrice = formatPrice(course.competencyOriginalPrice);
+  const currentPrice = formatPrice(course.aproveitamentoPrice);
+  const originalPrice = formatPrice(course.aproveitamentoOriginalPrice);
   const modules = (course.modulos || []).map((module) => {
     const lessons = (module.componentes_curriculares || []).map(lesson => ({
       ...lesson,
@@ -95,10 +94,10 @@ export function CourseCompetencyDetailsClient({ course }) {
               <div className="mb-8">
                 <div className="flex max-md:flex-col max-md:items-start items-center gap-4">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
-                Formação a partir de 45 dias
+                Formação a partir de 30 dias
                 </span>
                 <span className="inline-flex items-center px-4 py-1.5 bg-[#ff6600] rounded-full text-sm font-semibold text-white ">
-                Competência
+                Aproveitamento
                 </span>
                 </div>
                 <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
@@ -109,7 +108,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
                 você se torna {course.nome} com validade nacional e ao finalizar 
                  {course.response ? ` você pode emitir seu ${course.response}. ` : ' você pode emitir seu Certificado. '} 
-                Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
+                Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
                 </p>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -139,7 +138,7 @@ export function CourseCompetencyDetailsClient({ course }) {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Formação a partir de 45 dias</span>
+                      <span className="text-blue-100">Formação a partir de 30 dias</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -188,8 +187,8 @@ export function CourseCompetencyDetailsClient({ course }) {
                     <EnrollmentFormV2 
                       courseName={course.nome}
                       courseTitle={course.nome}
-                      coursePrice={course.competencyPrice}
-                      competency={true}
+                      coursePrice={course.aproveitamentoPrice}
+                      aproveitamento={true}
                       onSuccess={handleEnrollmentSuccess}
                       compact={true}
                     />
@@ -271,33 +270,7 @@ export function CourseCompetencyDetailsClient({ course }) {
 
     <AboutUsCourse />
 
-    
-      {/* <div className="bg-[#0b3b75]">
-        <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-              <span className="block">Pronto para começar?</span>
-              <span className="block">Matricule-se agora mesmo!</span>
-            </h2>
-            <p className="mt-4 text-xl text-blue-100 max-w-3xl mx-auto">
-              Invista no seu futuro profissional com um dos melhores cursos do mercado.
-            </p>
-            <div className="mt-8">
-              <Button
-                onClick={() => setIsEnrollmentModalOpen(true)}
-                className="px-8 py-4 text-base font-medium rounded-full bg-white text-[#0b3b75] hover:bg-blue-50 transition-colors duration-200 transform hover:scale-105"
-              >
-                Quero me matricular agora
-              </Button>
-              <p className="mt-3 text-sm text-blue-100">
-                7 dias de garantia incondicional ou seu dinheiro de volta.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      <CTASection courseName={course.nome} competency={true} />
+      <CTASection courseName={course.nome} aproveitamento={true} />
 
       {/* Modal de Matrícula */}
       <Dialog open={isEnrollmentModalOpen} onOpenChange={setIsEnrollmentModalOpen}>
@@ -322,8 +295,8 @@ export function CourseCompetencyDetailsClient({ course }) {
             <EnrollmentFormV2
               courseName={course.nome}
               courseTitle={course.title}
-              coursePrice={course.competencyPrice}
-              competency={true}
+              coursePrice={course.aproveitamentoPrice}
+              aproveitamento={true}
               onSuccess={handleEnrollmentSuccess}
               onClose={() => setIsEnrollmentModalOpen(false)}
             />

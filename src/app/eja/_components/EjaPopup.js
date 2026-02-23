@@ -242,7 +242,7 @@ export default function EjaPopup() {
                             courseName="EJA - Educação de Jovens e Adultos"
                             courseTitle="EJA - Educação de Jovens e Adultos"
                             coursePrice={999.90}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleCTA}
                             blackText={true}
                             compact={true}

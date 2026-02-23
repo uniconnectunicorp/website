@@ -243,7 +243,7 @@ export default function InglesPopup() {
                             courseName="Curso de Inglês"
                             courseTitle="Curso de Inglês"
                             coursePrice={398.90}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleCTA}
                             blackText={true}
                             compact={true}

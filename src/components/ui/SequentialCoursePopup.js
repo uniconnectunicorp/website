@@ -277,7 +277,7 @@ export default function SequentialCoursePopup() {
                             courseName="Cursos Sequenciais Uniconnect"
                             courseTitle="Interesse em Cursos Sequenciais"
                             coursePrice={1109.90}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleCTA}
                             blackText={true}
                             compact={true}

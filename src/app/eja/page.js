@@ -125,7 +125,7 @@ export default function EjaPage() {
                             courseName={course.nome}
                             courseTitle={course.nome}
                             coursePrice={course.price}
-                            competency={false}
+                            aproveitamento={false}
                             onSuccess={handleEnrollmentSuccess}
                             compact={true}
                           />
@@ -223,7 +223,7 @@ export default function EjaPage() {
                         courseName={course.nome}
                         courseTitle={course.nome}
                         coursePrice={course.price}
-                        competency={false}
+                        aproveitamento={false}
                         onSuccess={handleEnrollmentSuccess}
                         compact={true}
                       />

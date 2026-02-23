@@ -13,8 +13,8 @@ import {
 import Link from 'next/link';
 
 export function RegularCourseSection({ course, formatPrice, isBlackNovember = true }) {
-  // Não renderizar se o curso não tiver modalidade por competência
-  if (!course.competency) {
+  // Não renderizar se o curso não tiver modalidade por aproveitamento
+  if (!course.aproveitamento) {
     return null;
   }
 
@@ -78,7 +78,7 @@ export function RegularCourseSection({ course, formatPrice, isBlackNovember = tr
                 </div>
               </div>
               <p className="text-gray-600">
-                Certificação com a mesma validade nacional da modalidade por competência, reconhecida pelo MEC e registrada no SISTEC.
+                Certificação com a mesma validade nacional da modalidade por aproveitamento, reconhecida pelo MEC e registrada no SISTEC.
               </p>
             </div>
           </div>
@@ -135,14 +135,14 @@ export function RegularCourseSection({ course, formatPrice, isBlackNovember = tr
               </p>
             </div>
 
-            {/* Comparação com curso por competência */}
+            {/* Comparação com curso por aproveitamento */}
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-              <h4 className="font-semibold text-gray-900 mb-4 text-center">Comparação com Por Competência</h4>
+              <h4 className="font-semibold text-gray-900 mb-4 text-center">Comparação com Por Aproveitamento</h4>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="text-center">
-                  <p className="font-medium text-gray-900">Por Competência</p>
-                  <p className="text-[#ff6600] font-bold">{formatPrice(course.competencyPrice || course.price * 1.3)}</p>
-                  <p className="text-gray-600">A partir de 45 dias</p>
+                  <p className="font-medium text-gray-900">Por Aproveitamento</p>
+                  <p className="text-[#ff6600] font-bold">{formatPrice(course.aproveitamentoPrice || course.price * 1.3)}</p>
+                  <p className="text-gray-600">A partir de 30 dias</p>
                 </div>
                 <div className="text-center border-l border-gray-300 pl-4">
                   <p className="font-medium text-gray-900">Curso Regular</p>

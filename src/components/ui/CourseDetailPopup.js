@@ -317,7 +317,7 @@ export default function CourseDetailPopup({ course }) {
                               courseName={course.nome}
                               courseTitle={course.nome}
                               coursePrice={course.price}
-                              competency={false}
+                              aproveitamento={false}
                               onSuccess={handleCTA}
                               blackText={true}
                               compact={true}

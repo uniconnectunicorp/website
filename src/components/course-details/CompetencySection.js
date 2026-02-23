@@ -12,8 +12,8 @@ import {
 import Link from 'next/link';
 
 export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackNovember = true }) {
-  // Não renderizar se o curso não tiver modalidade por competência
-  if (!course.competency) {
+  // Não renderizar se o curso não tiver modalidade por aproveitamento
+  if (!course.aproveitamento) {
     return null;
   }
 
@@ -26,10 +26,10 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
             Modalidade Especial Disponível
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Curso por <span className="text-[#ff6600]">Competência</span>
+            Curso por <span className="text-[#ff6600]">Aproveitamento</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Acelere sua formação com nossa modalidade por competência. Ideal para quem já tem experiência na área e quer certificação mais rápida.
+            Acelere sua formação com nossa modalidade por aproveitamento. Ideal para quem já tem experiência na área e quer certificação mais rápida.
           </p>
         </div>
 
@@ -43,11 +43,11 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Formação Acelerada</h3>
-                  <p className="text-orange-600 font-medium max-md:text-sm">A partir de 45 dias</p>
+                  <p className="text-orange-600 font-medium max-md:text-sm">A partir de 30 dias</p>
                 </div>
               </div>
               <p className="text-gray-600">
-                Comprove suas competências através de avaliações práticas e teóricas, reduzindo significativamente o tempo de formação.
+                Comprove seus conhecimentos através de avaliações práticas e teóricas, reduzindo significativamente o tempo de formação.
               </p>
             </div>
 
@@ -58,11 +58,11 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">Foco na Prática</h3>
-                  <p className="text-orange-600 font-medium max-md:text-sm">Avaliação por competências</p>
+                  <p className="text-orange-600 font-medium max-md:text-sm">Avaliação por aproveitamento</p>
                 </div>
               </div>
               <p className="text-gray-600">
-                Demonstre na prática o que você já sabe e obtenha sua certificação baseada em competências reais do mercado de trabalho.
+                Demonstre na prática o que você já sabe e obtenha sua certificação baseada em conhecimentos reais do mercado de trabalho.
               </p>
             </div>
 
@@ -96,10 +96,10 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                 </div>
               )}
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Modalidade por Competência</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Modalidade por Aproveitamento</h3>
                 <div className="flex items-center justify-center">
                   <span className="text-4xl font-bold text-[#ff6600]">
-                    {formatPrice(course.competencyPrice || course.price * 1.3)}
+                    {formatPrice(course.aproveitamentoPrice || course.price * 1.3)}
                   </span>
                 </div>
                 <p className="text-sm text-gray-500 mt-2">ou 12x de R$ 109,90 no cartão</p>
@@ -107,8 +107,8 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
 
               <div className="space-y-4 mb-3">
                 {[
-                  'Avaliação por competências',
-                  'Formação a partir de 45 dias',
+                  'Avaliação por aproveitamento',
+                  'Formação a partir de 30 dias',
                   'Certificação MEC/SISTEC',
                   'Suporte especializado',
                   'Material didático incluído'
@@ -120,11 +120,11 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                 ))}
               </div>
 
-              <Link href={`/cursos/competencia/${course.slug}`}>
+              <Link href={`/cursos/aproveitamento/${course.slug}`}>
               <Button
                 className="w-full max-md:text-xs bg-[#ff6600] hover:bg-[#e55a00] text-white py-6 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                Matricular na Modalidade por Competência
+                Matricular na Modalidade por Aproveitamento
                 <ArrowRight className="ml-2 h-5 w-5 max-md:hidden" />
               </Button>
               </Link>
@@ -144,9 +144,9 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                   <p className="text-gray-600">{course.minTime} meses</p>
                 </div>
                 <div className="text-center border-l border-gray-300 pl-4">
-                  <p className="font-medium text-gray-900">Por Competência</p>
-                  <p className="text-[#ff6600] font-bold">{formatPrice(course.competencyPrice || course.price * 1.3)}</p>
-                  <p className="text-gray-600">A partir de 45 dias</p>
+                  <p className="font-medium text-gray-900">Por Aproveitamento</p>
+                  <p className="text-[#ff6600] font-bold">{formatPrice(course.aproveitamentoPrice || course.price * 1.3)}</p>
+                  <p className="text-gray-600">A partir de 30 dias</p>
                 </div>
               </div>
             </div>
