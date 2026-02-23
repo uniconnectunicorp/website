@@ -2,14 +2,38 @@
 
 import { prisma } from "@/lib/prisma"
 
-export async function getLeads() {
-   try {
-    const leads = await prisma.lead.findMany()
-    return leads
-   } catch (error) {
-    console.error(error)
-    return []
-   }
+export async function getLeads(search?: string) {
+  try {
+   let leads: any;
+
+    if (search) {
+      leads = await prisma.$queryRaw`
+         SELECT *
+         FROM lead
+         WHERE unaccent(LOWER(name)) 
+         LIKE unaccent(LOWER(${`%${search}%`}))
+         ORDER BY "createdAt" DESC
+      `;
+    } else {
+      leads = await prisma.lead.findMany({
+         orderBy: { createdAt: 'desc' }
+      });
+    }
+
+    const grouped = leads.reduce((acc: any[], lead: any) => {
+      if (!acc[lead.status]) {
+        acc[lead.status] = [];
+      }
+
+      acc[lead.status].push(lead);
+      return acc;
+    }, {} as Record<string, typeof leads>);
+
+    return grouped;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
 }
 
 export async function createLead(data: any) {
