@@ -55,7 +55,7 @@ export default function CompetenciaPage() {
 
   return (
     <>
-      <Head title="Uniconnect | Cursos por Competência" description="Diploma em até 5 dias! Cursos técnicos por competência reconhecidos pelo MEC." />
+      <Head title="Uniconnect | Cursos por Competência" description="Diploma em 5 dias úteis! Cursos técnicos por competência reconhecidos pelo MEC." />
 
       <div className="min-h-screen pt-20">
         <Header />
@@ -67,7 +67,7 @@ export default function CompetenciaPage() {
             <div className="text-center max-w-4xl mx-auto">
               <div className="inline-flex items-center px-4 py-2 bg-white/10 rounded-full text-sm font-semibold text-white mb-6 border border-white/20">
                 <Award className="h-4 w-4 mr-2" />
-                Diploma em até 5 dias
+                Diploma em 5 dias úteis
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6">Nossos Cursos por Competência</h1>
               <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-12">

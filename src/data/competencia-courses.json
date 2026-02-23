@@ -37,7 +37,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Equipamentos Biomédicos por competência capacita profissionais para instalar, operar e realizar manutenção preventiva e corretiva em equipamentos médico-hospitalares.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/eletroeletronica.webp"
   },
   {
     "nome": "Técnico em Estética",
@@ -51,7 +51,7 @@
   },
   {
     "nome": "Técnico em Farmácia",
-    "slug": "farmacia-competencia",
+    "slug": "farmacia",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área da Saúde",
@@ -111,7 +111,7 @@
   },
   {
     "nome": "Técnico em Administração",
-    "slug": "administracao-competencia",
+    "slug": "administracao",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -121,7 +121,7 @@
   },
   {
     "nome": "Técnico em Contabilidade",
-    "slug": "contabilidade-competencia",
+    "slug": "contabilidade",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -131,7 +131,7 @@
   },
   {
     "nome": "Técnico em Logística",
-    "slug": "logistica-competencia",
+    "slug": "logistica",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -141,13 +141,13 @@
   },
   {
     "nome": "Técnico em Marketing",
-    "slug": "marketing-competencia",
+    "slug": "marketing",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
     "modality": "EAD",
     "description": "O curso Técnico em Marketing por competência forma profissionais para desenvolver estratégias de marketing, pesquisa de mercado e comunicação empresarial.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/marketing.webp"
   },
   {
     "nome": "Técnico em Qualidade",
@@ -161,27 +161,27 @@
   },
   {
     "nome": "Técnico em Recursos Humanos",
-    "slug": "recursos-humanos-competencia",
+    "slug": "recursos-humanos",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
     "modality": "EAD",
     "description": "O curso Técnico em Recursos Humanos por competência forma profissionais para atuar em recrutamento, seleção, treinamento e gestão de pessoas.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/recursos-humanos.webp"
   },
   {
     "nome": "Técnico em Secretaria Escolar",
-    "slug": "secretaria-escolar-competencia",
+    "slug": "secretaria-escolar",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
     "modality": "EAD",
     "description": "O curso Técnico em Secretaria Escolar por competência capacita profissionais para gerenciar a documentação escolar, atendimento e processos administrativos educacionais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/secretaria-escolar.webp"
   },
   {
     "nome": "Técnico em Segurança do Trabalho",
-    "slug": "seguranca-do-trabalho-competencia",
+    "slug": "seguranca-do-trabalho",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -191,17 +191,17 @@
   },
   {
     "nome": "Técnico em Serviços Jurídicos",
-    "slug": "servicos-juridicos-competencia",
+    "slug": "servicos-juridicos",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
     "modality": "EAD",
     "description": "O curso Técnico em Serviços Jurídicos por competência capacita profissionais para auxiliar em atividades jurídicas, elaboração de documentos e atendimento ao público.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/contabilidade.webp"
   },
   {
     "nome": "Técnico em Transações Imobiliárias",
-    "slug": "transacoes-imobiliarias-competencia",
+    "slug": "transacoes-imobiliarias",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -211,7 +211,7 @@
   },
   {
     "nome": "Técnico em Vendas",
-    "slug": "vendas-competencia",
+    "slug": "vendas",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Administração e Gestão",
@@ -237,7 +237,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Biotecnologia por competência capacita profissionais para atuar em processos biotecnológicos, análises laboratoriais e pesquisa aplicada.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/nutricao.webp"
   },
   {
     "nome": "Técnico em Design Gráfico",
@@ -247,7 +247,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Design Gráfico por competência forma profissionais para criar projetos visuais, identidades de marca e materiais gráficos digitais e impressos.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/computacao-grafica.webp"
   },
   {
     "nome": "Técnico em Desenvolvimento de Sistemas",
@@ -257,7 +257,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Desenvolvimento de Sistemas por competência capacita profissionais para projetar, desenvolver e manter sistemas de software.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/informatica.webp"
   },
   {
     "nome": "Técnico em Informática para Internet",
@@ -267,7 +267,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Informática para Internet por competência forma profissionais para desenvolver sites, aplicações web e gerenciar serviços de internet.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/informatica.webp"
   },
   {
     "nome": "Técnico em Redes de Computadores",
@@ -277,7 +277,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Redes de Computadores por competência capacita profissionais para projetar, instalar e administrar redes de computadores.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/informatica.webp"
   },
   {
     "nome": "Técnico em Sistemas de Energia Renovável",
@@ -287,7 +287,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Sistemas de Energia Renovável por competência forma profissionais para projetar, instalar e manter sistemas de energia solar, eólica e outras fontes renováveis.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/eletrotecnica.webp"
   },
   {
     "nome": "Técnico em Telecomunicações",
@@ -297,7 +297,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Telecomunicações por competência capacita profissionais para instalar, configurar e manter sistemas de telecomunicações.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/eletroeletronica.webp"
   },
   {
     "nome": "Técnico em Tradução e Interpretação de Libras",
@@ -307,7 +307,7 @@
     "area": "Área de Tecnologia e Informática",
     "modality": "EAD",
     "description": "O curso Técnico em Tradução e Interpretação de Libras por competência forma profissionais para atuar como intérpretes e tradutores de Língua Brasileira de Sinais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/guia-de-turismo.webp"
   },
   {
     "nome": "Técnico em Automação Industrial",
@@ -317,21 +317,21 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Automação Industrial por competência capacita profissionais para projetar, instalar e manter sistemas automatizados em processos industriais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/automacao-industrial.webp"
   },
   {
     "nome": "Técnico em Eletromecânica",
-    "slug": "eletromecanica-competencia",
+    "slug": "eletromecanica",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Eletromecânica por competência forma profissionais para atuar na manutenção e operação de sistemas eletromecânicos industriais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/mecanica.webp"
   },
   {
     "nome": "Técnico em Eletrotécnica",
-    "slug": "eletrotecnica-competencia",
+    "slug": "eletrotecnica",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Engenharia e Manutenção",
@@ -341,13 +341,13 @@
   },
   {
     "nome": "Técnico em Eletrônica",
-    "slug": "eletronica-competencia",
+    "slug": "eletronica",
     "price": 1199.90,
     "originalPrice": 1999.90,
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Eletrônica por competência forma profissionais para projetar, montar e reparar circuitos e equipamentos eletrônicos.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/eletroeletronica.webp"
   },
   {
     "nome": "Técnico em Manutenção de Máquinas Industriais",
@@ -357,7 +357,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Manutenção de Máquinas Industriais por competência capacita profissionais para realizar manutenção preventiva e corretiva em máquinas e equipamentos industriais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/mecanica.webp"
   },
   {
     "nome": "Técnico em Máquinas Pesadas",
@@ -367,7 +367,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Máquinas Pesadas por competência forma profissionais para operar e realizar manutenção em máquinas pesadas utilizadas na construção e mineração.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/automacao-industrial.webp"
   },
   {
     "nome": "Técnico em Metalurgia",
@@ -377,7 +377,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Metalurgia por competência capacita profissionais para atuar em processos metalúrgicos, controle de qualidade e tratamento de metais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/mecanica.webp"
   },
   {
     "nome": "Técnico em Refrigeração e Climatização",
@@ -387,7 +387,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Refrigeração e Climatização por competência forma profissionais para instalar, operar e manter sistemas de refrigeração e ar condicionado.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/mecanica.webp"
   },
   {
     "nome": "Técnico em Soldagem",
@@ -397,7 +397,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Soldagem por competência capacita profissionais para executar processos de soldagem em diferentes materiais e aplicações industriais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/automacao-industrial.webp"
   },
   {
     "nome": "Técnico em Manutenção de Máquinas Navais",
@@ -407,7 +407,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Manutenção de Máquinas Navais por competência forma profissionais para realizar manutenção em motores e sistemas mecânicos de embarcações.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/mecanica.webp"
   },
   {
     "nome": "Técnico em Química",
@@ -417,7 +417,7 @@
     "area": "Área de Engenharia e Manutenção",
     "modality": "EAD",
     "description": "O curso Técnico em Química por competência capacita profissionais para atuar em laboratórios químicos, controle de processos e análises industriais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/nutricao.webp"
   },
   {
     "nome": "Técnico em Agrimensura",
@@ -427,7 +427,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Agrimensura por competência forma profissionais para realizar levantamentos topográficos, georreferenciamento e demarcação de terrenos.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/edificacoes.webp"
   },
   {
     "nome": "Técnico em Edificações",
@@ -437,7 +437,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Edificações por competência capacita profissionais para atuar no planejamento, execução e fiscalização de obras civis.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/edificacoes.webp"
   },
   {
     "nome": "Técnico em Mineração",
@@ -447,7 +447,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Mineração por competência forma profissionais para atuar em pesquisa mineral, lavra e beneficiamento de minérios.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/automacao-industrial.webp"
   },
   {
     "nome": "Técnico em Prevenção e Combate ao Incêndio",
@@ -457,7 +457,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Prevenção e Combate ao Incêndio por competência capacita profissionais para atuar na prevenção, combate e resgate em situações de incêndio.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/seguranca-do-trabalho.webp"
   },
   {
     "nome": "Técnico em Defesa Civil",
@@ -467,7 +467,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Defesa Civil por competência forma profissionais para atuar na prevenção, preparação e resposta a desastres naturais e emergências.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/seguranca-do-trabalho.webp"
   },
   {
     "nome": "Técnico em Trânsito",
@@ -477,7 +477,7 @@
     "area": "Área de Construção e Infraestrutura",
     "modality": "EAD",
     "description": "O curso Técnico em Trânsito por competência capacita profissionais para atuar na gestão, fiscalização e educação de trânsito.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/logistica.webp"
   },
   {
     "nome": "Técnico em Agricultura",
@@ -487,7 +487,7 @@
     "area": "Área do Meio Ambiente e Agropecuária",
     "modality": "EAD",
     "description": "O curso Técnico em Agricultura por competência forma profissionais para atuar no planejamento, manejo e produção agrícola sustentável.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/guia-de-turismo.webp"
   },
   {
     "nome": "Técnico em Agropecuária",
@@ -497,7 +497,7 @@
     "area": "Área do Meio Ambiente e Agropecuária",
     "modality": "EAD",
     "description": "O curso Técnico em Agropecuária por competência capacita profissionais para atuar na produção animal e vegetal, gestão de propriedades rurais e agronegócio.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/guia-de-turismo.webp"
   },
   {
     "nome": "Técnico em Agroindústria",
@@ -507,7 +507,7 @@
     "area": "Área do Meio Ambiente e Agropecuária",
     "modality": "EAD",
     "description": "O curso Técnico em Agroindústria por competência forma profissionais para atuar no processamento e industrialização de produtos agropecuários.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/logistica.webp"
   },
   {
     "nome": "Técnico em Aquicultura",
@@ -517,7 +517,7 @@
     "area": "Área do Meio Ambiente e Agropecuária",
     "modality": "EAD",
     "description": "O curso Técnico em Aquicultura por competência capacita profissionais para atuar na criação de organismos aquáticos, manejo de tanques e produção sustentável.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/guia-de-turismo.webp"
   },
   {
     "nome": "Técnico em Meio Ambiente",
@@ -527,7 +527,7 @@
     "area": "Área do Meio Ambiente e Agropecuária",
     "modality": "EAD",
     "description": "O curso Técnico em Meio Ambiente por competência forma profissionais para atuar na gestão ambiental, monitoramento e preservação dos recursos naturais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/edificacoes.webp"
   },
   {
     "nome": "Técnico em Gastronomia",
@@ -537,7 +537,7 @@
     "area": "Área de Serviços",
     "modality": "EAD",
     "description": "O curso Técnico em Gastronomia por competência capacita profissionais para atuar na produção de alimentos, gestão de cozinhas e desenvolvimento de cardápios.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/nutricao.webp"
   },
   {
     "nome": "Técnico em Óptica",
@@ -547,7 +547,7 @@
     "area": "Área de Serviços",
     "modality": "EAD",
     "description": "O curso Técnico em Óptica por competência forma profissionais para atuar na confecção e adaptação de lentes, montagem de óculos e atendimento óptico.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/nutricao.webp"
   },
   {
     "nome": "Técnico em Designer de Interiores",
@@ -557,7 +557,7 @@
     "area": "Área de Serviços",
     "modality": "EAD",
     "description": "O curso Técnico em Designer de Interiores por competência capacita profissionais para projetar e decorar ambientes internos com funcionalidade e estética.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/edificacoes.webp"
   },
   {
     "nome": "Técnico em Guia de Turismo",
@@ -567,6 +567,6 @@
     "area": "Área de Serviços",
     "modality": "EAD",
     "description": "O curso Técnico em Guia de Turismo por competência forma profissionais para conduzir grupos turísticos, apresentar atrativos e promover experiências culturais.",
-    "image": "/courses/administracao.webp"
+    "image": "/courses/guia-de-turismo.webp"
   }
 ]

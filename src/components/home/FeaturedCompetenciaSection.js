@@ -15,7 +15,7 @@ export default function FeaturedCompetenciaSection() {
           <FadeInUp>
             <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-[#0b3b75] font-semibold text-sm mb-4">
               <Award className="h-4 w-4 mr-2" />
-              Diploma em até 5 dias
+              Diploma em 5 dias úteis
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Cursos por <span className="text-[#0b3b75]">Competência</span>

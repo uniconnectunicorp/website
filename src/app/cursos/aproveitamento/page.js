@@ -31,7 +31,7 @@ export default function AproveitamentoPage() {
 
   const resetSearch = () => {
     setSearchQuery('');
-    setInitialCourses(paginate(1));
+    setInitialCourses(paginate(1, true));
     setIsSearchActive(false);
   }
 

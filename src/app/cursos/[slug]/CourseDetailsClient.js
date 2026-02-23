@@ -148,24 +148,19 @@ export function CourseDetailsClient({ course }) {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">100% Online</span>
+                      <span className="text-blue-100">{course.modality === 'EAD/Híbrido' ? 'Ambiente EAD/Híbrido' : '100% Online'}</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                       <span className="text-blue-100">Acesso imediato após a compra</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
                     </li>
                   </ul>
                 </div>
                 <p className="mt-4 text-lg md:text-xl text-blue-100">
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
-                você se torna {course.nome} com validade nacional e ao finalizar 
-                 {course.response ? ` você pode emitir seu ${course.response}. ` : ' você pode emitir seu Certificado. '} 
-                Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
+                você se torna {course.nome} com validade nacional e {course.response && course.response.length > 10 ? ` ${course.response}. ` : course.response ? ` ao finalizar você pode emitir seu ${course.response}. ` : ' ao finalizar você pode emitir seu Certificado. '} 
+                Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
                 </p>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -194,15 +189,11 @@ export function CourseDetailsClient({ course }) {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">100% Online</span>
+                      <span className="text-blue-100">{course.modality === 'EAD/Híbrido' ? 'Ambiente EAD/Híbrido' : '100% Online'}</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                       <span className="text-blue-100">Acesso imediato após a compra</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
                     </li>
                   </ul>
                 </div>
@@ -264,8 +255,8 @@ export function CourseDetailsClient({ course }) {
             {[
               {
                 icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Ambiente 100% Online",
-                description: "Estude de forma totalmente digital — aulas, conteúdos e provas disponíveis onde você estiver."
+                title: course.modality === 'EAD/Híbrido' ? "Ambiente EAD/Híbrido" : "Ambiente 100% Online",
+                description: course.modality === 'EAD/Híbrido' ? "Estude no ambiente EAD/Híbrido — aulas, conteúdos e provas disponíveis onde você estiver." : "Estude de forma totalmente digital — aulas, conteúdos e provas disponíveis onde você estiver."
               },
               {
                 icon: <BookOpen className="h-10 w-10 text-[#0b3b75]" />,

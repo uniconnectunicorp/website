@@ -24,7 +24,7 @@ export default function CoursesSection({ coursesQuantity, initialCourses, aprove
     const handleLoadMore = async () => {
         setLoading(true)
         const nextPage = page + 1;
-        const newCourses = await loadMore(nextPage); 
+        const newCourses = await loadMore(nextPage, aproveitamento); 
         setLoading(false)
         setCourses((prev) => [...prev, ...newCourses]); 
         setPage(nextPage); 

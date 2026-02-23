@@ -108,7 +108,7 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
               <div className="space-y-4 mb-3">
                 {[
                   'Avaliação por aproveitamento',
-                  'Formação a partir de 30 dias',
+                  'Diploma em 30 dias',
                   'Certificação MEC/SISTEC',
                   'Suporte especializado',
                   'Material didático incluído'
@@ -146,7 +146,7 @@ export function CompetencySection({ course, formatPrice, onEnrollClick, isBlackN
                 <div className="text-center border-l border-gray-300 pl-4">
                   <p className="font-medium text-gray-900">Por Aproveitamento</p>
                   <p className="text-[#ff6600] font-bold">{formatPrice(course.aproveitamentoPrice || course.price * 1.3)}</p>
-                  <p className="text-gray-600">A partir de 30 dias</p>
+                  <p className="text-gray-600">Diploma em 30 dias</p>
                 </div>
               </div>
             </div>

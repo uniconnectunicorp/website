@@ -94,7 +94,7 @@ export function CourseAproveitamentoDetailsClient({ course }) {
               <div className="mb-8">
                 <div className="flex max-md:flex-col max-md:items-start items-center gap-4">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
-                Formação a partir de 30 dias
+                Diploma em 30 dias
                 </span>
                 <span className="inline-flex items-center px-4 py-1.5 bg-[#ff6600] rounded-full text-sm font-semibold text-white ">
                 Aproveitamento
@@ -106,8 +106,7 @@ export function CourseAproveitamentoDetailsClient({ course }) {
                 <p className="mt-4 text-lg md:text-xl text-blue-100">
                 Você está a poucos passos de mudar sua vida profissional. 
                 Com uma formação rápida, reconhecida pelo MEC e registrada no SISTEC, 
-                você se torna {course.nome} com validade nacional e ao finalizar 
-                 {course.response ? ` você pode emitir seu ${course.response}. ` : ' você pode emitir seu Certificado. '} 
+                você se torna {course.nome} com validade nacional e {course.response && course.response.length > 10 ? ` ${course.response}. ` : course.response ? ` ao finalizar você pode emitir seu ${course.response}. ` : ' ao finalizar você pode emitir seu Certificado. '} 
                 Conquiste o espaço que merece no mercado — com respeito, segurança e crescimento real.
                 </p>
                 
@@ -138,7 +137,7 @@ export function CourseAproveitamentoDetailsClient({ course }) {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Formação a partir de 30 dias</span>
+                      <span className="text-blue-100">Diploma em 30 dias</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -147,10 +146,6 @@ export function CourseAproveitamentoDetailsClient({ course }) {
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                       <span className="text-blue-100">Acesso imediato após a compra</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Certificado até 30 dias após a conclusão</span>
                     </li>
                   </ul>
                 </div>
