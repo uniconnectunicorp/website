@@ -15,7 +15,7 @@ import {
   Percent,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { fetchCourses } from '@/data/course';
+import { fetchAllCoursesForEnrollment } from '@/data/course';
 import { Header } from '@/components/layout/Header';
 
 const PROMO_CODE = 'uni2026tec';
@@ -28,7 +28,7 @@ export default function MatriculaPromocional() {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState(false);
   const [promoShake, setPromoShake] = useState(false);
-  const courses = fetchCourses();
+  const courses = fetchAllCoursesForEnrollment();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -422,9 +422,17 @@ export default function MatriculaPromocional() {
                         <label className={labelClass}>Nome do Curso *</label>
                         <select name="courseName" value={formData.courseName} onChange={handleChange} required className={inputClass}>
                           <option value="">Selecione um curso</option>
-                          {courses.map((course) => (
-                            <option key={course.slug} value={course.nome}>{course.nome}</option>
-                          ))}
+                          {['Técnico Regular', 'Aproveitamento', 'Competência', 'Sequencial', 'EJA', 'Inglês'].map(tipo => {
+                            const group = courses.filter(c => c.tipo === tipo);
+                            if (!group.length) return null;
+                            return (
+                              <optgroup key={tipo} label={tipo}>
+                                {group.map(course => (
+                                  <option key={course.slug} value={course.nome}>{course.nome}</option>
+                                ))}
+                              </optgroup>
+                            );
+                          })}
                         </select>
                       </div>
                       <div className="md:col-span-2">

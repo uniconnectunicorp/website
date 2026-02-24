@@ -1,5 +1,6 @@
 import  CourseData  from './courses.json';
 import  CompetenciaCourseData  from './competencia-courses.json';
+import  SequentialCourseData  from './sequential-courses.json';
 
 export function fetchCourseBySlug(slug) {
     return CourseData.find((course) => course.slug === slug);
@@ -134,4 +135,16 @@ export function getCompetenciaCourseByName(name) {
 
 export function getAllCompetenciaCourses() {
     return CompetenciaCourseData;
+}
+
+export function fetchAllCoursesForEnrollment() {
+    const regular = CourseData.filter(course => !course.enrollmentOnly).map(c => ({ nome: c.nome, slug: c.slug, tipo: 'Técnico Regular' }));
+    const aproveitamento = CourseData.filter(course => course.aproveitamento && !course.enrollmentOnly).map(c => ({ nome: `${c.nome} (Aproveitamento)`, slug: `aproveitamento-${c.slug}`, tipo: 'Aproveitamento' }));
+    const competencia = CompetenciaCourseData.map(c => ({ nome: `${c.nome} (Competência)`, slug: `competencia-${c.slug}`, tipo: 'Competência' }));
+    const sequencial = SequentialCourseData.map(c => ({ nome: c.nome, slug: c.slug, tipo: 'Sequencial' }));
+    const outros = [
+        { nome: 'EJA - Educação de Jovens e Adultos', slug: 'eja', tipo: 'EJA' },
+        { nome: 'Curso de Inglês', slug: 'ingles', tipo: 'Inglês' },
+    ];
+    return [...regular, ...aproveitamento, ...competencia, ...sequencial, ...outros];
 }

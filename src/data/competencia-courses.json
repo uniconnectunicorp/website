@@ -7,7 +7,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Agente Comunitário de Saúde por competência capacita profissionais para atuar na promoção da saúde e prevenção de doenças em comunidades, realizando visitas domiciliares, orientações e acompanhamento de famílias.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/agente-saude.webp"
   },
   {
     "nome": "Técnico em Análises Clínicas",
@@ -17,7 +17,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Análises Clínicas por competência forma profissionais para realizar coleta de materiais biológicos, executar exames laboratoriais e operar equipamentos de análise clínica.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/analises-clinicas.webp"
   },
   {
     "nome": "Técnico em Cuidados de Idosos",
@@ -27,7 +27,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Cuidados de Idosos por competência prepara profissionais para prestar assistência integral ao idoso, promovendo qualidade de vida, saúde e bem-estar.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/idosos.webp"
   },
   {
     "nome": "Técnico em Equipamentos Biomédicos",
@@ -47,7 +47,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Estética por competência forma profissionais para atuar em procedimentos estéticos faciais e corporais, utilizando técnicas e tecnologias avançadas.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/estetica.webp"
   },
   {
     "nome": "Técnico em Farmácia",
@@ -57,7 +57,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Farmácia por competência capacita profissionais para atuar na dispensação de medicamentos, controle de estoque e atendimento farmacêutico.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/farmacia.webp"
   },
   {
     "nome": "Técnico em Gerência em Saúde",
@@ -67,7 +67,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Gerência em Saúde por competência forma profissionais para gerenciar serviços e unidades de saúde, com foco em planejamento, organização e gestão de recursos.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/gerencia.webp"
   },
   {
     "nome": "Técnico em Nutrição e Dietética",
@@ -87,7 +87,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Radiologia por competência forma profissionais para operar equipamentos de diagnóstico por imagem, seguindo protocolos de segurança radiológica.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/radiologia.webp"
   },
   {
     "nome": "Técnico em Saúde Bucal",
@@ -97,7 +97,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Saúde Bucal por competência capacita profissionais para auxiliar cirurgiões-dentistas, realizar procedimentos preventivos e promover a saúde bucal.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/saude-bucal.webp"
   },
   {
     "nome": "Técnico em Veterinária",
@@ -107,7 +107,7 @@
     "area": "Área da Saúde",
     "modality": "EAD",
     "description": "O curso Técnico em Veterinária por competência forma profissionais para auxiliar médicos veterinários em procedimentos clínicos, cirúrgicos e de manejo animal.",
-    "image": "/courses/saude.webp"
+    "image": "/courses/veterinaria.webp"
   },
   {
     "nome": "Técnico em Administração",

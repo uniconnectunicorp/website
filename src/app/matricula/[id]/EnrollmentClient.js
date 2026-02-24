@@ -20,14 +20,14 @@ import {
   Sparkles
 } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { fetchCourses } from '@/data/course';
+import { fetchAllCoursesForEnrollment } from '@/data/course';
 import { Header } from '@/components/layout/Header';
 
 export default function EnrollmentClient({ seller }) {
   const [loading, setLoading] = useState(false);
   const [loadingCep, setLoadingCep] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const courses = fetchCourses();
+  const courses = fetchAllCoursesForEnrollment();
   
   const [formData, setFormData] = useState({
     // Dados Pessoais
@@ -559,11 +559,17 @@ export default function EnrollmentClient({ seller }) {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${isBlackFriday ? 'bg-gray-700 border-gray-600 text-white focus:ring-yellow-400' : 'bg-white border-gray-300 text-gray-900 focus:ring-[#0b3b75]'}`}
                     >
                       <option value="">Selecione um curso</option>
-                      {courses.map(course => (
-                        <option key={course.slug} value={course.nome}>
-                          {course.nome}
-                        </option>
-                      ))}
+                      {['Técnico Regular', 'Aproveitamento', 'Competência', 'Sequencial', 'EJA', 'Inglês'].map(tipo => {
+                        const group = courses.filter(c => c.tipo === tipo);
+                        if (!group.length) return null;
+                        return (
+                          <optgroup key={tipo} label={tipo}>
+                            {group.map(course => (
+                              <option key={course.slug} value={course.nome}>{course.nome}</option>
+                            ))}
+                          </optgroup>
+                        );
+                      })}
                     </select>
                   </div>
                   

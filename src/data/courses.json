@@ -1281,7 +1281,7 @@
     "mecLink": "https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU=",
     "sistecLink": "https://sistec.mec.gov.br/consultapublicaunidadeensino",
     "description": "O curso Técnico em Agrimesura forma profissionais capacitados para atuar em levantamentos topográficos, georreferenciamento, cartografia e planejamento urbano, com reconhecimento pelo MEC e registro no SISTEC.",
-    "image": "/courses/edificacoes.webp",
+    "image": "/courses/agrimensura.webp",
     "modulos": [
       {
         "nome": "Módulo I",
@@ -1330,7 +1330,7 @@
     "mecLink": "https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjI5NzU=",
     "sistecLink": "https://sistec.mec.gov.br/consultapublicaunidadeensino",
     "description": "O curso Técnico em Biotecnologia forma profissionais capacitados para atuar em laboratórios de pesquisa e análise, desenvolvendo competências em biologia molecular, microbiologia, bioquímica e biotecnologia aplicada.",
-    "image": "/courses/nutricao.webp",
+    "image": "/courses/biotecnologia.webp",
     "modulos": [
       {
         "nome": "Módulo I",
