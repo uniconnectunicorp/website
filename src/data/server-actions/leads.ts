@@ -109,7 +109,7 @@ export async function getGeneralReport({ startDate, endDate, period }: {
       GROUP BY "lossReason"
     `, startDate, endDate);
 
-    const lossWithPercentage = lossReasons.map((item: any) => ({
+    const lossWithPercentage = (lossReasons as any[]).map((item: any) => ({
       name: item.name,
       quantity: Number(item.total),
       percentage: totalLost > 0
