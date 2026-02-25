@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react'
 import clsx from 'clsx'
 
-const faqData = [
+const faqDataRegular = [
   {
     question: 'Qual é o tempo mínimo para conclusão do curso?',
     answer:
@@ -31,7 +31,57 @@ const faqData = [
     answer:
       'Sim, o curso técnico é cadastrado no SISTEC (Sistema Nacional de Informações da Educação Profissional e Tecnológica), o que assegura a regularidade e a qualidade da formação oferecida.',
   },
-  
+]
+
+const faqDataCompetencia = [
+  {
+    question: 'Qual tempo mínimo para conclusão do curso?',
+    answer:
+      'Todo processo incluindo a entrega do diploma é em até 5 dias úteis.',
+  },
+  {
+    question: 'Consigo obter o registro após a conclusão do curso?',
+    answer:
+      'Sim, após a conclusão do curso técnico, você poderá solicitar o registro no conselho responsável pela sua área de atuação. O curso atende aos requisitos necessários para esse registro.',
+  },
+  {
+    question: 'O curso é reconhecido pelo MEC?',
+    answer:
+      'Sim, é reconhecido pelo MEC (Ministério da Educação), o que garante a validade do seu diploma em todo o território nacional.',
+  },
+  {
+    question: 'O curso é cadastrado no SISTEC?',
+    answer:
+      'Sim, o curso técnico é cadastrado no SISTEC (Sistema Nacional de Informações da Educação Profissional e Tecnológica), o que assegura a regularidade e a qualidade da formação oferecida.',
+  },
+]
+
+const faqDataAproveitamento = [
+  {
+    question: 'Qual tempo mínimo de conclusão do curso?',
+    answer:
+      'Fazendo as atividades na data prevista, todo o processo incluindo o diploma é de 30 dias.',
+  },
+  {
+    question: 'O curso é totalmente online?',
+    answer:
+      'Sim, todos os nossos cursos técnicos são reconhecidos pelo MEC, garantindo a validade do seu certificado em todo o território nacional., o curso é 100% online, oferecendo flexibilidade para que você estude de qualquer lugar e no horário que melhor se adapte à sua rotina.',
+  },
+  {
+    question: 'Consigo obter o registro após a conclusão do curso?',
+    answer:
+      'Sim, após a conclusão do curso técnico, você poderá solicitar o registro no conselho responsável pela sua área de atuação. O curso atende aos requisitos necessários para esse registro.',
+  },
+  {
+    question: 'O curso é reconhecido pelo MEC?',
+    answer:
+      'Sim, é reconhecido pelo MEC (Ministério da Educação), o que garante a validade do seu diploma em todo o território nacional.',
+  },
+  {
+    question: 'O curso é cadastrado no SISTEC?',
+    answer:
+      'Sim, o curso técnico é cadastrado no SISTEC (Sistema Nacional de Informações da Educação Profissional e Tecnológica), o que assegura a regularidade e a qualidade da formação oferecida.',
+  },
 ]
 
 const AccordionItem = ({ item, isOpen, onClick }) => (
@@ -99,12 +149,14 @@ const AccordionItem = ({ item, isOpen, onClick }) => (
   </div>
 )
 
-export function CourseFAQ() {
+export function CourseFAQ({ type = 'regular' }) {
   const [openIndex, setOpenIndex] = useState(null)
 
   const handleClick = (index) => {
     setOpenIndex(openIndex === index ? null : index)
   }
+
+  const faqData = type === 'competencia' ? faqDataCompetencia : type === 'aproveitamento' ? faqDataAproveitamento : faqDataRegular;
 
   return (
     <div className="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">

@@ -103,11 +103,9 @@ export function Header({ isBlackNovember = false }) {
                     e.currentTarget.src = '/root/fallback-logo.png'; // Fallback image
                   }}
                 />
-                <div className="sm:flex flex-col items-start">
+                {/* <div className="sm:flex flex-col items-start">
                   <div className="px-4 py-2">
-                    {/* <div className="text-white text-xs font-medium uppercase tracking-wider opacity-90 mb-1">
-                      Parceiro:
-                    </div> */}
+                    
                     <div className="text-white text-lg font-bold tracking-wide">
                       <Image
                         src="/root/logo-unicorp.png"
@@ -123,7 +121,7 @@ export function Header({ isBlackNovember = false }) {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
 
               </div>
             </Link>
@@ -425,7 +423,7 @@ export function Header({ isBlackNovember = false }) {
           <div className="absolute bottom-0 left-0 right-0 p-6 bg-gray-50 border-t border-gray-100">
             <div className="text-center">
               <div className="flex items-center justify-center space-x-2 mb-2">
-                <Image
+                {/* <Image
                   src="/root/logo-unicorp.png"
                   width={80}
                   height={30}
@@ -434,7 +432,7 @@ export function Header({ isBlackNovember = false }) {
                   onError={(e) => {
                     e.currentTarget.src = '/root/fallback-logo.png';
                   }}
-                />
+                /> */}
               </div>
               <p className="text-xs text-gray-500">
                 Transformando carreiras através da educação

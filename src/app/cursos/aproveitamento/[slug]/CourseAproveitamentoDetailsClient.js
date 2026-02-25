@@ -251,7 +251,7 @@ export function CourseAproveitamentoDetailsClient({ course }) {
         requirements={course.requirements}
       />
 
-    <CourseFAQ />
+    <CourseFAQ type="aproveitamento" />
 
 
     <SistecAndMec />

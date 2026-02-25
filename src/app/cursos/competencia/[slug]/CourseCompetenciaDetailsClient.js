@@ -243,7 +243,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
         </div>
       </div>
 
-      <CourseFAQ />
+      <CourseFAQ type="competencia" />
 
       <SistecAndMec />
 
