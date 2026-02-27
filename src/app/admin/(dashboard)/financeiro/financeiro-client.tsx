@@ -15,6 +15,7 @@ import {
   deletePaymentMethod,
   getAllPaymentMethods,
 } from "@/lib/actions/financeiro";
+import { PaymentType } from "@prisma/client";
 
 function fmt(v: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
@@ -101,7 +102,7 @@ export function FinanceiroClient({
     startTransition(async () => {
       const result = await createPaymentMethod({
         name: newPM.name,
-        type: newPM.type,
+        type: newPM.type as PaymentType,
         feePercentage: parseFloat(newPM.feePercentage) || 0,
         maxInstallments: parseInt(newPM.maxInstallments) || 1,
         visibleOnEnrollment: newPM.visibleOnEnrollment,
