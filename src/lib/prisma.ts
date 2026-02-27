@@ -5,7 +5,7 @@ const globalForPrisma = globalThis as unknown as {
     prisma: PrismaClient | undefined
 }
 
-const connectionString = process.env.DATABASE_URL || process.env.DIRECT_URL
+const connectionString = process.env.CRM_DATABASE_URL || process.env.DIRECT_URL
 
 const adapter = new PrismaPg({
     connectionString: connectionString!,
