@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { PaymentType } from "@prisma/client";
 
 interface DateRange {
   start: string;
@@ -181,7 +182,7 @@ export async function updatePaymentMethod(id: string, data: {
 
 export async function createPaymentMethod(data: {
   name: string;
-  type: string;
+  type: PaymentType;
   feePercentage: number;
   maxInstallments: number;
   visibleOnEnrollment: boolean;
