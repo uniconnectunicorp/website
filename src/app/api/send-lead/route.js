@@ -501,10 +501,13 @@ export async function POST(request) {
       replyTo: email,
     };
 
-    await transporter.sendMail(mailOptions);
-    
-    // Registra o log do email
-    await registrarLogEmail(responsavelAtual, name);
+    // Envia email (não-bloqueante — CRM e fallback executam mesmo se falhar)
+    try {
+      await transporter.sendMail(mailOptions);
+      await registrarLogEmail(responsavelAtual, name);
+    } catch (emailErr) {
+      console.error('Erro ao enviar email (não crítico):', emailErr);
+    }
 
     // Save to Prisma CRM (non-blocking, doesn't affect response)
     try {

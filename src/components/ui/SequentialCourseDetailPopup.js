@@ -62,7 +62,7 @@ export default function SequentialCourseDetailPopup({ course }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-md z-50"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md z-[60]"
             onClick={handleClose}
           />
           
@@ -71,7 +71,7 @@ export default function SequentialCourseDetailPopup({ course }) {
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.7, rotateX: 20 }}
             transition={{ type: "spring", duration: 0.7, bounce: 0.35 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
             onClick={handleClose}
           >
             <motion.div

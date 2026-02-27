@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { ArrowRight, ChevronDown, BookOpen, Zap, Trophy, GraduationCap, Users } from 'lucide-react';
+import { ArrowRight, ChevronDown, BookOpen, Zap, Trophy, GraduationCap, Users, Languages } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -31,7 +31,7 @@ const categories = [
   },
   {
     label: 'Cursos Sequenciais',
-    href: '/cursos/sequencial',
+    href: '/sequenciais',
     icon: GraduationCap,
     description: 'Formação superior de curta duração',
     color: 'text-green-600',
@@ -39,11 +39,19 @@ const categories = [
   },
   {
     label: 'EJA',
-    href: '/cursos/eja',
+    href: '/eja',
     icon: Users,
     description: 'Educação de Jovens e Adultos',
     color: 'text-teal-600',
     bg: 'bg-teal-50',
+  },
+  {
+    label: 'Curso de Inglês',
+    href: '/curso-de-ingles',
+    icon: Languages,
+    description: 'Do zero ao avançado com certificado',
+    color: 'text-sky-600',
+    bg: 'bg-sky-50',
   },
 ];
 
