@@ -1,8 +1,6 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import LayoutShell from '@/components/layout/layout-shell';
 
 
@@ -77,25 +75,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col w-full">
-            {/* <Header /> */}
             <main className="flex-1 w-full">
               <div className="w-full">
                 {children}
               </div>
             </main>
             <LayoutShell />
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
           </div>
         </ThemeProvider>
         {/* GTM no final do body para não bloquear renderização */}

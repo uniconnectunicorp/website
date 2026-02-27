@@ -52,15 +52,19 @@ export default function HeroSection() {
   const ref = useRef(null);
 
   useEffect(() => {
-    function handleClick(e) {
+    function handleOutside(e) {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchend', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchend', handleOutside);
+    };
   }, []);
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-white to-primary overflow-hidden flex flex-col items-center">
+    <section className="relative w-full bg-gradient-to-b from-white to-primary flex flex-col items-center">
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-5" />
       <div className="relative max-w-7xl w-full px-4 pt-24 sm:py-32">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -79,7 +83,7 @@ export default function HeroSection() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <div ref={ref} className="relative z-20">
+                <div ref={ref} className="relative z-[60]">
                   <button
                     onClick={() => setOpen((v) => !v)}
                     className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#ff6600] hover:bg-[#e55a00] rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] hover:shadow-orange-200 gap-2"
@@ -89,22 +93,19 @@ export default function HeroSection() {
                   </button>
 
                   {open && (
-                    <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
+                    <div className="absolute bottom-full left-0 mb-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[60]">
                       {categories.map((cat) => (
                         <Link
                           key={cat.href}
                           href={cat.href}
                           onClick={() => setOpen(false)}
-                          className="flex items-start gap-3 px-4 py-3.5 hover:bg-gray-50 transition-colors group border-b border-gray-50 last:border-0"
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-0"
                         >
-                          <div className={`w-9 h-9 rounded-lg ${cat.bg} flex items-center justify-center shrink-0 mt-0.5`}>
-                            <cat.icon className={`h-4 w-4 ${cat.color}`} />
+                          <div className={`w-7 h-7 rounded-lg ${cat.bg} flex items-center justify-center shrink-0`}>
+                            <cat.icon className={`h-3.5 w-3.5 ${cat.color}`} />
                           </div>
-                          <div className="min-w-0">
-                            <p className="text-[14px] font-semibold text-gray-900 group-hover:text-[#ff6600] transition-colors">{cat.label}</p>
-                            <p className="text-[12px] text-gray-500 mt-0.5 leading-snug">{cat.description}</p>
-                          </div>
-                          <ArrowRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-[#ff6600] shrink-0 mt-1.5 transition-colors" />
+                          <p className="text-[13px] font-semibold text-gray-800 group-hover:text-[#ff6600] transition-colors">{cat.label}</p>
+                          <ArrowRight className="h-3 w-3 text-gray-300 group-hover:text-[#ff6600] shrink-0 ml-auto transition-colors" />
                         </Link>
                       ))}
                     </div>
@@ -114,7 +115,7 @@ export default function HeroSection() {
             </div>
           </div>
           
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full pointer-events-none">
             <div className="absolute -bottom-26 w-full h-full scale-125">
               <Image 
                 src="/root/student.png" 
@@ -129,7 +130,7 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-[url('/images/wave.svg')] bg-cover bg-bottom opacity-30" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-[url('/images/wave.svg')] bg-cover bg-bottom opacity-30 pointer-events-none" />
     </section>  
   );
 }

@@ -6,14 +6,11 @@ import FeaturedCoursesSection from "@/components/home/FeaturedCoursesSection";
 import FeaturedCompetenciaSection from "@/components/home/FeaturedCompetenciaSection";
 import { Testimonials } from "@/components/sections/Testimonials";
 import CTASection from "@/components/home/CTASection";
-import { Header } from '@/components/layout/Header';
-
 export default function Home() {
  
   return (
     <div className="min-h-screen w-full">
       <HeroSection />
-      <Header />
       {/* <BrandsSection /> */}
       <FeaturesSection />
       <HowItWorksSection />
