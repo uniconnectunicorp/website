@@ -14,18 +14,21 @@ datasource db {
 
 model User {
   id            String    @id
-  name          String
-  email         String
+  name          String?
+  email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?
-  role          Role      @default(user)
+  role          Role      @default(seller)
+  active        Boolean   @default(true)
   finance       Finance[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  sellerConfig  SellerConfig?
+  leadsAssigned Lead[]    @relation("LeadAssignedTo")
+  enrollmentLinksGenerated EnrollmentLink[] @relation("EnrollmentLinkSeller")
 
-  @@unique([email])
   @@map("user")
 }
 
@@ -79,76 +82,204 @@ model Verification {
 
 
 model Lead {
-  id        String   @id
-  name      String
-  email     String?
-  phone     String
-  message   String?
-  cpf       String?
-  rg        String?
-  birthDate String?
-  address   String?
-  houseNumber String?
-  neighborhood String?
-  city      String?
-  state     String?
-  zipCode   String?
-  civilStatus String?
-  course    String?
-  status    LeadStatus @default(pending)
-  notes     String?
-  assignedTo String?
-  source    String?
-  campaign  String?
-  utmSource String?
-  utmMedium String?
-  utmCampaign String?
-  history   LeadHistory[]
-  paymentMethod String?
-  finance   Finance?
-  lossReason String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+  id              String   @id
+  name            String
+  email           String?
+  phone           String
+  message         String?
+  cpf             String?
+  rg              String?
+  birthDate       String?
+  address         String?
+  houseNumber     String?
+  neighborhood    String?
+  city            String?
+  state           String?
+  zipCode         String?
+  civilStatus     String?
+  course          String?
+  courseValue      Float?
+  modalidade      Modalidade?
+  status          LeadStatus @default(pending)
+  notes           String?
+  assignedTo      String?
+  assignedUser    User?      @relation("LeadAssignedTo", fields: [assignedTo], references: [id])
+  source          String?
+  sessionId       String?
+  campaign        String?
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  history         LeadHistory[]
+  tarefas         Tarefa[]
+  paymentMethodId String?
+  paymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  installments    Int?
+  finance         Finance?
+  matricula       Matricula?
+  enrollmentLink  EnrollmentLink?
+  lossReason      String?
+  stagesBeforeLoss String?
+  convertedAt     DateTime?
+  lostAt          DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([assignedTo])
+  @@index([sessionId])
+  @@index([phone])
+  @@index([status])
   @@map("lead")
 }
 
 model LeadHistory {
-  id        String   @id
-  leadId    String
-  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  action    String
-  createdAt DateTime @default(now())
-  
+  id         String   @id
+  leadId     String
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  action     String
+  fromStatus String?
+  toStatus   String?
+  userId     String?
+  createdAt  DateTime @default(now())
+
+  @@index([leadId])
   @@map("lead_history")
 }
 
-model Finance {
-  id        String   @id
-  leadId    String?  @unique
-  lead      Lead?    @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  amount    Float
-  installments Int?
-  type      FinanceType
-  description String?
-  userId    String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  paymentMethod String?
-  transactionDate DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model EnrollmentLink {
+  id          String   @id
+  token       String   @unique
+  leadId      String   @unique
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  sellerId    String
+  seller      User     @relation("EnrollmentLinkSeller", fields: [sellerId], references: [id])
+  used        Boolean  @default(false)
+  usedAt      DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
 
+  @@index([token])
+  @@map("enrollment_link")
+}
+
+model Matricula {
+  id                 String          @id
+  leadId             String          @unique
+  lead               Lead            @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  numero             String          @unique
+  status             MatriculaStatus @default(ativa)
+  modalidade         Modalidade      @default(regular)
+  dataInicio         DateTime        @default(now())
+  dataConclusao      DateTime?
+  dataCancelamento   DateTime?
+  motivoCancelamento String?
+  certificadoEmitido Boolean         @default(false)
+  dataCertificado    DateTime?
+  observacoes        String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@map("matricula")
+}
+
+model Tarefa {
+  id          String       @id
+  leadId      String
+  lead        Lead         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  titulo      String
+  descricao   String?
+  tipo        TarefaTipo   @default(followup)
+  status      TarefaStatus @default(pendente)
+  prazo       DateTime?
+  concluidaEm DateTime?
+  assignedTo  String
+  criadoPor   String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([leadId])
+  @@index([assignedTo])
+  @@map("tarefa")
+}
+
+model SellerConfig {
+  id       String @id
+  userId   String @unique
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  minValue Float  @default(0)
+  maxValue Float  @default(99999)
+
+  @@map("seller_config")
+}
+
+model PaymentMethod {
+  id                    String  @id
+  name                  String
+  type                  PaymentType
+  maxInstallments       Int?
+  active                Boolean @default(true)
+  visibleOnEnrollment   Boolean @default(true)
+  feePercentage         Float   @default(0)
+  leads                 Lead[]
+  finances              Finance[]
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("payment_method")
+}
+
+model Finance {
+  id              String        @id
+  leadId          String?       @unique
+  lead            Lead?         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  amount          Float
+  netAmount       Float?
+  feeAmount       Float?
+  installments    Int?
+  type            FinanceType
+  category        String?
+  description     String?
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentMethodId String?
+  paymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  transactionDate DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([type])
+  @@index([transactionDate])
+  @@index([userId])
   @@map("finance")
 }
 
+model Notificacao {
+  id        String          @id
+  userId    String
+  titulo    String
+  mensagem  String
+  tipo      NotificacaoTipo @default(info)
+  lida      Boolean         @default(false)
+  linkUrl   String?
+  createdAt DateTime        @default(now())
+
+  @@index([userId])
+  @@index([lida])
+  @@map("notificacao")
+}
 
 enum Role {
-  user
   director
   finance
   seller
   manager
   admin
+}
+
+enum PaymentType {
+  pix
+  credit
+  debit
 }
 
 enum LeadStatus {
@@ -158,6 +289,42 @@ enum LeadStatus {
   confirmPayment
   converted
   lost
+}
+
+enum MatriculaStatus {
+  ativa
+  concluida
+  cancelada
+  trancada
+}
+
+enum Modalidade {
+  regular
+  aproveitamento
+  competencia
+}
+
+enum TarefaTipo {
+  followup
+  ligacao
+  reuniao
+  email
+  visita
+  outro
+}
+
+enum TarefaStatus {
+  pendente
+  emAndamento
+  concluida
+  cancelada
+}
+
+enum NotificacaoTipo {
+  info
+  sucesso
+  alerta
+  erro
 }
 
 enum FinanceType {

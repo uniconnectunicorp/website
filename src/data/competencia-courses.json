@@ -50,6 +50,16 @@
     "image": "/courses/estetica.webp"
   },
   {
+    "nome": "Técnico em Estética e Cosmetologia",
+    "slug": "estetica-e-cosmetologia",
+    "price": 1199.90,
+    "originalPrice": 1999.90,
+    "area": "Área da Saúde",
+    "modality": "EAD",
+    "description": "O curso Técnico em Estética e Cosmetologia por competência forma profissionais capacitados para atuar na área de estética, desenvolvendo competências em tratamentos estéticos, cosmetologia e gestão de salões de beleza.",
+    "image": "/courses/estetica.webp"
+  },
+  {
     "nome": "Técnico em Farmácia",
     "slug": "farmacia",
     "price": 1199.90,

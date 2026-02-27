@@ -55,7 +55,7 @@ export function getCourseCount(aproveitamento = false) {
     return displayCourses.length;
 }
 
-export function getCourseByName(name) {
+export function getCourseByName(name, aproveitamento = false) {
     let courses = [];
     if (!name) return null;
     function normalizeForCompare(str) {
@@ -69,7 +69,10 @@ export function getCourseByName(name) {
             .replace(/[^a-z0-9-]/g, '');
     }
     const cleanName = normalizeForCompare(name);
-    CourseData.map(course => {
+    const source = aproveitamento
+        ? CourseData.filter(c => c.aproveitamento && !c.enrollmentOnly)
+        : CourseData.filter(c => !c.enrollmentOnly);
+    source.forEach(course => {
         if (normalizeForCompare(course.nome).includes(cleanName)) {
             courses.push(course);
         }
@@ -138,8 +141,8 @@ export function getAllCompetenciaCourses() {
 }
 
 export function fetchAllCoursesForEnrollment() {
-    const regular = CourseData.filter(course => !course.enrollmentOnly).map(c => ({ nome: c.nome, slug: c.slug, tipo: 'Técnico Regular' }));
-    const aproveitamento = CourseData.filter(course => course.aproveitamento && !course.enrollmentOnly).map(c => ({ nome: `${c.nome} (Aproveitamento)`, slug: `aproveitamento-${c.slug}`, tipo: 'Aproveitamento' }));
+    const regular = CourseData.map(c => ({ nome: c.nome, slug: c.slug, tipo: 'Técnico Regular' }));
+    const aproveitamento = CourseData.filter(course => course.aproveitamento).map(c => ({ nome: `${c.nome} (Aproveitamento)`, slug: `aproveitamento-${c.slug}`, tipo: 'Aproveitamento' }));
     const competencia = CompetenciaCourseData.map(c => ({ nome: `${c.nome} (Competência)`, slug: `competencia-${c.slug}`, tipo: 'Competência' }));
     const sequencial = SequentialCourseData.map(c => ({ nome: c.nome, slug: c.slug, tipo: 'Sequencial' }));
     const outros = [

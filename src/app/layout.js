@@ -1,10 +1,9 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Footer } from '@/components/layout/Footer';
-import WhatsappFloat from '@/components/layout/Whatsapp';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LayoutShell from '@/components/layout/layout-shell';
 
 
 
@@ -17,6 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://www.uniconnectead.com.br'),
   title: 'Uniconnect | Cursos Técnicos EAD',
   description: 'Cursos técnicos de alta qualidade na modalidade EAD. Transforme sua carreira com a Uniconnect.',
   keywords: 'cursos técnicos, EAD, educação a distância, cursos profissionalizantes, Uniconnect',
@@ -83,8 +83,7 @@ export default function RootLayout({
                 {children}
               </div>
             </main>
-            <Footer />
-            <WhatsappFloat />
+            <LayoutShell />
             <ToastContainer
               position="top-right"
               autoClose={5000}

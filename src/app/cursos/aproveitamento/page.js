@@ -17,7 +17,7 @@ export default function AproveitamentoPage() {
 
   const searchCourses = (search) => {
     if (!search) return;
-    const result = getCourseByName(search.toString())
+    const result = getCourseByName(search.toString(), true)
     if (result) {
       setInitialCourses(result)
       setIsSearchActive(true);

@@ -1265,9 +1265,8 @@
     "aproveitamento": true,
     "response": "CRT",
     "modality": "EAD",
-    "enrollmentOnly": true,
     "description": "O curso Técnico em Desenvolvimento de Sistemas forma profissionais capacitados para atuar no desenvolvimento de software, desenvolvendo competências em programação, banco de dados e análise de sistemas.",
-    "image": "/courses/desenvolvimento-sistemas.webp",
+    "image": "/courses/informatica.webp",
     "modulos": []
   },
   {

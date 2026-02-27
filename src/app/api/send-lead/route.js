@@ -3,6 +3,93 @@ import nodemailer from 'nodemailer';
 import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { sendLeadFallback } from '@/lib/leadFallback';
+import { prisma } from '@/lib/prisma';
+
+// Map seller names to Prisma user IDs (will try to find by name)
+async function findOrAssignSeller(responsavel) {
+  try {
+    const seller = await prisma.user.findFirst({
+      where: {
+        name: { contains: responsavel, mode: 'insensitive' },
+        role: { in: ['seller', 'admin', 'manager', 'director'] },
+        active: true,
+      },
+      select: { id: true },
+    });
+    return seller?.id || null;
+  } catch (error) {
+    console.error('findOrAssignSeller error:', error);
+    return null;
+  }
+}
+
+// Save lead to Prisma for CRM
+async function saveToPrisma({ name, email, phone, course, modality, message, sessionId, responsavel }) {
+  try {
+    const normalizedPhone = phone?.replace(/\D/g, '') || '';
+
+    // Check if lead already exists by phone
+    const existing = await prisma.lead.findFirst({
+      where: { phone: { contains: normalizedPhone } },
+    });
+
+    if (existing) {
+      // Update existing lead with new data if missing
+      const updates = {};
+      if (!existing.email && email) updates.email = email;
+      if (!existing.course && course) updates.course = course;
+      if (!existing.message && message) updates.message = message;
+      if (Object.keys(updates).length > 0) {
+        await prisma.lead.update({ where: { id: existing.id }, data: updates });
+      }
+      return existing.id;
+    }
+
+    // Find seller ID
+    const sellerId = await findOrAssignSeller(responsavel);
+
+    // Map modality string to enum
+    let modalidade = null;
+    if (modality) {
+      const mod = modality.toLowerCase();
+      if (mod.includes('aproveitamento')) modalidade = 'aproveitamento';
+      else if (mod.includes('competencia') || mod.includes('competência')) modalidade = 'competencia';
+      else if (mod.includes('regular')) modalidade = 'regular';
+    }
+
+    const lead = await prisma.lead.create({
+      data: {
+        id: uuidv4(),
+        name,
+        email: email || null,
+        phone,
+        course: course || null,
+        modalidade,
+        message: message || null,
+        source: 'website',
+        sessionId: sessionId || null,
+        assignedTo: sellerId,
+        status: 'pending',
+      },
+    });
+
+    // Create history entry
+    await prisma.leadHistory.create({
+      data: {
+        id: uuidv4(),
+        leadId: lead.id,
+        action: `Lead criado via site - Responsável: ${responsavel}`,
+        toStatus: 'pending',
+        userId: sellerId,
+      },
+    });
+
+    return lead.id;
+  } catch (error) {
+    console.error('saveToPrisma error:', error);
+    return null;
+  }
+}
 
 let dbInitialized = false;
 async function ensureDb() {
@@ -418,6 +505,17 @@ export async function POST(request) {
     
     // Registra o log do email
     await registrarLogEmail(responsavelAtual, name);
+
+    // Save to Prisma CRM (non-blocking, doesn't affect response)
+    try {
+      await saveToPrisma({
+        name, email, phone, course, modality, message,
+        sessionId: newSessionId || sessionId,
+        responsavel: responsavelAtual,
+      });
+    } catch (err) {
+      console.error('Erro ao salvar no Prisma CRM (não crítico):', err);
+    }
 
     // Envia fallback para API externa com dados completos
     try {

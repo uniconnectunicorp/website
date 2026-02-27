@@ -1,0 +1,40 @@
+import { getMatriculas, getMatriculaStats } from "@/lib/actions/matriculas";
+import { MatriculasClient } from "./matriculas-client";
+
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}
+
+export default async function MatriculasPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+
+  const [result, stats] = await Promise.all([
+    getMatriculas({
+      search: params.search,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      course: params.course,
+      page,
+    }),
+    getMatriculaStats(),
+  ]);
+
+  return (
+    <MatriculasClient
+      matriculas={JSON.parse(JSON.stringify(result.data))}
+      total={result.total}
+      pages={result.pages}
+      currentPage={result.currentPage}
+      stats={stats}
+      initialFilters={{
+        search: params.search || "",
+        startDate: params.startDate || "",
+        endDate: params.endDate || "",
+        course: params.course || "",
+        status: params.status || "",
+        modalidade: params.modalidade || "",
+      }}
+    />
+  );
+}
