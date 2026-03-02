@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -9,11 +9,23 @@ import {
   ChevronRight,
   Phone,
   Mail,
-  User,
   Eye,
   GraduationCap,
   Calendar,
+  MoreHorizontal,
+  FileCheck,
+  FileX,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
+import { toggleNotaEmitida } from "@/lib/actions/alunos";
+
+interface Matricula {
+  id: string;
+  numero: string;
+  notaEmitida: boolean;
+  dataNotaEmitida?: string | null;
+}
 
 interface Aluno {
   id: string;
@@ -26,6 +38,7 @@ interface Aluno {
   state?: string | null;
   createdAt: string;
   finance?: { amount: number } | null;
+  matricula?: Matricula | null;
 }
 
 interface AlunosClientProps {
@@ -33,6 +46,7 @@ interface AlunosClientProps {
   total: number;
   pages: number;
   currentPage: number;
+  userRole: string;
   initialFilters: {
     search: string;
     course: string;
@@ -40,14 +54,41 @@ interface AlunosClientProps {
 }
 
 export function AlunosClient({
-  alunos,
+  alunos: initialAlunos,
   total,
   pages,
   currentPage,
+  userRole,
   initialFilters,
 }: AlunosClientProps) {
   const router = useRouter();
   const [filters, setFilters] = useState(initialFilters);
+  const [alunos, setAlunos] = useState(initialAlunos);
+  const [isPending, startTransition] = useTransition();
+  const [openActions, setOpenActions] = useState<string | null>(null);
+
+  const canManageNota = ["admin", "director", "finance"].includes(userRole);
+
+  const handleToggleNota = (alunoId: string, currentNota: boolean) => {
+    setOpenActions(null);
+    startTransition(async () => {
+      const result = await toggleNotaEmitida(alunoId, !currentNota);
+      if ("success" in result) {
+        setAlunos((prev) =>
+          prev.map((a) =>
+            a.id === alunoId
+              ? {
+                  ...a,
+                  matricula: a.matricula
+                    ? { ...a.matricula, notaEmitida: !currentNota, dataNotaEmitida: !currentNota ? new Date().toISOString() : null }
+                    : a.matricula,
+                }
+              : a
+          )
+        );
+      }
+    });
+  };
 
   const applyFilters = (page?: number) => {
     const params = new URLSearchParams();
@@ -104,6 +145,7 @@ export function AlunosClient({
                 <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Curso</th>
                 <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Localidade</th>
                 <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Data Matrícula</th>
+                {canManageNota && <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Nota</th>}
                 <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Ações</th>
               </tr>
             </thead>
@@ -148,23 +190,68 @@ export function AlunosClient({
                   <td className="px-6 py-4 text-sm text-gray-600">
                     {[aluno.city, aluno.state].filter(Boolean).join(", ") || "—"}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500 flex items-center gap-1.5">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {new Date(aluno.createdAt).toLocaleDateString("pt-BR")}
-                  </td>
                   <td className="px-6 py-4">
-                    <Link
-                      href={`/admin/alunos/${aluno.id}`}
-                      className="p-2 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors inline-flex"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Link>
+                    <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                      <Calendar className="h-3.5 w-3.5" />
+                      {new Date(aluno.createdAt).toLocaleDateString("pt-BR")}
+                    </div>
+                  </td>
+                  {canManageNota && (
+                    <td className="px-6 py-4 text-center">
+                      {aluno.matricula?.notaEmitida ? (
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                          <CheckCircle2 className="h-3 w-3" /> Emitida
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-full">
+                          <XCircle className="h-3 w-3" /> Pendente
+                        </span>
+                      )}
+                    </td>
+                  )}
+                  <td className="px-6 py-4">
+                    <div className="relative flex items-center gap-1">
+                      <Link
+                        href={`/admin/alunos/${aluno.id}`}
+                        className="p-2 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors inline-flex"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Link>
+                      {canManageNota && (
+                        <>
+                          <button
+                            onClick={() => setOpenActions(openActions === aluno.id ? null : aluno.id)}
+                            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                          </button>
+                          {openActions === aluno.id && (
+                            <>
+                              <div className="fixed inset-0 z-30" onClick={() => setOpenActions(null)} />
+                              <div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-40 py-1">
+                                <button
+                                  onClick={() => handleToggleNota(aluno.id, aluno.matricula?.notaEmitida || false)}
+                                  disabled={isPending}
+                                  className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors disabled:opacity-50"
+                                >
+                                  {aluno.matricula?.notaEmitida ? (
+                                    <><FileX className="h-4 w-4 text-red-500" /> Remover nota emitida</>
+                                  ) : (
+                                    <><FileCheck className="h-4 w-4 text-green-500" /> Marcar nota emitida</>
+                                  )}
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
               {alunos.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
+                  <td colSpan={canManageNota ? 7 : 6} className="px-6 py-12 text-center text-gray-400">
                     Nenhum aluno encontrado
                   </td>
                 </tr>

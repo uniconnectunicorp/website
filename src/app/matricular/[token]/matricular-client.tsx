@@ -329,7 +329,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Forma de Pagamento *</label>
                     <select name="paymentMethodId" value={form.paymentMethodId} onChange={handleChange} required
@@ -337,19 +337,21 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                       <option value="">Selecione</option>
                       {paymentMethods.map((pm) => (
                         <option key={pm.id} value={pm.id}>
-                          {pm.name} {pm.type === "pix" ? "(PIX)" : pm.type === "credit" ? "(Crédito)" : "(Débito)"}
+                          {pm.name}
                         </option>
                       ))}
                     </select>
                   </div>
-                  {selectedPM && maxInstallments > 1 && (
+                  {selectedPM && selectedPM.type === "credit" && (selectedPM.maxInstallments ?? 1) > 1 && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Parcelas</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Número de Parcelas</label>
                       <select name="installments" value={form.installments} onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0b3b75]/20 focus:border-[#0b3b75]">
-                        {Array.from({ length: maxInstallments }, (_, i) => i + 1).map((n) => (
+                        {Array.from({ length: selectedPM.maxInstallments ?? 1 }, (_, i) => i + 1).map((n) => (
                           <option key={n} value={String(n)}>
-                            {n}x {lead.courseValue ? `de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue / n)}` : ""}
+                            {n}x {lead.courseValue
+                              ? `de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue / n)} (total: ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue)})`
+                              : ""}
                           </option>
                         ))}
                       </select>

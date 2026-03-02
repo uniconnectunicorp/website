@@ -1,6 +1,8 @@
 import { getAlunoById } from "@/lib/actions/alunos";
 import { notFound } from "next/navigation";
 import { AlunoProfileClient } from "./aluno-profile-client";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -8,11 +10,16 @@ interface PageProps {
 
 export default async function AlunoPerfilPage({ params }: PageProps) {
   const { id } = await params;
-  const aluno = await getAlunoById(id);
+  const [aluno, session] = await Promise.all([
+    getAlunoById(id),
+    auth.api.getSession({ headers: await headers() }),
+  ]);
 
   if (!aluno) {
     notFound();
   }
 
-  return <AlunoProfileClient aluno={JSON.parse(JSON.stringify(aluno))} />;
+  const userRole = (session?.user as any)?.role || "";
+
+  return <AlunoProfileClient aluno={JSON.parse(JSON.stringify(aluno))} userRole={userRole} />;
 }

@@ -33,9 +33,12 @@ export async function POST(request: Request) {
     const inst = parseInt(installments) || 1;
     const amount = lead.courseValue || 999.90;
     const feeAmount = amount * (pm.feePercentage / 100);
+    const commissionAmount = pm.commissionType === "fixed"
+      ? pm.commissionPercentage
+      : amount * (pm.commissionPercentage / 100);
     const netAmount = amount - feeAmount;
 
-    // Update lead with personal data
+    // Update lead with personal data and move to "enrolled" status
     await prisma.lead.update({
       where: { id: lead.id },
       data: {
@@ -52,10 +55,9 @@ export async function POST(request: Request) {
         state: state || lead.state,
         zipCode: cep || lead.zipCode,
         civilStatus: maritalStatus || lead.civilStatus,
-        status: "converted",
-        convertedAt: new Date(),
         paymentMethodId,
         installments: inst,
+        status: "enrolled",
       },
     });
 
@@ -80,6 +82,7 @@ export async function POST(request: Request) {
         amount,
         netAmount,
         feeAmount,
+        commissionAmount,
         installments: inst,
         type: "leadPayment",
         category: "matricula",
@@ -101,10 +104,22 @@ export async function POST(request: Request) {
       data: {
         id: crypto.randomUUID(),
         leadId: lead.id,
-        action: `Matrícula ${numero} realizada via link de matrícula. Pagamento: ${pm.name} - ${inst}x`,
+        action: `Matrícula ${numero} realizada via link. Pagamento: ${pm.name} - ${inst}x. Lead movido para Matriculado.`,
         fromStatus: lead.status,
-        toStatus: "converted",
+        toStatus: "enrolled",
         userId: link.sellerId,
+      },
+    });
+
+    // Notificação para o vendedor (conversão deve ser manual)
+    await prisma.notificacao.create({
+      data: {
+        id: crypto.randomUUID(),
+        userId: link.sellerId,
+        titulo: "Matrícula realizada via link!",
+        mensagem: `${fullName} preencheu a matrícula ${numero} (${lead.course || "Curso"}). Pagamento: ${pm.name} - ${inst}x. Converta o lead manualmente.`,
+        tipo: "alerta",
+        linkUrl: `/admin/crm-pipeline`,
       },
     });
 

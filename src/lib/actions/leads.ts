@@ -46,6 +46,7 @@ export async function getLeadsPipeline(options?: {
       contacted: [],
       negociating: [],
       confirmPayment: [],
+      enrolled: [],
       converted: [],
       lost: [],
     };
@@ -134,6 +135,9 @@ export async function convertLead(
 
     const amount = lead.courseValue || 999.90;
     const feeAmount = amount * (pm.feePercentage / 100);
+    const commissionAmount = pm.commissionType === "fixed"
+      ? pm.commissionPercentage
+      : amount * (pm.commissionPercentage / 100);
     const netAmount = amount - feeAmount;
 
     // Update lead
@@ -168,6 +172,7 @@ export async function convertLead(
         amount,
         netAmount,
         feeAmount,
+        commissionAmount,
         installments,
         type: "leadPayment",
         category: "matricula",
@@ -256,16 +261,31 @@ export async function getLeadById(leadId: string) {
 
 export async function updateLeadValue(leadId: string, value: number, userId: string) {
   try {
-    // Get seller config to enforce min/max
+    const lead = await prisma.lead.findUnique({ where: { id: leadId }, select: { modalidade: true } });
+    if (!lead) return { error: "Lead não encontrado" };
+
+    // Get seller config to enforce min/max per category
     const seller = await prisma.user.findUnique({
       where: { id: userId },
       include: { sellerConfig: true },
     });
 
     if (seller?.sellerConfig) {
-      const { minValue, maxValue } = seller.sellerConfig;
-      if (value < minValue || value > maxValue) {
-        return { error: `Valor deve ser entre R$ ${minValue} e R$ ${maxValue}` };
+      const valueLimits = (seller.sellerConfig.valueLimits as any) || {};
+      const category = lead.modalidade || "regular";
+      const catLimits = valueLimits[category];
+
+      if (catLimits) {
+        const min = catLimits.min ?? 0;
+        const max = catLimits.max ?? 99999;
+        if (value < min || value > max) {
+          return { error: `Valor para ${category} deve ser entre R$ ${min} e R$ ${max}` };
+        }
+      } else {
+        const { minValue, maxValue } = seller.sellerConfig;
+        if (value < minValue || value > maxValue) {
+          return { error: `Valor deve ser entre R$ ${minValue} e R$ ${maxValue}` };
+        }
       }
     }
 
@@ -339,6 +359,32 @@ export async function updateLeadData(leadId: string, data: any) {
     return lead;
   } catch (error) {
     console.error("updateLeadData error:", error);
+    return null;
+  }
+}
+
+export async function updateLeadCourse(leadId: string, course: string, userId: string) {
+  try {
+    const lead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!lead) return null;
+
+    const updated = await prisma.lead.update({
+      where: { id: leadId },
+      data: { course },
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId,
+        action: `Curso alterado de "${lead.course || "—"}" para "${course}"`,
+        userId,
+      },
+    });
+
+    return updated;
+  } catch (error) {
+    console.error("updateLeadCourse error:", error);
     return null;
   }
 }

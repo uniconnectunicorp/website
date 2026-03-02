@@ -1,5 +1,7 @@
 import { getAlunos } from "@/lib/actions/alunos";
 import { AlunosClient } from "./alunos-client";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -8,6 +10,9 @@ interface PageProps {
 export default async function AlunosPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const page = Number(params.page) || 1;
+
+  const session = await auth.api.getSession({ headers: await headers() });
+  const userRole = (session?.user as any)?.role || "";
 
   const result = await getAlunos({
     search: params.search,
@@ -27,6 +32,7 @@ export default async function AlunosPage({ searchParams }: PageProps) {
         total={result.total}
         pages={result.pages}
         currentPage={result.currentPage}
+        userRole={userRole}
         initialFilters={{
           search: params.search || "",
           course: params.course || "",

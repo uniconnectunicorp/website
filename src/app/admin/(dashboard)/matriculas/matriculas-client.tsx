@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Search, ChevronLeft, ChevronRight, MoreHorizontal,
+  FileCheck, FileX, CheckCircle2, XCircle,
+} from "lucide-react";
+import { toggleNotaEmitida } from "@/lib/actions/alunos";
 
 interface Finance {
   id: string;
@@ -31,8 +35,11 @@ interface Matricula {
   dataConclusao?: string | null;
   certificadoEmitido: boolean;
   dataCertificado?: string | null;
+  notaEmitida: boolean;
+  dataNotaEmitada?: string | null;
   observacoes?: string | null;
   lead: Lead;
+  leadId: string;
 }
 
 interface MatriculasClientProps {
@@ -47,6 +54,7 @@ interface MatriculasClientProps {
     thisMonth: number;
     totalRevenue: number;
   };
+  userRole: string;
   initialFilters: {
     search: string;
     startDate: string;
@@ -78,15 +86,37 @@ const modalidadeConfig: Record<string, { label: string; color: string }> = {
 };
 
 export function MatriculasClient({
-  matriculas,
+  matriculas: initialMatriculas,
   total,
   pages,
   currentPage,
   stats,
+  userRole,
   initialFilters,
 }: MatriculasClientProps) {
   const router = useRouter();
   const [filters, setFilters] = useState(initialFilters);
+  const [matriculas, setMatriculas] = useState(initialMatriculas);
+  const [isPending, startTransition] = useTransition();
+  const [openActions, setOpenActions] = useState<string | null>(null);
+
+  const canManageNota = ["admin", "director", "finance"].includes(userRole);
+
+  const handleToggleNota = (matriculaId: string, leadId: string, currentNota: boolean) => {
+    setOpenActions(null);
+    startTransition(async () => {
+      const result = await toggleNotaEmitida(leadId, !currentNota);
+      if ("success" in result) {
+        setMatriculas((prev) =>
+          prev.map((m) =>
+            m.id === matriculaId
+              ? { ...m, notaEmitida: !currentNota, dataNotaEmitada: !currentNota ? new Date().toISOString() : null }
+              : m
+          )
+        );
+      }
+    });
+  };
 
   const applyFilters = (newFilters?: typeof filters, page?: number) => {
     const f = newFilters || filters;
@@ -184,7 +214,8 @@ export function MatriculasClient({
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Curso</th>
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Modalidade</th>
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Data Matrícula</th>
-                <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Valor</th>
+                {canManageNota && <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Nota</th>}
+                {canManageNota && <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-3 py-3">Ações</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -219,14 +250,54 @@ export function MatriculasClient({
                     <td className="px-5 py-3.5 text-[13px] text-gray-500">
                       {new Date(m.dataInicio).toLocaleDateString("pt-BR")}
                     </td>
-                    <td className="px-5 py-3.5 text-[13px] font-medium text-gray-900">
-                      {m.lead.finance ? formatCurrency(m.lead.finance.amount) : (m.lead.courseValue ? formatCurrency(m.lead.courseValue) : "—")}
-                    </td>
+                    {canManageNota && (
+                      <td className="px-5 py-3.5 text-center">
+                        {m.notaEmitida ? (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                            <CheckCircle2 className="h-3 w-3" /> Emitida
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-full">
+                            <XCircle className="h-3 w-3" /> Pendente
+                          </span>
+                        )}
+                      </td>
+                    )}
+                    {canManageNota && (
+                      <td className="px-3 py-3.5 text-center" onClick={(e) => e.stopPropagation()}>
+                        <div className="relative inline-block">
+                          <button
+                            onClick={() => setOpenActions(openActions === m.id ? null : m.id)}
+                            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                          </button>
+                          {openActions === m.id && (
+                            <>
+                              <div className="fixed inset-0 z-30" onClick={() => setOpenActions(null)} />
+                              <div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-40 py-1">
+                                <button
+                                  onClick={() => handleToggleNota(m.id, m.leadId, m.notaEmitida)}
+                                  disabled={isPending}
+                                  className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors disabled:opacity-50"
+                                >
+                                  {m.notaEmitida ? (
+                                    <><FileX className="h-4 w-4 text-red-500" /> Remover nota emitida</>
+                                  ) : (
+                                    <><FileCheck className="h-4 w-4 text-green-500" /> Marcar nota emitida</>
+                                  )}
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}
               {matriculas.length === 0 && (
-                <tr><td colSpan={5} className="px-5 py-12 text-center text-gray-400 text-sm">Nenhuma matrícula encontrada</td></tr>
+                <tr><td colSpan={canManageNota ? 6 : 4} className="px-5 py-12 text-center text-gray-400 text-sm">Nenhuma matrícula encontrada</td></tr>
               )}
             </tbody>
           </table>

@@ -20,6 +20,7 @@ model User {
   image         String?
   role          Role      @default(seller)
   active        Boolean   @default(true)
+  permissions   Json?     @default("{}")
   finance       Finance[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -175,6 +176,8 @@ model Matricula {
   motivoCancelamento String?
   certificadoEmitido Boolean         @default(false)
   dataCertificado    DateTime?
+  notaEmitida        Boolean         @default(false)
+  dataNotaEmitida    DateTime?
   observacoes        String?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
@@ -203,11 +206,12 @@ model Tarefa {
 }
 
 model SellerConfig {
-  id       String @id
-  userId   String @unique
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  minValue Float  @default(0)
-  maxValue Float  @default(99999)
+  id          String @id
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  minValue    Float  @default(0)
+  maxValue    Float  @default(99999)
+  valueLimits Json?  @default("{}")
 
   @@map("seller_config")
 }
@@ -220,6 +224,8 @@ model PaymentMethod {
   active                Boolean @default(true)
   visibleOnEnrollment   Boolean @default(true)
   feePercentage         Float   @default(0)
+  commissionPercentage  Float   @default(0)
+  commissionType        String  @default("percentage")
   leads                 Lead[]
   finances              Finance[]
   createdAt             DateTime @default(now())
@@ -235,6 +241,7 @@ model Finance {
   amount          Float
   netAmount       Float?
   feeAmount       Float?
+  commissionAmount Float?
   installments    Int?
   type            FinanceType
   category        String?
@@ -260,6 +267,7 @@ model Notificacao {
   mensagem  String
   tipo      NotificacaoTipo @default(info)
   lida      Boolean         @default(false)
+  lidaAt    DateTime?
   linkUrl   String?
   createdAt DateTime        @default(now())
 
@@ -287,6 +295,7 @@ enum LeadStatus {
   contacted
   negociating
   confirmPayment
+  enrolled
   converted
   lost
 }

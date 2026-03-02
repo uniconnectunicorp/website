@@ -99,29 +99,57 @@ async function ensureDb() {
   }
 }
 
-// Array com os responsáveis pelos leads (altere os nomes conforme necessário)
-const emailResponsaveis = [
-  'Clara',
-  'Lidiane',
-  'Jaiany',
-  'Vitoria'
-];
+// Cache de vendedores (atualizado a cada 5 minutos)
+let sellersCache = null;
+let sellersCacheTime = 0;
+const SELLERS_CACHE_TTL = 5 * 60 * 1000; // 5 min
+
+async function getSellersForRoundRobin() {
+  const now = Date.now();
+  if (sellersCache && now - sellersCacheTime < SELLERS_CACHE_TTL) {
+    return sellersCache;
+  }
+  try {
+    const sellers = await prisma.user.findMany({
+      where: {
+        role: { in: ['seller', 'admin', 'director', 'manager'] },
+        active: true,
+      },
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' },
+    });
+    if (sellers.length > 0) {
+      sellersCache = sellers;
+      sellersCacheTime = now;
+      return sellers;
+    }
+  } catch (error) {
+    console.error('Erro ao buscar vendedores:', error);
+  }
+  // Fallback: retorna lista vazia — getProximoResponsavel trata isso
+  return sellersCache || [];
+}
 
 // Função para obter o próximo responsável e incrementar contador (operação atômica)
 async function getProximoResponsavel() {
   try {
+    const sellers = await getSellersForRoundRobin();
+    if (sellers.length === 0) {
+      return { responsavel: 'Equipe', counterValue: null };
+    }
     // Operação atômica: incrementa e retorna o valor ANTES do incremento
     const result = await query(
       'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter, counter as new_counter'
     );
     const counter = result.rows[0]?.previous_counter || 0;
     const newCounter = result.rows[0]?.new_counter || 0;
-    const selectedIndex = counter % emailResponsaveis.length;
+    const selectedIndex = counter % sellers.length;
     
-    return { responsavel: emailResponsaveis[selectedIndex], counterValue: newCounter };
+    return { responsavel: sellers[selectedIndex].name, sellerId: sellers[selectedIndex].id, counterValue: newCounter };
   } catch (error) {
     console.error('Erro ao obter responsável:', error);
-    return { responsavel: emailResponsaveis[0], counterValue: null };
+    const sellers = await getSellersForRoundRobin();
+    return { responsavel: sellers[0]?.name || 'Equipe', sellerId: sellers[0]?.id || null, counterValue: null };
   }
 }
 
@@ -329,7 +357,8 @@ export async function POST(request) {
       try {
         const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
         const counterVal = counterResult.rows[0]?.counter || 0;
-        const numResp = emailResponsaveis.indexOf(responsavelAtual) + 1;
+        const allSellers = await getSellersForRoundRobin();
+        const numResp = allSellers.findIndex(s => s.name === responsavelAtual) + 1;
 
         await sendLeadFallback({
           name: `[DUPLICADO] ${name}`,
@@ -339,7 +368,7 @@ export async function POST(request) {
           leadPhone: phone,
           counterValue: counterVal,
           numeroResponsavel: numResp,
-          expectedResponsavel: emailResponsaveis[(counterVal - 1) % emailResponsaveis.length],
+          expectedResponsavel: allSellers[(counterVal - 1) % Math.max(allSellers.length, 1)]?.name || responsavelAtual,
           whatsappNumber: 'N/A (formulário)'
         });
       } catch (err) {
@@ -524,7 +553,8 @@ export async function POST(request) {
     try {
       const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
       const counterVal = counterResult.rows[0]?.counter || 0;
-      const numResp = emailResponsaveis.indexOf(responsavelAtual) + 1;
+      const allSellers = await getSellersForRoundRobin();
+      const numResp = allSellers.findIndex(s => s.name === responsavelAtual) + 1;
 
       await sendLeadFallback({
         name,
@@ -534,7 +564,7 @@ export async function POST(request) {
         leadPhone: phone,
         counterValue: counterVal,
         numeroResponsavel: numResp,
-        expectedResponsavel: emailResponsaveis[(counterVal - 1) % emailResponsaveis.length],
+        expectedResponsavel: allSellers[(counterVal - 1) % Math.max(allSellers.length, 1)]?.name || responsavelAtual,
         whatsappNumber: 'N/A (formulário)'
       });
     } catch (err) {

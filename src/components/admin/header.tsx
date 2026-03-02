@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { marcarNotificacaoLida, marcarTodasLidas } from "@/lib/actions/notificacoes";
 import { useRouter } from "next/navigation";
+import { useNotificacoes } from "@/hooks/use-notificacoes";
 
 interface Notificacao {
   id: string;
@@ -63,11 +64,12 @@ function getPageTitle(pathname: string): string {
   return "Visão Geral";
 }
 
-export function AdminHeader({ user, notificacoes }: HeaderProps) {
+export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { notificacoes, refetch } = useNotificacoes(initialNotificacoes);
 
   const naoLidas = notificacoes.filter((n) => !n.lida).length;
   const pageTitle = getPageTitle(pathname);
@@ -75,14 +77,14 @@ export function AdminHeader({ user, notificacoes }: HeaderProps) {
   const handleMarcarLida = (id: string) => {
     startTransition(async () => {
       await marcarNotificacaoLida(id);
-      router.refresh();
+      refetch();
     });
   };
 
   const handleMarcarTodas = () => {
     startTransition(async () => {
       await marcarTodasLidas(user.id);
-      router.refresh();
+      refetch();
     });
   };
 

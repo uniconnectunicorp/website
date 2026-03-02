@@ -17,14 +17,18 @@ export async function getPerformanceReport(startDate: Date, endDate: Date) {
           prisma.lead.count({
             where: {
               assignedTo: user.id,
-              createdAt: { gte: startDate, lte: endDate },
+              OR: [
+                { createdAt: { gte: startDate, lte: endDate } },
+                { convertedAt: { gte: startDate, lte: endDate } },
+                { lostAt: { gte: startDate, lte: endDate } },
+              ],
             },
           }),
           prisma.lead.count({
             where: {
               assignedTo: user.id,
               status: "converted",
-              createdAt: { gte: startDate, lte: endDate },
+              convertedAt: { gte: startDate, lte: endDate },
             },
           }),
           prisma.finance.count({
@@ -244,7 +248,14 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
   try {
     const [totalAssigned, converted, lost, revenueAgg, monthlyData, lossReasons] = await Promise.all([
       prisma.lead.count({
-        where: { assignedTo: sellerId, createdAt: { gte: startDate, lte: endDate } },
+        where: {
+          assignedTo: sellerId,
+          OR: [
+            { createdAt: { gte: startDate, lte: endDate } },
+            { convertedAt: { gte: startDate, lte: endDate } },
+            { lostAt: { gte: startDate, lte: endDate } },
+          ],
+        },
       }),
       prisma.lead.count({
         where: { assignedTo: sellerId, status: "converted", convertedAt: { gte: startDate, lte: endDate } },

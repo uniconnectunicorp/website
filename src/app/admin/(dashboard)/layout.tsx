@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminHeader } from "@/components/admin/header";
 import { getNotificacoes } from "@/lib/actions/notificacoes";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "UniConnect - Admin",
@@ -30,11 +31,22 @@ export default async function AdminLayout({
     redirect("/admin/login");
   }
 
-  const notificacoes = await getNotificacoes(session.user.id);
+  const [notificacoes, dbUser] = await Promise.all([
+    getNotificacoes(session.user.id),
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { permissions: true },
+    }),
+  ]);
+
+  const userWithPerms = {
+    ...(session.user as any),
+    permissions: dbUser?.permissions || null,
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <AdminSidebar user={session.user as any} />
+      <AdminSidebar user={userWithPerms} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <AdminHeader
           user={session.user as any}

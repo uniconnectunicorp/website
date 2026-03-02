@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 interface AlunoFilters {
   search?: string;
@@ -34,7 +35,7 @@ export async function getAlunos(filters: AlunoFilters = {}) {
     const [alunos, total] = await Promise.all([
       prisma.lead.findMany({
         where,
-        include: { finance: true },
+        include: { finance: true, matricula: true },
         orderBy: { createdAt: "desc" },
         skip,
         take: perPage,
@@ -61,6 +62,7 @@ export async function getAlunoById(id: string) {
       include: {
         history: { orderBy: { createdAt: "desc" } },
         finance: true,
+        matricula: true,
       },
     });
     return aluno;
@@ -89,6 +91,39 @@ export async function updateAluno(id: string, data: any) {
   } catch (error) {
     console.error("updateAluno error:", error);
     return null;
+  }
+}
+
+export async function toggleNotaEmitida(leadId: string, emitida: boolean) {
+  try {
+    const matricula = await prisma.matricula.findUnique({ where: { leadId } });
+    if (!matricula) return { error: "Matrícula não encontrada" };
+
+    await prisma.matricula.update({
+      where: { leadId },
+      data: {
+        notaEmitida: emitida,
+        dataNotaEmitida: emitida ? new Date() : null,
+      },
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId,
+        action: emitida
+          ? `Nota fiscal emitida para matrícula ${matricula.numero}`
+          : `Nota fiscal removida da matrícula ${matricula.numero}`,
+      },
+    });
+
+    revalidatePath("/admin/matriculas");
+    revalidatePath("/admin/alunos");
+
+    return { success: true };
+  } catch (error) {
+    console.error("toggleNotaEmitida error:", error);
+    return { error: "Erro ao atualizar nota" };
   }
 }
 

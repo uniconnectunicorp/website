@@ -18,8 +18,11 @@ import {
   Clock,
   DollarSign,
   FileText,
+  FileCheck,
+  FileX,
+  CheckCircle2,
 } from "lucide-react";
-import { addAlunoObservacao } from "@/lib/actions/alunos";
+import { addAlunoObservacao, toggleNotaEmitida } from "@/lib/actions/alunos";
 
 interface History {
   id: string;
@@ -33,6 +36,13 @@ interface Finance {
   installments?: number | null;
   paymentMethod?: string | null;
   transactionDate?: string | null;
+}
+
+interface Matricula {
+  id: string;
+  numero: string;
+  notaEmitida: boolean;
+  dataNotaEmitida?: string | null;
 }
 
 interface Aluno {
@@ -57,10 +67,12 @@ interface Aluno {
   createdAt: string;
   history: History[];
   finance?: Finance | null;
+  matricula?: Matricula | null;
 }
 
 interface AlunoProfileClientProps {
   aluno: Aluno;
+  userRole: string;
 }
 
 function formatCurrency(value: number) {
@@ -70,10 +82,23 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-export function AlunoProfileClient({ aluno }: AlunoProfileClientProps) {
+export function AlunoProfileClient({ aluno, userRole }: AlunoProfileClientProps) {
   const router = useRouter();
   const [note, setNote] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [notaEmitida, setNotaEmitida] = useState(aluno.matricula?.notaEmitida || false);
+
+  const canManageNota = ["admin", "director", "finance"].includes(userRole);
+
+  const handleToggleNota = () => {
+    startTransition(async () => {
+      const result = await toggleNotaEmitida(aluno.id, !notaEmitida);
+      if ("success" in result) {
+        setNotaEmitida(!notaEmitida);
+        router.refresh();
+      }
+    });
+  };
 
   const handleAddNote = () => {
     if (!note.trim()) return;
@@ -217,6 +242,34 @@ export function AlunoProfileClient({ aluno }: AlunoProfileClientProps) {
           {/* Quick Actions */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-3">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Ações Rápidas</h3>
+            {/* Nota Emitida Status */}
+            <div className={`flex items-center gap-3 p-4 rounded-xl ${notaEmitida ? "bg-green-50" : "bg-gray-50"}`}>
+              {notaEmitida ? (
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
+              ) : (
+                <FileX className="h-5 w-5 text-gray-400 shrink-0" />
+              )}
+              <div className="flex-1">
+                <p className="text-xs text-gray-400">Nota Fiscal</p>
+                <p className={`text-sm font-medium ${notaEmitida ? "text-green-700" : "text-gray-500"}`}>
+                  {notaEmitida ? "Emitida" : "Pendente"}
+                </p>
+              </div>
+              {canManageNota && (
+                <button
+                  onClick={handleToggleNota}
+                  disabled={isPending}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 ${
+                    notaEmitida
+                      ? "bg-red-100 text-red-700 hover:bg-red-200"
+                      : "bg-green-100 text-green-700 hover:bg-green-200"
+                  }`}
+                >
+                  {notaEmitida ? "Remover" : "Emitir"}
+                </button>
+              )}
+            </div>
+
             <a
               href={`https://wa.me/55${aluno.phone.replace(/\D/g, "")}`}
               target="_blank"

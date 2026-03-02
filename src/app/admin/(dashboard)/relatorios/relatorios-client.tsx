@@ -103,17 +103,19 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
   useEffect(() => {
     if (!selectedSeller) { setSellerDetail(null); return; }
     const now = new Date();
-    const start = new Date(now.getTime() - 30 * 86400000);
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
     startTransition(async () => {
-      const detail = await getSellerDetailReport(selectedSeller.id, start, now);
+      const detail = await getSellerDetailReport(selectedSeller.id, start, end);
       setSellerDetail(detail);
     });
   }, [selectedSeller]);
 
   const handleGeralDateChange = (range: { start: string; end: string } | null) => {
     startTransition(async () => {
-      const start = range ? new Date(range.start) : new Date(Date.now() - 30 * 86400000);
-      const end = range ? new Date(range.end + "T23:59:59") : new Date();
+      const now = new Date();
+      const start = range ? new Date(range.start + "T00:00:00") : new Date(now.getFullYear(), now.getMonth(), 1);
+      const end = range ? new Date(range.end + "T23:59:59") : new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
       const [newSales, newConversion, newLoss] = await Promise.all([
         getSalesReport(start, end),
         getConversionReport(start, end),
@@ -127,8 +129,9 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
 
   const handleVendedorDateChange = (range: { start: string; end: string } | null) => {
     startTransition(async () => {
-      const start = range ? new Date(range.start) : new Date(Date.now() - 30 * 86400000);
-      const end = range ? new Date(range.end + "T23:59:59") : new Date();
+      const now = new Date();
+      const start = range ? new Date(range.start + "T00:00:00") : new Date(now.getFullYear(), now.getMonth(), 1);
+      const end = range ? new Date(range.end + "T23:59:59") : new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
       const newPerf = await getPerformanceReport(start, end);
       setPerfData(newPerf);
       if (selectedSeller) {
@@ -347,43 +350,35 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
                   )}
                 </div>
               )}
-              {!sellerSearch && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {perfData.map((p) => (
-                    <button
-                      key={p.id}
-                      onClick={() => setSelectedSeller(p)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-medium transition-all ${
-                        selectedSeller?.id === p.id
-                          ? "bg-orange-500 text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                      }`}
-                    >
-                      <span>{p.name.split(" ")[0]}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
-            {selectedSeller && (
-              <div className="bg-gradient-to-b from-orange-500 to-orange-600 rounded-xl p-5 text-white">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-3">
-                    <span className="text-xl font-bold">{selectedSeller.name.charAt(0).toUpperCase()}</span>
-                  </div>
-                  <h4 className="text-base font-bold">{selectedSeller.name}</h4>
-                  <div className="mt-4 w-full space-y-2">
-                    <div className="bg-white/10 rounded-lg px-4 py-2">
-                      <p className="text-[11px] text-orange-200">Total Vendido</p>
-                      <p className="text-lg font-bold">{formatCurrency(sellerDetail?.revenue || selectedSeller.revenue)}</p>
+            {/* Seller list - all sellers with stats */}
+            {!sellerSearch && perfData.length > 0 && (
+              <div className="space-y-1.5">
+                {perfData.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => setSelectedSeller(p)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all ${
+                      selectedSeller?.id === p.id
+                        ? "bg-orange-50 border border-orange-200"
+                        : "hover:bg-gray-50 border border-transparent"
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                      selectedSeller?.id === p.id ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600"
+                    }`}>
+                      <span className="text-[11px] font-bold">{p.name.charAt(0).toUpperCase()}</span>
                     </div>
-                    <div className="bg-white/10 rounded-lg px-4 py-2">
-                      <p className="text-[11px] text-orange-200">Taxa de Conversão</p>
-                      <p className="text-lg font-bold">{sellerDetail?.conversionRate ?? selectedSeller.conversionRate}%</p>
+                    <div className="min-w-0 flex-1">
+                      <p className={`text-[13px] font-medium truncate ${selectedSeller?.id === p.id ? "text-orange-700" : "text-gray-700"}`}>{p.name}</p>
+                      <div className="flex items-center gap-3 mt-0.5">
+                        <span className="text-[11px] text-gray-400">{p.converted} conv.</span>
+                        <span className="text-[11px] text-gray-400">{formatCurrency(p.revenue)}</span>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </button>
+                ))}
               </div>
             )}
           </div>

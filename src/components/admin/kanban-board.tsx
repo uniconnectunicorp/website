@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition, useCallback, useEffect, useRef } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -14,12 +14,13 @@ import {
   addLeadManually,
   getLeadsPipeline,
   updateLeadValue,
+  updateLeadCourse,
 } from "@/lib/actions/leads";
 import { LeadDetailModal } from "@/components/admin/lead-detail-modal";
 import { CourseSearchSelect } from "@/components/admin/course-search-select";
 import {
   Phone, User, Search, Loader2, Plus, MoreVertical, Link2, Eye,
-  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter,
+  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -53,6 +54,7 @@ const columnConfig = [
   { id: "contacted", title: "Em Contato", dot: "bg-yellow-500", bg: "bg-yellow-50/40" },
   { id: "negociating", title: "Proposta Enviada", dot: "bg-orange-500", bg: "bg-orange-50/40" },
   { id: "confirmPayment", title: "Em Negociação", dot: "bg-purple-500", bg: "bg-purple-50/40" },
+  { id: "enrolled", title: "Matriculado", dot: "bg-teal-500", bg: "bg-teal-50/40" },
   { id: "converted", title: "Convertidos", dot: "bg-green-500", bg: "bg-green-50/40" },
   { id: "lost", title: "Perdidos", dot: "bg-red-500", bg: "bg-red-50/40" },
 ];
@@ -76,6 +78,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [showLossModal, setShowLossModal] = useState<Lead | null>(null);
   const [showValueModal, setShowValueModal] = useState<Lead | null>(null);
   const [showLinkModal, setShowLinkModal] = useState<{ leadId: string; url: string } | null>(null);
+  const [showCourseModal, setShowCourseModal] = useState<Lead | null>(null);
 
   // Form states
   const [newLead, setNewLead] = useState({ name: "", phone: "", course: "" });
@@ -83,6 +86,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [selectedPM, setSelectedPM] = useState("");
   const [installments, setInstallments] = useState(1);
   const [newValue, setNewValue] = useState("");
+  const [newCourse, setNewCourse] = useState("");
   const [copied, setCopied] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -99,6 +103,14 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       setColumns(fresh as any);
     });
   }, [currentUser, sellerFilter, search, startTransition]);
+
+  // Auto-refresh pipeline every 30s (realtime sem F5)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshData();
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [refreshData]);
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
@@ -198,12 +210,23 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     });
   };
 
+  const handleUpdateCourse = () => {
+    if (!showCourseModal || !newCourse.trim()) return;
+    startTransition(async () => {
+      await updateLeadCourse(showCourseModal.id, newCourse.trim(), currentUser.id);
+      setShowCourseModal(null);
+      setNewCourse("");
+      refreshData();
+    });
+  };
+
   const handleGenerateLink = (leadId: string) => {
     startTransition(async () => {
       const result = await generateEnrollmentLink(leadId, currentUser.id);
       if (result?.url) {
         const fullUrl = `${window.location.origin}${result.url}`;
         setShowLinkModal({ leadId, url: fullUrl });
+        refreshData();
       }
       setActionMenuLead(null);
     });
@@ -363,6 +386,9 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                               </button>
                                               <button onClick={() => { setShowValueModal(lead); setNewValue(String(lead.courseValue || "")); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <DollarSign className="h-4 w-4 text-green-500" /> Editar valor
+                                              </button>
+                                              <button onClick={() => { setShowCourseModal(lead); setNewCourse(lead.course || ""); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                                <BookOpen className="h-4 w-4 text-blue-500" /> Trocar curso
                                               </button>
                                               <div className="border-t border-gray-100 my-1" />
                                               <button onClick={() => { setShowConvertModal(lead); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-green-600">
@@ -600,6 +626,27 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                 <ExternalLink className="h-4 w-4" />
                 Enviar via WhatsApp
               </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Trocar Curso Modal */}
+      {showCourseModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCourseModal(null); setNewCourse(""); }} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <h2 className="text-lg font-bold text-gray-900">Trocar Curso</h2>
+            <p className="text-sm text-gray-500">Altere o curso de interesse de <span className="font-medium text-gray-700">{showCourseModal.name}</span></p>
+            <CourseSearchSelect
+              value={newCourse}
+              onChange={(val) => setNewCourse(val)}
+            />
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => { setShowCourseModal(null); setNewCourse(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
+              <button onClick={handleUpdateCourse} disabled={isPending || !newCourse.trim()} className="flex-1 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors">
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
+              </button>
             </div>
           </div>
         </div>

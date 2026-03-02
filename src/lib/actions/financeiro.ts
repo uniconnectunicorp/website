@@ -17,7 +17,7 @@ function parseDateRange(range?: DateRange) {
     };
   }
   return {
-    start: new Date(range.start),
+    start: new Date(range.start + "T00:00:00"),
     end: new Date(range.end + "T23:59:59"),
   };
 }
@@ -29,7 +29,7 @@ export async function getFinanceOverview(dateRange?: DateRange) {
     const [inTotal, outTotal, leadPaymentTotal, entries] = await Promise.all([
       prisma.finance.aggregate({
         where: { type: { in: ["in", "leadPayment"] }, transactionDate: { gte: start, lte: end } },
-        _sum: { amount: true, netAmount: true, feeAmount: true },
+        _sum: { amount: true, netAmount: true, feeAmount: true, commissionAmount: true },
         _count: true,
       }),
       prisma.finance.aggregate({
@@ -39,7 +39,7 @@ export async function getFinanceOverview(dateRange?: DateRange) {
       }),
       prisma.finance.aggregate({
         where: { type: "leadPayment", transactionDate: { gte: start, lte: end } },
-        _sum: { amount: true, netAmount: true, feeAmount: true },
+        _sum: { amount: true, netAmount: true, feeAmount: true, commissionAmount: true },
         _count: true,
       }),
       prisma.finance.findMany({
@@ -57,6 +57,7 @@ export async function getFinanceOverview(dateRange?: DateRange) {
     const totalOut = (outTotal._sum.amount || 0);
     const totalFees = (leadPaymentTotal._sum.feeAmount || 0);
     const totalNet = (leadPaymentTotal._sum.netAmount || 0);
+    const totalCommissions = (leadPaymentTotal._sum.commissionAmount || 0);
 
     return {
       totalIn,
@@ -64,12 +65,14 @@ export async function getFinanceOverview(dateRange?: DateRange) {
       balance: totalIn - totalOut,
       totalFees,
       totalNet,
+      totalCommissions,
       enrollmentCount: leadPaymentTotal._count,
       entries: entries.map((e) => ({
         id: e.id,
         amount: e.amount,
         netAmount: e.netAmount,
         feeAmount: e.feeAmount,
+        commissionAmount: e.commissionAmount || 0,
         type: e.type,
         category: e.category,
         description: e.description,
@@ -97,17 +100,19 @@ export async function getPaymentMethodStats(dateRange?: DateRange) {
         pm.name,
         pm.type,
         pm."feePercentage",
+        pm."commissionPercentage",
         COUNT(f.id) as count,
         COALESCE(SUM(f.amount), 0) as total_amount,
         COALESCE(SUM(f."feeAmount"), 0) as total_fees,
-        COALESCE(SUM(f."netAmount"), 0) as total_net
+        COALESCE(SUM(f."netAmount"), 0) as total_net,
+        COALESCE(SUM(f."commissionAmount"), 0) as total_commission
       FROM payment_method pm
       LEFT JOIN finance f ON f."paymentMethodId" = pm.id
         AND f."transactionDate" >= $1
         AND f."transactionDate" <= $2
         AND f.type = 'leadPayment'
       WHERE pm.active = true
-      GROUP BY pm.id, pm.name, pm.type, pm."feePercentage"
+      GROUP BY pm.id, pm.name, pm.type, pm."feePercentage", pm."commissionPercentage"
       ORDER BY total_amount DESC
     `, start, end);
 
@@ -115,10 +120,12 @@ export async function getPaymentMethodStats(dateRange?: DateRange) {
       name: item.name,
       type: item.type,
       feePercentage: Number(item.feePercentage),
+      commissionPercentage: Number(item.commissionPercentage),
       count: Number(item.count),
       totalAmount: Number(item.total_amount),
       totalFees: Number(item.total_fees),
       totalNet: Number(item.total_net),
+      totalCommission: Number(item.total_commission),
     }));
   } catch (error) {
     console.error("getPaymentMethodStats error:", error);
@@ -168,6 +175,9 @@ export async function getAllPaymentMethods() {
 export async function updatePaymentMethod(id: string, data: {
   name?: string;
   feePercentage?: number;
+  commissionPercentage?: number;
+  commissionType?: string;
+  maxInstallments?: number;
   active?: boolean;
   visibleOnEnrollment?: boolean;
 }) {
@@ -184,6 +194,8 @@ export async function createPaymentMethod(data: {
   name: string;
   type: PaymentType;
   feePercentage: number;
+  commissionPercentage: number;
+  commissionType: string;
   maxInstallments: number;
   visibleOnEnrollment: boolean;
 }) {
@@ -194,6 +206,8 @@ export async function createPaymentMethod(data: {
         name: data.name,
         type: data.type,
         feePercentage: data.feePercentage,
+        commissionPercentage: data.commissionPercentage,
+        commissionType: data.commissionType,
         maxInstallments: data.maxInstallments,
         active: true,
         visibleOnEnrollment: data.visibleOnEnrollment,

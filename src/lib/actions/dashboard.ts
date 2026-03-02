@@ -16,7 +16,7 @@ function parseDateRange(range?: DateRange) {
     };
   }
   return {
-    start: new Date(range.start),
+    start: new Date(range.start + "T00:00:00"),
     end: new Date(range.end + "T23:59:59"),
   };
 }

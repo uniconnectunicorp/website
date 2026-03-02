@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import {
   Search, Loader2, Settings, Plus,
 } from "lucide-react";
-import { updateUserRole, toggleUserActive, updateSellerConfig, saveUserPermissions } from "@/lib/actions/usuarios";
+import { updateUserRole, toggleUserActive, updateSellerConfig, updateSellerValueLimits, saveUserPermissions } from "@/lib/actions/usuarios";
 
 const ROLE_LABELS: Record<string, string> = {
   admin: "Administrador",
@@ -47,8 +47,9 @@ interface UserData {
   role: string;
   active: boolean;
   image?: string | null;
+  permissions?: Record<string, boolean> | null;
   createdAt: string;
-  sellerConfig: { minValue: number; maxValue: number } | null;
+  sellerConfig: { minValue: number; maxValue: number; valueLimits: any } | null;
   leadsCount: number;
   linksCount: number;
 }
@@ -82,7 +83,11 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   const [isPending, startTransition] = useTransition();
   const [search, setSearch] = useState("");
   const [editingConfig, setEditingConfig] = useState<string | null>(null);
-  const [configValues, setConfigValues] = useState({ min: "", max: "" });
+  const [configValues, setConfigValues] = useState<Record<string, { min: string; max: string }>>({
+    regular: { min: "0", max: "99999" },
+    aproveitamento: { min: "0", max: "99999" },
+    competencia: { min: "0", max: "99999" },
+  });
   const [formError, setFormError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -90,7 +95,11 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   const [permissions, setPermissions] = useState<Record<string, Record<string, boolean>>>(() => {
     const perms: Record<string, Record<string, boolean>> = {};
     initialUsers.forEach((u) => {
-      perms[u.id] = { ...(DEFAULT_PERMISSIONS[u.role] || DEFAULT_PERMISSIONS.seller) };
+      if (u.permissions && Object.keys(u.permissions).length > 0) {
+        perms[u.id] = { ...(DEFAULT_PERMISSIONS[u.role] || DEFAULT_PERMISSIONS.seller), ...u.permissions };
+      } else {
+        perms[u.id] = { ...(DEFAULT_PERMISSIONS[u.role] || DEFAULT_PERMISSIONS.seller) };
+      }
     });
     return perms;
   });
@@ -146,19 +155,36 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
     });
   };
 
+  const CATEGORIES = [
+    { key: "regular", label: "Regular" },
+    { key: "aproveitamento", label: "Aproveitamento" },
+    { key: "competencia", label: "Competência" },
+  ];
+
   const handleSaveConfig = (userId: string) => {
-    const min = parseFloat(configValues.min);
-    const max = parseFloat(configValues.max);
-    if (isNaN(min) || isNaN(max) || min < 0 || max < min) {
-      setFormError("Valores inválidos. Mínimo deve ser >= 0 e máximo >= mínimo.");
-      return;
+    const limits: Record<string, { min: number; max: number }> = {};
+    for (const cat of CATEGORIES) {
+      const min = parseFloat(configValues[cat.key]?.min || "0");
+      const max = parseFloat(configValues[cat.key]?.max || "99999");
+      if (isNaN(min) || isNaN(max) || min < 0 || max < min) {
+        setFormError(`Valores inválidos para ${cat.label}. Mínimo deve ser >= 0 e máximo >= mínimo.`);
+        return;
+      }
+      limits[cat.key] = { min, max };
     }
     setFormError("");
     startTransition(async () => {
-      const result = await updateSellerConfig(userId, min, max);
+      const result = await updateSellerValueLimits(userId, limits);
       if (result.success) {
         setUsers((prev) =>
-          prev.map((u) => u.id === userId ? { ...u, sellerConfig: { minValue: min, maxValue: max } } : u)
+          prev.map((u) => u.id === userId ? {
+            ...u,
+            sellerConfig: {
+              minValue: u.sellerConfig?.minValue || 0,
+              maxValue: u.sellerConfig?.maxValue || 99999,
+              valueLimits: limits,
+            },
+          } : u)
         );
         setEditingConfig(null);
       }
@@ -167,9 +193,11 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
 
   const openConfigEdit = (user: UserData) => {
     setEditingConfig(user.id);
+    const vl = (user.sellerConfig?.valueLimits as any) || {};
     setConfigValues({
-      min: String(user.sellerConfig?.minValue || 0),
-      max: String(user.sellerConfig?.maxValue || 99999),
+      regular: { min: String(vl.regular?.min ?? 0), max: String(vl.regular?.max ?? 99999) },
+      aproveitamento: { min: String(vl.aproveitamento?.min ?? 0), max: String(vl.aproveitamento?.max ?? 99999) },
+      competencia: { min: String(vl.competencia?.min ?? 0), max: String(vl.competencia?.max ?? 99999) },
     });
     setFormError("");
   };
@@ -274,15 +302,15 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                       />
                     </td>
                     <td className="px-3 py-3.5 text-center">
-                      {canManage && user.role === "seller" && (
+                      {canManage && (
                         <button
                           onClick={() => openConfigEdit(user)}
                           className="inline-flex items-center gap-1 text-[11px] text-gray-500 hover:text-orange-600 transition-colors"
-                          title="Configurar limites de valor"
+                          title="Configurar limites de valor por categoria"
                         >
                           <Settings className="h-3.5 w-3.5" />
-                          {user.sellerConfig ? (
-                            <span>{`R$${user.sellerConfig.minValue}–${user.sellerConfig.maxValue}`}</span>
+                          {user.sellerConfig?.valueLimits && Object.keys(user.sellerConfig.valueLimits).length > 0 ? (
+                            <span>Configurado</span>
                           ) : (
                             <span>Definir</span>
                           )}
@@ -321,33 +349,48 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
         </div>
       )}
 
-      {/* Seller Config Modal */}
+      {/* Seller Config Modal - Per Category Limits */}
       {editingConfig && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => { setEditingConfig(null); setFormError(""); }} />
-          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
-            <h2 className="text-base font-bold text-gray-900">Configuração de Valor</h2>
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Limites de Valor por Categoria</h2>
             <p className="text-[13px] text-gray-500">
-              Defina o valor mínimo e máximo que <span className="font-medium text-gray-700">{users.find((u) => u.id === editingConfig)?.name}</span> pode atribuir a um curso.
+              Defina o valor mínimo e máximo para cada categoria de curso de <span className="font-medium text-gray-700">{users.find((u) => u.id === editingConfig)?.name}</span>.
             </p>
             {formError && <p className="text-[13px] text-red-600 bg-red-50 px-3 py-2 rounded-lg">{formError}</p>}
-            <div className="space-y-3">
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] text-gray-500">R$ Min</span>
-                <input
-                  type="number" step="0.01" value={configValues.min}
-                  onChange={(e) => setConfigValues({ ...configValues, min: e.target.value })}
-                  className="w-full pl-20 pr-4 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
-                />
-              </div>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] text-gray-500">R$ Max</span>
-                <input
-                  type="number" step="0.01" value={configValues.max}
-                  onChange={(e) => setConfigValues({ ...configValues, max: e.target.value })}
-                  className="w-full pl-20 pr-4 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
-                />
-              </div>
+            <div className="space-y-4">
+              {CATEGORIES.map((cat) => (
+                <div key={cat.key} className="space-y-1.5">
+                  <label className="text-[12px] font-semibold text-gray-600 uppercase tracking-wider">{cat.label}</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] text-gray-400">Min R$</span>
+                      <input
+                        type="number" step="0.01"
+                        value={configValues[cat.key]?.min || ""}
+                        onChange={(e) => setConfigValues((prev) => ({
+                          ...prev,
+                          [cat.key]: { ...prev[cat.key], min: e.target.value },
+                        }))}
+                        className="w-full pl-16 pr-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                      />
+                    </div>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] text-gray-400">Max R$</span>
+                      <input
+                        type="number" step="0.01"
+                        value={configValues[cat.key]?.max || ""}
+                        onChange={(e) => setConfigValues((prev) => ({
+                          ...prev,
+                          [cat.key]: { ...prev[cat.key], max: e.target.value },
+                        }))}
+                        className="w-full pl-16 pr-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="flex gap-3 pt-2">
               <button onClick={() => { setEditingConfig(null); setFormError(""); }} className="flex-1 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-600 hover:bg-gray-50">Cancelar</button>

@@ -107,13 +107,13 @@ function randomCpf(): string {
 async function seedPaymentMethods() {
   console.log('Seeding formas de pagamento...')
   const methods = [
-    { id: 'pm_pix',       name: 'PIX',                   type: 'pix'    as const, maxInstallments: null, feePercentage: 0,     visibleOnEnrollment: true },
-    { id: 'pm_credit_1x', name: 'Cartão de Crédito 1x',  type: 'credit' as const, maxInstallments: 1,    feePercentage: 2.99,  visibleOnEnrollment: true },
-    { id: 'pm_credit_3x', name: 'Cartão de Crédito 3x',  type: 'credit' as const, maxInstallments: 3,    feePercentage: 5.49,  visibleOnEnrollment: true },
-    { id: 'pm_credit_6x', name: 'Cartão de Crédito 6x',  type: 'credit' as const, maxInstallments: 6,    feePercentage: 8.49,  visibleOnEnrollment: true },
-    { id: 'pm_credit_10x',name: 'Cartão de Crédito 10x', type: 'credit' as const, maxInstallments: 10,   feePercentage: 12.49, visibleOnEnrollment: true },
-    { id: 'pm_credit_12x',name: 'Cartão de Crédito 12x', type: 'credit' as const, maxInstallments: 12,   feePercentage: 14.49, visibleOnEnrollment: true },
-    { id: 'pm_debit',     name: 'Cartão de Débito',      type: 'debit'  as const, maxInstallments: 1,    feePercentage: 1.99,  visibleOnEnrollment: true },
+    { id: 'pm_pix',       name: 'PIX',                   type: 'pix'    as const, maxInstallments: null, feePercentage: 0,     commissionPercentage: 10, visibleOnEnrollment: true },
+    { id: 'pm_credit_1x', name: 'Cartão de Crédito 1x',  type: 'credit' as const, maxInstallments: 1,    feePercentage: 2.99,  commissionPercentage: 8,  visibleOnEnrollment: true },
+    { id: 'pm_credit_3x', name: 'Cartão de Crédito 3x',  type: 'credit' as const, maxInstallments: 3,    feePercentage: 5.49,  commissionPercentage: 7,  visibleOnEnrollment: true },
+    { id: 'pm_credit_6x', name: 'Cartão de Crédito 6x',  type: 'credit' as const, maxInstallments: 6,    feePercentage: 8.49,  commissionPercentage: 6,  visibleOnEnrollment: true },
+    { id: 'pm_credit_10x',name: 'Cartão de Crédito 10x', type: 'credit' as const, maxInstallments: 10,   feePercentage: 12.49, commissionPercentage: 5,  visibleOnEnrollment: true },
+    { id: 'pm_credit_12x',name: 'Cartão de Crédito 12x', type: 'credit' as const, maxInstallments: 12,   feePercentage: 14.49, commissionPercentage: 4,  visibleOnEnrollment: true },
+    { id: 'pm_debit',     name: 'Cartão de Débito',      type: 'debit'  as const, maxInstallments: 1,    feePercentage: 1.99,  commissionPercentage: 8,  visibleOnEnrollment: true },
   ]
   for (const m of methods) {
     await prisma.paymentMethod.upsert({
@@ -261,7 +261,9 @@ async function seedMatriculasEFinanceiro() {
     if (!finExists) {
       const amount = lead.courseValue || 999.90
       const feePerc = lead.paymentMethod?.feePercentage || 0
+      const commPerc = lead.paymentMethod?.commissionPercentage || 0
       const feeAmount = parseFloat((amount * feePerc / 100).toFixed(2))
+      const commissionAmount = parseFloat((amount * commPerc / 100).toFixed(2))
       const netAmount = parseFloat((amount - feeAmount).toFixed(2))
 
       await prisma.finance.create({
@@ -271,6 +273,7 @@ async function seedMatriculasEFinanceiro() {
           amount,
           netAmount,
           feeAmount,
+          commissionAmount,
           installments: lead.installments || 1,
           type: 'leadPayment',
           category: 'matricula',

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import {
   DollarSign, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight,
   Plus, CreditCard, Loader2, Percent, ToggleLeft, ToggleRight, Receipt,
+  Eye, EyeOff, Pencil, Trash2,
 } from "lucide-react";
 import { DateFilter } from "@/components/admin/date-filter";
 import {
@@ -20,6 +21,8 @@ import { PaymentType } from "@prisma/client";
 function fmt(v: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 }
+
+const BLUR_PLACEHOLDER = "R$\u00A0•••••";
 
 interface FinanceiroClientProps {
   initialOverview: any;
@@ -44,9 +47,14 @@ export function FinanceiroClient({
   const [showAddEntry, setShowAddEntry] = useState(false);
   const [showAddPM, setShowAddPM] = useState(false);
   const [newEntry, setNewEntry] = useState({ amount: "", type: "out" as "in" | "out", category: "", description: "" });
-  const [newPM, setNewPM] = useState({ name: "", type: "pix", feePercentage: "0", maxInstallments: "1", visibleOnEnrollment: true });
+  const [newPM, setNewPM] = useState({ name: "", type: "pix", feePercentage: "0", commissionPercentage: "0", commissionType: "percentage", maxInstallments: "1", visibleOnEnrollment: true });
+  const [editPM, setEditPM] = useState<any>(null);
   const [formError, setFormError] = useState("");
   const [pmFormError, setPmFormError] = useState("");
+  const [editFormError, setEditFormError] = useState("");
+  const [showValues, setShowValues] = useState(false);
+
+  const v = (value: number) => showValues ? fmt(value) : BLUR_PLACEHOLDER;
 
   const canManage = ["admin", "director"].includes(userRole);
 
@@ -104,13 +112,15 @@ export function FinanceiroClient({
         name: newPM.name,
         type: newPM.type as PaymentType,
         feePercentage: parseFloat(newPM.feePercentage) || 0,
+        commissionPercentage: parseFloat(newPM.commissionPercentage) || 0,
+        commissionType: newPM.commissionType,
         maxInstallments: parseInt(newPM.maxInstallments) || 1,
         visibleOnEnrollment: newPM.visibleOnEnrollment,
       });
       if ("error" in result) {
         setPmFormError(result.error!);
       } else {
-        setNewPM({ name: "", type: "pix", feePercentage: "0", maxInstallments: "1", visibleOnEnrollment: true });
+        setNewPM({ name: "", type: "pix", feePercentage: "0", commissionPercentage: "0", commissionType: "percentage", maxInstallments: "1", visibleOnEnrollment: true });
         setShowAddPM(false);
         const fresh = await getAllPaymentMethods();
         setPaymentMethods(fresh);
@@ -130,6 +140,51 @@ export function FinanceiroClient({
     });
   };
 
+  const openEditPM = (pm: any) => {
+    setEditPM({
+      id: pm.id,
+      name: pm.name,
+      feePercentage: String(pm.feePercentage),
+      commissionPercentage: String(pm.commissionPercentage),
+      commissionType: pm.commissionType || "percentage",
+      maxInstallments: String(pm.maxInstallments || 1),
+    });
+    setEditFormError("");
+  };
+
+  const handleSaveEditPM = () => {
+    if (!editPM) return;
+    setEditFormError("");
+    startTransition(async () => {
+      const result = await updatePaymentMethod(editPM.id, {
+        name: editPM.name,
+        feePercentage: parseFloat(editPM.feePercentage) || 0,
+        commissionPercentage: parseFloat(editPM.commissionPercentage) || 0,
+        commissionType: editPM.commissionType,
+        maxInstallments: parseInt(editPM.maxInstallments) || 1,
+      });
+      if ("error" in result) {
+        setEditFormError(result.error!);
+      } else {
+        setPaymentMethods((prev) =>
+          prev.map((pm) =>
+            pm.id === editPM.id
+              ? {
+                  ...pm,
+                  name: editPM.name,
+                  feePercentage: parseFloat(editPM.feePercentage) || 0,
+                  commissionPercentage: parseFloat(editPM.commissionPercentage) || 0,
+                  commissionType: editPM.commissionType,
+                  maxInstallments: parseInt(editPM.maxInstallments) || 1,
+                }
+              : pm
+          )
+        );
+        setEditPM(null);
+      }
+    });
+  };
+
   return (
     <div className={`space-y-6 ${isPending ? "opacity-60 pointer-events-none" : ""} transition-opacity`}>
       {/* Header */}
@@ -139,6 +194,13 @@ export function FinanceiroClient({
           <p className="text-[13px] text-gray-500 mt-0.5">Controle de entradas, saídas e taxas</p>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowValues((p) => !p)}
+            className="p-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
+            title={showValues ? "Ocultar valores" : "Mostrar valores"}
+          >
+            {showValues ? <Eye className="h-4 w-4 text-gray-600" /> : <EyeOff className="h-4 w-4 text-gray-400" />}
+          </button>
           <DateFilter onChange={handleDateChange} />
           {canManage && (
             <button
@@ -154,12 +216,12 @@ export function FinanceiroClient({
 
       {/* KPI Cards */}
       {overview && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Receita Total</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{fmt(overview.totalIn)}</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{v(overview.totalIn)}</p>
               </div>
               <div className="bg-green-50 p-2 rounded-lg shrink-0">
                 <ArrowUpRight className="h-4 w-4 text-green-500" />
@@ -172,7 +234,7 @@ export function FinanceiroClient({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Despesas</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{fmt(overview.totalOut)}</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{v(overview.totalOut)}</p>
               </div>
               <div className="bg-red-50 p-2 rounded-lg shrink-0">
                 <ArrowDownRight className="h-4 w-4 text-red-500" />
@@ -185,7 +247,7 @@ export function FinanceiroClient({
               <div>
                 <p className="text-sm text-gray-500">Saldo</p>
                 <p className={`text-2xl font-bold mt-1 ${overview.balance >= 0 ? "text-green-600" : "text-red-600"}`}>
-                  {fmt(overview.balance)}
+                  {v(overview.balance)}
                 </p>
               </div>
               <div className="bg-blue-50 p-2 rounded-lg shrink-0">
@@ -198,13 +260,25 @@ export function FinanceiroClient({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Taxas de Cartão</p>
-                <p className="text-2xl font-bold text-red-600 mt-1">{fmt(overview.totalFees)}</p>
+                <p className="text-2xl font-bold text-red-600 mt-1">{v(overview.totalFees)}</p>
               </div>
               <div className="bg-purple-50 p-2 rounded-lg shrink-0">
                 <Percent className="h-4 w-4 text-purple-500" />
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-2">Líquido: {fmt(overview.totalNet)}</p>
+            <p className="text-xs text-gray-500 mt-2">Líquido: {v(overview.totalNet)}</p>
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">Comissões</p>
+                <p className="text-2xl font-bold text-orange-600 mt-1">{v(overview.totalCommissions || 0)}</p>
+              </div>
+              <div className="bg-orange-50 p-2 rounded-lg shrink-0">
+                <CreditCard className="h-4 w-4 text-orange-500" />
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -249,13 +323,19 @@ export function FinanceiroClient({
                         {pm.type === "pix" ? "PIX" : pm.type === "credit" ? "Crédito" : "Débito"}
                       </span>
                     </div>
-                    <p className="text-lg font-bold text-gray-900">{fmt(pm.totalAmount)}</p>
+                    <p className="text-lg font-bold text-gray-900">{v(pm.totalAmount)}</p>
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-xs text-gray-500">{pm.count} transações</span>
                       {pm.totalFees > 0 && (
-                        <span className="text-xs text-red-500">Taxa: {fmt(pm.totalFees)}</span>
+                        <span className="text-xs text-red-500">Taxa: {v(pm.totalFees)}</span>
                       )}
                     </div>
+                    {pm.totalCommission > 0 && (
+                      <div className="flex items-center justify-between mt-0.5">
+                        <span className="text-xs text-gray-500">Comissão: {pm.commissionPercentage}%</span>
+                        <span className="text-xs text-orange-500">{v(pm.totalCommission)}</span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -277,6 +357,7 @@ export function FinanceiroClient({
                     <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Pagamento</th>
                     <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Valor</th>
                     <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Taxa</th>
+                    <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Comissão</th>
                     <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Líquido</th>
                   </tr>
                 </thead>
@@ -314,20 +395,23 @@ export function FinanceiroClient({
                       </td>
                       <td className="px-6 py-3 text-sm font-medium text-right">
                         <span className={entry.type === "out" ? "text-red-600" : "text-green-600"}>
-                          {entry.type === "out" ? "-" : "+"}{fmt(entry.amount)}
+                          {entry.type === "out" ? "-" : "+"}{v(entry.amount)}
                         </span>
                       </td>
                       <td className="px-6 py-3 text-sm text-right text-red-500">
-                        {entry.feeAmount > 0 ? fmt(entry.feeAmount) : "—"}
+                        {entry.feeAmount > 0 ? v(entry.feeAmount) : "—"}
+                      </td>
+                      <td className="px-6 py-3 text-sm text-right text-orange-500">
+                        {entry.commissionAmount > 0 ? v(entry.commissionAmount) : "—"}
                       </td>
                       <td className="px-6 py-3 text-sm font-medium text-right text-gray-900">
-                        {fmt(entry.netAmount)}
+                        {v(entry.netAmount)}
                       </td>
                     </tr>
                   ))}
                   {overview.entries.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="px-6 py-12 text-center text-gray-400">
+                      <td colSpan={8} className="px-6 py-12 text-center text-gray-400">
                         Nenhum lançamento no período
                       </td>
                     </tr>
@@ -364,6 +448,7 @@ export function FinanceiroClient({
                   <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Tipo</th>
                   <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Parcelas</th>
                   <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Taxa %</th>
+                  <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Comissão</th>
                   <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Ativo</th>
                   <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Visível na Matrícula</th>
                   {canManage && <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Ações</th>}
@@ -384,6 +469,9 @@ export function FinanceiroClient({
                     </td>
                     <td className="px-6 py-3 text-sm text-gray-600 text-center">{pm.maxInstallments || "—"}</td>
                     <td className="px-6 py-3 text-sm text-gray-600 text-center">{pm.feePercentage}%</td>
+                    <td className="px-6 py-3 text-sm text-orange-600 text-center">
+                      {pm.commissionPercentage || 0}{pm.commissionType === "fixed" ? " R$" : "%"}
+                    </td>
                     <td className="px-6 py-3 text-center">
                       <button
                         onClick={() => canManage && handleTogglePM(pm.id, "active", pm.active)}
@@ -412,12 +500,22 @@ export function FinanceiroClient({
                     </td>
                     {canManage && (
                       <td className="px-6 py-3 text-center">
-                        <button
-                          onClick={() => handleDeletePM(pm.id)}
-                          className="text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
-                        >
-                          Excluir
-                        </button>
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => openEditPM(pm)}
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-colors"
+                            title="Editar"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeletePM(pm.id)}
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                            title="Excluir"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
                       </td>
                     )}
                   </tr>
@@ -452,7 +550,7 @@ export function FinanceiroClient({
               <option value="debit">Cartão de Débito</option>
             </select>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">Taxa %</label>
                 <input
@@ -460,6 +558,24 @@ export function FinanceiroClient({
                   onChange={(e) => setNewPM({ ...newPM, feePercentage: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Comissão</label>
+                <div className="flex gap-1">
+                  <input
+                    type="number" step="0.01" value={newPM.commissionPercentage}
+                    onChange={(e) => setNewPM({ ...newPM, commissionPercentage: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-l-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  />
+                  <select
+                    value={newPM.commissionType}
+                    onChange={(e) => setNewPM({ ...newPM, commissionType: e.target.value })}
+                    className="px-2 py-2.5 border border-gray-200 rounded-r-xl text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-gray-50"
+                  >
+                    <option value="percentage">%</option>
+                    <option value="fixed">R$</option>
+                  </select>
+                </div>
               </div>
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">Máx. Parcelas</label>
@@ -484,6 +600,70 @@ export function FinanceiroClient({
               <button onClick={() => { setShowAddPM(false); setPmFormError(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
               <button onClick={handleCreatePM} disabled={isPending} className="flex-1 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-medium hover:bg-orange-600 disabled:opacity-50">
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Criar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Payment Method Modal */}
+      {editPM && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setEditPM(null); setEditFormError(""); }} />
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <h2 className="text-lg font-bold text-gray-900">Editar Forma de Pagamento</h2>
+            {editFormError && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{editFormError}</p>}
+
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Nome</label>
+              <input
+                type="text" value={editPM.name}
+                onChange={(e) => setEditPM({ ...editPM, name: e.target.value })}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+              />
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Taxa %</label>
+                <input
+                  type="number" step="0.01" value={editPM.feePercentage}
+                  onChange={(e) => setEditPM({ ...editPM, feePercentage: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Comissão</label>
+                <div className="flex gap-1">
+                  <input
+                    type="number" step="0.01" value={editPM.commissionPercentage}
+                    onChange={(e) => setEditPM({ ...editPM, commissionPercentage: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-l-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  />
+                  <select
+                    value={editPM.commissionType}
+                    onChange={(e) => setEditPM({ ...editPM, commissionType: e.target.value })}
+                    className="px-2 py-2.5 border border-gray-200 rounded-r-xl text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-gray-50"
+                  >
+                    <option value="percentage">%</option>
+                    <option value="fixed">R$</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Máx. Parcelas</label>
+                <input
+                  type="number" min="1" value={editPM.maxInstallments}
+                  onChange={(e) => setEditPM({ ...editPM, maxInstallments: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => { setEditPM(null); setEditFormError(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleSaveEditPM} disabled={isPending} className="flex-1 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-medium hover:bg-orange-600 disabled:opacity-50">
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
               </button>
             </div>
           </div>
@@ -537,6 +717,7 @@ export function FinanceiroClient({
               <option value="material">Material</option>
               <option value="internet">Internet/Telefonia</option>
               <option value="salarios">Salários</option>
+              <option value="bolsas">Bolsas</option>
               <option value="outros">Outros</option>
             </select>
 

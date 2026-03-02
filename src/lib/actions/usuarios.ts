@@ -24,9 +24,10 @@ export async function getAllUsersWithConfig() {
       role: u.role,
       active: u.active,
       image: u.image,
+      permissions: u.permissions || null,
       createdAt: u.createdAt,
       sellerConfig: u.sellerConfig
-        ? { minValue: u.sellerConfig.minValue, maxValue: u.sellerConfig.maxValue }
+        ? { minValue: u.sellerConfig.minValue, maxValue: u.sellerConfig.maxValue, valueLimits: u.sellerConfig.valueLimits || {} }
         : null,
       leadsCount: u._count.leadsAssigned,
       linksCount: u._count.enrollmentLinksGenerated,
@@ -65,10 +66,13 @@ export async function toggleUserActive(userId: string, active: boolean) {
 
 export async function saveUserPermissions(permissionsData: Record<string, Record<string, boolean>>) {
   try {
-    // For now, permissions are role-based. This action stores the intent.
-    // In a full implementation, you'd save to a UserPermission table.
-    // Currently we log and return success since permissions derive from roles.
-    console.log("Permissions saved:", Object.keys(permissionsData).length, "users updated");
+    const updates = Object.entries(permissionsData).map(([userId, perms]) =>
+      prisma.user.update({
+        where: { id: userId },
+        data: { permissions: perms },
+      })
+    );
+    await Promise.all(updates);
     return { success: true };
   } catch (error) {
     console.error("saveUserPermissions error:", error);
@@ -92,5 +96,28 @@ export async function updateSellerConfig(userId: string, minValue: number, maxVa
   } catch (error) {
     console.error("updateSellerConfig error:", error);
     return { error: "Erro ao atualizar configuração" };
+  }
+}
+
+export async function updateSellerValueLimits(
+  userId: string,
+  valueLimits: Record<string, { min: number; max: number }>
+) {
+  try {
+    await prisma.sellerConfig.upsert({
+      where: { userId },
+      update: { valueLimits },
+      create: {
+        id: crypto.randomUUID(),
+        userId,
+        minValue: 0,
+        maxValue: 99999,
+        valueLimits,
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("updateSellerValueLimits error:", error);
+    return { error: "Erro ao atualizar limites por categoria" };
   }
 }

@@ -23,6 +23,7 @@ interface SidebarProps {
     email: string;
     role: string;
     image?: string | null;
+    permissions?: Record<string, boolean> | null;
   };
 }
 
@@ -31,6 +32,7 @@ type NavItem = {
   label: string;
   icon: any;
   roles: string[];
+  permKey?: string;
 };
 
 const roleLabels: Record<string, string> = {
@@ -43,11 +45,11 @@ const roleLabels: Record<string, string> = {
 };
 
 const navItems: NavItem[] = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "director", "finance"] },
-  { href: "/admin/crm-pipeline", label: "CRM", icon: Kanban, roles: ["admin", "director", "manager", "seller"] },
-  { href: "/admin/relatorios", label: "Relatórios", icon: BarChart3, roles: ["admin", "director", "manager", "finance"] },
-  { href: "/admin/matriculas", label: "Matrículas", icon: FileText, roles: ["admin", "director", "manager"] },
-  { href: "/admin/financeiro", label: "Financeiro", icon: DollarSign, roles: ["admin", "director", "finance"] },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "director", "finance"], permKey: "dashboard" },
+  { href: "/admin/crm-pipeline", label: "CRM", icon: Kanban, roles: ["admin", "director", "manager", "seller"], permKey: "crm" },
+  { href: "/admin/relatorios", label: "Relatórios", icon: BarChart3, roles: ["admin", "director", "manager", "finance"], permKey: "relatorios" },
+  { href: "/admin/matriculas", label: "Matrículas", icon: FileText, roles: ["admin", "director", "manager"], permKey: "matriculas" },
+  { href: "/admin/financeiro", label: "Financeiro", icon: DollarSign, roles: ["admin", "director", "finance"], permKey: "financeiro" },
   { href: "/admin/usuarios", label: "Permissões", icon: Settings, roles: ["admin", "director", "manager"] },
 ];
 
@@ -88,7 +90,13 @@ export function AdminSidebar({ user }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
-        {navItems.filter((item) => item.roles.includes(user.role)).map((item) => {
+        {navItems.filter((item) => {
+          const perms = user.permissions as Record<string, boolean> | null | undefined;
+          if (perms && typeof perms === "object" && Object.keys(perms).length > 0 && item.permKey) {
+            return perms[item.permKey] === true;
+          }
+          return item.roles.includes(user.role);
+        }).map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
           return (

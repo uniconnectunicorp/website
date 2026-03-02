@@ -19,26 +19,29 @@ export async function getMatriculas(filters: MatriculaFilters = {}) {
     const skip = (page - 1) * perPage;
 
     const where: any = {};
+    const leadWhere: any = {};
 
     if (search) {
-      where.lead = {
-        OR: [
-          { name: { contains: search, mode: "insensitive" } },
-          { phone: { contains: search } },
-          { email: { contains: search, mode: "insensitive" } },
-          { cpf: { contains: search } },
-        ],
-      };
+      leadWhere.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { phone: { contains: search } },
+        { email: { contains: search, mode: "insensitive" } },
+        { cpf: { contains: search } },
+      ];
+    }
+
+    if (course) {
+      leadWhere.course = { contains: course, mode: "insensitive" };
+    }
+
+    if (Object.keys(leadWhere).length > 0) {
+      where.lead = leadWhere;
     }
 
     if (startDate || endDate) {
       where.dataInicio = {};
-      if (startDate) where.dataInicio.gte = new Date(startDate);
+      if (startDate) where.dataInicio.gte = new Date(startDate + "T00:00:00");
       if (endDate) where.dataInicio.lte = new Date(endDate + "T23:59:59");
-    }
-
-    if (course) {
-      where.lead = { ...where.lead, course: { contains: course, mode: "insensitive" } };
     }
 
     if (status) where.status = status;

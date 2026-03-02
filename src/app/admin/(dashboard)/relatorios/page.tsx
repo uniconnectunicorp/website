@@ -3,7 +3,7 @@ import { RelatoriosClient } from "./relatorios-client";
 
 export default async function RelatoriosPage() {
   const now = new Date();
-  const startDate = new Date(now.getTime() - 30 * 86400000);
+  const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
   const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
   const [performance, sales, conversion, lossReasons] = await Promise.all([

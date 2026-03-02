@@ -32,6 +32,7 @@ const statusLabels: Record<string, string> = {
   contacted: "Em Contato",
   negociating: "Negociação",
   confirmPayment: "Conf. Pagamento",
+  enrolled: "Matriculado",
   converted: "Convertido",
   lost: "Perdido",
 };
@@ -41,6 +42,7 @@ const statusColors: Record<string, string> = {
   contacted: "bg-blue-100 text-blue-700",
   negociating: "bg-purple-100 text-purple-700",
   confirmPayment: "bg-yellow-100 text-yellow-700",
+  enrolled: "bg-teal-100 text-teal-700",
   converted: "bg-green-100 text-green-700",
   lost: "bg-red-100 text-red-700",
 };
