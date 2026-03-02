@@ -84,7 +84,6 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
   });
 
   const selectedPM = paymentMethods.find((p) => p.id === form.paymentMethodId);
-  const maxInstallments = selectedPM?.maxInstallments || 1;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -94,6 +93,12 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     if (name === "phone") v = maskPhone(value);
     if (name === "cep") v = maskCEP(value);
     if (name === "birthDate") v = maskDate(value);
+    if (name === "paymentMethodId") {
+      const pm = paymentMethods.find((p) => p.id === value);
+      const fixedInstallments = String(pm?.maxInstallments ?? 1);
+      setForm((p) => ({ ...p, [name]: v, installments: fixedInstallments }));
+      return;
+    }
     setForm((p) => ({ ...p, [name]: v }));
   };
 
@@ -331,19 +336,19 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                       ))}
                     </select>
                   </div>
-                  {selectedPM && selectedPM.type === "credit" && (selectedPM.maxInstallments ?? 1) > 1 && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Número de Parcelas</label>
-                      <select name="installments" value={form.installments} onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0b3b75]/20 focus:border-[#0b3b75]">
-                        {Array.from({ length: selectedPM.maxInstallments ?? 1 }, (_, i) => i + 1).map((n) => (
-                          <option key={n} value={String(n)}>
-                            {n}x {lead.courseValue
-                              ? `de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue / n)} (total: ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue)})`
-                              : ""}
-                          </option>
-                        ))}
-                      </select>
+                  {selectedPM && (selectedPM.maxInstallments ?? 1) > 1 && (
+                    <div className="p-3 bg-green-50 border border-green-200 rounded-xl flex items-center justify-between">
+                      <span className="text-sm text-green-700 font-medium">
+                        {selectedPM.maxInstallments}x
+                        {lead.courseValue
+                          ? ` de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue / (selectedPM.maxInstallments ?? 1))}`
+                          : ""}
+                      </span>
+                      {lead.courseValue && (
+                        <span className="text-xs text-green-600">
+                          Total: {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue)}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
