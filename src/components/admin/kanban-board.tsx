@@ -87,6 +87,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [installments, setInstallments] = useState(1);
   const [newValue, setNewValue] = useState("");
   const [newCourse, setNewCourse] = useState("");
+  const [newCourseModality, setNewCourseModality] = useState("");
   const [copied, setCopied] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -216,6 +217,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       await updateLeadCourse(showCourseModal.id, newCourse.trim(), currentUser.id);
       setShowCourseModal(null);
       setNewCourse("");
+      setNewCourseModality("");
       refreshData();
     });
   };
@@ -634,13 +636,14 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       {/* Trocar Curso Modal */}
       {showCourseModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCourseModal(null); setNewCourse(""); }} />
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCourseModal(null); setNewCourse(""); setNewCourseModality(""); }} />
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <h2 className="text-lg font-bold text-gray-900">Trocar Curso</h2>
             <p className="text-sm text-gray-500">Altere o curso de interesse de <span className="font-medium text-gray-700">{showCourseModal.name}</span></p>
             <CourseSearchSelect
               value={newCourse}
-              onChange={(val) => setNewCourse(val)}
+              initialModality={newCourseModality}
+              onChange={(val, mod) => { setNewCourse(val); if (mod !== undefined) setNewCourseModality(mod); }}
             />
             <div className="flex gap-3 pt-2">
               <button onClick={() => { setShowCourseModal(null); setNewCourse(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>

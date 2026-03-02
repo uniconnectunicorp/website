@@ -2,9 +2,9 @@
 
 import { useState, useTransition } from "react";
 import {
-  Search, Loader2, Settings, Plus,
+  Search, Loader2, Settings, Plus, Pencil, Trash2,
 } from "lucide-react";
-import { updateUserRole, toggleUserActive, updateSellerConfig, updateSellerValueLimits, saveUserPermissions } from "@/lib/actions/usuarios";
+import { updateUserRole, toggleUserActive, updateSellerConfig, updateSellerValueLimits, saveUserPermissions, updateUserData, deleteUser } from "@/lib/actions/usuarios";
 
 const ROLE_LABELS: Record<string, string> = {
   admin: "Administrador",
@@ -83,6 +83,10 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   const [isPending, startTransition] = useTransition();
   const [search, setSearch] = useState("");
   const [editingConfig, setEditingConfig] = useState<string | null>(null);
+  const [editingUser, setEditingUser] = useState<UserData | null>(null);
+  const [editForm, setEditForm] = useState({ name: "", email: "" });
+  const [deleteConfirm, setDeleteConfirm] = useState<UserData | null>(null);
+  const [actionError, setActionError] = useState("");
   const [configValues, setConfigValues] = useState<Record<string, { min: string; max: string }>>({
     regular: { min: "0", max: "99999" },
     aproveitamento: { min: "0", max: "99999" },
@@ -143,6 +147,42 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
         [module]: !prev[userId]?.[module],
       },
     }));
+  };
+
+  const handleEditUser = (user: UserData) => {
+    setEditingUser(user);
+    setEditForm({ name: user.name || "", email: user.email || "" });
+    setActionError("");
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingUser || !editForm.name.trim() || !editForm.email.trim()) {
+      setActionError("Nome e e-mail são obrigatórios.");
+      return;
+    }
+    setActionError("");
+    startTransition(async () => {
+      const result = await updateUserData(editingUser.id, { name: editForm.name.trim(), email: editForm.email.trim() });
+      if (result.success) {
+        setUsers((prev) => prev.map((u) => u.id === editingUser.id ? { ...u, name: editForm.name.trim(), email: editForm.email.trim() } : u));
+        setEditingUser(null);
+      } else {
+        setActionError(result.error || "Erro ao salvar.");
+      }
+    });
+  };
+
+  const handleDeleteUser = () => {
+    if (!deleteConfirm) return;
+    startTransition(async () => {
+      const result = await deleteUser(deleteConfirm.id);
+      if (result.success) {
+        setUsers((prev) => prev.filter((u) => u.id !== deleteConfirm.id));
+        setDeleteConfirm(null);
+      } else {
+        setActionError(result.error || "Erro ao apagar.");
+      }
+    });
   };
 
   const handleSavePermissions = () => {
@@ -241,6 +281,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                 ))}
                 <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Status</th>
                 <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-3 py-3">Limites</th>
+                {canManage && <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-3 py-3">Ações</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -317,12 +358,34 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                         </button>
                       )}
                     </td>
+                    {canManage && (
+                      <td className="px-3 py-3.5 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => handleEditUser(user)}
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                            title="Editar usuário"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </button>
+                          {!isSelf && (
+                            <button
+                              onClick={() => { setDeleteConfirm(user); setActionError(""); }}
+                              className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                              title="Apagar usuário"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}
               {filteredUsers.length === 0 && (
                 <tr>
-                  <td colSpan={4 + PERMISSION_MODULES.length} className="px-5 py-12 text-center text-gray-400 text-sm">
+                  <td colSpan={canManage ? 6 + PERMISSION_MODULES.length : 5 + PERMISSION_MODULES.length} className="px-5 py-12 text-center text-gray-400 text-sm">
                     Nenhum usuário encontrado
                   </td>
                 </tr>
@@ -346,6 +409,63 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
             {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             Salvar Alterações
           </button>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {editingUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setEditingUser(null); setActionError(""); }} />
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Editar Usuário</h2>
+            {actionError && <p className="text-[13px] text-red-600 bg-red-50 px-3 py-2 rounded-lg">{actionError}</p>}
+            <div className="space-y-3">
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">Nome</label>
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm((p) => ({ ...p, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">E-mail</label>
+                <input
+                  type="email"
+                  value={editForm.email}
+                  onChange={(e) => setEditForm((p) => ({ ...p, email: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3 pt-1">
+              <button onClick={() => { setEditingUser(null); setActionError(""); }} className="flex-1 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-600 hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleSaveEdit} disabled={isPending} className="flex-1 py-2 bg-orange-500 text-white rounded-lg text-[13px] font-medium hover:bg-orange-600 disabled:opacity-50">
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirm Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setDeleteConfirm(null); setActionError(""); }} />
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Apagar Usuário</h2>
+            <p className="text-[13px] text-gray-600">
+              Tem certeza que deseja apagar <span className="font-semibold text-gray-900">{deleteConfirm.name}</span>? Esta ação não pode ser desfeita. Os leads atribuídos a ele ficarão sem responsável.
+            </p>
+            {actionError && <p className="text-[13px] text-red-600 bg-red-50 px-3 py-2 rounded-lg">{actionError}</p>}
+            <div className="flex gap-3 pt-1">
+              <button onClick={() => { setDeleteConfirm(null); setActionError(""); }} className="flex-1 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-600 hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleDeleteUser} disabled={isPending} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-[13px] font-medium hover:bg-red-600 disabled:opacity-50">
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Apagar"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

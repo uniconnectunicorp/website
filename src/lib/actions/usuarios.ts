@@ -80,6 +80,35 @@ export async function saveUserPermissions(permissionsData: Record<string, Record
   }
 }
 
+export async function updateUserData(userId: string, data: { name: string; email: string }) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { name: data.name, email: data.email },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("updateUserData error:", error);
+    return { error: "Erro ao atualizar usuário" };
+  }
+}
+
+export async function deleteUser(userId: string) {
+  try {
+    // Cascade: sessions, accounts, sellerConfig, finance, enrollmentLinks, leadsAssigned all have onDelete rules
+    // Leads assigned to this user — unassign them first
+    await prisma.lead.updateMany({
+      where: { assignedTo: userId },
+      data: { assignedTo: null },
+    });
+    await prisma.user.delete({ where: { id: userId } });
+    return { success: true };
+  } catch (error) {
+    console.error("deleteUser error:", error);
+    return { error: "Erro ao apagar usuário" };
+  }
+}
+
 export async function updateSellerConfig(userId: string, minValue: number, maxValue: number) {
   try {
     await prisma.sellerConfig.upsert({
