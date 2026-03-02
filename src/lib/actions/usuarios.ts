@@ -1,6 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function getAllUsersWithConfig() {
   try {
@@ -148,5 +150,51 @@ export async function updateSellerValueLimits(
   } catch (error) {
     console.error("updateSellerValueLimits error:", error);
     return { error: "Erro ao atualizar limites por categoria" };
+  }
+}
+
+export async function changeUserPassword(userId: string, newPassword: string) {
+  try {
+    await auth.api.setUserPassword({
+      body: { newPassword, userId },
+      headers: await headers(),
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("changeUserPassword error:", error);
+    return { error: "Erro ao trocar senha" };
+  }
+}
+
+export async function createUser(data: {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}) {
+  try {
+    const existing = await prisma.user.findUnique({ where: { email: data.email } });
+    if (existing) return { error: "E-mail já cadastrado" };
+
+    const result = await auth.api.signUpEmail({
+      body: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      },
+    });
+
+    if (!result?.user?.id) return { error: "Erro ao criar usuário" };
+
+    // Set role (not available directly in signUpEmail without admin plugin createUser)
+    await prisma.user.update({
+      where: { id: result.user.id },
+      data: { role: data.role as any, active: true, emailVerified: true },
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("createUser error:", error);
+    return { error: error?.message || "Erro ao criar usuário" };
   }
 }

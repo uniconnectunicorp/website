@@ -2,9 +2,9 @@
 
 import { useState, useTransition } from "react";
 import {
-  Search, Loader2, Settings, Plus, Pencil, Trash2,
+  Search, Loader2, Settings, Plus, Pencil, Trash2, KeyRound, Eye, EyeOff,
 } from "lucide-react";
-import { updateUserRole, toggleUserActive, updateSellerConfig, updateSellerValueLimits, saveUserPermissions, updateUserData, deleteUser } from "@/lib/actions/usuarios";
+import { updateUserRole, toggleUserActive, updateSellerConfig, updateSellerValueLimits, saveUserPermissions, updateUserData, deleteUser, changeUserPassword, createUser } from "@/lib/actions/usuarios";
 
 const ROLE_LABELS: Record<string, string> = {
   admin: "Administrador",
@@ -84,9 +84,15 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   const [search, setSearch] = useState("");
   const [editingConfig, setEditingConfig] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<UserData | null>(null);
-  const [editForm, setEditForm] = useState({ name: "", email: "" });
+  const [editForm, setEditForm] = useState({ name: "", email: "", newPassword: "" });
+  const [showEditPassword, setShowEditPassword] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<UserData | null>(null);
   const [actionError, setActionError] = useState("");
+  const [showNewUserModal, setShowNewUserModal] = useState(false);
+  const [newUserForm, setNewUserForm] = useState({ name: "", email: "", password: "", role: "seller" });
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [newUserError, setNewUserError] = useState("");
+  const [newUserSuccess, setNewUserSuccess] = useState(false);
   const [configValues, setConfigValues] = useState<Record<string, { min: string; max: string }>>({
     regular: { min: "0", max: "99999" },
     aproveitamento: { min: "0", max: "99999" },
@@ -151,7 +157,8 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
 
   const handleEditUser = (user: UserData) => {
     setEditingUser(user);
-    setEditForm({ name: user.name || "", email: user.email || "" });
+    setEditForm({ name: user.name || "", email: user.email || "", newPassword: "" });
+    setShowEditPassword(false);
     setActionError("");
   };
 
@@ -160,14 +167,45 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
       setActionError("Nome e e-mail são obrigatórios.");
       return;
     }
+    if (editForm.newPassword && editForm.newPassword.length < 6) {
+      setActionError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
     setActionError("");
     startTransition(async () => {
       const result = await updateUserData(editingUser.id, { name: editForm.name.trim(), email: editForm.email.trim() });
+      if (!result.success) { setActionError(result.error || "Erro ao salvar."); return; }
+      if (editForm.newPassword.trim()) {
+        const pwResult = await changeUserPassword(editingUser.id, editForm.newPassword);
+        if (!pwResult.success) { setActionError(pwResult.error || "Erro ao trocar senha."); return; }
+      }
+      setUsers((prev) => prev.map((u) => u.id === editingUser.id ? { ...u, name: editForm.name.trim(), email: editForm.email.trim() } : u));
+      setEditingUser(null);
+    });
+  };
+
+  const handleCreateUser = () => {
+    if (!newUserForm.name.trim() || !newUserForm.email.trim() || !newUserForm.password.trim()) {
+      setNewUserError("Nome, e-mail e senha são obrigatórios.");
+      return;
+    }
+    if (newUserForm.password.length < 6) {
+      setNewUserError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+    setNewUserError("");
+    startTransition(async () => {
+      const result = await createUser(newUserForm);
       if (result.success) {
-        setUsers((prev) => prev.map((u) => u.id === editingUser.id ? { ...u, name: editForm.name.trim(), email: editForm.email.trim() } : u));
-        setEditingUser(null);
+        setNewUserSuccess(true);
+        setTimeout(() => {
+          setShowNewUserModal(false);
+          setNewUserForm({ name: "", email: "", password: "", role: "seller" });
+          setNewUserSuccess(false);
+          window.location.reload();
+        }, 1200);
       } else {
-        setActionError(result.error || "Erro ao salvar.");
+        setNewUserError(result.error || "Erro ao criar usuário.");
       }
     });
   };
@@ -250,10 +288,15 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
           <h1 className="text-xl font-bold text-gray-900">Permissões de Acesso</h1>
           <p className="text-[13px] text-gray-500 mt-0.5">Gerencie os acessos e permissões de cada membro da equipe.</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white text-[13px] font-medium rounded-lg hover:bg-orange-600 transition-colors shadow-sm">
-          <Plus className="h-4 w-4" />
-          Novo Usuário
-        </button>
+        {canManage && (
+          <button
+            onClick={() => { setShowNewUserModal(true); setNewUserForm({ name: "", email: "", password: "", role: "seller" }); setNewUserError(""); setNewUserSuccess(false); }}
+            className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white text-[13px] font-medium rounded-lg hover:bg-orange-600 transition-colors shadow-sm"
+          >
+            <Plus className="h-4 w-4" />
+            Novo Usuário
+          </button>
+        )}
       </div>
 
       {/* Search */}
@@ -438,11 +481,91 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
                 />
               </div>
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">Nova Senha <span className="text-gray-400 font-normal">(deixe em branco para não alterar)</span></label>
+                <div className="relative">
+                  <input
+                    type={showEditPassword ? "text" : "password"}
+                    value={editForm.newPassword}
+                    onChange={(e) => setEditForm((p) => ({ ...p, newPassword: e.target.value }))}
+                    placeholder="Mínimo 6 caracteres"
+                    className="w-full px-3 py-2 pr-10 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                  />
+                  <button type="button" onClick={() => setShowEditPassword((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    {showEditPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="flex gap-3 pt-1">
               <button onClick={() => { setEditingUser(null); setActionError(""); }} className="flex-1 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-600 hover:bg-gray-50">Cancelar</button>
               <button onClick={handleSaveEdit} disabled={isPending} className="flex-1 py-2 bg-orange-500 text-white rounded-lg text-[13px] font-medium hover:bg-orange-600 disabled:opacity-50">
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* New User Modal */}
+      {showNewUserModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowNewUserModal(false); setNewUserError(""); }} />
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Novo Usuário</h2>
+            {newUserSuccess && <p className="text-[13px] text-green-600 bg-green-50 px-3 py-2 rounded-lg">Usuário criado com sucesso!</p>}
+            {newUserError && <p className="text-[13px] text-red-600 bg-red-50 px-3 py-2 rounded-lg">{newUserError}</p>}
+            <div className="space-y-3">
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">Nome</label>
+                <input
+                  type="text"
+                  value={newUserForm.name}
+                  onChange={(e) => setNewUserForm((p) => ({ ...p, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">E-mail</label>
+                <input
+                  type="email"
+                  value={newUserForm.email}
+                  onChange={(e) => setNewUserForm((p) => ({ ...p, email: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">Senha</label>
+                <div className="relative">
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    value={newUserForm.password}
+                    onChange={(e) => setNewUserForm((p) => ({ ...p, password: e.target.value }))}
+                    placeholder="Mínimo 6 caracteres"
+                    className="w-full px-3 py-2 pr-10 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                  />
+                  <button type="button" onClick={() => setShowNewPassword((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-gray-700 mb-1">Cargo</label>
+                <select
+                  value={newUserForm.role}
+                  onChange={(e) => setNewUserForm((p) => ({ ...p, role: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                >
+                  {Object.entries(ROLE_LABELS).map(([k, v]) => (
+                    <option key={k} value={k}>{v}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="flex gap-3 pt-1">
+              <button onClick={() => { setShowNewUserModal(false); setNewUserError(""); }} className="flex-1 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-600 hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleCreateUser} disabled={isPending || newUserSuccess} className="flex-1 py-2 bg-orange-500 text-white rounded-lg text-[13px] font-medium hover:bg-orange-600 disabled:opacity-50">
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Criar"}
               </button>
             </div>
           </div>
