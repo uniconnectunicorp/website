@@ -172,39 +172,65 @@ async function getResponsavelPorSessao(sessionId, phone) {
   
   // 1. Verifica se o telefone já existe no banco
   if (normalizedPhone) {
-    const existingPhone = await query(
-      'SELECT responsavel, seller_id FROM lead_sessions WHERE phone = $1',
-      [normalizedPhone]
-    );
-    
-    if (existingPhone.rows.length > 0) {
-      return {
-        responsavel: existingPhone.rows[0].responsavel,
-        sellerId: existingPhone.rows[0].seller_id || null,
-        isDuplicate: true
-      };
+    try {
+      const existingPhone = await query(
+        'SELECT responsavel, seller_id FROM lead_sessions WHERE phone = $1',
+        [normalizedPhone]
+      );
+      if (existingPhone.rows.length > 0) {
+        return {
+          responsavel: existingPhone.rows[0].responsavel,
+          sellerId: existingPhone.rows[0].seller_id || null,
+          isDuplicate: true
+        };
+      }
+    } catch {
+      // seller_id column may not exist — fallback without it
+      const existingPhone = await query(
+        'SELECT responsavel FROM lead_sessions WHERE phone = $1',
+        [normalizedPhone]
+      );
+      if (existingPhone.rows.length > 0) {
+        return { responsavel: existingPhone.rows[0].responsavel, sellerId: null, isDuplicate: true };
+      }
     }
   }
   
   // 2. Verifica se tem sessão existente
   if (sessionId) {
-    const existingSession = await query(
-      'SELECT responsavel, seller_id FROM lead_sessions WHERE session_id = $1',
-      [sessionId]
-    );
-    
-    if (existingSession.rows.length > 0) {
-      if (normalizedPhone) {
-        await query(
-          'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
-          [normalizedPhone, sessionId]
-        );
+    try {
+      const existingSession = await query(
+        'SELECT responsavel, seller_id FROM lead_sessions WHERE session_id = $1',
+        [sessionId]
+      );
+      if (existingSession.rows.length > 0) {
+        if (normalizedPhone) {
+          await query(
+            'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
+            [normalizedPhone, sessionId]
+          );
+        }
+        return {
+          responsavel: existingSession.rows[0].responsavel,
+          sellerId: existingSession.rows[0].seller_id || null,
+          isDuplicate: false
+        };
       }
-      return {
-        responsavel: existingSession.rows[0].responsavel,
-        sellerId: existingSession.rows[0].seller_id || null,
-        isDuplicate: false
-      };
+    } catch {
+      // seller_id column may not exist — fallback without it
+      const existingSession = await query(
+        'SELECT responsavel FROM lead_sessions WHERE session_id = $1',
+        [sessionId]
+      );
+      if (existingSession.rows.length > 0) {
+        if (normalizedPhone) {
+          await query(
+            'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
+            [normalizedPhone, sessionId]
+          );
+        }
+        return { responsavel: existingSession.rows[0].responsavel, sellerId: null, isDuplicate: false };
+      }
     }
   }
   
@@ -215,24 +241,31 @@ async function getResponsavelPorSessao(sessionId, phone) {
        WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
        ORDER BY created_at DESC LIMIT 1`
     );
-    
     if (orphanSession.rows.length > 0) {
       const orphan = orphanSession.rows[0];
       if (normalizedPhone) {
-        await query(
-          'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2',
-          [normalizedPhone, orphan.session_id]
-        );
+        await query('UPDATE lead_sessions SET phone = $1 WHERE session_id = $2', [normalizedPhone, orphan.session_id]);
       }
-      return {
-        responsavel: orphan.responsavel,
-        sellerId: orphan.seller_id || null,
-        isDuplicate: false,
-        newSessionId: orphan.session_id
-      };
+      return { responsavel: orphan.responsavel, sellerId: orphan.seller_id || null, isDuplicate: false, newSessionId: orphan.session_id };
     }
-  } catch (error) {
-    console.error('Erro ao buscar sessão órfã:', error);
+  } catch {
+    // seller_id column may not exist — try without it
+    try {
+      const orphanSession = await query(
+        `SELECT session_id, responsavel, counter_value FROM lead_sessions 
+         WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
+         ORDER BY created_at DESC LIMIT 1`
+      );
+      if (orphanSession.rows.length > 0) {
+        const orphan = orphanSession.rows[0];
+        if (normalizedPhone) {
+          await query('UPDATE lead_sessions SET phone = $1 WHERE session_id = $2', [normalizedPhone, orphan.session_id]);
+        }
+        return { responsavel: orphan.responsavel, sellerId: null, isDuplicate: false, newSessionId: orphan.session_id };
+      }
+    } catch (err) {
+      console.error('Erro ao buscar sessão órfã:', err);
+    }
   }
   
   // 4. Nenhuma sessão — cria nova com round-robin

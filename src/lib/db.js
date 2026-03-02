@@ -95,6 +95,11 @@ export async function initDb() {
       ALTER TABLE lead_sessions ADD COLUMN IF NOT EXISTS counter_value INTEGER;
     `);
 
+    // Adiciona coluna seller_id se não existir (migração)
+    await query(`
+      ALTER TABLE lead_sessions ADD COLUMN IF NOT EXISTS seller_id TEXT;
+    `);
+
     // Índice para busca rápida por telefone
     await query(`
       CREATE INDEX IF NOT EXISTS idx_lead_sessions_phone ON lead_sessions(phone);
