@@ -1,8 +1,16 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { scrypt } from "@noble/hashes/scrypt";
+import { bytesToHex, hexToBytes, randomBytes } from "@noble/hashes/utils";
+
+async function baHashPassword(password: string): Promise<string> {
+  const salt = bytesToHex(randomBytes(16));
+  const key = await new Promise<Uint8Array>((resolve) => {
+    resolve(scrypt(password.normalize("NFKC"), salt, { N: 16384, r: 16, p: 1, dkLen: 64 }));
+  });
+  return `${salt}:${bytesToHex(key)}`;
+}
 
 export async function getAllUsersWithConfig() {
   try {
@@ -155,9 +163,10 @@ export async function updateSellerValueLimits(
 
 export async function changeUserPassword(userId: string, newPassword: string) {
   try {
-    await auth.api.setUserPassword({
-      body: { newPassword, userId },
-      headers: await headers(),
+    const hashed = await baHashPassword(newPassword);
+    await prisma.account.updateMany({
+      where: { userId, providerId: "credential" },
+      data: { password: hashed },
     });
     return { success: true };
   } catch (error) {
@@ -176,20 +185,30 @@ export async function createUser(data: {
     const existing = await prisma.user.findUnique({ where: { email: data.email } });
     if (existing) return { error: "E-mail já cadastrado" };
 
-    const result = await auth.api.signUpEmail({
-      body: {
+    const userId = crypto.randomUUID();
+    const hashed = await baHashPassword(data.password);
+
+    await prisma.user.create({
+      data: {
+        id: userId,
         name: data.name,
         email: data.email,
-        password: data.password,
+        role: data.role as any,
+        active: true,
+        emailVerified: true,
       },
     });
 
-    if (!result?.user?.id) return { error: "Erro ao criar usuário" };
-
-    // Set role (not available directly in signUpEmail without admin plugin createUser)
-    await prisma.user.update({
-      where: { id: result.user.id },
-      data: { role: data.role as any, active: true, emailVerified: true },
+    await prisma.account.create({
+      data: {
+        id: crypto.randomUUID(),
+        accountId: userId,
+        providerId: "credential",
+        userId,
+        password: hashed,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     });
 
     return { success: true };
