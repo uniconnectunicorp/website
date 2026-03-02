@@ -1,8 +1,11 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { scrypt } from "@noble/hashes/scrypt";
-import { bytesToHex, hexToBytes, randomBytes } from "@noble/hashes/utils";
+import { scrypt } from "@noble/hashes/scrypt.js";
+import { bytesToHex, randomBytes } from "@noble/hashes/utils.js";
+import { createLogFromSession } from "@/lib/actions/logs";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 async function baHashPassword(password: string): Promise<string> {
   const salt = bytesToHex(randomBytes(16));
@@ -48,12 +51,29 @@ export async function getAllUsersWithConfig() {
   }
 }
 
+async function getCallerRole(): Promise<string | null> {
+  try {
+    const hdrs = await headers();
+    const session = await auth.api.getSession({ headers: hdrs });
+    return (session?.user as any)?.role || null;
+  } catch { return null; }
+}
+
+async function isTargetProtected(userId: string): Promise<boolean> {
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } });
+  return target?.role === "admin";
+}
+
 export async function updateUserRole(userId: string, role: string) {
   try {
+    const callerRole = await getCallerRole();
+    if (callerRole !== "admin") return { error: "Sem permissão" };
+    const target = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
     await prisma.user.update({
       where: { id: userId },
       data: { role: role as any },
     });
+    await createLogFromSession({ action: `Role alterado para ${role}`, entity: "usuario", entityId: userId, detail: target?.name || userId });
     return { success: true };
   } catch (error) {
     console.error("updateUserRole error:", error);
@@ -63,10 +83,14 @@ export async function updateUserRole(userId: string, role: string) {
 
 export async function toggleUserActive(userId: string, active: boolean) {
   try {
+    const callerRole = await getCallerRole();
+    if (await isTargetProtected(userId) && callerRole !== "admin") return { error: "Sem permissão" };
+    const target = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
     await prisma.user.update({
       where: { id: userId },
       data: { active },
     });
+    await createLogFromSession({ action: active ? "Usuário ativado" : "Usuário desativado", entity: "usuario", entityId: userId, detail: target?.name || userId });
     return { success: true };
   } catch (error) {
     console.error("toggleUserActive error:", error);
@@ -76,12 +100,17 @@ export async function toggleUserActive(userId: string, active: boolean) {
 
 export async function saveUserPermissions(permissionsData: Record<string, Record<string, boolean>>) {
   try {
-    const updates = Object.entries(permissionsData).map(([userId, perms]) =>
-      prisma.user.update({
-        where: { id: userId },
-        data: { permissions: perms },
+    const callerRole = await getCallerRole();
+    // Fetch all target roles in one query
+    const targetIds = Object.keys(permissionsData);
+    const targets = await prisma.user.findMany({ where: { id: { in: targetIds } }, select: { id: true, role: true } });
+    const updates = targets
+      .filter((t) => {
+        // Non-admins cannot modify admin accounts
+        if (t.role === "admin" && callerRole !== "admin") return false;
+        return true;
       })
-    );
+      .map((t) => prisma.user.update({ where: { id: t.id }, data: { permissions: permissionsData[t.id] } }));
     await Promise.all(updates);
     return { success: true };
   } catch (error) {
@@ -92,10 +121,13 @@ export async function saveUserPermissions(permissionsData: Record<string, Record
 
 export async function updateUserData(userId: string, data: { name: string; email: string }) {
   try {
+    const callerRole = await getCallerRole();
+    if (await isTargetProtected(userId) && callerRole !== "admin") return { error: "Sem permissão" };
     await prisma.user.update({
       where: { id: userId },
       data: { name: data.name, email: data.email },
     });
+    await createLogFromSession({ action: "Dados do usuário editados", entity: "usuario", entityId: userId, detail: `${data.name} <${data.email}>` });
     return { success: true };
   } catch (error) {
     console.error("updateUserData error:", error);
@@ -105,13 +137,15 @@ export async function updateUserData(userId: string, data: { name: string; email
 
 export async function deleteUser(userId: string) {
   try {
-    // Cascade: sessions, accounts, sellerConfig, finance, enrollmentLinks, leadsAssigned all have onDelete rules
-    // Leads assigned to this user — unassign them first
+    const callerRole = await getCallerRole();
+    if (await isTargetProtected(userId) && callerRole !== "admin") return { error: "Sem permissão" };
+    const target = await prisma.user.findUnique({ where: { id: userId }, select: { name: true, email: true } });
     await prisma.lead.updateMany({
       where: { assignedTo: userId },
       data: { assignedTo: null },
     });
     await prisma.user.delete({ where: { id: userId } });
+    await createLogFromSession({ action: "Usuário excluído", entity: "usuario", entityId: userId, detail: target ? `${target.name} <${target.email}>` : userId });
     return { success: true };
   } catch (error) {
     console.error("deleteUser error:", error);
@@ -163,11 +197,15 @@ export async function updateSellerValueLimits(
 
 export async function changeUserPassword(userId: string, newPassword: string) {
   try {
+    const callerRole = await getCallerRole();
+    if (await isTargetProtected(userId) && callerRole !== "admin") return { error: "Sem permissão" };
+    const target = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
     const hashed = await baHashPassword(newPassword);
     await prisma.account.updateMany({
       where: { userId, providerId: "credential" },
       data: { password: hashed },
     });
+    await createLogFromSession({ action: "Senha do usuário alterada", entity: "usuario", entityId: userId, detail: target?.name || userId });
     return { success: true };
   } catch (error) {
     console.error("changeUserPassword error:", error);
@@ -210,6 +248,8 @@ export async function createUser(data: {
         updatedAt: new Date(),
       },
     });
+
+    await createLogFromSession({ action: "Novo usuário criado", entity: "usuario", entityId: userId, detail: `${data.name} <${data.email}> — ${data.role}` });
 
     return { success: true };
   } catch (error: any) {

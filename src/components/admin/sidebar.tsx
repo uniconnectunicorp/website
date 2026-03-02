@@ -14,6 +14,8 @@ import {
   LogOut,
   Menu,
   X,
+  Activity,
+  Loader2,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -51,14 +53,17 @@ const navItems: NavItem[] = [
   { href: "/admin/matriculas", label: "Matrículas", icon: FileText, roles: ["admin", "director", "manager"], permKey: "matriculas" },
   { href: "/admin/financeiro", label: "Financeiro", icon: DollarSign, roles: ["admin", "director", "finance"], permKey: "financeiro" },
   { href: "/admin/usuarios", label: "Permissões", icon: Settings, roles: ["admin", "director", "manager"] },
+  { href: "/admin/logs", label: "Logs", icon: Activity, roles: ["admin"] },
 ];
 
 export function AdminSidebar({ user }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     await signOut();
     router.push("/admin/login");
     router.refresh();
@@ -136,10 +141,11 @@ export function AdminSidebar({ user }: SidebarProps) {
           </div>
           <button
             onClick={handleLogout}
-            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+            disabled={loggingOut}
+            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0 disabled:opacity-50"
             title="Sair"
           >
-            <LogOut className="h-4 w-4" />
+            {loggingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
           </button>
         </div>
       </div>

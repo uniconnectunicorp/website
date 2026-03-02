@@ -23,12 +23,18 @@ const INGLES_OPTIONS = [
 
 const MODALITIES = [
   { value: "regular", label: "Regular" },
-  { value: "aproveitamento", label: "Aproveitamento de Estudos" },
+  { value: "aproveitamento", label: "Aproveitamento" },
   { value: "competencia", label: "Competência" },
   { value: "sequencial", label: "Sequencial" },
   { value: "eja", label: "EJA" },
   { value: "ingles", label: "Inglês" },
 ];
+
+// Modalidades com curso único (não precisam de segundo select)
+const SINGLE_COURSE: Record<string, string> = {
+  eja: "EJA",
+  ingles: "Inglês",
+};
 
 function getCoursesForModality(modality: string): string[] {
   switch (modality) {
@@ -71,7 +77,11 @@ export function CourseSearchSelect({
 
   const handleModalityChange = (newModality: string) => {
     setModality(newModality);
-    onChange("", newModality);
+    if (SINGLE_COURSE[newModality]) {
+      onChange(SINGLE_COURSE[newModality], newModality);
+    } else {
+      onChange("", newModality);
+    }
   };
 
   const handleCourseChange = (course: string) => {
@@ -95,8 +105,8 @@ export function CourseSearchSelect({
         ))}
       </select>
 
-      {/* Curso (só aparece após selecionar modalidade) */}
-      {modality && (
+      {/* Curso (só aparece para modalidades com múltiplos cursos) */}
+      {modality && !SINGLE_COURSE[modality] && (
         <select
           value={value}
           onChange={(e) => handleCourseChange(e.target.value)}
@@ -107,6 +117,12 @@ export function CourseSearchSelect({
             <option key={name} value={name}>{name}</option>
           ))}
         </select>
+      )}
+      {/* Para modalidade de curso único, mostra o curso selecionado */}
+      {modality && SINGLE_COURSE[modality] && (
+        <p className="px-4 py-2 text-sm text-gray-500 bg-gray-50 rounded-xl">
+          Curso: <span className="font-medium text-gray-700">{SINGLE_COURSE[modality]}</span>
+        </p>
       )}
     </div>
   );

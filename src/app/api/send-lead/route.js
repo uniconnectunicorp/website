@@ -11,7 +11,7 @@ async function findOrAssignSeller(responsavel) {
     const seller = await prisma.user.findFirst({
       where: {
         name: { contains: responsavel, mode: 'insensitive' },
-        role: { in: ['seller', 'admin', 'manager', 'director'] },
+        role: 'seller',
         active: true,
       },
       select: { id: true },
@@ -24,7 +24,7 @@ async function findOrAssignSeller(responsavel) {
 }
 
 // Save lead to Prisma for CRM
-async function saveToPrisma({ name, email, phone, course, modality, message, sessionId, responsavel }) {
+async function saveToPrisma({ name, email, phone, course, modality, message, sessionId, responsavel, sellerIdDirect }) {
   try {
     const normalizedPhone = phone?.replace(/\D/g, '') || '';
 
@@ -34,7 +34,6 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
     });
 
     if (existing) {
-      // Update existing lead with new data if missing
       const updates = {};
       if (!existing.email && email) updates.email = email;
       if (!existing.course && course) updates.course = course;
@@ -45,8 +44,8 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
       return existing.id;
     }
 
-    // Find seller ID
-    const sellerId = await findOrAssignSeller(responsavel);
+    // Use direct sellerId if available (avoids name-based lookup that can match wrong users)
+    const sellerId = sellerIdDirect || await findOrAssignSeller(responsavel);
 
     // Map modality string to enum
     let modalidade = null;
@@ -84,6 +83,20 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
       },
     });
 
+    // Notificação com som para o vendedor responsável
+    if (sellerId) {
+      await prisma.notificacao.create({
+        data: {
+          id: uuidv4(),
+          userId: sellerId,
+          titulo: "Novo lead chegou!",
+          mensagem: `${name} entrou em contato via site${course ? ` — ${course}` : ""}.`,
+          tipo: "lead",
+          linkUrl: "/admin/crm-pipeline",
+        },
+      });
+    }
+
     return lead.id;
   } catch (error) {
     console.error('saveToPrisma error:', error);
@@ -112,7 +125,7 @@ async function getSellersForRoundRobin() {
   try {
     const sellers = await prisma.user.findMany({
       where: {
-        role: { in: ['seller', 'admin', 'director', 'manager'] },
+        role: 'seller',
         active: true,
       },
       select: { id: true, name: true },
@@ -160,14 +173,14 @@ async function getResponsavelPorSessao(sessionId, phone) {
   // 1. Verifica se o telefone já existe no banco
   if (normalizedPhone) {
     const existingPhone = await query(
-      'SELECT responsavel FROM lead_sessions WHERE phone = $1',
+      'SELECT responsavel, seller_id FROM lead_sessions WHERE phone = $1',
       [normalizedPhone]
     );
     
     if (existingPhone.rows.length > 0) {
-      // Telefone duplicado - retorna o responsável mas marca como duplicado
       return {
         responsavel: existingPhone.rows[0].responsavel,
+        sellerId: existingPhone.rows[0].seller_id || null,
         isDuplicate: true
       };
     }
@@ -176,42 +189,34 @@ async function getResponsavelPorSessao(sessionId, phone) {
   // 2. Verifica se tem sessão existente
   if (sessionId) {
     const existingSession = await query(
-      'SELECT responsavel FROM lead_sessions WHERE session_id = $1',
+      'SELECT responsavel, seller_id FROM lead_sessions WHERE session_id = $1',
       [sessionId]
     );
     
     if (existingSession.rows.length > 0) {
-      // Atualiza o telefone na sessão se ainda não tiver
       if (normalizedPhone) {
         await query(
           'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
           [normalizedPhone, sessionId]
         );
       }
-      
       return {
         responsavel: existingSession.rows[0].responsavel,
+        sellerId: existingSession.rows[0].seller_id || null,
         isDuplicate: false
       };
     }
   }
   
-  // 3. Sessão não encontrada — tenta encontrar sessão órfã recente (cookie perdido)
-  //    antes de criar uma nova e incrementar o counter novamente.
-  let responsavel;
-  let counterValue;
-  
-  // Busca sessão recente sem telefone (criada pelo lead-session nos últimos 30min)
-  // que provavelmente pertence a este visitante cujo cookie se perdeu
+  // 3. Sessão não encontrada — tenta encontrar sessão órfã recente
   try {
     const orphanSession = await query(
-      `SELECT session_id, responsavel, counter_value FROM lead_sessions 
+      `SELECT session_id, responsavel, seller_id, counter_value FROM lead_sessions 
        WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
        ORDER BY created_at DESC LIMIT 1`
     );
     
     if (orphanSession.rows.length > 0) {
-      // Reutiliza a sessão órfã em vez de incrementar o counter
       const orphan = orphanSession.rows[0];
       if (normalizedPhone) {
         await query(
@@ -221,6 +226,7 @@ async function getResponsavelPorSessao(sessionId, phone) {
       }
       return {
         responsavel: orphan.responsavel,
+        sellerId: orphan.seller_id || null,
         isDuplicate: false,
         newSessionId: orphan.session_id
       };
@@ -229,20 +235,26 @@ async function getResponsavelPorSessao(sessionId, phone) {
     console.error('Erro ao buscar sessão órfã:', error);
   }
   
-  // Nenhuma sessão órfã encontrada — cria nova sessão com incremento normal
-  const { responsavel: newResponsavel, counterValue: newCounterValue } = await getProximoResponsavel();
-  responsavel = newResponsavel;
-  counterValue = newCounterValue;
-
+  // 4. Nenhuma sessão — cria nova com round-robin
+  const { responsavel: newResponsavel, sellerId: newSellerId, counterValue: newCounterValue } = await getProximoResponsavel();
   const newSessionId = sessionId || uuidv4();
   
-  await query(
-    'INSERT INTO lead_sessions (session_id, phone, responsavel, counter_value) VALUES ($1, $2, $3, $4) ON CONFLICT (session_id) DO NOTHING',
-    [newSessionId, normalizedPhone, responsavel, counterValue]
-  );
+  try {
+    await query(
+      'INSERT INTO lead_sessions (session_id, phone, responsavel, seller_id, counter_value) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (session_id) DO NOTHING',
+      [newSessionId, normalizedPhone, newResponsavel, newSellerId || null, newCounterValue]
+    );
+  } catch (err) {
+    // seller_id column may not exist yet — fallback without it
+    await query(
+      'INSERT INTO lead_sessions (session_id, phone, responsavel, counter_value) VALUES ($1, $2, $3, $4) ON CONFLICT (session_id) DO NOTHING',
+      [newSessionId, normalizedPhone, newResponsavel, newCounterValue]
+    );
+  }
   
   return {
-    responsavel,
+    responsavel: newResponsavel,
+    sellerId: newSellerId || null,
     isDuplicate: false,
     newSessionId
   };
@@ -347,7 +359,7 @@ export async function POST(request) {
     }
 
     // Obtém o responsável baseado na sessão/telefone
-    const { responsavel: responsavelAtual, isDuplicate, newSessionId } = await getResponsavelPorSessao(sessionId, phone);
+    const { responsavel: responsavelAtual, sellerId: sellerIdFromSession, isDuplicate, newSessionId } = await getResponsavelPorSessao(sessionId, phone);
     
     // Se for telefone duplicado, retorna sucesso mas não envia email
     if (isDuplicate) {
@@ -544,6 +556,7 @@ export async function POST(request) {
         name, email, phone, course, modality, message,
         sessionId: newSessionId || sessionId,
         responsavel: responsavelAtual,
+        sellerIdDirect: sellerIdFromSession,
       });
     } catch (err) {
       console.error('Erro ao salvar no Prisma CRM (não crítico):', err);

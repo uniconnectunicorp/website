@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   DragDropContext,
   Droppable,
@@ -23,6 +24,7 @@ import {
   DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { maskPhone } from "@/lib/masks";
 
 interface Lead {
   id: string;
@@ -73,6 +75,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
 
   // Modals
   const [actionMenuLead, setActionMenuLead] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; right: number } | null>(null);
   const [showAddLead, setShowAddLead] = useState(false);
   const [showConvertModal, setShowConvertModal] = useState<Lead | null>(null);
   const [showLossModal, setShowLossModal] = useState<Lead | null>(null);
@@ -80,8 +83,10 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [showLinkModal, setShowLinkModal] = useState<{ leadId: string; url: string } | null>(null);
   const [showCourseModal, setShowCourseModal] = useState<Lead | null>(null);
 
+  const isSeller = currentUser.role === "seller";
+
   // Form states
-  const [newLead, setNewLead] = useState({ name: "", phone: "", course: "" });
+  const [newLead, setNewLead] = useState({ name: "", phone: "", course: "", modality: "", assignedTo: "" });
   const [lossReason, setLossReason] = useState("");
   const [selectedPM, setSelectedPM] = useState("");
   const [installments, setInstallments] = useState(1);
@@ -172,18 +177,23 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       setFormError("Nome e telefone são obrigatórios");
       return;
     }
+    if (!isSeller && !newLead.assignedTo) {
+      setFormError("Selecione o vendedor responsável");
+      return;
+    }
     setFormError("");
     startTransition(async () => {
       const result = await addLeadManually({
         name: newLead.name,
         phone: newLead.phone,
         course: newLead.course || undefined,
-        assignedTo: currentUser.id,
+        modalidade: newLead.modality || undefined,
+        assignedTo: isSeller ? currentUser.id : newLead.assignedTo,
       });
       if (result && "error" in result && result.error) {
         setFormError(result.error);
       } else {
-        setNewLead({ name: "", phone: "", course: "" });
+        setNewLead({ name: "", phone: "", course: "", modality: "", assignedTo: "" });
         setShowAddLead(false);
         refreshData();
       }
@@ -368,35 +378,48 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                   {/* Action menu trigger */}
                                   <div className="relative">
                                     <button
-                                      onClick={(e) => { e.stopPropagation(); setActionMenuLead(actionMenuLead === lead.id ? null : lead.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (actionMenuLead === lead.id) {
+                                          setActionMenuLead(null);
+                                          setMenuPosition(null);
+                                        } else {
+                                          const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
+                                          setMenuPosition({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+                                          setActionMenuLead(lead.id);
+                                        }
+                                      }}
                                       className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-all"
                                     >
                                       <MoreVertical className="h-4 w-4" />
                                     </button>
 
-                                    {actionMenuLead === lead.id && (
+                                    {actionMenuLead === lead.id && menuPosition && createPortal(
                                       <>
-                                        <div className="fixed inset-0 z-30" onClick={() => setActionMenuLead(null)} />
-                                        <div className="absolute right-0 top-7 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-40 py-1.5 text-sm">
-                                          <button onClick={() => { setSelectedLead(lead); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                        <div className="fixed inset-0 z-[9998]" onClick={() => { setActionMenuLead(null); setMenuPosition(null); }} />
+                                        <div
+                                          className="fixed w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-[9999] py-1.5 text-sm"
+                                          style={{ top: menuPosition.top, right: menuPosition.right }}
+                                        >
+                                          <button onClick={() => { setSelectedLead(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                             <Eye className="h-4 w-4 text-gray-400" /> Ver detalhes
                                           </button>
                                           {lead.status !== "converted" && lead.status !== "lost" && (
                                             <>
-                                              <button onClick={() => handleGenerateLink(lead.id)} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                              <button onClick={() => { handleGenerateLink(lead.id); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <Link2 className="h-4 w-4 text-blue-500" /> Link de matrícula
                                               </button>
-                                              <button onClick={() => { setShowValueModal(lead); setNewValue(String(lead.courseValue || "")); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                              <button onClick={() => { setShowValueModal(lead); setNewValue(String(lead.courseValue || "")); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <DollarSign className="h-4 w-4 text-green-500" /> Editar valor
                                               </button>
-                                              <button onClick={() => { setShowCourseModal(lead); setNewCourse(lead.course || ""); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                              <button onClick={() => { setShowCourseModal(lead); setNewCourse(lead.course || ""); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <BookOpen className="h-4 w-4 text-blue-500" /> Trocar curso
                                               </button>
                                               <div className="border-t border-gray-100 my-1" />
-                                              <button onClick={() => { setShowConvertModal(lead); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-green-600">
+                                              <button onClick={() => { setShowConvertModal(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-green-600">
                                                 <CheckCircle className="h-4 w-4" /> Marcar convertido
                                               </button>
-                                              <button onClick={() => { setShowLossModal(lead); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-red-600">
+                                              <button onClick={() => { setShowLossModal(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-red-600">
                                                 <XCircle className="h-4 w-4" /> Marcar perdido
                                               </button>
                                             </>
@@ -406,13 +429,14 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                             href={`https://wa.me/55${lead.phone.replace(/\D/g, "")}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            onClick={() => setActionMenuLead(null)}
+                                            onClick={() => { setActionMenuLead(null); setMenuPosition(null); }}
                                             className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-green-700"
                                           >
                                             <Phone className="h-4 w-4" /> WhatsApp
                                           </a>
                                         </div>
-                                      </>
+                                      </>,
+                                      document.body
                                     )}
                                   </div>
                                 </div>
@@ -480,14 +504,28 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
             />
             <input
-              type="text" placeholder="Telefone *" value={newLead.phone}
-              onChange={(e) => setNewLead({ ...newLead, phone: e.target.value })}
+              type="text" placeholder="Telefone * ex: (11) 91234-5678" value={newLead.phone}
+              onChange={(e) => setNewLead({ ...newLead, phone: maskPhone(e.target.value) })}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
             />
             <CourseSearchSelect
               value={newLead.course}
-              onChange={(val) => setNewLead({ ...newLead, course: val })}
+              initialModality={newLead.modality}
+              onChange={(val, mod) => setNewLead((p) => ({ ...p, course: val, modality: mod ?? p.modality }))}
             />
+            {!isSeller && sellers.length > 0 && (
+              <select
+                value={newLead.assignedTo}
+                onChange={(e) => setNewLead((p) => ({ ...p, assignedTo: e.target.value }))}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-gray-700"
+              >
+                <option value="">Responsável (vendedor) *</option>
+                {sellers.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            )}
+
             <div className="flex gap-3 pt-2">
               <button onClick={() => { setShowAddLead(false); setFormError(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
               <button onClick={handleAddLead} disabled={isPending} className="flex-1 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-medium hover:bg-orange-600 disabled:opacity-50 transition-colors">

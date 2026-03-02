@@ -7,6 +7,7 @@ import {
   Calendar, FileText, Home, CheckCircle, Loader2, GraduationCap,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
+import { maskCPF, maskPhone, maskCEP, maskDate, maskRG, isoToBR, brToISO } from "@/lib/masks";
 
 interface Lead {
   id: string;
@@ -57,19 +58,6 @@ const estadosCivis = [
   { value: "uniao-estavel", label: "União Estável" },
 ];
 
-function maskCPF(v: string) {
-  return v.replace(/\D/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})/, "$1-$2").replace(/(-\d{2})\d+?$/, "$1");
-}
-function maskPhone(v: string) {
-  return v.replace(/\D/g, "").replace(/(\d{2})(\d)/, "($1) $2").replace(/(\d{5})(\d)/, "$1-$2").replace(/(-\d{4})\d+?$/, "$1");
-}
-function maskCEP(v: string) {
-  return v.replace(/\D/g, "").replace(/(\d{5})(\d)/, "$1-$2").replace(/(-\d{3})\d+?$/, "$1");
-}
-function maskDate(v: string) {
-  return v.replace(/\D/g, "").replace(/(\d{2})(\d)/, "$1/$2").replace(/(\d{2})(\d)/, "$1/$2").replace(/(\d{4})\d+?$/, "$1");
-}
-
 export function MatricularClient({ token, lead, sellerName, paymentMethods }: MatricularClientProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -79,7 +67,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
 
   const [form, setForm] = useState({
     fullName: lead.name || "",
-    birthDate: lead.birthDate || "",
+    birthDate: isoToBR(lead.birthDate),
     cpf: lead.cpf || "",
     rg: lead.rg || "",
     maritalStatus: lead.civilStatus || "",
@@ -102,6 +90,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     const { name, value } = e.target;
     let v = value;
     if (name === "cpf") v = maskCPF(value);
+    if (name === "rg") v = maskRG(value);
     if (name === "phone") v = maskPhone(value);
     if (name === "cep") v = maskCEP(value);
     if (name === "birthDate") v = maskDate(value);
@@ -141,7 +130,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
       const res = await fetch("/api/enrollment-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, ...form }),
+        body: JSON.stringify({ token, ...form, birthDate: brToISO(form.birthDate) }),
       });
       const data = await res.json();
       if (res.ok && data.success) {

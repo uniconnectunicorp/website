@@ -93,10 +93,13 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [newUserError, setNewUserError] = useState("");
   const [newUserSuccess, setNewUserSuccess] = useState(false);
-  const [configValues, setConfigValues] = useState<Record<string, { min: string; max: string }>>({
-    regular: { min: "0", max: "99999" },
-    aproveitamento: { min: "0", max: "99999" },
-    competencia: { min: "0", max: "99999" },
+  const [configValues, setConfigValues] = useState<Record<string, { min: string }>>({
+    regular:        { min: "0" },
+    aproveitamento: { min: "0" },
+    competencia:    { min: "0" },
+    sequencial:     { min: "0" },
+    eja:            { min: "0" },
+    ingles:         { min: "0" },
   });
   const [formError, setFormError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -116,6 +119,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
 
   const canManage = ["admin", "director"].includes(currentUserRole);
   const canChangeRoles = currentUserRole === "admin";
+  const isCurrentUserAdmin = currentUserRole === "admin";
 
   const filteredUsers = users.filter((u) => {
     if (!search.trim()) return true;
@@ -234,21 +238,23 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
   };
 
   const CATEGORIES = [
-    { key: "regular", label: "Regular" },
-    { key: "aproveitamento", label: "Aproveitamento" },
-    { key: "competencia", label: "Competência" },
+    { key: "regular",       label: "Regular",       refPrice: 999.90 },
+    { key: "aproveitamento",label: "Aproveitamento", refPrice: 1199.90 },
+    { key: "competencia",   label: "Competência",    refPrice: 1199.90 },
+    { key: "sequencial",    label: "Sequencial",     refPrice: 1109.90 },
+    { key: "eja",           label: "EJA",            refPrice: 999.90 },
+    { key: "ingles",        label: "Inglês",         refPrice: 398.90 },
   ];
 
   const handleSaveConfig = (userId: string) => {
     const limits: Record<string, { min: number; max: number }> = {};
     for (const cat of CATEGORIES) {
       const min = parseFloat(configValues[cat.key]?.min || "0");
-      const max = parseFloat(configValues[cat.key]?.max || "99999");
-      if (isNaN(min) || isNaN(max) || min < 0 || max < min) {
-        setFormError(`Valores inválidos para ${cat.label}. Mínimo deve ser >= 0 e máximo >= mínimo.`);
+      if (isNaN(min) || min < 0) {
+        setFormError(`Valor inválido para ${cat.label}. Mínimo deve ser >= 0.`);
         return;
       }
-      limits[cat.key] = { min, max };
+      limits[cat.key] = { min, max: 99999 };
     }
     setFormError("");
     startTransition(async () => {
@@ -273,9 +279,12 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
     setEditingConfig(user.id);
     const vl = (user.sellerConfig?.valueLimits as any) || {};
     setConfigValues({
-      regular: { min: String(vl.regular?.min ?? 0), max: String(vl.regular?.max ?? 99999) },
-      aproveitamento: { min: String(vl.aproveitamento?.min ?? 0), max: String(vl.aproveitamento?.max ?? 99999) },
-      competencia: { min: String(vl.competencia?.min ?? 0), max: String(vl.competencia?.max ?? 99999) },
+      regular:        { min: String(vl.regular?.min        ?? 0) },
+      aproveitamento: { min: String(vl.aproveitamento?.min ?? 0) },
+      competencia:    { min: String(vl.competencia?.min    ?? 0) },
+      sequencial:     { min: String(vl.sequencial?.min     ?? 0) },
+      eja:            { min: String(vl.eja?.min            ?? 0) },
+      ingles:         { min: String(vl.ingles?.min         ?? 0) },
     });
     setFormError("");
   };
@@ -331,6 +340,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
               {filteredUsers.map((user) => {
                 const userPerms = permissions[user.id] || {};
                 const isSelf = user.id === currentUserId;
+                const isAdminRow = user.role === "admin" && !isCurrentUserAdmin;
                 return (
                   <tr key={user.id} className={`hover:bg-gray-50/50 transition-colors ${!user.active ? "opacity-50" : ""}`}>
                     <td className="px-5 py-3.5">
@@ -352,7 +362,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                       </div>
                     </td>
                     <td className="px-5 py-3.5">
-                      {canChangeRoles && !isSelf ? (
+                      {canChangeRoles && !isSelf && !isAdminRow ? (
                         <select
                           value={user.role}
                           onChange={(e) => handleRoleChange(user.id, e.target.value)}
@@ -374,7 +384,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                         <Toggle
                           enabled={!!userPerms[mod.key]}
                           onChange={() => togglePermission(user.id, mod.key)}
-                          disabled={!canManage || isSelf}
+                          disabled={!canManage || isSelf || isAdminRow}
                         />
                       </td>
                     ))}
@@ -382,7 +392,7 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                       <Toggle
                         enabled={user.active}
                         onChange={() => handleToggleActive(user.id, user.active)}
-                        disabled={!canManage || isSelf}
+                        disabled={!canManage || isSelf || isAdminRow}
                       />
                     </td>
                     <td className="px-3 py-3.5 text-center">
@@ -404,14 +414,16 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                     {canManage && (
                       <td className="px-3 py-3.5 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={() => handleEditUser(user)}
-                            className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                            title="Editar usuário"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </button>
-                          {!isSelf && (
+                          {!isAdminRow && (
+                            <button
+                              onClick={() => handleEditUser(user)}
+                              className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                              title="Editar usuário"
+                            >
+                              <Pencil className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                          {!isSelf && !isAdminRow && (
                             <button
                               onClick={() => { setDeleteConfirm(user); setActionError(""); }}
                               className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
@@ -419,6 +431,9 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
                             >
                               <Trash2 className="h-3.5 w-3.5" />
                             </button>
+                          )}
+                          {isAdminRow && (
+                            <span className="text-[11px] text-gray-300 italic">protegido</span>
                           )}
                         </div>
                       </td>
@@ -602,35 +617,24 @@ export function UsuariosClient({ users: initialUsers, currentUserId, currentUser
               Defina o valor mínimo e máximo para cada categoria de curso de <span className="font-medium text-gray-700">{users.find((u) => u.id === editingConfig)?.name}</span>.
             </p>
             {formError && <p className="text-[13px] text-red-600 bg-red-50 px-3 py-2 rounded-lg">{formError}</p>}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {CATEGORIES.map((cat) => (
-                <div key={cat.key} className="space-y-1.5">
-                  <label className="text-[12px] font-semibold text-gray-600 uppercase tracking-wider">{cat.label}</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] text-gray-400">Min R$</span>
-                      <input
-                        type="number" step="0.01"
-                        value={configValues[cat.key]?.min || ""}
-                        onChange={(e) => setConfigValues((prev) => ({
-                          ...prev,
-                          [cat.key]: { ...prev[cat.key], min: e.target.value },
-                        }))}
-                        className="w-full pl-16 pr-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
-                      />
-                    </div>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] text-gray-400">Max R$</span>
-                      <input
-                        type="number" step="0.01"
-                        value={configValues[cat.key]?.max || ""}
-                        onChange={(e) => setConfigValues((prev) => ({
-                          ...prev,
-                          [cat.key]: { ...prev[cat.key], max: e.target.value },
-                        }))}
-                        className="w-full pl-16 pr-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
-                      />
-                    </div>
+                <div key={cat.key} className="flex items-center gap-3">
+                  <div className="w-28 shrink-0">
+                    <p className="text-[12px] font-semibold text-gray-700">{cat.label}</p>
+                    <p className="text-[11px] text-gray-400">ref. {cat.refPrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</p>
+                  </div>
+                  <div className="relative flex-1">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[12px] text-gray-400">Mín. R$</span>
+                    <input
+                      type="number" step="0.01" min="0"
+                      value={configValues[cat.key]?.min || ""}
+                      onChange={(e) => setConfigValues((prev) => ({
+                        ...prev,
+                        [cat.key]: { min: e.target.value },
+                      }))}
+                      className="w-full pl-20 pr-3 py-2 border border-gray-200 rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+                    />
                   </div>
                 </div>
               ))}

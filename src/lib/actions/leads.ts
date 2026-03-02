@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { createLog } from "@/lib/actions/logs";
 
 export async function getLeadsPipeline(options?: {
   search?: string;
@@ -112,6 +113,10 @@ export async function updateLeadStatus(
         userId,
       },
     });
+
+    if (userId) {
+      await createLog({ action: `Lead: status ${lead.status} → ${newStatus}`, entity: "lead", entityId: leadId, detail: lead.name, userId });
+    }
 
     return updated;
   } catch (error) {
@@ -393,6 +398,7 @@ export async function addLeadManually(data: {
   name: string;
   phone: string;
   course?: string;
+  modalidade?: string;
   assignedTo: string;
 }) {
   try {
@@ -412,6 +418,7 @@ export async function addLeadManually(data: {
         name: data.name,
         phone: data.phone,
         course: data.course || null,
+        modalidade: data.modalidade as any || null,
         assignedTo: data.assignedTo,
         source: "manual",
         status: "pending",
@@ -425,6 +432,19 @@ export async function addLeadManually(data: {
         action: "Lead criado manualmente",
         toStatus: "pending",
         userId: data.assignedTo,
+      },
+    });
+
+    await createLog({ action: "Lead criado manualmente", entity: "lead", entityId: lead.id, detail: `${data.name} — ${data.phone}${data.course ? ` — ${data.course}` : ""}`, userId: data.assignedTo });
+
+    await prisma.notificacao.create({
+      data: {
+        id: crypto.randomUUID(),
+        userId: data.assignedTo,
+        titulo: "Novo lead adicionado!",
+        mensagem: `${data.name} foi adicionado como novo lead${data.course ? ` — ${data.course}` : ""}.`,
+        tipo: "info",
+        linkUrl: "/admin/crm-pipeline",
       },
     });
 

@@ -4,8 +4,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminHeader } from "@/components/admin/header";
+import { NavigationProgress } from "@/components/admin/navigation-progress";
 import { getNotificacoes } from "@/lib/actions/notificacoes";
 import { prisma } from "@/lib/prisma";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "UniConnect - Admin",
@@ -46,6 +48,9 @@ export default async function AdminLayout({
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
+      <Suspense fallback={null}>
+        <NavigationProgress />
+      </Suspense>
       <AdminSidebar user={userWithPerms} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <AdminHeader
