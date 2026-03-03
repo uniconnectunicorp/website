@@ -275,7 +275,7 @@ export function MatriculasClient({
                           {openActions === m.id && (
                             <>
                               <div className="fixed inset-0 z-30" onClick={() => setOpenActions(null)} />
-                              <div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-40 py-1">
+                              <div className="absolute right-0 bottom-full mb-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-40 py-1">
                                 <button
                                   onClick={() => handleToggleNota(m.id, m.leadId, m.notaEmitida)}
                                   disabled={isPending}

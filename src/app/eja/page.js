@@ -40,10 +40,11 @@ const course = {
   description: "A EJA (Educação de Jovens e Adultos) é a oportunidade ideal para quem deseja concluir o Ensino Médio de forma rápida e flexível. Com cadastro na Secretaria da Educação, a EJA permite que você conquiste seu diploma e abra novas portas no mercado de trabalho e na vida acadêmica.",
   image: "/courses/secretaria-escolar.webp",
   highlights: [
-    "Conclusão do Ensino Médio",
+    "100% Online",
     "Cadastro na Secretaria da Educação",
-    "Estude no Seu Ritmo",
-    "Acesso Imediato"
+    "Para pessoas com mais de 18 anos",
+    "Diploma válido em todo território nacional",
+    "Diploma em 3 dias úteis"
   ]
 };
 
@@ -140,19 +141,27 @@ export default function EjaPage() {
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-100">100% Online</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                         <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Estude no seu ritmo</span>
+                        <span className="text-blue-100">Para pessoas com mais de 18 anos</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Diploma válido em todo o Brasil</span>
+                        <span className="text-blue-100">Diploma válido em todo território nacional</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Acesso imediato após a matrícula</span>
+                        <span className="text-blue-100">Diploma em 3 dias úteis</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-100">Formação a partir de 4 meses</span>
                       </li>
                     </ul>
                   </div>
@@ -178,19 +187,27 @@ export default function EjaPage() {
                     <ul className="space-y-3">
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-100">100% Online</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
                         <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Estude no seu ritmo, sem sair de casa</span>
+                        <span className="text-blue-100">Para pessoas com mais de 18 anos</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Diploma válido em todo o Brasil</span>
+                        <span className="text-blue-100">Diploma válido em todo território nacional</span>
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Acesso imediato após a matrícula</span>
+                        <span className="text-blue-100">Diploma em 3 dias úteis</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-blue-100">Formação a partir de 4 meses</span>
                       </li>
                     </ul>
                   </div>
@@ -357,17 +374,22 @@ export default function EjaPage() {
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
                   <span className="text-blue-100">Acesso imediato à plataforma</span>
                 </div>
+                <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <span className="text-blue-100">100% Online</span>
+                </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
                   <span className="text-blue-100">Cadastro na Secretaria da Educação</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">Suporte completo durante os estudos</span>
+                  <span className="text-blue-100">Diploma válido em todo território nacional</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">Estude no seu ritmo</span>
+                  <span className="text-blue-100">Formação a partir de 4 meses</span>
                 </div>
               </div>
               <Button

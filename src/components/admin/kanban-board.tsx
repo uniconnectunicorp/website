@@ -86,6 +86,26 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
 
   const isSeller = currentUser.role === "seller";
 
+  // Calculate conversion rate for current user (current month only)
+  const calculateConversionRate = () => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    
+    const allLeads = Object.values(columns).flat();
+    const userLeads = isSeller ? allLeads : allLeads.filter(l => l.assignedTo === currentUser.id);
+    
+    // Filter only leads from current month
+    const monthLeads = userLeads.filter(l => {
+      const leadDate = new Date(l.createdAt);
+      return leadDate.getMonth() === currentMonth && leadDate.getFullYear() === currentYear;
+    });
+    
+    const converted = monthLeads.filter(l => l.status === "converted").length;
+    const total = monthLeads.length;
+    return total > 0 ? ((converted / total) * 100).toFixed(1) : "0.0";
+  };
+
   // Form states
   const [newLead, setNewLead] = useState({ name: "", phone: "", course: "", modality: "", assignedTo: "" });
   const [lossReason, setLossReason] = useState("");
@@ -303,8 +323,21 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)]">
       {/* Header - Pipeline de Vendas */}
-      <div className="mb-3">
-        <h1 className="text-xl font-bold text-gray-900">Pipeline de Vendas</h1>
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-gray-900">Pipeline de Vendas</h1>
+        </div>
+        {isSeller && (
+          <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-lg">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-medium text-orange-600 uppercase tracking-wide">Minha Taxa de Conversão</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-bold text-orange-700">{calculateConversionRate()}%</span>
+                <span className="text-[11px] text-orange-600">dos meus leads</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Filters row: search + EQUIPE avatars + Novo Lead */}
@@ -420,7 +453,14 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                           setMenuPosition(null);
                                         } else {
                                           const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
-                                          setMenuPosition({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+                                          const spaceBelow = window.innerHeight - rect.bottom;
+                                          const menuHeight = 300; // Approximate menu height
+                                          const shouldOpenUpward = spaceBelow < menuHeight;
+                                          
+                                          setMenuPosition({ 
+                                            top: shouldOpenUpward ? rect.top - menuHeight : rect.bottom + 4, 
+                                            right: window.innerWidth - rect.right 
+                                          });
                                           setActionMenuLead(lead.id);
                                         }
                                       }}
@@ -433,7 +473,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                       <>
                                         <div className="fixed inset-0 z-[9998]" onClick={() => { setActionMenuLead(null); setMenuPosition(null); }} />
                                         <div
-                                          className="fixed w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-[9999] py-1.5 text-sm"
+                                          className="fixed w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-[9999] py-1.5 text-sm max-h-[300px] overflow-y-auto"
                                           style={{ top: menuPosition.top, right: menuPosition.right }}
                                         >
                                           <button onClick={() => { setSelectedLead(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">

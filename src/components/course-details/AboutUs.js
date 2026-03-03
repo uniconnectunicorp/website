@@ -33,7 +33,7 @@ export default function AboutUsCourse() {
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-2 h-2 bg-[#0b3b75] rounded-full mt-3"></div>
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      Somos uma <strong className="text-[#0b3b75]">unidade parceira da Unicorp</strong> localizada em Coronel Fabriciano-MG, com o compromisso de preparar e capacitar profissionais com um nível educacional e profissional de excelência.
+                      Somos o <strong className="text-[#0b3b75]">Polo Educacional Uniconnect</strong>, localizado em Coronel Fabriciano-MG, com o compromisso de preparar e capacitar profissionais com um nível educacional e profissional de excelência.
                     </p>
                   </div>
                   
@@ -69,46 +69,16 @@ export default function AboutUsCourse() {
           </div>
 
           <div className="mt-12 lg:mt-0 lg:col-span-1 flex justify-center lg:justify-end h-full">
-            {/* Unicorp Partnership Section */}
-            <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-8 border border-blue-100 h-full  w-full relative overflow-hidden">
+            {/* Uniconnect Logo Section */}
+            <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-8 border border-blue-100 h-full w-full relative overflow-hidden flex items-center justify-center">
               {/* Decorative background element */}
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-transparent rounded-full -mr-10 -mt-10 opacity-50"></div>
               
-              <div className="relative z-10">
-                <div className="flex items-center justify-center mb-6">
-                  {/* Enhanced Logo placeholder */}
-                 <div className='w-86 h-86 relative'>
-                  <Image src="/root/grupo-unicorp.png" alt="Unicorp Logo" fill className="object-contain" />
-
-                 </div>
-                </div>
-                
-                <div className="text-center mb-6">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
-                    <CheckCircle className="h-6 w-6 text-[#0b3b75]" />
+              <div className="relative z-10 w-full">
+                <div className="flex items-center justify-center">
+                  <div className='w-full h-64 relative'>
+                    <Image src="/root/logo-azul.webp" alt="Uniconnect Logo" fill className="object-contain drop-shadow-2xl" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Polo Oficial Unicorp
-                  </h3>
-                  <div className="w-16 h-1 bg-[#0b3b75] mx-auto rounded-full mb-4"></div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Somos parceiros oficiais da <strong>Unicorp Faculdades</strong>. Verifique nossa credibilidade e autenticidade através do portal oficial.
-                  </p>
-                </div>
-                
-                <div className="text-center">
-                  <a
-                    href="https://atendimento.unicorpfaculdades.com.br"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-6 py-3 bg-[#0b3b75] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-[#0a3366] hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b3b75] transform hover:scale-105 transition-all duration-200"
-                  >
-                    <CheckCircle className="h-5 w-5 mr-2" />
-                    Verificar
-                  </a>
-                  <p className="text-xs text-gray-500 mt-3">
-                    Portal oficial de atendimento
-                  </p>
                 </div>
               </div>
             </div>
