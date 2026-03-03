@@ -372,11 +372,6 @@ export default function EjaPage() {
               <div className="space-y-3 text-left mb-8">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">Acesso imediato à plataforma</span>
-                </div>
-                <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
                   <span className="text-blue-100">100% Online</span>
                 </div>
                 <div className="flex items-center gap-3">
