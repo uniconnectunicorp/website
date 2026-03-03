@@ -295,7 +295,7 @@ enum LeadStatus {
   contacted
   negociating
   confirmPayment
-  awaitingPayment
+  enrolled
   converted
   lost
 }

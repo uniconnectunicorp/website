@@ -27,7 +27,7 @@ import { Header } from '@/components/layout/Header';
 import CTASection from '@/components/home/CTASection';
 import AboutUsCourse from '@/components/course-details/AboutUs';
 import Head from '@/components/layout/Head';
-import EjaPopup from './_components/EjaPopup';
+// import EjaPopup from './_components/EjaPopup';
 
 const course = {
   nome: "EJA - Educação de Jovens e Adultos",
@@ -415,7 +415,7 @@ export default function EjaPage() {
           </DialogContent>
         </Dialog>
 
-        <EjaPopup />
+        {/* <EjaPopup /> */}
       </div>
     </>
   );

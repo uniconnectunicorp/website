@@ -129,7 +129,8 @@ export async function convertLead(
   leadId: string,
   paymentMethodId: string,
   installments: number,
-  userId: string
+  userId: string,
+  customValue?: number
 ) {
   try {
     const lead = await prisma.lead.findUnique({ where: { id: leadId } });
@@ -138,7 +139,7 @@ export async function convertLead(
     const pm = await prisma.paymentMethod.findUnique({ where: { id: paymentMethodId } });
     if (!pm) return { error: "Forma de pagamento não encontrada" };
 
-    const amount = lead.courseValue || 999.90;
+    const amount = customValue || lead.courseValue || 999.90;
     const feeAmount = amount * (pm.feePercentage / 100);
     const commissionAmount = pm.commissionType === "fixed"
       ? pm.commissionPercentage

@@ -79,11 +79,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     city: lead.city || "",
     state: lead.state || "",
     cep: lead.zipCode || "",
-    paymentMethodId: "",
-    installments: "1",
   });
-
-  const selectedPM = paymentMethods.find((p) => p.id === form.paymentMethodId);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -93,12 +89,6 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     if (name === "phone") v = maskPhone(value);
     if (name === "cep") v = maskCEP(value);
     if (name === "birthDate") v = maskDate(value);
-    if (name === "paymentMethodId") {
-      const pm = paymentMethods.find((p) => p.id === value);
-      const fixedInstallments = String(pm?.maxInstallments ?? 1);
-      setForm((p) => ({ ...p, [name]: v, installments: fixedInstallments }));
-      return;
-    }
     setForm((p) => ({ ...p, [name]: v }));
   };
 
@@ -124,7 +114,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName || !form.phone || !form.cpf || !form.paymentMethodId) {
+    if (!form.fullName || !form.phone || !form.cpf) {
       setError("Preencha todos os campos obrigatórios.");
       return;
     }
@@ -135,7 +125,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
       const res = await fetch("/api/enrollment-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, ...form, birthDate: brToISO(form.birthDate) }),
+        body: JSON.stringify({ token, ...form, birthDate: brToISO(form.birthDate), paymentMethodId: "__pending__", installments: 1 }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -301,56 +291,6 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                       {estados.map((e) => <option key={e} value={e}>{e}</option>)}
                     </select>
                   </div>
-                </div>
-              </div>
-
-              {/* Pagamento */}
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-purple-100 rounded-xl"><CreditCard className="w-6 h-6 text-purple-700" /></div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Forma de Pagamento</h2>
-                    <p className="text-sm text-gray-500">Escolha como deseja pagar</p>
-                  </div>
-                </div>
-
-                {lead.courseValue && (
-                  <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
-                    <span className="text-sm text-blue-700 font-medium">Valor do curso:</span>
-                    <span className="text-lg font-bold text-blue-900">
-                      {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue)}
-                    </span>
-                  </div>
-                )}
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Forma de Pagamento *</label>
-                    <select name="paymentMethodId" value={form.paymentMethodId} onChange={handleChange} required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0b3b75]/20 focus:border-[#0b3b75]">
-                      <option value="">Selecione</option>
-                      {paymentMethods.map((pm) => (
-                        <option key={pm.id} value={pm.id}>
-                          {pm.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {selectedPM && (selectedPM.maxInstallments ?? 1) > 1 && (
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-xl flex items-center justify-between">
-                      <span className="text-sm text-green-700 font-medium">
-                        {selectedPM.maxInstallments}x
-                        {lead.courseValue
-                          ? ` de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue / (selectedPM.maxInstallments ?? 1))}`
-                          : ""}
-                      </span>
-                      {lead.courseValue && (
-                        <span className="text-xs text-green-600">
-                          Total: {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(lead.courseValue)}
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
 

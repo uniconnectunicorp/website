@@ -456,6 +456,34 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
                   </div>
                 </div>
 
+                {/* Commissions by payment method */}
+                {sellerDetail.commissionsByPayment && sellerDetail.commissionsByPayment.length > 0 && (
+                  <div className="bg-white rounded-xl border border-gray-100 p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-[15px] font-semibold text-gray-900">Comissões Recebidas</h3>
+                      <div className="bg-green-50 px-3 py-1.5 rounded-lg">
+                        <span className="text-sm font-bold text-green-700">{formatCurrency(sellerDetail.totalCommission || 0)}</span>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {sellerDetail.commissionsByPayment.map((c: any, i: number) => {
+                        const pct = sellerDetail.totalCommission > 0 ? Math.round((c.commission / sellerDetail.totalCommission) * 100) : 0;
+                        return (
+                          <div key={i}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-[13px] text-gray-700">{c.paymentMethod}</span>
+                              <span className="text-[13px] font-medium text-gray-900">{formatCurrency(c.commission)}</span>
+                            </div>
+                            <div className="w-full bg-gray-100 rounded-full h-2">
+                              <div className="bg-green-500 h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {/* Loss reasons ranking */}
                 {sellerDetail.lossReasons.length > 0 && (
                   <div className="bg-white rounded-xl border border-gray-100 p-5">

@@ -11,9 +11,9 @@ const ToastProvider = dynamic(() => import('@/components/client/ToastProvider'),
   ssr: false,
 })
 
-const WelcomePopup = dynamic(() => import('@/components/ui/WelcomePopup'), {
-  ssr: false,
-})
+// const WelcomePopup = dynamic(() => import('@/components/ui/WelcomePopup'), {
+//   ssr: false,
+// })
 
 export default function ClientOverlays() {
   const pathname = usePathname()
@@ -23,7 +23,7 @@ export default function ClientOverlays() {
     <>
       <WhatsappFloat />
       <ToastProvider />
-      {isHomePage && <WelcomePopup />}
+      {/* {isHomePage && <WelcomePopup />} */}
     </>
   )
 }

@@ -6,12 +6,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { token, fullName, birthDate, cpf, rg, maritalStatus, phone, email, street, number, neighborhood, city, state, cep, paymentMethodId, installments } = body;
 
-    if (!token || !fullName || !phone || !cpf || !paymentMethodId) {
+    if (!token || !fullName || !phone || !cpf) {
       return NextResponse.json({ error: "Campos obrigatórios não preenchidos." }, { status: 400 });
-    }
-
-    if (!installments) {
-      return NextResponse.json({ error: "Número de parcelas não informado." }, { status: 400 });
     }
 
     // Find enrollment link
@@ -29,15 +25,9 @@ export async function POST(request: Request) {
     }
 
     const lead = link.lead;
-    const pm = await prisma.paymentMethod.findUnique({ where: { id: paymentMethodId } });
-    if (!pm) {
-      return NextResponse.json({ error: "Forma de pagamento não encontrada." }, { status: 400 });
-    }
 
-    const inst = parseInt(installments) || 1;
-
-    // Update lead with personal data and move to "awaitingPayment" status
-    // Matrícula e finance só serão criados quando o vendedor converter manualmente
+    // Update lead with personal data and move to "enrolled" status
+    // Payment method will be defined by the seller during manual conversion
     await prisma.lead.update({
       where: { id: lead.id },
       data: {
@@ -54,9 +44,7 @@ export async function POST(request: Request) {
         state: state || lead.state,
         zipCode: cep || lead.zipCode,
         civilStatus: maritalStatus || lead.civilStatus,
-        paymentMethodId,
-        installments: inst,
-        status: "awaitingPayment",
+        status: "enrolled",
       },
     });
 
@@ -71,9 +59,9 @@ export async function POST(request: Request) {
       data: {
         id: crypto.randomUUID(),
         leadId: lead.id,
-        action: `Dados de matrícula preenchidos via link. Pagamento: ${pm.name} - ${inst}x. Lead movido para Aguard. Pagamento. Aguardando conversão manual.`,
+        action: `Dados de matrícula preenchidos via link. Lead movido para Aguard. Pagamento. Aguardando definição de pagamento e conversão manual.`,
         fromStatus: lead.status,
-        toStatus: "awaitingPayment",
+        toStatus: "enrolled",
         userId: link.sellerId,
       },
     });
@@ -84,7 +72,7 @@ export async function POST(request: Request) {
         id: crypto.randomUUID(),
         userId: link.sellerId,
         titulo: "Lead preencheu dados de matrícula!",
-        mensagem: `${fullName} preencheu os dados via link (${lead.course || "Curso"}). Pagamento: ${pm.name} - ${inst}x. Converta o lead para finalizar.`,
+        mensagem: `${fullName} preencheu os dados via link (${lead.course || "Curso"}). Defina a forma de pagamento e converta o lead para finalizar.`,
         tipo: "alerta",
         linkUrl: `/admin/crm-pipeline`,
       },

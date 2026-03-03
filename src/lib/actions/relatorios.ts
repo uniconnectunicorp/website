@@ -6,7 +6,8 @@ export async function getPerformanceReport(startDate: Date, endDate: Date) {
   try {
     const users = await prisma.user.findMany({
       where: {
-        role: { in: ["admin", "director", "manager", "seller"] as any },
+        role: "seller" as any,
+        active: true,
       },
       select: { id: true, name: true, role: true },
     });
@@ -246,7 +247,7 @@ export async function getLossReasonsReport(startDate: Date, endDate: Date) {
 
 export async function getSellerDetailReport(sellerId: string, startDate: Date, endDate: Date) {
   try {
-    const [totalAssigned, converted, lost, revenueAgg, monthlyData, lossReasons] = await Promise.all([
+    const [totalAssigned, converted, lost, revenueAgg, monthlyData, lossReasons, commissionsByPayment] = await Promise.all([
       prisma.lead.count({
         where: {
           assignedTo: sellerId,
@@ -290,12 +291,30 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
         ORDER BY total DESC
         LIMIT 5
       `, sellerId, startDate, endDate),
+      prisma.$queryRawUnsafe(`
+        SELECT 
+          pm.name as payment_method,
+          COALESCE(SUM(f."commissionAmount"), 0) as commission
+        FROM finance f
+        INNER JOIN payment_method pm ON f."paymentMethodId" = pm.id
+        WHERE f."userId" = $1
+        AND f.type = 'leadPayment'
+        AND f."transactionDate" BETWEEN $2 AND $3
+        GROUP BY pm.name
+        ORDER BY commission DESC
+      `, sellerId, startDate, endDate),
     ]);
 
     const revenue = revenueAgg._sum.amount || 0;
     const conversionRate = totalAssigned > 0 ? Number(((converted / totalAssigned) * 100).toFixed(1)) : 0;
     const lossRate = totalAssigned > 0 ? Number(((lost / totalAssigned) * 100).toFixed(1)) : 0;
     const ticketMedio = converted > 0 ? Number((revenue / converted).toFixed(2)) : 0;
+
+    const commissionsData = (commissionsByPayment as any[]).map((i: any) => ({
+      paymentMethod: i.payment_method,
+      commission: Number(i.commission),
+    }));
+    const totalCommission = commissionsData.reduce((sum, item) => sum + item.commission, 0);
 
     return {
       totalAssigned,
@@ -313,6 +332,8 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
         name: i.reason,
         value: Number(i.total),
       })),
+      commissionsByPayment: commissionsData,
+      totalCommission,
     };
   } catch (error) {
     console.error("getSellerDetailReport error:", error);
@@ -320,6 +341,7 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
       totalAssigned: 0, converted: 0, lost: 0, revenue: 0,
       conversionRate: 0, lossRate: 0, ticketMedio: 0,
       monthlyRevenue: [], lossReasons: [],
+      commissionsByPayment: [], totalCommission: 0,
     };
   }
 }

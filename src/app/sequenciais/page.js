@@ -6,7 +6,7 @@ import SequentialCoursesSection from './_components/SequentialCoursesSection';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Head from '@/components/layout/Head';
-import SequentialCoursePopup from '@/components/ui/SequentialCoursePopup';
+// import SequentialCoursePopup from '@/components/ui/SequentialCoursePopup';
 
 
 export default function SequentialCoursesPage() {
@@ -115,7 +115,7 @@ export default function SequentialCoursesPage() {
       </section>
 
       <SequentialCoursesSection coursesQuantity={courses} initialCourses={initialCourses} />
-      <SequentialCoursePopup />
+      {/* <SequentialCoursePopup /> */}
     </div>
     </>
   );

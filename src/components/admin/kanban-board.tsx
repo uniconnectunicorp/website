@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { maskPhone } from "@/lib/masks";
+import coursesData from "@/data/courses.json";
 
 interface Lead {
   id: string;
@@ -56,7 +57,7 @@ const columnConfig = [
   { id: "contacted", title: "Em Contato", dot: "bg-yellow-500", bg: "bg-yellow-50/40" },
   { id: "negociating", title: "Proposta Enviada", dot: "bg-orange-500", bg: "bg-orange-50/40" },
   { id: "confirmPayment", title: "Em Negociação", dot: "bg-purple-500", bg: "bg-purple-50/40" },
-  { id: "awaitingPayment", title: "Aguard. Pagamento", dot: "bg-teal-500", bg: "bg-teal-50/40" },
+  { id: "enrolled", title: "Aguard. Pagamento", dot: "bg-teal-500", bg: "bg-teal-50/40" },
   { id: "converted", title: "Convertidos", dot: "bg-green-500", bg: "bg-green-50/40" },
   { id: "lost", title: "Perdidos", dot: "bg-red-500", bg: "bg-red-50/40" },
 ];
@@ -90,6 +91,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [lossReason, setLossReason] = useState("");
   const [selectedPM, setSelectedPM] = useState("");
   const [installments, setInstallments] = useState(1);
+  const [convertValue, setConvertValue] = useState("");
   const [newValue, setNewValue] = useState("");
   const [newCourse, setNewCourse] = useState("");
   const [newCourseModality, setNewCourseModality] = useState("");
@@ -118,7 +120,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     return () => clearInterval(interval);
   }, [refreshData]);
 
-  const STAGE_ORDER = ["pending", "contacted", "negociating", "confirmPayment", "awaitingPayment", "converted", "lost"];
+  const STAGE_ORDER = ["pending", "contacted", "negociating", "confirmPayment", "enrolled", "converted", "lost"];
   const TERMINAL_STAGES = ["converted", "lost"];
 
   const handleDragEnd = (result: DropResult) => {
@@ -132,8 +134,8 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     // Terminal stages (converted/lost) cannot be moved at all
     if (TERMINAL_STAGES.includes(srcId)) return;
 
-    // AwaitingPayment can only go to converted or lost
-    if (srcId === "awaitingPayment" && !TERMINAL_STAGES.includes(dstId)) return;
+    // Enrolled (Aguard. Pagamento) can only go to converted or lost
+    if (srcId === "enrolled" && !TERMINAL_STAGES.includes(dstId)) return;
 
     // Don't allow dragging directly to converted (needs payment modal)
     if (dstId === "converted") {
@@ -212,13 +214,34 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     });
   };
 
+  const getReferencePriceForLead = (lead: Lead, pmId: string) => {
+    const pm = paymentMethods.find((p: any) => p.id === pmId);
+    if (!pm) return null;
+    // If lead has a manually edited courseValue, use it
+    if (lead.courseValue) return lead.courseValue;
+    // Otherwise look up course price by modality
+    const course = (coursesData as any[]).find(
+      (c) => c.nome?.toLowerCase() === lead.course?.toLowerCase() ||
+             c.slug === lead.course?.toLowerCase()
+    );
+    if (!course) return 999.90;
+    const modalidade = (lead as any).modalidade || "regular";
+    if (modalidade === "aproveitamento" && course.aproveitamentoPrice) {
+      return course.aproveitamentoPrice;
+    }
+    return course.price || 999.90;
+  };
+
   const handleConvert = () => {
     if (!showConvertModal || !selectedPM) return;
+    const parsedValue = parseFloat(convertValue.replace(",", "."));
+    const customValue = !isNaN(parsedValue) && parsedValue > 0 ? parsedValue : undefined;
     startTransition(async () => {
-      await convertLead(showConvertModal.id, selectedPM, installments, currentUser.id);
+      await convertLead(showConvertModal.id, selectedPM, installments, currentUser.id, customValue);
       setShowConvertModal(null);
       setSelectedPM("");
       setInstallments(1);
+      setConvertValue("");
       refreshData();
     });
   };
@@ -549,42 +572,67 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       )}
 
       {/* Convert Lead Modal */}
-      {showConvertModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowConvertModal(null)} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
-            <h2 className="text-lg font-bold text-gray-900">Converter Lead</h2>
-            <p className="text-sm text-gray-500">Selecione a forma de pagamento para <span className="font-medium text-gray-700">{showConvertModal.name}</span></p>
-            {showConvertModal.courseValue && (
-              <p className="text-sm font-medium text-green-600 bg-green-50 px-3 py-2 rounded-lg">
-                Valor: {formatCurrency(showConvertModal.courseValue)}
-              </p>
-            )}
-            <select
-              value={selectedPM}
-              onChange={(e) => {
-                setSelectedPM(e.target.value);
-                const pm = paymentMethods.find((p: any) => p.id === e.target.value);
-                if (pm) setInstallments(pm.maxInstallments || 1);
-              }}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-            >
-              <option value="">Forma de pagamento...</option>
-              {paymentMethods.map((pm: any) => (
-                <option key={pm.id} value={pm.id}>
-                  {pm.name} {pm.feePercentage > 0 ? `(${pm.feePercentage}% taxa)` : "(sem taxa)"}
-                </option>
-              ))}
-            </select>
-            <div className="flex gap-3 pt-2">
-              <button onClick={() => setShowConvertModal(null)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
-              <button onClick={handleConvert} disabled={isPending || !selectedPM} className="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-medium hover:bg-green-600 disabled:opacity-50 transition-colors">
-                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Confirmar Conversão"}
-              </button>
+      {showConvertModal && (() => {
+        const lead = showConvertModal;
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/50" onClick={() => { setShowConvertModal(null); setSelectedPM(""); setConvertValue(""); setInstallments(1); }} />
+            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
+              <h2 className="text-lg font-bold text-gray-900">Converter Lead</h2>
+              <p className="text-sm text-gray-500">Conversão de <span className="font-medium text-gray-700">{lead.name}</span></p>
+
+              {/* Forma de pagamento */}
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Forma de Pagamento *</label>
+                <select
+                  value={selectedPM}
+                  onChange={(e) => {
+                    const pmId = e.target.value;
+                    setSelectedPM(pmId);
+                    const pm = paymentMethods.find((p: any) => p.id === pmId);
+                    if (pm) setInstallments(pm.maxInstallments || 1);
+                    // Auto-fill value from course/modality reference price
+                    const refPrice = getReferencePriceForLead(lead, pmId);
+                    if (refPrice) setConvertValue(String(refPrice));
+                  }}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                >
+                  <option value="">Selecione a forma de pagamento...</option>
+                  {paymentMethods.map((pm: any) => (
+                    <option key={pm.id} value={pm.id}>
+                      {pm.name}{pm.maxInstallments > 1 ? ` (${pm.maxInstallments}x)` : ""}{pm.feePercentage > 0 ? ` — ${pm.feePercentage}% taxa` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Valor */}
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Valor (R$) *</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">R$</span>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={convertValue}
+                    onChange={(e) => setConvertValue(e.target.value)}
+                    placeholder="0,00"
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button onClick={() => { setShowConvertModal(null); setSelectedPM(""); setConvertValue(""); setInstallments(1); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
+                <button onClick={handleConvert} disabled={isPending || !selectedPM || !convertValue} className="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-medium hover:bg-green-600 disabled:opacity-50 transition-colors">
+                  {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Confirmar Conversão"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Loss Reason Modal */}
       {showLossModal && (

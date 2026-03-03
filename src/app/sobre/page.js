@@ -14,7 +14,7 @@ import Head from '@/components/layout/Head';
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Head title="Uniconnect | Sobre" description="Conheça a trajetória da Unicorp e sua unidade educacional Uniconnect, comprometidas com a excelência em educação profissional." />
+      <Head title="Uniconnect | Sobre" description="Conheça o Polo Educacional Uniconnect, comprometido com a excelência em educação profissional em Coronel Fabriciano-MG." />
       
       <Header />
       
@@ -32,10 +32,10 @@ export default function AboutPage() {
                 Conheça Nossa História
               </span>
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl bg-clip-text  bg-gradient-to-r from-[#0b3b75] to-[#0b3b75]">
-                Unicorp & Uniconnect
+                Sobre a Uniconnect
               </h1>
               <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-                Conheça a trajetória da Unicorp e sua unidade educacional Uniconnect, comprometidas com a excelência em educação profissional.
+                Conheça o Polo Educacional Uniconnect, comprometido com a excelência em educação profissional.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 {/* <Button asChild size="lg" className="group bg-[#0b3b75] hover:bg-[#0b3b75]/90 text-white">
@@ -45,63 +45,6 @@ export default function AboutPage() {
                   </Link>
                 </Button> */}
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção Unicorp */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-slate-100/50 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.8))]"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#ff6600] bg-orange-100 rounded-full mb-4">
-                Sobre a Unicorp
-              </span>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">Tradição em <span className="text-[#ff6600]">Educação</span></h2>
-              <div className="prose prose-lg text-gray-600 space-y-4">
-                <p>
-                  Fundado pelo Prof. Hilton Freire, o Centro Integrado de Educação – CIE, GRUPO UNICORP é uma sociedade empresarial de natureza privada, criada em 09 de fevereiro de 2017, com sede em João Pessoa/PB.
-                </p>
-                <p>
-                  O GRUPO UNICORP está engajado no processo de desenvolvimento regional, oferecendo oportunidades criadas por uma sociedade que caminha a passos largos para ampliar sua participação no cenário nacional na medida em que o fortalecimento do Estado gera novas solicitações e estímulos nas áreas da produção do conhecimento.
-                </p>
-                <p>
-                  Oferecemos cursos de EJA, Profissionalizante, Técnico, Graduação (Tecnólogo, Licenciatura e Bacharelado), Pós-graduação, e capacitação profissional em diferentes áreas do conhecimento.
-                </p>
-              </div>
-              <div className="mt-8 flex items-center gap-4">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-10 w-10 rounded-full bg-orange-100 border-2 border-white flex items-center justify-center">
-                      <Check className="h-5 w-5 text-[#ff6600]" />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-sm text-gray-600">
-                  <span className="font-semibold text-gray-900">Cursos validados</span> pelo MEC e SISTEC
-                </p>
-              </div>
-            </motion.div>
-            <motion.div 
-              className="mt-10 lg:mt-0 relative"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <div className="bg-white p-2 rounded-2xl shadow-xl border border-gray-100">
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center">
-                    <Image src="/root/grupo-unicorp.png" alt="Unicorp Logo" fill className="object-contain scale-75" />
-                </div>
-              </div>
-              
             </motion.div>
           </div>
         </div>
@@ -136,16 +79,13 @@ export default function AboutPage() {
               <span className="inline-block px-4 max-md:mt-8 py-1.5 text-sm font-semibold text-[#0b3b75] bg-blue-100 rounded-full mb-4">
                 Polo Educacional
               </span>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">Uniconnect <span className="text-[#0b3b75]">Coronel Fabriciano</span></h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">Sobre a <span className="text-[#0b3b75]">Uniconnect</span></h2>
               <div className="prose prose-lg text-gray-600 space-y-4">
                 <p>
-                  Olá, somos o Polo Educacional Uniconnect, uma unidade parceira da Unicorp localizada em Coronel Fabriciano-MG, nosso compromisso é preparar e capacitar profissionais com um nível educacional e profissional de excelência. Estamos aqui para ajudar você a impulsionar sua carreira profissional com um curso técnico 100% EAD.
+                  Olá, somos o Polo Educacional Uniconnect, estamos localizada em Coronel Fabriciano-MG, nosso compromisso é preparar e capacitar profissionais com um nível educacional e profissional de excelência. Estamos aqui para ajudar você a impulsionar sua carreira profissional e oferecemos cursos de EJA, Profissionalizante, Técnico, Superior Sequencial, e capacitação profissional em diferentes áreas do conhecimento.
                 </p>
                 <p>
-                  Nossos cursos são validados pelo MEC e SISTEC, garantindo qualidade e credibilidade.
-                </p>
-                <p>
-                  Estarei ao seu lado desde a matrícula até a conquista do seu diploma.
+                  Nossos cursos são validados pelo MEC e SISTEC, garantindo qualidade e credibilidade. Estaremos ao seu lado desde a matrícula até a conquista do seu diploma.
                 </p>
                 <p>
                   Você está a um passo do sucesso e do conhecimento. Venha comigo! Faça seu cadastro agora mesmo!
@@ -160,7 +100,7 @@ export default function AboutPage() {
                   ))}
                 </div>
                 <p className="text-sm text-gray-600">
-                  <span className="font-semibold text-gray-900">Acompanhamento local</span> com qualidade Unicorp
+                  <span className="font-semibold text-gray-900">Cursos validados</span> pelo MEC e SISTEC
                 </p>
               </div>
             </motion.div>

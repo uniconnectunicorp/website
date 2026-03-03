@@ -28,7 +28,7 @@ import { Header } from '@/components/layout/Header';
 import CTASection from '@/components/home/CTASection';
 import AboutUsCourse from '@/components/course-details/AboutUs';
 import Head from '@/components/layout/Head';
-import InglesPopup from './_components/InglesPopup';
+// import InglesPopup from './_components/InglesPopup';
 
 const course = {
   nome: "Curso de Inglês",
@@ -416,7 +416,7 @@ export default function CursoDeInglesPage() {
           </DialogContent>
         </Dialog>
 
-        <InglesPopup />
+        {/* <InglesPopup /> */}
       </div>
     </>
   );

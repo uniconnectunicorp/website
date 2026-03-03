@@ -28,7 +28,7 @@ import SistecAndMec from '@/components/sections/sistecAndMec';
 import { Header } from '@/components/layout/Header';
 import CTASection from '@/components/home/CTASection';
 import AboutUsCourse from '@/components/course-details/AboutUs';
-import SequentialCourseDetailPopup from '@/components/ui/SequentialCourseDetailPopup';
+// import SequentialCourseDetailPopup from '@/components/ui/SequentialCourseDetailPopup';
 
 
 
@@ -454,7 +454,7 @@ export function SequentialCourseDetailsClient({ course }) {
         </DialogContent>
       </Dialog>
 
-      <SequentialCourseDetailPopup course={course} />
+      {/* <SequentialCourseDetailPopup course={course} /> */}
     </div>
   );
 }

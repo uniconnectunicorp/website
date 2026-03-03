@@ -6,7 +6,7 @@ import CoursesSection from './_components/CoursesSection';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Head from '@/components/layout/Head';
-import CoursePopup from '@/components/ui/CoursePopup';
+// import CoursePopup from '@/components/ui/CoursePopup';
 
 
 export default function CoursesPage() {
@@ -139,7 +139,7 @@ export default function CoursesPage() {
       </section>
 
       <CoursesSection coursesQuantity={courses} initialCourses={initialCourses} />
-      <CoursePopup />
+      {/* <CoursePopup /> */}
     </div>
     </>
   );
