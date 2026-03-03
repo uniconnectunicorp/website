@@ -10,6 +10,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Campos obrigatórios não preenchidos." }, { status: 400 });
     }
 
+    if (!installments) {
+      return NextResponse.json({ error: "Número de parcelas não informado." }, { status: 400 });
+    }
+
     // Find enrollment link
     const link = await prisma.enrollmentLink.findUnique({
       where: { token },
@@ -31,14 +35,9 @@ export async function POST(request: Request) {
     }
 
     const inst = parseInt(installments) || 1;
-    const amount = lead.courseValue || 999.90;
-    const feeAmount = amount * (pm.feePercentage / 100);
-    const commissionAmount = pm.commissionType === "fixed"
-      ? pm.commissionPercentage
-      : amount * (pm.commissionPercentage / 100);
-    const netAmount = amount - feeAmount;
 
-    // Update lead with personal data and move to "enrolled" status
+    // Update lead with personal data and move to "awaitingPayment" status
+    // Matrícula e finance só serão criados quando o vendedor converter manualmente
     await prisma.lead.update({
       where: { id: lead.id },
       data: {
@@ -57,39 +56,7 @@ export async function POST(request: Request) {
         civilStatus: maritalStatus || lead.civilStatus,
         paymentMethodId,
         installments: inst,
-        status: "enrolled",
-      },
-    });
-
-    // Create matrícula
-    const count = await prisma.matricula.count();
-    const numero = `UC-${new Date().getFullYear()}-${String(count + 1).padStart(4, "0")}`;
-
-    await prisma.matricula.create({
-      data: {
-        id: crypto.randomUUID(),
-        leadId: lead.id,
-        numero,
-        modalidade: lead.modalidade || "regular",
-      },
-    });
-
-    // Create finance entry
-    await prisma.finance.create({
-      data: {
-        id: crypto.randomUUID(),
-        leadId: lead.id,
-        amount,
-        netAmount,
-        feeAmount,
-        commissionAmount,
-        installments: inst,
-        type: "leadPayment",
-        category: "matricula",
-        description: `Matrícula ${numero} - ${lead.course || "Curso"} (via link)`,
-        userId: link.sellerId,
-        paymentMethodId,
-        transactionDate: new Date(),
+        status: "awaitingPayment",
       },
     });
 
@@ -104,26 +71,26 @@ export async function POST(request: Request) {
       data: {
         id: crypto.randomUUID(),
         leadId: lead.id,
-        action: `Matrícula ${numero} realizada via link. Pagamento: ${pm.name} - ${inst}x. Lead movido para Matriculado.`,
+        action: `Dados de matrícula preenchidos via link. Pagamento: ${pm.name} - ${inst}x. Lead movido para Aguard. Pagamento. Aguardando conversão manual.`,
         fromStatus: lead.status,
-        toStatus: "enrolled",
+        toStatus: "awaitingPayment",
         userId: link.sellerId,
       },
     });
 
-    // Notificação para o vendedor (conversão deve ser manual)
+    // Notificação para o vendedor
     await prisma.notificacao.create({
       data: {
         id: crypto.randomUUID(),
         userId: link.sellerId,
-        titulo: "Matrícula realizada via link!",
-        mensagem: `${fullName} preencheu a matrícula ${numero} (${lead.course || "Curso"}). Pagamento: ${pm.name} - ${inst}x. Converta o lead manualmente.`,
+        titulo: "Lead preencheu dados de matrícula!",
+        mensagem: `${fullName} preencheu os dados via link (${lead.course || "Curso"}). Pagamento: ${pm.name} - ${inst}x. Converta o lead para finalizar.`,
         tipo: "alerta",
         linkUrl: `/admin/crm-pipeline`,
       },
     });
 
-    return NextResponse.json({ success: true, numero });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("enrollment-link API error:", error);
     return NextResponse.json({ error: "Erro ao processar matrícula." }, { status: 500 });

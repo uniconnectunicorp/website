@@ -56,7 +56,7 @@ const columnConfig = [
   { id: "contacted", title: "Em Contato", dot: "bg-yellow-500", bg: "bg-yellow-50/40" },
   { id: "negociating", title: "Proposta Enviada", dot: "bg-orange-500", bg: "bg-orange-50/40" },
   { id: "confirmPayment", title: "Em Negociação", dot: "bg-purple-500", bg: "bg-purple-50/40" },
-  { id: "enrolled", title: "Matriculado", dot: "bg-teal-500", bg: "bg-teal-50/40" },
+  { id: "awaitingPayment", title: "Aguard. Pagamento", dot: "bg-teal-500", bg: "bg-teal-50/40" },
   { id: "converted", title: "Convertidos", dot: "bg-green-500", bg: "bg-green-50/40" },
   { id: "lost", title: "Perdidos", dot: "bg-red-500", bg: "bg-red-50/40" },
 ];
@@ -118,14 +118,26 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     return () => clearInterval(interval);
   }, [refreshData]);
 
+  const STAGE_ORDER = ["pending", "contacted", "negociating", "confirmPayment", "awaitingPayment", "converted", "lost"];
+  const TERMINAL_STAGES = ["converted", "lost"];
+
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
     if (source.droppableId === destination.droppableId && source.index === destination.index) return;
 
+    const srcId = source.droppableId;
+    const dstId = destination.droppableId;
+
+    // Terminal stages (converted/lost) cannot be moved at all
+    if (TERMINAL_STAGES.includes(srcId)) return;
+
+    // AwaitingPayment can only go to converted or lost
+    if (srcId === "awaitingPayment" && !TERMINAL_STAGES.includes(dstId)) return;
+
     // Don't allow dragging directly to converted (needs payment modal)
-    if (destination.droppableId === "converted") {
-      const lead = (columns[source.droppableId] || []).find((l) => l.id === draggableId);
+    if (dstId === "converted") {
+      const lead = (columns[srcId] || []).find((l) => l.id === draggableId);
       if (lead) {
         setShowConvertModal(lead);
         return;
@@ -133,8 +145,8 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     }
 
     // Don't allow dragging directly to lost (needs reason)
-    if (destination.droppableId === "lost") {
-      const lead = (columns[source.droppableId] || []).find((l) => l.id === draggableId);
+    if (dstId === "lost") {
+      const lead = (columns[srcId] || []).find((l) => l.id === draggableId);
       if (lead) {
         setShowLossModal(lead);
         return;
@@ -352,15 +364,15 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                       }`}
                     >
                       {leads.map((lead, index) => (
-                        <Draggable key={lead.id} draggableId={lead.id} index={index}>
+                        <Draggable key={lead.id} draggableId={lead.id} index={index} isDragDisabled={TERMINAL_STAGES.includes(lead.status)}>
                           {(provided, snapshot) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`bg-white rounded-xl p-3.5 border border-gray-100 cursor-grab hover:shadow-md transition-all group ${
-                                snapshot.isDragging ? "shadow-xl rotate-1 ring-2 ring-orange-200" : ""
-                              }`}
+                              className={`bg-white rounded-xl p-3.5 border border-gray-100 transition-all group ${
+                                TERMINAL_STAGES.includes(lead.status) ? "cursor-default" : "cursor-grab hover:shadow-md"
+                              } ${snapshot.isDragging ? "shadow-xl rotate-1 ring-2 ring-orange-200" : ""}`}
                             >
                               <div className="space-y-2">
                                 {/* Name + Actions */}
