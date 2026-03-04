@@ -462,9 +462,10 @@ export function FinanceiroClient({
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                         pm.type === "pix" ? "bg-green-100 text-green-700" :
                         pm.type === "credit" ? "bg-blue-100 text-blue-700" :
-                        "bg-yellow-100 text-yellow-700"
+                        pm.type === "debit" ? "bg-yellow-100 text-yellow-700" :
+                        "bg-purple-100 text-purple-700"
                       }`}>
-                        {pm.type === "pix" ? "PIX" : pm.type === "credit" ? "Crédito" : "Débito"}
+                        {pm.type === "pix" ? "PIX" : pm.type === "credit" ? "Crédito" : pm.type === "debit" ? "Débito" : "Boleto"}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-sm text-gray-600 text-center">{pm.maxInstallments || "—"}</td>
@@ -542,12 +543,20 @@ export function FinanceiroClient({
 
             <select
               value={newPM.type}
-              onChange={(e) => setNewPM({ ...newPM, type: e.target.value })}
+              onChange={(e) => {
+                const newType = e.target.value;
+                setNewPM({ 
+                  ...newPM, 
+                  type: newType,
+                  maxInstallments: newType === "boleto" ? "" : newPM.maxInstallments
+                });
+              }}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
             >
               <option value="pix">PIX</option>
               <option value="credit">Cartão de Crédito</option>
               <option value="debit">Cartão de Débito</option>
+              <option value="boleto">Boleto</option>
             </select>
 
             <div className="grid grid-cols-3 gap-3">
@@ -582,7 +591,13 @@ export function FinanceiroClient({
                 <input
                   type="number" min="1" value={newPM.maxInstallments}
                   onChange={(e) => setNewPM({ ...newPM, maxInstallments: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  disabled={newPM.type === "boleto"}
+                  placeholder={newPM.type === "boleto" ? "Não aplicável" : "1"}
+                  className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 ${
+                    newPM.type === "boleto" 
+                      ? "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed" 
+                      : "border-gray-200"
+                  }`}
                 />
               </div>
             </div>

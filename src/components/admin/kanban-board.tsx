@@ -96,6 +96,8 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [showLinkModal, setShowLinkModal] = useState<{ leadId: string; url: string } | null>(null);
   const [showCourseModal, setShowCourseModal] = useState<Lead | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState<Lead | null>(null);
+  const [showCommissionModal, setShowCommissionModal] = useState<Lead | null>(null);
+  const [commissionAmount, setCommissionAmount] = useState("");
 
   const isSeller = currentUser.role === "seller";
   const canDeleteLeads = currentUser.role === "admin" || currentUser.role === "director";
@@ -347,6 +349,29 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     });
   };
 
+  const handleAddCommission = () => {
+    if (!showCommissionModal || !commissionAmount) return;
+    const amount = parseFloat(commissionAmount);
+    if (isNaN(amount) || amount <= 0) {
+      alert("Valor da comissão inválido");
+      return;
+    }
+    
+    startTransition(async () => {
+      const { addCommissionManually } = await import("@/lib/actions/add-comissao-manual");
+      const result = await addCommissionManually(showCommissionModal.id, amount);
+      
+      if (result && "error" in result) {
+        alert(result.error);
+      } else {
+        setShowCommissionModal(null);
+        setCommissionAmount("");
+        refreshData();
+        alert(result?.message || "Comissão adicionada com sucesso!");
+      }
+    });
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)]">
       {/* Header - Pipeline de Vendas */}
@@ -355,75 +380,75 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
 
         {/* 3 Stats Cards */}
         {crmStats && (
-          <div className="grid grid-cols-3 gap-3 mb-3">
+          <div className="flex justify-end gap-2 mb-3">
             {/* Total de Leads do Mês */}
-            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+            <div className="bg-white border border-gray-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between shadow-sm min-w-[140px]">
               <div>
-                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Leads no Mês</p>
-                <p className="text-2xl font-bold text-gray-900 mt-0.5">{crmStats.totalLeads}</p>
+                <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Leads</p>
+                <p className="text-lg font-bold text-gray-900">{crmStats.totalLeads}</p>
                 {crmStats.totalLeadsChange !== null ? (
-                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                  <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
                     crmStats.totalLeadsChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
                     {crmStats.totalLeadsChange >= 0
-                      ? <TrendingUp className="h-3 w-3" />
-                      : <TrendingDown className="h-3 w-3" />}
-                    <span>{crmStats.totalLeadsChange >= 0 ? "+" : ""}{crmStats.totalLeadsChange}% vs mês anterior</span>
+                      ? <TrendingUp className="h-2 w-2" />
+                      : <TrendingDown className="h-2 w-2" />}
+                    <span>{crmStats.totalLeadsChange >= 0 ? "+" : ""}{crmStats.totalLeadsChange}%</span>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                  <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
                 )}
               </div>
-              <div className="bg-blue-50 p-2.5 rounded-xl">
-                <Users className="h-5 w-5 text-blue-500" />
+              <div className="bg-blue-50 p-1.5 rounded-lg">
+                <Users className="h-3.5 w-3.5 text-blue-500" />
               </div>
             </div>
 
             {/* Taxa de Conversão */}
-            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+            <div className="bg-white border border-gray-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between shadow-sm min-w-[140px]">
               <div>
-                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Taxa de Conversão</p>
-                <p className="text-2xl font-bold text-gray-900 mt-0.5">{crmStats.conversionRate}%</p>
+                <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Conversão</p>
+                <p className="text-lg font-bold text-gray-900">{crmStats.conversionRate}%</p>
                 {crmStats.conversionRateChange !== null ? (
-                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                  <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
                     crmStats.conversionRateChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
                     {crmStats.conversionRateChange >= 0
-                      ? <TrendingUp className="h-3 w-3" />
-                      : <TrendingDown className="h-3 w-3" />}
-                    <span>{crmStats.conversionRateChange >= 0 ? "+" : ""}{crmStats.conversionRateChange}% vs mês anterior</span>
+                      ? <TrendingUp className="h-2 w-2" />
+                      : <TrendingDown className="h-2 w-2" />}
+                    <span>{crmStats.conversionRateChange >= 0 ? "+" : ""}{crmStats.conversionRateChange}%</span>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                  <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
                 )}
               </div>
-              <div className="bg-orange-50 p-2.5 rounded-xl">
-                <Target className="h-5 w-5 text-orange-500" />
+              <div className="bg-orange-50 p-1.5 rounded-lg">
+                <Target className="h-3.5 w-3.5 text-orange-500" />
               </div>
             </div>
 
             {/* Comissão */}
-            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+            <div className="bg-white border border-gray-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between shadow-sm min-w-[140px]">
               <div>
-                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Comissão no Mês</p>
-                <p className="text-2xl font-bold text-gray-900 mt-0.5">
+                <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Comissão</p>
+                <p className="text-lg font-bold text-gray-900">
                   {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(crmStats.commission)}
                 </p>
                 {crmStats.commissionChange !== null ? (
-                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                  <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
                     crmStats.commissionChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
                     {crmStats.commissionChange >= 0
-                      ? <TrendingUp className="h-3 w-3" />
-                      : <TrendingDown className="h-3 w-3" />}
-                    <span>{crmStats.commissionChange >= 0 ? "+" : ""}{crmStats.commissionChange}% vs mês anterior</span>
+                      ? <TrendingUp className="h-2 w-2" />
+                      : <TrendingDown className="h-2 w-2" />}
+                    <span>{crmStats.commissionChange >= 0 ? "+" : ""}{crmStats.commissionChange}%</span>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                  <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
                 )}
               </div>
-              <div className="bg-green-50 p-2.5 rounded-xl">
-                <Banknote className="h-5 w-5 text-green-500" />
+              <div className="bg-green-50 p-1.5 rounded-lg">
+                <Banknote className="h-3.5 w-3.5 text-green-500" />
               </div>
             </div>
           </div>
@@ -571,7 +596,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                           </button>
                                           {lead.status !== "converted" && lead.status !== "lost" && (
                                             <>
-                                              <button onClick={() => { handleGenerateLink(lead.id); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                              <button onClick={() => { handleGenerateLink(lead.id); setActionMenuLead(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <Link2 className="h-4 w-4 text-blue-500" /> Link de matrícula
                                               </button>
                                               <button onClick={() => { setShowValueModal(lead); setNewValue(String(lead.courseValue || "")); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
@@ -586,6 +611,15 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                               </button>
                                               <button onClick={() => { setShowLossModal(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-red-600">
                                                 <XCircle className="h-4 w-4" /> Marcar perdido
+                                              </button>
+                                            </>
+                                          )}
+                                          
+                                          {/* Botão de comissão manual para leads convertidos (apenas admin) */}
+                                          {lead.status === "converted" && currentUser.role === "admin" && (
+                                            <>
+                                              <button onClick={() => { setShowCommissionModal(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-orange-600">
+                                                <DollarSign className="h-4 w-4 text-orange-500" /> Adicionar Comissão
                                               </button>
                                             </>
                                           )}
@@ -937,6 +971,70 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                 className="flex-1 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
               >
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Deletar Permanentemente"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Commission Modal */}
+      {showCommissionModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCommissionModal(null); setCommissionAmount(""); }} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                <DollarSign className="h-6 w-6 text-orange-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">Adicionar Comissão Manual</h3>
+                <p className="text-sm text-gray-500">Registre a comissão para este lead convertido</p>
+              </div>
+            </div>
+
+            <div className="bg-orange-50 border border-orange-100 rounded-xl p-4">
+              <p className="text-sm text-orange-800">
+                Lead: <span className="font-bold">{showCommissionModal.name}</span>
+              </p>
+              <p className="text-sm text-orange-700 mt-1">
+                Curso: {showCommissionModal.course || "Não informado"}
+              </p>
+              <p className="text-sm text-orange-700 mt-1">
+                Vendedor: {showCommissionModal.assignedUser?.name || "Não atribuído"}
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Valor da Comissão (R$)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="5.00"
+                value={commissionAmount}
+                onChange={(e) => setCommissionAmount(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Digite o valor da comissão a ser registrada para a vendedora
+              </p>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button 
+                onClick={() => { setShowCommissionModal(null); setCommissionAmount(""); }} 
+                className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={handleAddCommission} 
+                disabled={isPending || !commissionAmount} 
+                className="flex-1 py-2.5 bg-orange-600 text-white rounded-xl text-sm font-medium hover:bg-orange-700 disabled:opacity-50 transition-colors"
+              >
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Adicionar Comissão"}
               </button>
             </div>
           </div>
