@@ -9,13 +9,14 @@ interface MatriculaFilters {
   course?: string;
   status?: string;
   modalidade?: string;
+  paymentMethod?: string;
   page?: number;
   perPage?: number;
 }
 
 export async function getMatriculas(filters: MatriculaFilters = {}) {
   try {
-    const { search, startDate, endDate, course, status, modalidade, page = 1, perPage = 20 } = filters;
+    const { search, startDate, endDate, course, status, modalidade, paymentMethod, page = 1, perPage = 20 } = filters;
     const skip = (page - 1) * perPage;
 
     const where: any = {};
@@ -32,6 +33,12 @@ export async function getMatriculas(filters: MatriculaFilters = {}) {
 
     if (course) {
       leadWhere.course = { contains: course, mode: "insensitive" };
+    }
+
+    if (paymentMethod) {
+      leadWhere.finance = {
+        paymentMethod: { contains: paymentMethod, mode: "insensitive" }
+      };
     }
 
     if (Object.keys(leadWhere).length > 0) {

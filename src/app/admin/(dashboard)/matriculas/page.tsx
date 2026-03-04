@@ -21,6 +21,7 @@ export default async function MatriculasPage({ searchParams }: PageProps) {
       course: params.course,
       status: params.status,
       modalidade: params.modalidade,
+      paymentMethod: params.paymentMethod,
       page,
     }),
     getMatriculaStats(),
@@ -41,6 +42,7 @@ export default async function MatriculasPage({ searchParams }: PageProps) {
         course: params.course || "",
         status: params.status || "",
         modalidade: params.modalidade || "",
+        paymentMethod: params.paymentMethod || "",
       }}
     />
   );

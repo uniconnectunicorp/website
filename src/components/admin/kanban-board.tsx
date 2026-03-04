@@ -16,12 +16,13 @@ import {
   getLeadsPipeline,
   updateLeadValue,
   updateLeadCourse,
+  deleteLead,
 } from "@/lib/actions/leads";
 import { LeadDetailModal } from "@/components/admin/lead-detail-modal";
 import { CourseSearchSelect } from "@/components/admin/course-search-select";
 import {
   Phone, User, Search, Loader2, Plus, MoreVertical, Link2, Eye,
-  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen,
+  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen, Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { maskPhone } from "@/lib/masks";
@@ -83,8 +84,10 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [showValueModal, setShowValueModal] = useState<Lead | null>(null);
   const [showLinkModal, setShowLinkModal] = useState<{ leadId: string; url: string } | null>(null);
   const [showCourseModal, setShowCourseModal] = useState<Lead | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState<Lead | null>(null);
 
   const isSeller = currentUser.role === "seller";
+  const canDeleteLeads = currentUser.role === "admin" || currentUser.role === "director";
 
   // Calculate conversion rate for current user (current month only)
   const calculateConversionRate = () => {
@@ -320,6 +323,19 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDeleteLead = () => {
+    if (!showDeleteModal) return;
+    startTransition(async () => {
+      const result = await deleteLead(showDeleteModal.id, currentUser.id, currentUser.role);
+      if (result && "error" in result) {
+        alert(result.error);
+      } else {
+        setShowDeleteModal(null);
+        refreshData();
+      }
+    });
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)]">
       {/* Header - Pipeline de Vendas */}
@@ -509,6 +525,14 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                           >
                                             <Phone className="h-4 w-4" /> WhatsApp
                                           </a>
+                                          {canDeleteLeads && (
+                                            <>
+                                              <div className="border-t border-gray-100 my-1" />
+                                              <button onClick={() => { setShowDeleteModal(lead); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2.5 text-red-600">
+                                                <Trash2 className="h-4 w-4" /> Deletar lead
+                                              </button>
+                                            </>
+                                          )}
                                         </div>
                                       </>,
                                       document.body
@@ -787,6 +811,47 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
               <button onClick={() => { setShowCourseModal(null); setNewCourse(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
               <button onClick={handleUpdateCourse} disabled={isPending || !newCourse.trim()} className="flex-1 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors">
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Lead Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowDeleteModal(null)} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <Trash2 className="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Deletar Lead</h2>
+                <p className="text-sm text-gray-500">Esta ação não pode ser desfeita</p>
+              </div>
+            </div>
+            <div className="bg-red-50 border border-red-100 rounded-xl p-4">
+              <p className="text-sm text-red-800">
+                Você está prestes a deletar permanentemente o lead de <span className="font-bold">{showDeleteModal.name}</span>.
+              </p>
+              <p className="text-sm text-red-700 mt-2">
+                Todos os dados relacionados (links de matrícula, matrículas, etc.) também serão removidos.
+              </p>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button 
+                onClick={() => setShowDeleteModal(null)} 
+                className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={handleDeleteLead} 
+                disabled={isPending} 
+                className="flex-1 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Deletar Permanentemente"}
               </button>
             </div>
           </div>

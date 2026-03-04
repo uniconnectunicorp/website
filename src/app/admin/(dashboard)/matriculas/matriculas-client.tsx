@@ -62,6 +62,7 @@ interface MatriculasClientProps {
     course: string;
     status: string;
     modalidade: string;
+    paymentMethod: string;
   };
 }
 
@@ -127,6 +128,7 @@ export function MatriculasClient({
     if (f.course) params.set("course", f.course);
     if (f.status) params.set("status", f.status);
     if (f.modalidade) params.set("modalidade", f.modalidade);
+    if (f.paymentMethod) params.set("paymentMethod", f.paymentMethod);
     if (page && page > 1) params.set("page", String(page));
     router.push(`/admin/matriculas?${params.toString()}`);
   };
@@ -143,12 +145,12 @@ export function MatriculasClient({
   };
 
   const clearFilters = () => {
-    const empty = { search: "", startDate: "", endDate: "", course: "", status: "", modalidade: "" };
+    const empty = { search: "", startDate: "", endDate: "", course: "", status: "", modalidade: "", paymentMethod: "" };
     setFilters(empty);
     router.push("/admin/matriculas");
   };
 
-  const hasActiveFilters = filters.search || filters.startDate || filters.endDate || filters.course || filters.status || filters.modalidade;
+  const hasActiveFilters = filters.search || filters.startDate || filters.endDate || filters.course || filters.status || filters.modalidade || filters.paymentMethod;
 
   return (
     <div className="space-y-5">
@@ -194,6 +196,18 @@ export function MatriculasClient({
           <option value="competencia">Competência</option>
         </select>
 
+        <select
+          value={filters.paymentMethod}
+          onChange={(e) => handleSelectFilter("paymentMethod", e.target.value)}
+          className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
+        >
+          <option value="">Forma de Pagamento</option>
+          <option value="Pix">Pix</option>
+          <option value="Boleto">Boleto</option>
+          <option value="Cartão">Cartão de Crédito</option>
+          <option value="Dinheiro">Dinheiro</option>
+        </select>
+
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
@@ -213,6 +227,7 @@ export function MatriculasClient({
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Aluno</th>
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Curso</th>
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Modalidade</th>
+                <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Forma Pagamento</th>
                 <th className="text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Data Matrícula</th>
                 {canManageNota && <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Nota</th>}
                 {canManageNota && <th className="text-center text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-3 py-3">Ações</th>}
@@ -245,6 +260,11 @@ export function MatriculasClient({
                     <td className="px-5 py-3.5">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium ${mc.color}`}>
                         {mc.label}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span className="text-[13px] text-gray-700">
+                        {m.lead.finance?.paymentMethod || "—"}
                       </span>
                     </td>
                     <td className="px-5 py-3.5 text-[13px] text-gray-500">
@@ -297,7 +317,7 @@ export function MatriculasClient({
                 );
               })}
               {matriculas.length === 0 && (
-                <tr><td colSpan={canManageNota ? 6 : 4} className="px-5 py-12 text-center text-gray-400 text-sm">Nenhuma matrícula encontrada</td></tr>
+                <tr><td colSpan={canManageNota ? 7 : 5} className="px-5 py-12 text-center text-gray-400 text-sm">Nenhuma matrícula encontrada</td></tr>
               )}
             </tbody>
           </table>

@@ -546,3 +546,40 @@ export async function getUsers() {
     return [];
   }
 }
+
+export async function deleteLead(leadId: string, userId: string, userRole: string) {
+  try {
+    // Only admin and director can delete leads
+    if (userRole !== "admin" && userRole !== "director") {
+      return { error: "Sem permissão para deletar leads" };
+    }
+
+    const lead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!lead) {
+      return { error: "Lead não encontrado" };
+    }
+
+    // Delete related records first
+    await prisma.enrollmentLink.deleteMany({ where: { leadId } });
+    await prisma.matricula.deleteMany({ where: { leadId } });
+    
+    // Delete the lead
+    await prisma.lead.delete({ where: { id: leadId } });
+
+    // Create log
+    if (userId) {
+      await createLog({
+        userId,
+        action: "delete_lead",
+        entity: "lead",
+        entityId: leadId,
+        description: `Lead deletado: ${lead.name} (${lead.phone})`,
+      });
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("deleteLead error:", error);
+    return { error: "Erro ao deletar lead" };
+  }
+}
