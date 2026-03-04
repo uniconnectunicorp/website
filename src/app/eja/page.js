@@ -207,7 +207,7 @@ export default function EjaPage() {
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-blue-100">Formação a partir de 4 meses</span>
+                        <span className="text-blue-100">3 atividades</span>
                       </li>
                     </ul>
                   </div>
