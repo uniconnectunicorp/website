@@ -573,7 +573,7 @@ export async function deleteLead(leadId: string, userId: string, userRole: strin
         action: "delete_lead",
         entity: "lead",
         entityId: leadId,
-        description: `Lead deletado: ${lead.name} (${lead.phone})`,
+        detail: `Lead deletado: ${lead.name} (${lead.phone})`,
       });
     }
 
