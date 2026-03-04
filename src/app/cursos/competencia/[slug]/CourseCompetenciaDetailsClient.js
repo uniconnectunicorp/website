@@ -69,7 +69,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
                 <div className="flex max-md:flex-col max-md:items-start items-center gap-4">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 backdrop-blur-sm text-blue-100 border border-white/20">
                   <Award className="h-4 w-4 mr-2" />
-                  Diploma em 5 dias úteis
+                  Diploma em 3 dias
                 </span>
                 <span className="inline-flex items-center px-4 py-1.5 bg-[#ff6600] rounded-full text-sm font-semibold text-white">
                   Competência
@@ -87,7 +87,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <div className="flex items-center text-blue-200">
                     <Clock className="h-5 w-5 mr-2" />
-                    <span>Diploma em 5 dias úteis</span>
+                    <span>Diploma em 3 dias</span>
                   </div>
                   
                   <div className="flex items-center text-blue-200">
@@ -107,7 +107,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Diploma em 5 dias úteis</span>
+                      <span className="text-blue-100">Diploma em 3 dias</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -115,7 +115,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-blue-100">Para quem possui mais de 2 anos de experiência profissional na área</span>
+                      <span className="text-blue-100">Para quem possui mais de 1 ano de experiência profissional na área</span>
                     </li>
                     <li className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2 flex-shrink-0" />
@@ -182,8 +182,8 @@ export function CourseCompetenciaDetailsClient({ course }) {
             {[
               {
                 icon: <Zap className="h-10 w-10 text-[#0b3b75]" />,
-                title: "Diploma em 5 Dias",
-                description: "Processo ágil e eficiente. Receba seu diploma técnico em até 5 dias úteis após a conclusão."
+                title: "Diploma em 3 Dias",
+                description: "Processo ágil e eficiente. Receba seu diploma técnico em até 3 dias após a conclusão."
               },
               {
                 icon: <Award className="h-10 w-10 text-[#0b3b75]" />,
@@ -193,7 +193,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
               {
                 icon: <Monitor className="h-10 w-10 text-[#0b3b75]" />,
                 title: "Experiência Profissional",
-                description: "Para quem possui mais de 2 anos de experiência profissional na área."
+                description: "Para quem possui mais de 1 ano de experiência profissional na área."
               },
               {
                 icon: <Target className="h-10 w-10 text-[#0b3b75]" />,
@@ -228,8 +228,8 @@ export function CourseCompetenciaDetailsClient({ course }) {
             {[
               { step: '1', title: 'Comprovação', description: 'Envio de documentação que comprove experiência profissional.' },
               { step: '2', title: 'Matrícula', description: 'Após a aprovação da documentação é realizada a matrícula.' },
-              { step: '3', title: 'Emissão', description: 'Após a matrícula é aguardado um prazo de 5 dias úteis para emissão do diploma.' },
-              { step: '4', title: 'Diploma', description: 'Receba seu diploma em 5 dias úteis e seja um técnico.' },
+              { step: '3', title: 'Emissão', description: 'Após a matrícula é aguardado um prazo de 3 dias para emissão do diploma.' },
+              { step: '4', title: 'Diploma', description: 'Receba seu diploma em 3 dias e seja um técnico.' },
             ].map((item, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-[#0b3b75] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
@@ -245,7 +245,13 @@ export function CourseCompetenciaDetailsClient({ course }) {
 
       <CourseFAQ type="competencia" />
 
-      <SistecAndMec />
+      <SistecAndMec instructions={{
+        titulo: "NOSSO CREDENCIAMENTO NO SISTEC - NOVA UNIDADE ESTADO DO PARÁ",
+        estado: "Pará",
+        municipio: "Marabá",
+        codigo: "57209",
+        nomeEscola: "COLÉGIO TÉCNICO GLOBAL",
+      }} />
 
       <AboutUsCourse />
 

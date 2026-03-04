@@ -300,7 +300,22 @@ export function CourseDetailsClient({ course }) {
     <CourseFAQ />
 
 
-    <SistecAndMec />
+    <SistecAndMec instructions={
+      course.minTime === 8 || course.minTime === 12
+        ? {
+            titulo: "NOSSO CREDENCIAMENTO NO SISTEC - NOVA UNIDADE ESTADO DO PARÁ",
+            estado: "Pará",
+            municipio: "PARAUAPEBAS",
+            codigo: "45630",
+            nomeEscola: "SISTEMA DE ENSINO INTEGRADO",
+          }
+        : {
+            estado: "Paraíba",
+            municipio: "João Pessoa",
+            codigo: "49045",
+            nomeEscola: "UNICORP CURSOS E CONSULTORIA EDUCACIONAL",
+          }
+    } />
 
 
           {/* Seção Modalidade por Aproveitamento */}

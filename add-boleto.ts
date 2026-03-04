@@ -31,7 +31,7 @@ async function addBoleto() {
         "createdAt", "updatedAt"
       ) VALUES (
         'pm_boleto', 'Boleto', 'boleto', NULL, true, true,
-        0, 10, 'percentage',
+        0, 5, 'fixed',
         NOW(), NOW()
       )
       ON CONFLICT (id) DO UPDATE SET
@@ -39,6 +39,7 @@ async function addBoleto() {
         type = EXCLUDED.type,
         "feePercentage" = EXCLUDED."feePercentage",
         "commissionPercentage" = EXCLUDED."commissionPercentage",
+        "commissionType" = EXCLUDED."commissionType",
         "visibleOnEnrollment" = EXCLUDED."visibleOnEnrollment",
         active = EXCLUDED.active,
         "updatedAt" = NOW()

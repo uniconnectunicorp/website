@@ -549,6 +549,76 @@ export async function getUsers() {
   }
 }
 
+export async function getCRMStats(userId: string, userRole: string) {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+
+    const isSellerOrManager = userRole === "seller" || userRole === "manager";
+    const leadFilter = isSellerOrManager ? { assignedTo: userId } : {};
+
+    const [
+      totalLeadsThisMonth,
+      totalLeadsLastMonth,
+      convertedThisMonth,
+      convertedLastMonth,
+      commissionsThisMonth,
+      commissionsLastMonth,
+    ] = await Promise.all([
+      prisma.lead.count({ where: { ...leadFilter, createdAt: { gte: startOfMonth, lte: endOfMonth } } }),
+      prisma.lead.count({ where: { ...leadFilter, createdAt: { gte: startOfLastMonth, lte: endOfLastMonth } } }),
+      prisma.lead.count({ where: { ...leadFilter, status: "converted", convertedAt: { gte: startOfMonth, lte: endOfMonth } } }),
+      prisma.lead.count({ where: { ...leadFilter, status: "converted", convertedAt: { gte: startOfLastMonth, lte: endOfLastMonth } } }),
+      prisma.finance.aggregate({
+        where: { 
+          ...(isSellerOrManager ? { userId } : {}),
+          type: "leadPayment",
+          transactionDate: { gte: startOfMonth, lte: endOfMonth },
+        },
+        _sum: { commissionAmount: true },
+      }),
+      prisma.finance.aggregate({
+        where: {
+          ...(isSellerOrManager ? { userId } : {}),
+          type: "leadPayment",
+          transactionDate: { gte: startOfLastMonth, lte: endOfLastMonth },
+        },
+        _sum: { commissionAmount: true },
+      }),
+    ]);
+
+    const conversionRate = totalLeadsThisMonth > 0
+      ? Number(((convertedThisMonth / totalLeadsThisMonth) * 100).toFixed(1))
+      : 0;
+    const conversionRateLastMonth = totalLeadsLastMonth > 0
+      ? Number(((convertedLastMonth / totalLeadsLastMonth) * 100).toFixed(1))
+      : 0;
+
+    const commissionTotal = commissionsThisMonth._sum.commissionAmount || 0;
+    const commissionLastMonthTotal = commissionsLastMonth._sum.commissionAmount || 0;
+
+    const pctChange = (curr: number, prev: number): number | null => {
+      if (prev === 0) return null;
+      return Number((((curr - prev) / prev) * 100).toFixed(1));
+    };
+
+    return {
+      totalLeads: totalLeadsThisMonth,
+      totalLeadsChange: totalLeadsLastMonth > 0 ? pctChange(totalLeadsThisMonth, totalLeadsLastMonth) : null,
+      conversionRate,
+      conversionRateChange: totalLeadsLastMonth > 0 ? pctChange(conversionRate, conversionRateLastMonth) : null,
+      commission: commissionTotal,
+      commissionChange: commissionLastMonthTotal > 0 ? pctChange(commissionTotal, commissionLastMonthTotal) : null,
+    };
+  } catch (error) {
+    console.error("getCRMStats error:", error);
+    return null;
+  }
+}
+
 export async function deleteLead(leadId: string, userId: string, userRole: string) {
   try {
     // Only admin and director can delete leads

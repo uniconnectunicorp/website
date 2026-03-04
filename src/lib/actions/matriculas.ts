@@ -21,28 +21,46 @@ export async function getMatriculas(filters: MatriculaFilters = {}) {
 
     const where: any = {};
     const leadWhere: any = {};
+    const andConditions: any[] = [];
 
     if (search) {
-      leadWhere.OR = [
-        { name: { contains: search, mode: "insensitive" } },
-        { phone: { contains: search } },
-        { email: { contains: search, mode: "insensitive" } },
-        { cpf: { contains: search } },
-      ];
+      andConditions.push({
+        OR: [
+          { name: { contains: search, mode: "insensitive" } },
+          { phone: { contains: search } },
+          { email: { contains: search, mode: "insensitive" } },
+          { cpf: { contains: search } },
+        ]
+      });
     }
 
     if (course) {
-      leadWhere.course = { contains: course, mode: "insensitive" };
+      andConditions.push({ course: { contains: course, mode: "insensitive" } });
     }
 
-    if (paymentMethod) {
-      leadWhere.finance = {
-        paymentMethod: { contains: paymentMethod, mode: "insensitive" }
-      };
+    // Validar se paymentMethod é um tipo válido
+    const validPaymentTypes = ['pix', 'credit', 'debit', 'boleto'];
+    if (paymentMethod && validPaymentTypes.includes(paymentMethod)) {
+      andConditions.push({
+        OR: [
+          { 
+            finance: { 
+              paymentMethod: { 
+                type: paymentMethod
+              } 
+            } 
+          },
+          { 
+            paymentMethod: { 
+              type: paymentMethod
+            } 
+          },
+        ]
+      });
     }
 
-    if (Object.keys(leadWhere).length > 0) {
-      where.lead = leadWhere;
+    if (andConditions.length > 0) {
+      where.lead = andConditions.length === 1 ? andConditions[0] : { AND: andConditions };
     }
 
     if (startDate || endDate) {
@@ -58,7 +76,14 @@ export async function getMatriculas(filters: MatriculaFilters = {}) {
       prisma.matricula.findMany({
         where,
         include: {
-          lead: { include: { finance: true } },
+          lead: { 
+            include: { 
+              finance: { 
+                include: { paymentMethod: true } 
+              },
+              paymentMethod: true,
+            } 
+          },
         },
         orderBy: { dataInicio: "desc" },
         skip,
@@ -105,6 +130,35 @@ export async function getMatriculaStats() {
   } catch (error) {
     console.error("getMatriculaStats error:", error);
     return { totalMatriculas: 0, ativas: 0, concluidas: 0, thisMonth: 0, totalRevenue: 0 };
+  }
+}
+
+export async function getPaymentMethodsForFilter() {
+  try {
+    const paymentMethods = await prisma.paymentMethod.findMany({
+      where: { active: true },
+      select: { type: true, name: true },
+      orderBy: { type: "asc" },
+    });
+
+    // Agrupar por tipo
+    const grouped = new Map<string, string>();
+    paymentMethods.forEach(pm => {
+      if (pm.type === 'credit') {
+        grouped.set('credit', 'Cartão de Crédito');
+      } else if (pm.type === 'debit') {
+        grouped.set('debit', 'Cartão de Débito');
+      } else if (pm.type === 'pix') {
+        grouped.set('pix', 'PIX');
+      } else if (pm.type === 'boleto') {
+        grouped.set('boleto', 'Boleto');
+      }
+    });
+
+    return Array.from(grouped.entries()).map(([type, name]) => ({ type, name }));
+  } catch (error) {
+    console.error("getPaymentMethodsForFilter error:", error);
+    return [];
   }
 }
 

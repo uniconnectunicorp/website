@@ -23,6 +23,7 @@ import { CourseSearchSelect } from "@/components/admin/course-search-select";
 import {
   Phone, User, Search, Loader2, Plus, MoreVertical, Link2, Eye,
   DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen, Trash2,
+  TrendingUp, TrendingDown, Users, Target, Banknote,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { maskPhone } from "@/lib/masks";
@@ -46,11 +47,21 @@ interface Lead {
   createdAt: string;
 }
 
+interface CRMStats {
+  totalLeads: number;
+  totalLeadsChange: number | null;
+  conversionRate: number;
+  conversionRateChange: number | null;
+  commission: number;
+  commissionChange: number | null;
+}
+
 interface KanbanBoardProps {
   initialColumns: Record<string, Lead[]>;
   sellers: { id: string; name: string }[];
   paymentMethods: any[];
   currentUser: { id: string; name: string; role: string };
+  crmStats?: CRMStats | null;
 }
 
 const columnConfig = [
@@ -67,7 +78,7 @@ function formatCurrency(v: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 }
 
-export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUser }: KanbanBoardProps) {
+export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUser, crmStats }: KanbanBoardProps) {
   const router = useRouter();
   const [columns, setColumns] = useState(initialColumns);
   const [isPending, startTransition] = useTransition();
@@ -339,17 +350,80 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)]">
       {/* Header - Pipeline de Vendas */}
-      <div className="mb-3 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Pipeline de Vendas</h1>
-        </div>
-        {isSeller && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-lg">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-medium text-orange-600 uppercase tracking-wide">Minha Taxa de Conversão</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-orange-700">{calculateConversionRate()}%</span>
-                <span className="text-[11px] text-orange-600">dos meus leads</span>
+      <div className="mb-3">
+        <h1 className="text-xl font-bold text-gray-900 mb-3">Pipeline de Vendas</h1>
+
+        {/* 3 Stats Cards */}
+        {crmStats && (
+          <div className="grid grid-cols-3 gap-3 mb-3">
+            {/* Total de Leads do Mês */}
+            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+              <div>
+                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Leads no Mês</p>
+                <p className="text-2xl font-bold text-gray-900 mt-0.5">{crmStats.totalLeads}</p>
+                {crmStats.totalLeadsChange !== null ? (
+                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                    crmStats.totalLeadsChange >= 0 ? "text-green-600" : "text-red-500"
+                  }`}>
+                    {crmStats.totalLeadsChange >= 0
+                      ? <TrendingUp className="h-3 w-3" />
+                      : <TrendingDown className="h-3 w-3" />}
+                    <span>{crmStats.totalLeadsChange >= 0 ? "+" : ""}{crmStats.totalLeadsChange}% vs mês anterior</span>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                )}
+              </div>
+              <div className="bg-blue-50 p-2.5 rounded-xl">
+                <Users className="h-5 w-5 text-blue-500" />
+              </div>
+            </div>
+
+            {/* Taxa de Conversão */}
+            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+              <div>
+                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Taxa de Conversão</p>
+                <p className="text-2xl font-bold text-gray-900 mt-0.5">{crmStats.conversionRate}%</p>
+                {crmStats.conversionRateChange !== null ? (
+                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                    crmStats.conversionRateChange >= 0 ? "text-green-600" : "text-red-500"
+                  }`}>
+                    {crmStats.conversionRateChange >= 0
+                      ? <TrendingUp className="h-3 w-3" />
+                      : <TrendingDown className="h-3 w-3" />}
+                    <span>{crmStats.conversionRateChange >= 0 ? "+" : ""}{crmStats.conversionRateChange}% vs mês anterior</span>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                )}
+              </div>
+              <div className="bg-orange-50 p-2.5 rounded-xl">
+                <Target className="h-5 w-5 text-orange-500" />
+              </div>
+            </div>
+
+            {/* Comissão */}
+            <div className="bg-white border border-gray-100 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+              <div>
+                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">Comissão no Mês</p>
+                <p className="text-2xl font-bold text-gray-900 mt-0.5">
+                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(crmStats.commission)}
+                </p>
+                {crmStats.commissionChange !== null ? (
+                  <div className={`flex items-center gap-1 mt-1 text-[11px] font-medium ${
+                    crmStats.commissionChange >= 0 ? "text-green-600" : "text-red-500"
+                  }`}>
+                    {crmStats.commissionChange >= 0
+                      ? <TrendingUp className="h-3 w-3" />
+                      : <TrendingDown className="h-3 w-3" />}
+                    <span>{crmStats.commissionChange >= 0 ? "+" : ""}{crmStats.commissionChange}% vs mês anterior</span>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-gray-400 mt-1">Mês atual</p>
+                )}
+              </div>
+              <div className="bg-green-50 p-2.5 rounded-xl">
+                <Banknote className="h-5 w-5 text-green-500" />
               </div>
             </div>
           </div>
@@ -670,26 +744,37 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                 </select>
               </div>
 
-              {/* Valor */}
-              <div className="space-y-1">
-                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Valor (R$) *</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">R$</span>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={convertValue}
-                    onChange={(e) => setConvertValue(e.target.value)}
-                    placeholder="0,00"
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                  />
-                </div>
-              </div>
+              {/* Valor (ocultar para Boleto) */}
+              {(() => {
+                const selectedPaymentMethod = paymentMethods.find((pm: any) => pm.id === selectedPM);
+                const isBoleto = selectedPaymentMethod?.type === 'boleto';
+                if (isBoleto) return null;
+                return (
+                  <div className="space-y-1">
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Valor (R$) *</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">R$</span>
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={convertValue}
+                        onChange={(e) => setConvertValue(e.target.value)}
+                        placeholder="0,00"
+                        className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                      />
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="flex gap-3 pt-2">
                 <button onClick={() => { setShowConvertModal(null); setSelectedPM(""); setConvertValue(""); setInstallments(1); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
-                <button onClick={handleConvert} disabled={isPending || !selectedPM || !convertValue} className="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-medium hover:bg-green-600 disabled:opacity-50 transition-colors">
+                <button 
+                  onClick={handleConvert} 
+                  disabled={isPending || !selectedPM || (!convertValue && paymentMethods.find((pm: any) => pm.id === selectedPM)?.type !== 'boleto')} 
+                  className="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-medium hover:bg-green-600 disabled:opacity-50 transition-colors"
+                >
                   {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Confirmar Conversão"}
                 </button>
               </div>

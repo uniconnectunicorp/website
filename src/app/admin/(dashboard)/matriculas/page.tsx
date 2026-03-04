@@ -1,4 +1,4 @@
-import { getMatriculas, getMatriculaStats } from "@/lib/actions/matriculas";
+import { getMatriculas, getMatriculaStats, getPaymentMethodsForFilter } from "@/lib/actions/matriculas";
 import { MatriculasClient } from "./matriculas-client";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -13,7 +13,7 @@ export default async function MatriculasPage({ searchParams }: PageProps) {
 
   const session = await auth.api.getSession({ headers: await headers() });
 
-  const [result, stats] = await Promise.all([
+  const [result, stats, paymentMethods] = await Promise.all([
     getMatriculas({
       search: params.search,
       startDate: params.startDate,
@@ -25,6 +25,7 @@ export default async function MatriculasPage({ searchParams }: PageProps) {
       page,
     }),
     getMatriculaStats(),
+    getPaymentMethodsForFilter(),
   ]);
 
   return (
@@ -35,6 +36,7 @@ export default async function MatriculasPage({ searchParams }: PageProps) {
       currentPage={result.currentPage}
       stats={stats}
       userRole={(session?.user as any)?.role || "seller"}
+      paymentMethods={paymentMethods}
       initialFilters={{
         search: params.search || "",
         startDate: params.startDate || "",

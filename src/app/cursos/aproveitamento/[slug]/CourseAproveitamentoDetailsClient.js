@@ -254,7 +254,12 @@ export function CourseAproveitamentoDetailsClient({ course }) {
     <CourseFAQ type="aproveitamento" />
 
 
-    <SistecAndMec />
+    <SistecAndMec instructions={{
+      estado: "Paraíba",
+      municipio: "João Pessoa",
+      codigo: "49045",
+      nomeEscola: "UNICORP CURSOS E CONSULTORIA EDUCACIONAL",
+    }} />
 
 
           {/* Seção Modalidade Regular */}

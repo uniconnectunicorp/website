@@ -1,18 +1,25 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   Search, ChevronLeft, ChevronRight, MoreHorizontal,
   FileCheck, FileX, CheckCircle2, XCircle,
 } from "lucide-react";
 import { toggleNotaEmitida } from "@/lib/actions/alunos";
+import { getMatriculas } from "@/lib/actions/matriculas";
+
+interface PaymentMethod {
+  id: string;
+  name: string;
+  type: string;
+}
 
 interface Finance {
   id: string;
   amount: number;
   installments?: number | null;
-  paymentMethod?: string | null;
+  paymentMethod?: PaymentMethod | null;
 }
 
 interface Lead {
@@ -24,6 +31,7 @@ interface Lead {
   course?: string | null;
   courseValue?: number | null;
   finance?: Finance | null;
+  paymentMethod?: PaymentMethod | null;
 }
 
 interface Matricula {
@@ -55,6 +63,7 @@ interface MatriculasClientProps {
     totalRevenue: number;
   };
   userRole: string;
+  paymentMethods: { type: string; name: string }[];
   initialFilters: {
     search: string;
     startDate: string;
@@ -88,20 +97,43 @@ const modalidadeConfig: Record<string, { label: string; color: string }> = {
 
 export function MatriculasClient({
   matriculas: initialMatriculas,
-  total,
-  pages,
-  currentPage,
+  total: initialTotal,
+  pages: initialPages,
+  currentPage: initialCurrentPage,
   stats,
   userRole,
+  paymentMethods,
   initialFilters,
 }: MatriculasClientProps) {
   const router = useRouter();
   const [filters, setFilters] = useState(initialFilters);
   const [matriculas, setMatriculas] = useState(initialMatriculas);
+  const [total, setTotal] = useState(initialTotal);
+  const [pages, setPages] = useState(initialPages);
+  const [currentPage, setCurrentPage] = useState(initialCurrentPage);
   const [isPending, startTransition] = useTransition();
   const [openActions, setOpenActions] = useState<string | null>(null);
 
   const canManageNota = ["admin", "director", "finance"].includes(userRole);
+
+  const fetchMatriculas = useCallback((f: typeof initialFilters, page: number = 1) => {
+    startTransition(async () => {
+      const result = await getMatriculas({
+        search: f.search || undefined,
+        startDate: f.startDate || undefined,
+        endDate: f.endDate || undefined,
+        course: f.course || undefined,
+        status: f.status || undefined,
+        modalidade: f.modalidade || undefined,
+        paymentMethod: f.paymentMethod || undefined,
+        page,
+      });
+      setMatriculas(result.data as any);
+      setTotal(result.total);
+      setPages(result.pages);
+      setCurrentPage(result.currentPage);
+    });
+  }, []);
 
   const handleToggleNota = (matriculaId: string, leadId: string, currentNota: boolean) => {
     setOpenActions(null);
@@ -119,35 +151,25 @@ export function MatriculasClient({
     });
   };
 
-  const applyFilters = (newFilters?: typeof filters, page?: number) => {
-    const f = newFilters || filters;
-    const params = new URLSearchParams();
-    if (f.search) params.set("search", f.search);
-    if (f.startDate) params.set("startDate", f.startDate);
-    if (f.endDate) params.set("endDate", f.endDate);
-    if (f.course) params.set("course", f.course);
-    if (f.status) params.set("status", f.status);
-    if (f.modalidade) params.set("modalidade", f.modalidade);
-    if (f.paymentMethod) params.set("paymentMethod", f.paymentMethod);
-    if (page && page > 1) params.set("page", String(page));
-    router.push(`/admin/matriculas?${params.toString()}`);
-  };
-
   const handleSelectFilter = (key: string, value: string) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    applyFilters(newFilters);
+    fetchMatriculas(newFilters, 1);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    applyFilters();
+    fetchMatriculas(filters, 1);
   };
 
   const clearFilters = () => {
     const empty = { search: "", startDate: "", endDate: "", course: "", status: "", modalidade: "", paymentMethod: "" };
     setFilters(empty);
-    router.push("/admin/matriculas");
+    fetchMatriculas(empty, 1);
+  };
+
+  const handlePageChange = (page: number) => {
+    fetchMatriculas(filters, page);
   };
 
   const hasActiveFilters = filters.search || filters.startDate || filters.endDate || filters.course || filters.status || filters.modalidade || filters.paymentMethod;
@@ -202,10 +224,11 @@ export function MatriculasClient({
           className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400"
         >
           <option value="">Forma de Pagamento</option>
-          <option value="Pix">Pix</option>
-          <option value="Boleto">Boleto</option>
-          <option value="Cartão">Cartão de Crédito</option>
-          <option value="Dinheiro">Dinheiro</option>
+          {paymentMethods.map((pm) => (
+            <option key={pm.type} value={pm.type}>
+              {pm.name}
+            </option>
+          ))}
         </select>
 
         {hasActiveFilters && (
@@ -264,7 +287,7 @@ export function MatriculasClient({
                     </td>
                     <td className="px-5 py-3.5">
                       <span className="text-[13px] text-gray-700">
-                        {m.lead.finance?.paymentMethod || "—"}
+                        {m.lead.finance?.paymentMethod?.name || m.lead.paymentMethod?.name || "—"}
                       </span>
                     </td>
                     <td className="px-5 py-3.5 text-[13px] text-gray-500">
@@ -331,7 +354,7 @@ export function MatriculasClient({
           {pages > 1 && (
             <div className="flex items-center gap-1">
               <button
-                onClick={() => applyFilters(undefined, currentPage - 1)}
+                onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage <= 1}
                 className="p-1.5 border border-gray-200 rounded-md text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
@@ -340,7 +363,7 @@ export function MatriculasClient({
               {Array.from({ length: Math.min(pages, 5) }, (_, i) => i + 1).map((p) => (
                 <button
                   key={p}
-                  onClick={() => applyFilters(undefined, p)}
+                  onClick={() => handlePageChange(p)}
                   className={`w-7 h-7 rounded-md text-[12px] font-medium transition-colors ${
                     p === currentPage
                       ? "bg-orange-500 text-white"
@@ -351,7 +374,7 @@ export function MatriculasClient({
                 </button>
               ))}
               <button
-                onClick={() => applyFilters(undefined, currentPage + 1)}
+                onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage >= pages}
                 className="p-1.5 border border-gray-200 rounded-md text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
