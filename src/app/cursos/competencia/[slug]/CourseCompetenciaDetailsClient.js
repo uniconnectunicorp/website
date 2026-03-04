@@ -228,7 +228,7 @@ export function CourseCompetenciaDetailsClient({ course }) {
             {[
               { step: '1', title: 'Comprovação', description: 'Envio de documentação que comprove experiência profissional.' },
               { step: '2', title: 'Matrícula', description: 'Após a aprovação da documentação é realizada a matrícula.' },
-              { step: '3', title: 'Atividades', description: 'Realize provas de 10 questões de múltipla escolha.' },
+              { step: '3', title: 'Atividades', description: 'Realize 3 provas de 10 questões de múltipla escolha.' },
               { step: '4', title: 'Diploma', description: 'Receba seu diploma em 3 dias e seja um técnico.' },
             ].map((item, index) => (
               <div key={index} className="text-center">

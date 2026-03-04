@@ -47,6 +47,47 @@ function InfoRow({ icon: Icon, label, value }: { icon: any; label: string; value
   );
 }
 
+// Função para traduzir ações do histórico
+function translateAction(action: string): string {
+  // Ações específicas primeiro (prioridade alta)
+  if (action.includes("Lead criado manualmente")) {
+    return "Lead criado manualmente";
+  }
+  
+  if (action.includes("Nota fiscal emitida")) {
+    return action;
+  }
+  
+  if (action.includes("Nota fiscal removida")) {
+    return action;
+  }
+  
+  // Corrigir texto de boleto - remover "1x"
+  if (action.includes("Pagamento: Boleto - 1x")) {
+    return action.replace("Pagamento: Boleto - 1x", "Pagamento: Boleto");
+  }
+  
+  // Traduzir status changes - usar regex para capturar o status após "para"
+  const statusMatch = action.match(/Status alterado para[:\s]*(.+)/i);
+  if (statusMatch) {
+    const status = statusMatch[1].trim();
+    const statusTranslations: Record<string, string> = {
+      "pending": "Lead Criado",
+      "contacted": "Contato Realizado", 
+      "negotiating": "Proposta Enviada",
+      "confirmPayment": "Em Negociação",
+      "enrolled": "Aguard. Pagamento",
+      "converted": "Convertido",
+      "lost": "Perdido"
+    };
+    
+    return statusTranslations[status] || action;
+  }
+  
+  // Se não for nenhuma das acima, retorna original
+  return action;
+}
+
 export default async function MatriculaDetailPage({
   params,
 }: {
@@ -66,7 +107,7 @@ export default async function MatriculaDetailPage({
   const paymentMethodName = (finance as any)?.paymentMethod?.name ?? null;
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link
@@ -164,7 +205,7 @@ export default async function MatriculaDetailPage({
                     <div key={h.id} className="relative flex items-start gap-3 pl-8">
                       <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-white border-2 border-orange-400 shrink-0" />
                       <div className="min-w-0 flex-1">
-                        <p className="text-[13px] text-gray-700">{h.action}</p>
+                        <p className="text-[13px] text-gray-700">{translateAction(h.action)}</p>
                         <p className="text-[11px] text-gray-400 mt-0.5">
                           {new Date(h.createdAt).toLocaleString("pt-BR", {
                             day: "2-digit", month: "2-digit", year: "numeric",
@@ -217,12 +258,7 @@ export default async function MatriculaDetailPage({
             </h2>
             <div>
               <InfoRow icon={CreditCard} label="Valor" value={fmt(valor)} />
-              {finance?.netAmount && finance.netAmount !== valor && (
-                <InfoRow icon={CreditCard} label="Valor Líquido" value={fmt(finance.netAmount)} />
-              )}
-              {finance?.feeAmount && finance.feeAmount > 0 && (
-                <InfoRow icon={CreditCard} label="Taxa" value={fmt(finance.feeAmount)} />
-              )}
+                          
               {paymentMethodName && (
                 <InfoRow icon={CreditCard} label="Forma de Pagamento" value={paymentMethodName} />
               )}

@@ -49,8 +49,8 @@ const roleLabels: Record<string, string> = {
 const navItems: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "director", "finance"], permKey: "dashboard" },
   { href: "/admin/crm-pipeline", label: "CRM", icon: Kanban, roles: ["admin", "director", "manager", "seller"], permKey: "crm" },
-  { href: "/admin/relatorios", label: "Relatórios", icon: BarChart3, roles: ["admin", "director", "manager", "finance"], permKey: "relatorios" },
   { href: "/admin/matriculas", label: "Matrículas", icon: FileText, roles: ["admin", "director", "manager"], permKey: "matriculas" },
+  { href: "/admin/relatorios", label: "Relatórios", icon: BarChart3, roles: ["admin", "director", "manager", "finance"], permKey: "relatorios" },
   { href: "/admin/financeiro", label: "Financeiro", icon: DollarSign, roles: ["admin", "director", "finance"], permKey: "financeiro" },
   { href: "/admin/usuarios", label: "Permissões", icon: Settings, roles: ["admin", "director", "manager"] },
   { href: "/admin/logs", label: "Logs", icon: Activity, roles: ["admin"] },
