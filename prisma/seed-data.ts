@@ -114,6 +114,7 @@ async function seedPaymentMethods() {
     { id: 'pm_credit_10x',name: 'Cartão de Crédito 10x', type: 'credit' as const, maxInstallments: 10,   feePercentage: 12.49, commissionPercentage: 5,  visibleOnEnrollment: true },
     { id: 'pm_credit_12x',name: 'Cartão de Crédito 12x', type: 'credit' as const, maxInstallments: 12,   feePercentage: 14.49, commissionPercentage: 4,  visibleOnEnrollment: true },
     { id: 'pm_debit',     name: 'Cartão de Débito',      type: 'debit'  as const, maxInstallments: 1,    feePercentage: 1.99,  commissionPercentage: 8,  visibleOnEnrollment: true },
+    { id: 'pm_boleto',    name: 'Boleto',                type: 'boleto' as const, maxInstallments: null, feePercentage: 0,     commissionPercentage: 10, visibleOnEnrollment: true },
   ]
   for (const m of methods) {
     await prisma.paymentMethod.upsert({

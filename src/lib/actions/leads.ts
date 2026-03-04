@@ -170,24 +170,26 @@ export async function convertLead(
       },
     });
 
-    // Create finance entry
-    await prisma.finance.create({
-      data: {
-        id: crypto.randomUUID(),
-        leadId,
-        amount,
-        netAmount,
-        feeAmount,
-        commissionAmount,
-        installments,
-        type: "leadPayment",
-        category: "matricula",
-        description: `Matrícula ${numero} - ${lead.course || "Curso"}`,
-        userId: lead.assignedTo || userId,
-        paymentMethodId,
-        transactionDate: new Date(),
-      },
-    });
+    // Create finance entry (não criar para Boleto - valor não entra no sistema)
+    if (pm.type !== "boleto") {
+      await prisma.finance.create({
+        data: {
+          id: crypto.randomUUID(),
+          leadId,
+          amount,
+          netAmount,
+          feeAmount,
+          commissionAmount,
+          installments,
+          type: "leadPayment",
+          category: "matricula",
+          description: `Matrícula ${numero} - ${lead.course || "Curso"}`,
+          userId: lead.assignedTo || userId,
+          paymentMethodId,
+          transactionDate: new Date(),
+        },
+      });
+    }
 
     // History
     await prisma.leadHistory.create({

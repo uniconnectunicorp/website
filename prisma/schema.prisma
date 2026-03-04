@@ -288,6 +288,7 @@ enum PaymentType {
   pix
   credit
   debit
+  boleto
 }
 
 enum LeadStatus {
