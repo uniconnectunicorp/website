@@ -22,7 +22,7 @@ import { LeadDetailModal } from "@/components/admin/lead-detail-modal";
 import { CourseSearchSelect } from "@/components/admin/course-search-select";
 import {
   Phone, User, Search, Loader2, Plus, MoreVertical, Link2, Eye,
-  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen, Trash2,
+  DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen, Trash2, CreditCard,
   TrendingUp, TrendingDown, Users, Target, Banknote,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
