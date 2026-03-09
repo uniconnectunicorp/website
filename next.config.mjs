@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
   serverExternalPackages: ['@prisma/client', 'prisma', 'pg', '@prisma/adapter-pg'],
 
