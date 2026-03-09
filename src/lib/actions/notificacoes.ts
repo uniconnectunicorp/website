@@ -45,7 +45,7 @@ export async function criarNotificacao(data: {
   userId: string;
   titulo: string;
   mensagem: string;
-  tipo?: string;
+  tipo?: "info" | "sucesso" | "alerta" | "erro";
   linkUrl?: string | null;
 }) {
   try {
@@ -55,7 +55,7 @@ export async function criarNotificacao(data: {
         userId: data.userId,
         titulo: data.titulo,
         mensagem: data.mensagem,
-        tipo: (data.tipo as any) || "info",
+        tipo: data.tipo || "info",
         linkUrl: data.linkUrl || null,
       },
     });

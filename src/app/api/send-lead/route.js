@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendLeadFallback } from '@/lib/leadFallback';
 import { prisma } from '@/lib/prisma';
 import { criarNotificacao } from '@/lib/actions/notificacoes';
+import { publishCRMEvent } from '@/lib/realtime-crm';
 
 // Map seller names to Prisma user IDs (will try to find by name)
 async function findOrAssignSeller(responsavel) {
@@ -41,6 +42,7 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
       if (!existing.message && message) updates.message = message;
       if (Object.keys(updates).length > 0) {
         await prisma.lead.update({ where: { id: existing.id }, data: updates });
+        await publishCRMEvent({ type: 'lead_pipeline_changed', leadId: existing.id });
       }
       return existing.id;
     }
@@ -90,10 +92,12 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
         userId: sellerId,
         titulo: "Novo lead chegou!",
         mensagem: `${name} entrou em contato via site${course ? ` — ${course}` : ""}.`,
-        tipo: "lead",
+        tipo: "alerta",
         linkUrl: "/admin/crm-pipeline",
       });
     }
+
+    await publishCRMEvent({ type: 'lead_pipeline_changed', leadId: lead.id });
 
     return lead.id;
   } catch (error) {
