@@ -7,8 +7,11 @@ const globalForPrisma = globalThis as unknown as {
     pool: pg.Pool | undefined
 }
 
-// Usa Transaction Mode (porta 6543) quando disponível, fallback para a URL normal
-const connectionString = process.env.CRM_DATABASE_URL || process.env.DIRECT_URL
+const connectionString = process.env.CRM_DATABASE_URL
+
+if (!connectionString) {
+  throw new Error('CRM_DATABASE_URL não configurada para o Prisma runtime')
+}
 
 function getPoolerUrl(url: string): string {
   // Troca porta 5432 (Session Mode) por 6543 (Transaction Mode) se Supabase Pooler
@@ -18,7 +21,7 @@ function getPoolerUrl(url: string): string {
   return url
 }
 
-const poolerUrl = getPoolerUrl(connectionString!)
+const poolerUrl = getPoolerUrl(connectionString)
 
 const pool = globalForPrisma.pool ?? new pg.Pool({
     connectionString: poolerUrl,
