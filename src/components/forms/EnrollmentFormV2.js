@@ -57,6 +57,8 @@ export function EnrollmentFormV2({
   compact = false
 }) {
   const [isMounted, setIsMounted] = useState(false);
+  const [hasCompletedElementarySchool, setHasCompletedElementarySchool] = useState('');
+  const isEjaCourse = courseName?.toLowerCase().includes('eja') || courseTitle?.toLowerCase().includes('eja');
   
   const router = useRouter();
 
@@ -99,6 +101,11 @@ export function EnrollmentFormV2({
                      watchFields.phone;
 
   const onSubmit = (data) => {
+    if (isEjaCourse && hasCompletedElementarySchool !== 'sim') {
+      toast.error('Me desculpe mas nosso EJA é obrigatório possuir o ensino fundamental completo');
+      return;
+    }
+
     // Salva nome e telefone no localStorage para rastreamento no fallback do WhatsApp
     try {
       localStorage.setItem('lead_name', data.name);
@@ -298,12 +305,49 @@ export function EnrollmentFormV2({
               </p>
             )}
           </div>
+
+          {isEjaCourse && (
+            <div>
+              <label className={`block text-sm font-medium ${blackText ? 'text-black' : 'text-white'} mb-3`}>
+                Você tem o ensino fundamental completo? <span className="text-red-500">*</span>
+              </label>
+              <div className="space-y-3 rounded-lg border border-gray-200 bg-white p-4">
+                <label className="flex items-center gap-3 text-sm text-gray-700">
+                  <input
+                    type="radio"
+                    name="hasCompletedElementarySchool"
+                    value="sim"
+                    checked={hasCompletedElementarySchool === 'sim'}
+                    onChange={(e) => setHasCompletedElementarySchool(e.target.value)}
+                    className="h-4 w-4 text-[#0b3b75] focus:ring-[#0b3b75]"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label className="flex items-center gap-3 text-sm text-gray-700">
+                  <input
+                    type="radio"
+                    name="hasCompletedElementarySchool"
+                    value="nao"
+                    checked={hasCompletedElementarySchool === 'nao'}
+                    onChange={(e) => setHasCompletedElementarySchool(e.target.value)}
+                    className="h-4 w-4 text-[#0b3b75] focus:ring-[#0b3b75]"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+              {hasCompletedElementarySchool === 'nao' && (
+                <p className="mt-3 text-sm text-red-600">
+                  Me desculpe mas nosso EJA é obrigatório possuir o ensino fundamental completo
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="pt-6 space-y-4">
           <Button
             type="submit"
-            disabled={isSubmitting || !isFormValid}
+            disabled={isSubmitting || !isFormValid || (isEjaCourse && hasCompletedElementarySchool === 'nao')}
             className={`w-full flex justify-center items-center py-5 text-base font-bold rounded-lg
               bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black
               focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2

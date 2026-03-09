@@ -66,12 +66,10 @@ const estadosCivis = [
 
 export function MatricularClient({ token, lead, sellerName, paymentMethods }: MatricularClientProps) {
   const router = useRouter();
-  const isEjaCourse = lead.modalidade === "eja" || lead.course?.toLowerCase().includes("eja");
   const [loading, setLoading] = useState(false);
   const [loadingCep, setLoadingCep] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [hasCompletedElementarySchool, setHasCompletedElementarySchool] = useState<string>("");
 
   const [form, setForm] = useState({
     fullName: lead.name || "",
@@ -125,10 +123,6 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     e.preventDefault();
     if (!form.fullName || !form.phone || !form.cpf) {
       setError("Preencha todos os campos obrigatórios.");
-      return;
-    }
-    if (isEjaCourse && hasCompletedElementarySchool !== "sim") {
-      setError("Me desculpe mas nosso EJA é obrigatório possuir o ensino fundamental completo");
       return;
     }
     setError("");
@@ -255,46 +249,6 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                     <input name="email" type="email" value={form.email} onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0b3b75]/20 focus:border-[#0b3b75]" />
                   </div>
-                  {isEjaCourse && (
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-3">Você tem o ensino fundamental completo? *</label>
-                      <div className="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
-                        <label className="flex items-center gap-3 text-sm text-gray-700">
-                          <input
-                            type="radio"
-                            name="hasCompletedElementarySchool"
-                            value="sim"
-                            checked={hasCompletedElementarySchool === "sim"}
-                            onChange={(e) => {
-                              setHasCompletedElementarySchool(e.target.value);
-                              setError("");
-                            }}
-                            className="h-4 w-4 text-[#0b3b75] focus:ring-[#0b3b75]"
-                          />
-                          <span>Sim</span>
-                        </label>
-                        <label className="flex items-center gap-3 text-sm text-gray-700">
-                          <input
-                            type="radio"
-                            name="hasCompletedElementarySchool"
-                            value="nao"
-                            checked={hasCompletedElementarySchool === "nao"}
-                            onChange={(e) => {
-                              setHasCompletedElementarySchool(e.target.value);
-                              setError("Me desculpe mas nosso EJA é obrigatório possuir o ensino fundamental completo");
-                            }}
-                            className="h-4 w-4 text-[#0b3b75] focus:ring-[#0b3b75]"
-                          />
-                          <span>Não</span>
-                        </label>
-                      </div>
-                      {hasCompletedElementarySchool === "nao" && (
-                        <p className="mt-3 text-sm text-red-600">
-                          Me desculpe mas nosso EJA é obrigatório possuir o ensino fundamental completo
-                        </p>
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -365,7 +319,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
               {/* Submit */}
               <button
                 type="submit"
-                disabled={loading || (isEjaCourse && hasCompletedElementarySchool === "nao")}
+                disabled={loading}
                 className="w-full py-4 bg-gradient-to-r from-[#0b3b75] to-[#1e40af] text-white rounded-xl font-bold text-lg hover:shadow-lg hover:scale-[1.01] transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
               >
                 {loading ? (
