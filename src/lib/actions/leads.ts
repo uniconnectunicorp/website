@@ -291,6 +291,99 @@ export async function addLeadNote(leadId: string, note: string) {
   }
 }
 
+export async function updateLeadCourse(leadId: string, course: string, userId: string) {
+  try {
+    const lead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!lead) return null;
+
+    const updated = await prisma.lead.update({
+      where: { id: leadId },
+      data: { course },
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId,
+        action: `Curso alterado de "${lead.course || "—"}" para "${course}"`,
+        userId,
+      },
+    });
+
+    await notifyCRMLeadChanged(leadId);
+
+    return updated;
+  } catch (error) {
+    console.error("updateLeadCourse error:", error);
+    return null;
+  }
+}
+
+export async function addLeadManually(data: {
+  name: string;
+  phone: string;
+  course?: string;
+  modalidade?: string;
+  assignedTo: string;
+}) {
+  try {
+    const normalized = data.phone.replace(/\D/g, "");
+    const existing = await prisma.lead.findFirst({
+      where: { phone: { contains: normalized } },
+    });
+
+    if (existing) {
+      return { error: "Já existe um lead com este telefone", existingId: existing.id };
+    }
+
+    const lead = await prisma.lead.create({
+      data: {
+        id: crypto.randomUUID(),
+        name: data.name,
+        phone: data.phone,
+        course: data.course || null,
+        modalidade: data.modalidade as any || null,
+        assignedTo: data.assignedTo,
+        source: "manual",
+        status: "pending",
+      },
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId: lead.id,
+        action: "Lead criado manualmente",
+        toStatus: "pending",
+        userId: data.assignedTo,
+      },
+    });
+
+    await createLog({
+      action: "Lead criado manualmente",
+      entity: "lead",
+      entityId: lead.id,
+      detail: `${data.name} — ${data.phone}${data.course ? ` — ${data.course}` : ""}`,
+      userId: data.assignedTo,
+    });
+
+    await criarNotificacao({
+      userId: data.assignedTo,
+      titulo: "Novo lead adicionado!",
+      mensagem: `${data.name} foi adicionado como novo lead${data.course ? ` — ${data.course}` : ""}.`,
+      tipo: "info",
+      linkUrl: "/admin/crm-pipeline",
+    });
+
+    await notifyCRMLeadChanged(lead.id);
+
+    return { success: true, lead };
+  } catch (error) {
+    console.error("addLeadManually error:", error);
+    return { error: "Erro ao criar lead" };
+  }
+}
+
 export async function mergeLeads(keepId: string, removeId: string, userId: string) {
   try {
     const remove = await prisma.lead.findUnique({ where: { id: removeId } });
