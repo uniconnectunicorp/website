@@ -1,23 +1,18 @@
 import { NextResponse } from 'next/server';
-import { query, initDb } from '@/lib/db';
-
-let dbInitialized = false;
-async function ensureDb() {
-  if (!dbInitialized) {
-    await initDb();
-    dbInitialized = true;
-  }
-}
+import { isLeadDistributionEnabled, trackWhatsappClick } from '@/lib/lead-distribution';
 
 export async function GET() {
   try {
-    await ensureDb();
-    const result = await query('SELECT counter FROM lead_counter WHERE id = 1');
-    const counter = result.rows[0]?.counter || 0;
-    
+    if (!isLeadDistributionEnabled()) {
+      return NextResponse.json(
+        { success: false, error: 'Distribuição de leads v2 não está ativada' },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json({ 
       success: true, 
-      counter: parseInt(counter, 10)
+      counter: null
     });
   } catch (error) {
     console.error('Erro ao obter contador:', error);
@@ -30,30 +25,22 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    await ensureDb();
-    const { number } = await request.json();
-    
-    // Apenas registra o log do clique no WhatsApp
-    // NÃO incrementa o lead_counter aqui - isso já é feito na lead-session
-    await query(
-      'INSERT INTO whatsapp_logs (date, time, number) VALUES ($1, $2, $3)',
-      [
-        new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-        new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-        number
-      ]
-    );
-    
-    // Remove logs antigos (mantém apenas os 1000 mais recentes)
-    await query(`
-      DELETE FROM whatsapp_logs 
-      WHERE id NOT IN (
-        SELECT id 
-        FROM whatsapp_logs 
-        ORDER BY id DESC 
-        LIMIT 1000
-      )
-    `);
+    const { number, sessionId, responsavel, leadName, leadPhone } = await request.json();
+
+    if (!isLeadDistributionEnabled()) {
+      return NextResponse.json(
+        { success: false, error: 'Distribuição de leads v2 não está ativada' },
+        { status: 503 }
+      );
+    }
+
+    await trackWhatsappClick({
+      sessionId,
+      responsavel,
+      number,
+      leadName,
+      leadPhone,
+    });
     
     return NextResponse.json({ 
       success: true

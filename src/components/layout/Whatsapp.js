@@ -72,17 +72,12 @@ export const handleWhatsappClick = async () => {
         fetch('/api/whatsapp-counter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ number: selectedNumber })
-        }),
-        fetch('/api/whatsapp-fallback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            sessionId, 
-            responsavel, 
+          body: JSON.stringify({
+            sessionId,
+            responsavel,
             number: selectedNumber,
             leadName,
-            leadPhone
+            leadPhone,
           })
         })
       ]).catch(() => {});

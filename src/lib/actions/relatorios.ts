@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { isLeadDistributionEnabled } from "@/lib/lead-distribution";
 
 export async function getPerformanceReport(startDate: Date, endDate: Date) {
   try {
@@ -245,9 +246,87 @@ export async function getLossReasonsReport(startDate: Date, endDate: Date) {
   }
 }
 
+export async function getLeadDistributionReport(startDate: Date, endDate: Date) {
+  try {
+    if (!isLeadDistributionEnabled()) {
+      return {
+        totals: { sessions: 0, whatsappClicks: 0, emails: 0, duplicates: 0 },
+        sellers: [],
+      };
+    }
+
+    const sellers = await prisma.user.findMany({
+      where: { role: "seller" as any, active: true },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    });
+
+    const [sessionsGrouped, eventsGrouped] = await Promise.all([
+      prisma.leadSession.groupBy({
+        by: ["sellerId"],
+        where: {
+          createdAt: { gte: startDate, lte: endDate },
+        },
+        _count: { _all: true },
+      }),
+      prisma.leadDistributionEvent.groupBy({
+        by: ["sellerId", "eventType"],
+        where: {
+          createdAt: { gte: startDate, lte: endDate },
+          eventType: { in: ["whatsapp_click", "lead_email_sent", "duplicate_phone_detected"] },
+        },
+        _count: { _all: true },
+      }),
+    ]);
+
+    const sessionMap = new Map<string, number>();
+    for (const row of sessionsGrouped) {
+      if (row.sellerId) sessionMap.set(row.sellerId, row._count._all);
+    }
+
+    const eventMap = new Map<string, { whatsappClicks: number; emails: number; duplicates: number }>();
+    for (const row of eventsGrouped) {
+      if (!row.sellerId) continue;
+      const current = eventMap.get(row.sellerId) || { whatsappClicks: 0, emails: 0, duplicates: 0 };
+      if (row.eventType === "whatsapp_click") current.whatsappClicks = row._count._all;
+      if (row.eventType === "lead_email_sent") current.emails = row._count._all;
+      if (row.eventType === "duplicate_phone_detected") current.duplicates = row._count._all;
+      eventMap.set(row.sellerId, current);
+    }
+
+    const sellerRows = sellers.map((seller) => {
+      const events = eventMap.get(seller.id) || { whatsappClicks: 0, emails: 0, duplicates: 0 };
+      return {
+        sellerId: seller.id,
+        sellerName: seller.name || "Sem nome",
+        sessions: sessionMap.get(seller.id) || 0,
+        whatsappClicks: events.whatsappClicks,
+        emails: events.emails,
+        duplicates: events.duplicates,
+      };
+    });
+
+    return {
+      totals: {
+        sessions: sellerRows.reduce((sum, item) => sum + item.sessions, 0),
+        whatsappClicks: sellerRows.reduce((sum, item) => sum + item.whatsappClicks, 0),
+        emails: sellerRows.reduce((sum, item) => sum + item.emails, 0),
+        duplicates: sellerRows.reduce((sum, item) => sum + item.duplicates, 0),
+      },
+      sellers: sellerRows,
+    };
+  } catch (error) {
+    console.error("getLeadDistributionReport error:", error);
+    return {
+      totals: { sessions: 0, whatsappClicks: 0, emails: 0, duplicates: 0 },
+      sellers: [],
+    };
+  }
+}
+
 export async function getSellerDetailReport(sellerId: string, startDate: Date, endDate: Date) {
   try {
-    const [totalAssigned, converted, lost, revenueAgg, monthlyData, lossReasons, commissionsByPayment] = await Promise.all([
+    const [totalAssigned, converted, lost, revenueAgg, monthlyData, lossReasons, commissionsByPayment, leadSessionsCount, distributionEvents] = await Promise.all([
       prisma.lead.count({
         where: {
           assignedTo: sellerId,
@@ -303,6 +382,25 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
         GROUP BY pm.name
         ORDER BY commission DESC
       `, sellerId, startDate, endDate),
+      isLeadDistributionEnabled()
+        ? prisma.leadSession.count({
+            where: {
+              sellerId,
+              createdAt: { gte: startDate, lte: endDate },
+            },
+          })
+        : Promise.resolve(0),
+      isLeadDistributionEnabled()
+        ? prisma.leadDistributionEvent.groupBy({
+            by: ["eventType"],
+            where: {
+              sellerId,
+              createdAt: { gte: startDate, lte: endDate },
+              eventType: { in: ["whatsapp_click", "lead_email_sent", "duplicate_phone_detected"] },
+            },
+            _count: { _all: true },
+          })
+        : Promise.resolve([] as any[]),
     ]);
 
     const revenue = revenueAgg._sum.amount || 0;
@@ -315,6 +413,12 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
       commission: Number(i.commission),
     }));
     const totalCommission = commissionsData.reduce((sum, item) => sum + item.commission, 0);
+    const distributionCounts = { whatsappClicks: 0, emails: 0, duplicates: 0 };
+    for (const item of distributionEvents as any[]) {
+      if (item.eventType === "whatsapp_click") distributionCounts.whatsappClicks = Number(item._count?._all || 0);
+      if (item.eventType === "lead_email_sent") distributionCounts.emails = Number(item._count?._all || 0);
+      if (item.eventType === "duplicate_phone_detected") distributionCounts.duplicates = Number(item._count?._all || 0);
+    }
 
     return {
       totalAssigned,
@@ -332,6 +436,12 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
         name: i.reason,
         value: Number(i.total),
       })),
+      adminMetrics: {
+        sessions: Number(leadSessionsCount || 0),
+        whatsappClicks: distributionCounts.whatsappClicks,
+        emails: distributionCounts.emails,
+        duplicates: distributionCounts.duplicates,
+      },
       commissionsByPayment: commissionsData,
       totalCommission,
     };
@@ -341,6 +451,7 @@ export async function getSellerDetailReport(sellerId: string, startDate: Date, e
       totalAssigned: 0, converted: 0, lost: 0, revenue: 0,
       conversionRate: 0, lossRate: 0, ticketMedio: 0,
       monthlyRevenue: [], lossReasons: [],
+      adminMetrics: { sessions: 0, whatsappClicks: 0, emails: 0, duplicates: 0 },
       commissionsByPayment: [], totalCommission: 0,
     };
   }

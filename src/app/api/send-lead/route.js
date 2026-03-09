@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
-import { sendLeadFallback } from '@/lib/leadFallback';
 import { prisma } from '@/lib/prisma';
 import { criarNotificacao } from '@/lib/actions/notificacoes';
 import { publishCRMEvent } from '@/lib/realtime-crm';
+import { getOrCreateLeadSession, isLeadDistributionEnabled, trackLeadEmail } from '@/lib/lead-distribution';
 
 // Map seller names to Prisma user IDs (will try to find by name)
 async function findOrAssignSeller(responsavel) {
@@ -106,207 +105,37 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
   }
 }
 
-let dbInitialized = false;
-async function ensureDb() {
-  if (!dbInitialized) {
-    await initDb();
-    dbInitialized = true;
-  }
-}
-
-// Cache de vendedores (atualizado a cada 5 minutos)
-let sellersCache = null;
-let sellersCacheTime = 0;
-const SELLERS_CACHE_TTL = 5 * 60 * 1000; // 5 min
-
-async function getSellersForRoundRobin() {
-  const now = Date.now();
-  if (sellersCache && now - sellersCacheTime < SELLERS_CACHE_TTL) {
-    return sellersCache;
-  }
-  try {
-    const sellers = await prisma.user.findMany({
-      where: {
-        role: 'seller',
-        active: true,
-      },
-      select: { id: true, name: true },
-      orderBy: { name: 'asc' },
-    });
-    if (sellers.length > 0) {
-      sellersCache = sellers;
-      sellersCacheTime = now;
-      return sellers;
-    }
-  } catch (error) {
-    console.error('Erro ao buscar vendedores:', error);
-  }
-  // Fallback: retorna lista vazia — getProximoResponsavel trata isso
-  return sellersCache || [];
-}
-
-// Função para obter o próximo responsável e incrementar contador (operação atômica)
-async function getProximoResponsavel() {
-  try {
-    const sellers = await getSellersForRoundRobin();
-    if (sellers.length === 0) {
-      return { responsavel: 'Equipe', counterValue: null };
-    }
-    // Operação atômica: incrementa e retorna o valor ANTES do incremento
-    const result = await query(
-      'UPDATE lead_counter SET counter = counter + 1 WHERE id = 1 RETURNING counter - 1 as previous_counter, counter as new_counter'
-    );
-    const counter = result.rows[0]?.previous_counter || 0;
-    const newCounter = result.rows[0]?.new_counter || 0;
-    const selectedIndex = counter % sellers.length;
-    
-    return { responsavel: sellers[selectedIndex].name, sellerId: sellers[selectedIndex].id, counterValue: newCounter };
-  } catch (error) {
-    console.error('Erro ao obter responsável:', error);
-    const sellers = await getSellersForRoundRobin();
-    return { responsavel: sellers[0]?.name || 'Equipe', sellerId: sellers[0]?.id || null, counterValue: null };
-  }
-}
-
 // Função para verificar/criar sessão e obter responsável
 async function getResponsavelPorSessao(sessionId, phone) {
-  const normalizedPhone = phone?.replace(/\D/g, '');
-  
-  // 1. Verifica se o telefone já existe no banco
-  if (normalizedPhone) {
-    try {
-      const existingPhone = await query(
-        'SELECT responsavel, seller_id FROM lead_sessions WHERE phone = $1',
-        [normalizedPhone]
-      );
-      if (existingPhone.rows.length > 0) {
-        return {
-          responsavel: existingPhone.rows[0].responsavel,
-          sellerId: existingPhone.rows[0].seller_id || null,
-          isDuplicate: true
-        };
-      }
-    } catch {
-      // seller_id column may not exist — fallback without it
-      const existingPhone = await query(
-        'SELECT responsavel FROM lead_sessions WHERE phone = $1',
-        [normalizedPhone]
-      );
-      if (existingPhone.rows.length > 0) {
-        return { responsavel: existingPhone.rows[0].responsavel, sellerId: null, isDuplicate: true };
-      }
-    }
+  const session = await getOrCreateLeadSession({
+    sessionId,
+    phone,
+    channel: 'website',
+    source: 'website',
+  });
+
+  if (session) {
+    return {
+      responsavel: session.responsavel,
+      sellerId: session.sellerId || null,
+      isDuplicate: session.isDuplicate,
+      newSessionId: session.sessionId,
+    };
   }
-  
-  // 2. Verifica se tem sessão existente
-  if (sessionId) {
-    try {
-      const existingSession = await query(
-        'SELECT responsavel, seller_id FROM lead_sessions WHERE session_id = $1',
-        [sessionId]
-      );
-      if (existingSession.rows.length > 0) {
-        if (normalizedPhone) {
-          await query(
-            'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
-            [normalizedPhone, sessionId]
-          );
-        }
-        return {
-          responsavel: existingSession.rows[0].responsavel,
-          sellerId: existingSession.rows[0].seller_id || null,
-          isDuplicate: false
-        };
-      }
-    } catch {
-      // seller_id column may not exist — fallback without it
-      const existingSession = await query(
-        'SELECT responsavel FROM lead_sessions WHERE session_id = $1',
-        [sessionId]
-      );
-      if (existingSession.rows.length > 0) {
-        if (normalizedPhone) {
-          await query(
-            'UPDATE lead_sessions SET phone = $1 WHERE session_id = $2 AND phone IS NULL',
-            [normalizedPhone, sessionId]
-          );
-        }
-        return { responsavel: existingSession.rows[0].responsavel, sellerId: null, isDuplicate: false };
-      }
-    }
-  }
-  
-  // 3. Sessão não encontrada — tenta encontrar sessão órfã recente
-  try {
-    const orphanSession = await query(
-      `SELECT session_id, responsavel, seller_id, counter_value FROM lead_sessions 
-       WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
-       ORDER BY created_at DESC LIMIT 1`
-    );
-    if (orphanSession.rows.length > 0) {
-      const orphan = orphanSession.rows[0];
-      if (normalizedPhone) {
-        await query('UPDATE lead_sessions SET phone = $1 WHERE session_id = $2', [normalizedPhone, orphan.session_id]);
-      }
-      return { responsavel: orphan.responsavel, sellerId: orphan.seller_id || null, isDuplicate: false, newSessionId: orphan.session_id };
-    }
-  } catch {
-    // seller_id column may not exist — try without it
-    try {
-      const orphanSession = await query(
-        `SELECT session_id, responsavel, counter_value FROM lead_sessions 
-         WHERE phone IS NULL AND created_at > NOW() - INTERVAL '30 minutes'
-         ORDER BY created_at DESC LIMIT 1`
-      );
-      if (orphanSession.rows.length > 0) {
-        const orphan = orphanSession.rows[0];
-        if (normalizedPhone) {
-          await query('UPDATE lead_sessions SET phone = $1 WHERE session_id = $2', [normalizedPhone, orphan.session_id]);
-        }
-        return { responsavel: orphan.responsavel, sellerId: null, isDuplicate: false, newSessionId: orphan.session_id };
-      }
-    } catch (err) {
-      console.error('Erro ao buscar sessão órfã:', err);
-    }
-  }
-  
-  // 4. Nenhuma sessão — cria nova com round-robin
-  const { responsavel: newResponsavel, sellerId: newSellerId, counterValue: newCounterValue } = await getProximoResponsavel();
-  const newSessionId = sessionId || uuidv4();
-  
-  try {
-    await query(
-      'INSERT INTO lead_sessions (session_id, phone, responsavel, seller_id, counter_value) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (session_id) DO NOTHING',
-      [newSessionId, normalizedPhone, newResponsavel, newSellerId || null, newCounterValue]
-    );
-  } catch (err) {
-    // seller_id column may not exist yet — fallback without it
-    await query(
-      'INSERT INTO lead_sessions (session_id, phone, responsavel, counter_value) VALUES ($1, $2, $3, $4) ON CONFLICT (session_id) DO NOTHING',
-      [newSessionId, normalizedPhone, newResponsavel, newCounterValue]
-    );
-  }
-  
-  return {
-    responsavel: newResponsavel,
-    sellerId: newSellerId || null,
-    isDuplicate: false,
-    newSessionId
-  };
+
+  return null;
 }
 
 // Função para registrar log de email
-async function registrarLogEmail(responsavel, leadName) {
+async function registrarLogEmail(responsavel, leadName, extra = {}) {
   try {
-    await query(
-      'INSERT INTO email_logs (date, time, responsavel, lead_name) VALUES ($1, $2, $3, $4)',
-      [
-        new Date().toLocaleDateString('pt-BR'),
-        new Date().toLocaleTimeString('pt-BR'),
-        responsavel,
-        leadName
-      ]
-    );
+    await trackLeadEmail({
+      sessionId: extra.sessionId,
+      responsavel,
+      sellerId: extra.sellerId,
+      leadName,
+      phone: extra.phone,
+    });
   } catch (error) {
     console.error('Erro ao registrar log de email:', error);
   }
@@ -343,7 +172,13 @@ function isRateLimited(key) {
 
 export async function POST(request) {
   try {
-    await ensureDb();
+    if (!isLeadDistributionEnabled()) {
+      return NextResponse.json(
+        { error: 'Distribuição de leads v2 não está ativada' },
+        { status: 503 }
+      );
+    }
+
     const rateLimitKey = getRateLimitKey(request);
     if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(
@@ -394,33 +229,25 @@ export async function POST(request) {
     }
 
     // Obtém o responsável baseado na sessão/telefone
-    const { responsavel: responsavelAtual, sellerId: sellerIdFromSession, isDuplicate, newSessionId } = await getResponsavelPorSessao(sessionId, phone);
+    const sessionAssignment = await getResponsavelPorSessao(sessionId, phone);
+
+    if (!sessionAssignment?.responsavel) {
+      return NextResponse.json(
+        { error: 'Não foi possível atribuir um responsável para o lead' },
+        { status: 500 }
+      );
+    }
+
+    const {
+      responsavel: responsavelAtual,
+      sellerId: sellerIdFromSession,
+      isDuplicate,
+      newSessionId,
+    } = sessionAssignment;
     
     // Se for telefone duplicado, retorna sucesso mas não envia email
     if (isDuplicate) {
       console.log(`Lead duplicado ignorado: ${name} - ${phone}`);
-      
-      // Envia fallback mesmo para duplicados (para registro)
-      try {
-        const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
-        const counterVal = counterResult.rows[0]?.counter || 0;
-        const allSellers = await getSellersForRoundRobin();
-        const numResp = allSellers.findIndex(s => s.name === responsavelAtual) + 1;
-
-        await sendLeadFallback({
-          name: `[DUPLICADO] ${name}`,
-          sessionId: sessionId,
-          responsavel: responsavelAtual,
-          phone,
-          leadPhone: phone,
-          counterValue: counterVal,
-          numeroResponsavel: numResp,
-          expectedResponsavel: allSellers[(counterVal - 1) % Math.max(allSellers.length, 1)]?.name || responsavelAtual,
-          whatsappNumber: 'N/A (formulário)'
-        });
-      } catch (err) {
-        console.error('Erro no fallback duplicado:', err);
-      }
       
       return NextResponse.json(
         { 
@@ -580,7 +407,11 @@ export async function POST(request) {
     // Envia email (não-bloqueante — CRM e fallback executam mesmo se falhar)
     try {
       await transporter.sendMail(mailOptions);
-      await registrarLogEmail(responsavelAtual, name);
+      await registrarLogEmail(responsavelAtual, name, {
+        sessionId: newSessionId || sessionId,
+        sellerId: sellerIdFromSession,
+        phone,
+      });
     } catch (emailErr) {
       console.error('Erro ao enviar email (não crítico):', emailErr);
     }
@@ -595,28 +426,6 @@ export async function POST(request) {
       });
     } catch (err) {
       console.error('Erro ao salvar no Prisma CRM (não crítico):', err);
-    }
-
-    // Envia fallback para API externa com dados completos
-    try {
-      const counterResult = await query('SELECT counter FROM lead_counter WHERE id = 1');
-      const counterVal = counterResult.rows[0]?.counter || 0;
-      const allSellers = await getSellersForRoundRobin();
-      const numResp = allSellers.findIndex(s => s.name === responsavelAtual) + 1;
-
-      await sendLeadFallback({
-        name,
-        sessionId: newSessionId || sessionId,
-        responsavel: responsavelAtual,
-        phone,
-        leadPhone: phone,
-        counterValue: counterVal,
-        numeroResponsavel: numResp,
-        expectedResponsavel: allSellers[(counterVal - 1) % Math.max(allSellers.length, 1)]?.name || responsavelAtual,
-        whatsappNumber: 'N/A (formulário)'
-      });
-    } catch (err) {
-      console.error('Erro no fallback (não crítico):', err);
     }
 
     return NextResponse.json(

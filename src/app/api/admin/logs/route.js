@@ -1,17 +1,46 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/lib/db';
+import { prisma } from '@/lib/prisma';
+import { isLeadDistributionEnabled } from '@/lib/lead-distribution';
 
 export async function GET() {
   try {
+    if (!isLeadDistributionEnabled()) {
+      return NextResponse.json(
+        { success: false, error: 'Distribuição de leads v2 não está ativada' },
+        { status: 503 }
+      );
+    }
 
-    // Obtém os logs do banco de dados
-    const result = await query(
-      'SELECT id, date, time, number, timestamp FROM whatsapp_logs ORDER BY id DESC LIMIT 1000'
-    );
-    
-    return NextResponse.json({ 
-      success: true, 
-      logs: result.rows
+    const logs = await prisma.leadDistributionEvent.findMany({
+      where: {
+        eventType: 'whatsapp_click',
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 1000,
+      select: {
+        id: true,
+        createdAt: true,
+        target: true,
+        responsavel: true,
+        leadName: true,
+        phone: true,
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      logs: logs.map((item) => ({
+        id: item.id,
+        date: new Date(item.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        time: new Date(item.createdAt).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        number: item.target,
+        timestamp: item.createdAt,
+        responsavel: item.responsavel,
+        leadName: item.leadName,
+        phone: item.phone,
+      })),
     });
     
   } catch (error) {

@@ -28,6 +28,8 @@ model User {
   accounts      Account[]
   sellerConfig  SellerConfig?
   leadsAssigned Lead[]    @relation("LeadAssignedTo")
+  leadSessions  LeadSession[] @relation("LeadSessionSeller")
+  leadDistributionEvents LeadDistributionEvent[] @relation("LeadDistributionEventSeller")
   enrollmentLinksGenerated EnrollmentLink[] @relation("EnrollmentLinkSeller")
 
   @@map("user")
@@ -214,6 +216,58 @@ model SellerConfig {
   valueLimits Json?  @default("{}")
 
   @@map("seller_config")
+}
+
+model LeadSession {
+  sessionId     String   @id
+  phone         String?
+  responsavel   String
+  sellerId      String?
+  seller        User?    @relation("LeadSessionSeller", fields: [sellerId], references: [id], onDelete: SetNull)
+  counterValue  Int?
+  channel       String   @default("website")
+  source        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  events        LeadDistributionEvent[]
+
+  @@index([phone])
+  @@index([sellerId])
+  @@index([createdAt])
+  @@map("lead_session")
+}
+
+model LeadDistributionState {
+  id           String   @id
+  counter      Int      @default(0)
+  lastSellerId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("lead_distribution_state")
+}
+
+model LeadDistributionEvent {
+  id          String      @id
+  sessionId   String?
+  session     LeadSession? @relation(fields: [sessionId], references: [sessionId], onDelete: SetNull)
+  sellerId    String?
+  seller      User?       @relation("LeadDistributionEventSeller", fields: [sellerId], references: [id], onDelete: SetNull)
+  responsavel String?
+  channel     String
+  eventType   String
+  target      String?
+  leadName    String?
+  phone       String?
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  @@index([sessionId])
+  @@index([sellerId])
+  @@index([channel])
+  @@index([eventType])
+  @@index([createdAt])
+  @@map("lead_distribution_event")
 }
 
 model PaymentMethod {

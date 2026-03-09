@@ -15,13 +15,14 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { TrendingDown, Trophy, DollarSign, Users2, Search, Target, XCircle, Percent } from "lucide-react";
+import { TrendingDown, Trophy, DollarSign, Users2, Search, Target, XCircle, Percent, MessageCircle, MousePointerClick, Mail, Copy } from "lucide-react";
 import { DateFilter } from "@/components/admin/date-filter";
 import {
   getPerformanceReport,
   getSalesReport,
   getConversionReport,
   getLossReasonsReport,
+  getLeadDistributionReport,
   getSellerDetailReport,
 } from "@/lib/actions/relatorios";
 
@@ -56,6 +57,11 @@ interface RelatoriosClientProps {
   sales: SalesData;
   conversion: ConversionData;
   lossReasons: { name: string; value: number }[];
+  distribution: {
+    totals: { sessions: number; whatsappClicks: number; emails: number; duplicates: number };
+    sellers: Array<{ sellerId: string; sellerName: string; sessions: number; whatsappClicks: number; emails: number; duplicates: number }>;
+  };
+  isAdmin: boolean;
 }
 
 const monthNames: Record<string, string> = {
@@ -82,7 +88,7 @@ function formatLabel(label: string) {
   return label;
 }
 
-export function RelatoriosClient({ performance, sales, conversion, lossReasons: initialLossReasons }: RelatoriosClientProps) {
+export function RelatoriosClient({ performance, sales, conversion, lossReasons: initialLossReasons, distribution, isAdmin }: RelatoriosClientProps) {
   const [activeTab, setActiveTab] = useState<"geral" | "vendedor">("geral");
   const [isPending, startTransition] = useTransition();
 
@@ -90,6 +96,7 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
   const [conversionData, setConversionData] = useState(conversion);
   const [salesData, setSalesData] = useState(sales);
   const [lossReasons, setLossReasons] = useState(initialLossReasons);
+  const [distributionData, setDistributionData] = useState(distribution);
 
   // Vendedor tab state
   const [perfData, setPerfData] = useState(performance);
@@ -121,9 +128,13 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
         getConversionReport(start, end),
         getLossReasonsReport(start, end),
       ]);
+      const newDistribution = isAdmin
+        ? await getLeadDistributionReport(start, end)
+        : distributionData;
       setSalesData(newSales);
       setConversionData(newConversion);
       setLossReasons(newLoss);
+      if (isAdmin) setDistributionData(newDistribution);
     });
   };
 
@@ -168,6 +179,7 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
     name: formatLabel(d.label),
     value: d.value,
   }));
+  const distributionRows = distributionData.sellers || [];
 
   return (
     <div className={`space-y-6 ${isPending ? "opacity-60 pointer-events-none" : ""} transition-opacity`}>
@@ -203,6 +215,47 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
       {/* ═══ VISÃO GERAL TAB ═══ */}
       {activeTab === "geral" && (
         <div className="space-y-5">
+          {isAdmin && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              <div className="bg-white rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[12px] text-gray-500 font-medium">Sessões Distribuídas</p>
+                    <p className="text-2xl font-bold text-gray-900 mt-1">{distributionData.totals.sessions}</p>
+                  </div>
+                  <div className="bg-indigo-50 p-2 rounded-lg"><Users2 className="h-4 w-4 text-indigo-500" /></div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[12px] text-gray-500 font-medium">Cliques no WhatsApp</p>
+                    <p className="text-2xl font-bold text-gray-900 mt-1">{distributionData.totals.whatsappClicks}</p>
+                  </div>
+                  <div className="bg-green-50 p-2 rounded-lg"><MousePointerClick className="h-4 w-4 text-green-500" /></div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[12px] text-gray-500 font-medium">Emails de Lead</p>
+                    <p className="text-2xl font-bold text-gray-900 mt-1">{distributionData.totals.emails}</p>
+                  </div>
+                  <div className="bg-orange-50 p-2 rounded-lg"><Mail className="h-4 w-4 text-orange-500" /></div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[12px] text-gray-500 font-medium">Duplicidades Detectadas</p>
+                    <p className="text-2xl font-bold text-gray-900 mt-1">{distributionData.totals.duplicates}</p>
+                  </div>
+                  <div className="bg-red-50 p-2 rounded-lg"><Copy className="h-4 w-4 text-red-500" /></div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Top row */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
             <div className="lg:col-span-3 bg-white rounded-xl border border-gray-100 p-5">
@@ -309,6 +362,43 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
               </div>
             </div>
           </div>
+
+          {isAdmin && (
+            <div className="bg-white rounded-xl border border-gray-100 p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <MessageCircle className="h-4 w-4 text-gray-500" />
+                <h3 className="text-[15px] font-semibold text-gray-900">Distribuição de Sessões e Cliques</h3>
+              </div>
+              {distributionRows.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-500 border-b border-gray-100">
+                        <th className="py-2 pr-4 font-medium">Vendedor</th>
+                        <th className="py-2 pr-4 font-medium">Sessões</th>
+                        <th className="py-2 pr-4 font-medium">Cliques WhatsApp</th>
+                        <th className="py-2 pr-4 font-medium">Emails</th>
+                        <th className="py-2 pr-0 font-medium">Duplicados</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {distributionRows.map((row) => (
+                        <tr key={row.sellerId} className="border-b border-gray-50 text-gray-700">
+                          <td className="py-3 pr-4 font-medium">{row.sellerName}</td>
+                          <td className="py-3 pr-4">{row.sessions}</td>
+                          <td className="py-3 pr-4">{row.whatsappClicks}</td>
+                          <td className="py-3 pr-4">{row.emails}</td>
+                          <td className="py-3 pr-0">{row.duplicates}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="h-[120px] flex items-center justify-center text-gray-400 text-sm">Nenhum dado de distribuição no período</div>
+              )}
+            </div>
+          )}
         </div>
       )}
 
@@ -429,6 +519,27 @@ export function RelatoriosClient({ performance, sales, conversion, lossReasons: 
                     </div>
                   </div>
                 </div>
+
+                {isAdmin && sellerDetail?.adminMetrics && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div className="bg-white rounded-xl border border-gray-100 p-4">
+                      <p className="text-[12px] text-gray-500 font-medium">Sessões</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-1">{sellerDetail.adminMetrics.sessions}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-100 p-4">
+                      <p className="text-[12px] text-gray-500 font-medium">Cliques WhatsApp</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-1">{sellerDetail.adminMetrics.whatsappClicks}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-100 p-4">
+                      <p className="text-[12px] text-gray-500 font-medium">Emails</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-1">{sellerDetail.adminMetrics.emails}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-100 p-4">
+                      <p className="text-[12px] text-gray-500 font-medium">Duplicados</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-1">{sellerDetail.adminMetrics.duplicates}</p>
+                    </div>
+                  </div>
+                )}
 
                 {/* Monthly performance chart */}
                 <div className="bg-white rounded-xl border border-gray-100 p-5">
