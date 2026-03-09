@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { createLogFromSession } from "@/lib/actions/logs";
+import { publishCRMEvent } from "@/lib/realtime-crm";
 
 export async function addCommissionManually(leadId: string, commissionAmount: number) {
   try {
@@ -61,6 +62,8 @@ export async function addCommissionManually(leadId: string, commissionAmount: nu
       entityId: financeId,
       detail: `Comissão de R$ ${commissionAmount.toFixed(2)} adicionada manualmente para lead ${lead.name} (${lead.course})`,
     });
+
+    await publishCRMEvent({ type: "lead_pipeline_changed", leadId });
 
     return { 
       success: true, 

@@ -109,15 +109,53 @@ export async function marcarNotificacaoLida(id: string) {
 
 export async function marcarTodasLidas(userId: string) {
   try {
+    const unreadByUser = await prisma.notificacao.findMany({
+      where: { userId, lida: false },
+      select: { userId: true },
+      distinct: ["userId"],
+    });
+
     await prisma.notificacao.updateMany({
       where: { userId, lida: false },
       data: { lida: true, lidaAt: new Date() },
     });
 
-    await publishNotificationEvent({
-      type: "notificacoes_lidas",
-      userId,
+    await Promise.all(
+      unreadByUser.map((item) =>
+        publishNotificationEvent({
+          type: "notificacoes_lidas",
+          userId: item.userId,
+        })
+      )
+    );
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function marcarTodasNotificacoesComoLidas() {
+  try {
+    const unreadByUser = await prisma.notificacao.findMany({
+      where: { lida: false },
+      select: { userId: true },
+      distinct: ["userId"],
     });
+
+    await prisma.notificacao.updateMany({
+      where: { lida: false },
+      data: { lida: true, lidaAt: new Date() },
+    });
+
+    await Promise.all(
+      unreadByUser.map((item) =>
+        publishNotificationEvent({
+          type: "notificacoes_lidas",
+          userId: item.userId,
+        })
+      )
+    );
 
     return true;
   } catch (error) {

@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Bell, Search, Check, CheckCheck, Info, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { marcarNotificacaoLida, marcarTodasLidas } from "@/lib/actions/notificacoes";
+import { marcarNotificacaoLida, marcarTodasLidas, marcarTodasNotificacoesComoLidas } from "@/lib/actions/notificacoes";
 import { useRouter } from "next/navigation";
 import { useNotificacoes } from "@/hooks/use-notificacoes";
 
@@ -86,7 +86,11 @@ export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderP
 
   const handleMarcarTodas = () => {
     startTransition(async () => {
-      await marcarTodasLidas(user.id);
+      if (isAdmin) {
+        await marcarTodasNotificacoesComoLidas();
+      } else {
+        await marcarTodasLidas(user.id);
+      }
       refetch();
     });
   };
@@ -138,14 +142,14 @@ export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderP
                       </span>
                     )}
                   </div>
-                  {naoLidas > 0 && !isAdmin && (
+                  {naoLidas > 0 && (
                     <button
                       onClick={handleMarcarTodas}
                       disabled={isPending}
                       className="flex items-center gap-1 text-xs text-orange-500 hover:text-orange-600 font-medium transition-colors"
                     >
                       <CheckCheck className="h-3.5 w-3.5" />
-                      Marcar todas como lidas
+                      Ler todas
                     </button>
                   )}
                 </div>

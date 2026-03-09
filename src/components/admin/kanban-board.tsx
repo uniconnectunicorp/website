@@ -25,7 +25,6 @@ import {
   DollarSign, XCircle, CheckCircle, Copy, Check, ExternalLink, Filter, BookOpen, Trash2, CreditCard,
   TrendingUp, TrendingDown, Users, Target, Banknote,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { maskPhone } from "@/lib/masks";
 import coursesData from "@/data/courses.json";
 
@@ -85,9 +84,12 @@ function getPreferredPaymentMethod(notes?: string | null) {
 }
 
 export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUser, crmStats }: KanbanBoardProps) {
-  const router = useRouter();
   const [columns, setColumns] = useState(initialColumns);
+  const [stats, setStats] = useState(crmStats || null);
   const [isPending, startTransition] = useTransition();
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isRefreshingRef = useRef(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [search, setSearch] = useState("");
   const [sellerFilter, setSellerFilter] = useState("");
@@ -143,23 +145,64 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const canSeeAllLeads = ["admin", "director", "manager"].includes(currentUser.role);
 
   const refreshData = useCallback(() => {
+    if (isRefreshingRef.current) return;
+    isRefreshingRef.current = true;
     startTransition(async () => {
-      const fresh = await getLeadsPipeline({
-        userRole: currentUser.role,
-        userId: currentUser.id,
-        sellerId: sellerFilter || undefined,
-        search: search || undefined,
-      });
-      setColumns(fresh as any);
+      try {
+        const [{ getCRMStats }, fresh] = await Promise.all([
+          import("@/lib/actions/leads"),
+          getLeadsPipeline({
+            userRole: currentUser.role,
+            userId: currentUser.id,
+            sellerId: sellerFilter || undefined,
+            search: search || undefined,
+          }),
+        ]);
+        setColumns(fresh as any);
+        const freshStats = await getCRMStats(currentUser.id, currentUser.role);
+        setStats(freshStats);
+      } finally {
+        isRefreshingRef.current = false;
+      }
     });
   }, [currentUser, sellerFilter, search, startTransition]);
 
-  // Auto-refresh pipeline every 30s (realtime sem F5)
   useEffect(() => {
-    const interval = setInterval(() => {
-      refreshData();
-    }, 30000);
-    return () => clearInterval(interval);
+    let cancelled = false;
+
+    const connect = () => {
+      if (cancelled) return;
+
+      const source = new EventSource("/api/crm-pipeline/stream");
+      eventSourceRef.current = source;
+
+      source.addEventListener("ready", (() => {}) as EventListener);
+
+      source.addEventListener("message", (() => {
+        refreshData();
+      }) as EventListener);
+
+      source.onerror = () => {
+        source.close();
+        eventSourceRef.current = null;
+        if (cancelled) return;
+        reconnectTimeoutRef.current = setTimeout(() => {
+          connect();
+        }, 1500);
+      };
+    };
+
+    connect();
+
+    return () => {
+      cancelled = true;
+      eventSourceRef.current?.close();
+      eventSourceRef.current = null;
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
+    };
   }, [refreshData]);
 
   const STAGE_ORDER = ["pending", "contacted", "negociating", "confirmPayment", "enrolled", "converted", "lost"];
@@ -385,21 +428,21 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
         <h1 className="text-xl font-bold text-gray-900 mb-3">Pipeline de Vendas</h1>
 
         {/* 3 Stats Cards */}
-        {crmStats && (
+        {stats && (
           <div className="flex justify-end gap-2 mb-3">
             {/* Total de Leads do Mês */}
             <div className="bg-white border border-gray-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between shadow-sm min-w-[140px]">
               <div>
                 <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Leads</p>
-                <p className="text-lg font-bold text-gray-900">{crmStats.totalLeads}</p>
-                {crmStats.totalLeadsChange !== null ? (
+                <p className="text-lg font-bold text-gray-900">{stats.totalLeads}</p>
+                {stats.totalLeadsChange !== null ? (
                   <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
-                    crmStats.totalLeadsChange >= 0 ? "text-green-600" : "text-red-500"
+                    stats.totalLeadsChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
-                    {crmStats.totalLeadsChange >= 0
+                    {stats.totalLeadsChange >= 0
                       ? <TrendingUp className="h-2 w-2" />
                       : <TrendingDown className="h-2 w-2" />}
-                    <span>{crmStats.totalLeadsChange >= 0 ? "+" : ""}{crmStats.totalLeadsChange}%</span>
+                    <span>{stats.totalLeadsChange >= 0 ? "+" : ""}{stats.totalLeadsChange}%</span>
                   </div>
                 ) : (
                   <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
@@ -414,15 +457,15 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
             <div className="bg-white border border-gray-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between shadow-sm min-w-[140px]">
               <div>
                 <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Conversão</p>
-                <p className="text-lg font-bold text-gray-900">{crmStats.conversionRate}%</p>
-                {crmStats.conversionRateChange !== null ? (
+                <p className="text-lg font-bold text-gray-900">{stats.conversionRate}%</p>
+                {stats.conversionRateChange !== null ? (
                   <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
-                    crmStats.conversionRateChange >= 0 ? "text-green-600" : "text-red-500"
+                    stats.conversionRateChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
-                    {crmStats.conversionRateChange >= 0
+                    {stats.conversionRateChange >= 0
                       ? <TrendingUp className="h-2 w-2" />
                       : <TrendingDown className="h-2 w-2" />}
-                    <span>{crmStats.conversionRateChange >= 0 ? "+" : ""}{crmStats.conversionRateChange}%</span>
+                    <span>{stats.conversionRateChange >= 0 ? "+" : ""}{stats.conversionRateChange}%</span>
                   </div>
                 ) : (
                   <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
@@ -438,16 +481,16 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
               <div>
                 <p className="text-[9px] font-medium text-gray-500 uppercase tracking-wide">Comissão</p>
                 <p className="text-lg font-bold text-gray-900">
-                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(crmStats.commission)}
+                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(stats.commission)}
                 </p>
-                {crmStats.commissionChange !== null ? (
+                {stats.commissionChange !== null ? (
                   <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] font-medium ${
-                    crmStats.commissionChange >= 0 ? "text-green-600" : "text-red-500"
+                    stats.commissionChange >= 0 ? "text-green-600" : "text-red-500"
                   }`}>
-                    {crmStats.commissionChange >= 0
+                    {stats.commissionChange >= 0
                       ? <TrendingUp className="h-2 w-2" />
                       : <TrendingDown className="h-2 w-2" />}
-                    <span>{crmStats.commissionChange >= 0 ? "+" : ""}{crmStats.commissionChange}%</span>
+                    <span>{stats.commissionChange >= 0 ? "+" : ""}{stats.commissionChange}%</span>
                   </div>
                 ) : (
                   <p className="text-[9px] text-gray-400 mt-0.5">Mês atual</p>
