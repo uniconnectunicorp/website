@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { criarNotificacao } from "@/lib/actions/notificacoes";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { token, fullName, birthDate, cpf, rg, maritalStatus, phone, email, street, number, neighborhood, city, state, cep, paymentMethodId, installments } = body;
+    const { token, fullName, birthDate, cpf, rg, maritalStatus, phone, email, street, number, neighborhood, city, state, cep, preferredPaymentMethod } = body;
 
     if (!token || !fullName || !phone || !cpf) {
       return NextResponse.json({ error: "Campos obrigatórios não preenchidos." }, { status: 400 });
@@ -25,6 +26,21 @@ export async function POST(request: Request) {
     }
 
     const lead = link.lead;
+    const preferredPaymentNote = preferredPaymentMethod
+      ? `Forma de pagamento pretendida: ${preferredPaymentMethod}`
+      : null;
+    const existingNotes = lead.notes?.trim();
+    const notesWithoutOldPreference = existingNotes
+      ? existingNotes
+          .split("\n")
+          .filter((line) => !line.startsWith("Forma de pagamento pretendida:"))
+          .join("\n")
+          .trim()
+      : "";
+    const updatedNotes = [notesWithoutOldPreference, preferredPaymentNote]
+      .filter(Boolean)
+      .join("\n")
+      .trim();
 
     // Update lead with personal data and move to "enrolled" status
     // Payment method will be defined by the seller during manual conversion
@@ -44,6 +60,7 @@ export async function POST(request: Request) {
         state: state || lead.state,
         zipCode: cep || lead.zipCode,
         civilStatus: maritalStatus || lead.civilStatus,
+        notes: updatedNotes || lead.notes,
         status: "enrolled",
       },
     });
@@ -59,7 +76,7 @@ export async function POST(request: Request) {
       data: {
         id: crypto.randomUUID(),
         leadId: lead.id,
-        action: `Dados de matrícula preenchidos via link. Lead movido para Aguard. Pagamento. Aguardando definição de pagamento e conversão manual.`,
+        action: `Dados de matrícula preenchidos via link. Lead movido para Aguard. Pagamento.${preferredPaymentMethod ? ` Pagamento pretendido: ${preferredPaymentMethod}.` : ""} Aguardando definição de pagamento e conversão manual.`,
         fromStatus: lead.status,
         toStatus: "enrolled",
         userId: link.sellerId,
@@ -67,15 +84,12 @@ export async function POST(request: Request) {
     });
 
     // Notificação para o vendedor
-    await prisma.notificacao.create({
-      data: {
-        id: crypto.randomUUID(),
-        userId: link.sellerId,
-        titulo: "Lead preencheu dados de matrícula!",
-        mensagem: `${fullName} preencheu os dados via link (${lead.course || "Curso"}). Defina a forma de pagamento e converta o lead para finalizar.`,
-        tipo: "alerta",
-        linkUrl: `/admin/crm-pipeline`,
-      },
+    await criarNotificacao({
+      userId: link.sellerId,
+      titulo: "Lead preencheu dados de matrícula!",
+      mensagem: `${fullName} preencheu os dados via link (${lead.course || "Curso"}). Defina a forma de pagamento e converta o lead para finalizar.`,
+      tipo: "alerta",
+      linkUrl: `/admin/crm-pipeline`,
     });
 
     return NextResponse.json({ success: true });

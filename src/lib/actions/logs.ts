@@ -4,6 +4,37 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
+async function enrichLogsWithUserData<T extends { userId: string | null; userName: string | null; userRole: string | null }>(items: T[]) {
+  const missingUserIds = Array.from(
+    new Set(
+      items
+        .filter((item) => item.userId && (!item.userName || !item.userRole))
+        .map((item) => item.userId as string)
+    )
+  );
+
+  if (missingUserIds.length === 0) return items;
+
+  const users = await prisma.user.findMany({
+    where: { id: { in: missingUserIds } },
+    select: { id: true, name: true, email: true, role: true },
+  });
+
+  const usersMap = new Map(users.map((user) => [user.id, user]));
+
+  return items.map((item) => {
+    if (!item.userId) return item;
+    const user = usersMap.get(item.userId);
+    if (!user) return item;
+
+    return {
+      ...item,
+      userName: item.userName || user.name || user.email,
+      userRole: item.userRole || user.role,
+    };
+  });
+}
+
 export async function createLog(params: {
   action: string;
   entity?: string;
@@ -110,7 +141,9 @@ export async function getLogs(params: {
     prisma.systemLog.count({ where }),
   ]);
 
-  return { logs, total, pages: Math.ceil(total / limit) };
+  const enrichedLogs = await enrichLogsWithUserData(logs);
+
+  return { logs: enrichedLogs, total, pages: Math.ceil(total / limit) };
 }
 
 export async function getLogStats() {
@@ -134,5 +167,6 @@ export async function getDistinctUsers() {
     distinct: ["userId"],
     orderBy: { createdAt: "desc" },
   });
-  return users;
+
+  return await enrichLogsWithUserData(users);
 }

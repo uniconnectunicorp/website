@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminHeader } from "@/components/admin/header";
 import { NavigationProgress } from "@/components/admin/navigation-progress";
-import { NotificationsInit } from "@/components/admin/notifications-init";
 import { getNotificacoes } from "@/lib/actions/notificacoes";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
@@ -35,7 +34,7 @@ export default async function AdminLayout({
   }
 
   const [notificacoes, dbUser] = await Promise.all([
-    getNotificacoes(session.user.id),
+    getNotificacoes(session.user.id, (session.user as any).role),
     prisma.user.findUnique({
       where: { id: session.user.id },
       select: { permissions: true },
@@ -52,7 +51,6 @@ export default async function AdminLayout({
       <Suspense fallback={null}>
         <NavigationProgress />
       </Suspense>
-      <NotificationsInit />
       <AdminSidebar user={userWithPerms} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <AdminHeader

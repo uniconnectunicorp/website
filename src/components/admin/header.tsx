@@ -10,6 +10,8 @@ import { useNotificacoes } from "@/hooks/use-notificacoes";
 
 interface Notificacao {
   id: string;
+  userId: string;
+  recipientName?: string | null;
   titulo: string;
   mensagem: string;
   tipo: string;
@@ -70,6 +72,7 @@ export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderP
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { notificacoes, refetch } = useNotificacoes(initialNotificacoes);
+  const isAdmin = user.role === "admin";
 
   const naoLidas = notificacoes.filter((n) => !n.lida).length;
   const pageTitle = getPageTitle(pathname);
@@ -135,7 +138,7 @@ export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderP
                       </span>
                     )}
                   </div>
-                  {naoLidas > 0 && (
+                  {naoLidas > 0 && !isAdmin && (
                     <button
                       onClick={handleMarcarTodas}
                       disabled={isPending}
@@ -169,10 +172,15 @@ export function AdminHeader({ user, notificacoes: initialNotificacoes }: HeaderP
                             <p className={`text-sm font-medium ${n.lida ? "text-gray-600" : "text-gray-900"}`}>
                               {n.titulo}
                             </p>
+                            {isAdmin && n.recipientName && (
+                              <p className="text-[11px] text-gray-400 mt-0.5">
+                                Enviada para: <span className="font-medium text-gray-500">{n.recipientName}</span>
+                              </p>
+                            )}
                             <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{n.mensagem}</p>
                             <p className="text-[11px] text-gray-400 mt-1">{timeAgo(n.createdAt)}</p>
                           </div>
-                          {!n.lida && (
+                          {!n.lida && !isAdmin && (
                             <button
                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleMarcarLida(n.id); }}
                               className="p-1.5 text-gray-400 hover:text-green-500 hover:bg-green-50 rounded-lg transition-colors shrink-0"

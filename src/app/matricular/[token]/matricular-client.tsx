@@ -37,6 +37,12 @@ interface PaymentMethod {
   feePercentage: number;
 }
 
+const genericPaymentOptions = [
+  { value: "Pix", label: "Pix" },
+  { value: "Cartão de Crédito", label: "Cartão de Crédito" },
+  { value: "Cartão de Débito", label: "Cartão de Débito" },
+];
+
 interface MatricularClientProps {
   token: string;
   lead: Lead;
@@ -79,6 +85,7 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
     city: lead.city || "",
     state: lead.state || "",
     cep: lead.zipCode || "",
+    preferredPaymentMethod: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -290,6 +297,21 @@ export function MatricularClient({ token, lead, sellerName, paymentMethods }: Ma
                       <option value="">Selecione</option>
                       {estados.map((e) => <option key={e} value={e}>{e}</option>)}
                     </select>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Forma de Pagamento Pretendida</label>
+                    <select
+                      name="preferredPaymentMethod"
+                      value={form.preferredPaymentMethod}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0b3b75]/20 focus:border-[#0b3b75]"
+                    >
+                      <option value="">Selecione</option>
+                      {genericPaymentOptions.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">Essa escolha é apenas informativa e será confirmada depois pela equipe.</p>
                   </div>
                 </div>
               </div>

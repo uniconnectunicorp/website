@@ -78,6 +78,12 @@ function formatCurrency(v: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 }
 
+function getPreferredPaymentMethod(notes?: string | null) {
+  if (!notes) return null;
+  const match = notes.match(/Forma de pagamento pretendida:\s*(.+)/i);
+  return match?.[1]?.trim() || null;
+}
+
 export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUser, crmStats }: KanbanBoardProps) {
   const router = useRouter();
   const [columns, setColumns] = useState(initialColumns);
@@ -676,6 +682,12 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                 {lead.enrollmentLink && !lead.enrollmentLink.used && (
                                   <div className="flex items-center gap-1 text-[11px] text-blue-500">
                                     <Link2 className="h-3 w-3" /> Link ativo
+                                  </div>
+                                )}
+
+                                {getPreferredPaymentMethod(lead.notes) && (
+                                  <div className="flex items-center gap-1 text-[11px] text-teal-600 bg-teal-50 rounded-lg px-2 py-1 w-fit">
+                                    <CreditCard className="h-3 w-3" /> Pretendido: {getPreferredPaymentMethod(lead.notes)}
                                   </div>
                                 )}
                               </div>

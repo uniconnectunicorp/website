@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { prisma } from "@/lib/prisma";
+import { getNotificacoes } from "@/lib/actions/notificacoes";
 
 export async function GET() {
   try {
@@ -10,18 +10,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const notificacoes = await prisma.notificacao.findMany({
-      where: {
-        userId: session.user.id,
-        OR: [
-          { lida: false },
-          { lida: true, lidaAt: { gte: oneDayAgo } },
-        ],
-      },
-      orderBy: { createdAt: "desc" },
-      take: 20,
-    });
+    const notificacoes = await getNotificacoes(session.user.id, (session.user as any).role);
 
     return NextResponse.json(notificacoes);
   } catch (error) {

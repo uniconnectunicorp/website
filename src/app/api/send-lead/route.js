@@ -4,6 +4,7 @@ import { query, initDb } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { sendLeadFallback } from '@/lib/leadFallback';
 import { prisma } from '@/lib/prisma';
+import { criarNotificacao } from '@/lib/actions/notificacoes';
 
 // Map seller names to Prisma user IDs (will try to find by name)
 async function findOrAssignSeller(responsavel) {
@@ -85,15 +86,12 @@ async function saveToPrisma({ name, email, phone, course, modality, message, ses
 
     // Notificação com som para o vendedor responsável
     if (sellerId) {
-      await prisma.notificacao.create({
-        data: {
-          id: uuidv4(),
-          userId: sellerId,
-          titulo: "Novo lead chegou!",
-          mensagem: `${name} entrou em contato via site${course ? ` — ${course}` : ""}.`,
-          tipo: "lead",
-          linkUrl: "/admin/crm-pipeline",
-        },
+      await criarNotificacao({
+        userId: sellerId,
+        titulo: "Novo lead chegou!",
+        mensagem: `${name} entrou em contato via site${course ? ` — ${course}` : ""}.`,
+        tipo: "lead",
+        linkUrl: "/admin/crm-pipeline",
       });
     }
 

@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 interface Notificacao {
   id: string;
+  userId: string;
+  recipientName?: string | null;
   titulo: string;
   mensagem: string;
   tipo: string;
@@ -12,11 +14,11 @@ interface Notificacao {
   createdAt: string;
 }
 
-const POLL_INTERVAL = 15000; // 15 seconds
-
 export function useNotificacoes(initial: Notificacao[]) {
   const [notificacoes, setNotificacoes] = useState<Notificacao[]>(initial);
   const prevCountRef = useRef(initial.filter((n) => !n.lida).length);
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const playSound = useCallback(() => {
     try {
@@ -59,8 +61,73 @@ export function useNotificacoes(initial: Notificacao[]) {
   }, [playSound]);
 
   useEffect(() => {
-    const interval = setInterval(fetchNotificacoes, POLL_INTERVAL);
-    return () => clearInterval(interval);
+    let cancelled = false;
+
+    const connect = () => {
+      if (cancelled) return;
+
+      const source = new EventSource("/api/notifications/stream");
+      eventSourceRef.current = source;
+
+      source.addEventListener("snapshot", ((event: MessageEvent) => {
+        const payload = JSON.parse(event.data) as { notificacoes: Notificacao[] };
+        setNotificacoes(payload.notificacoes);
+        prevCountRef.current = payload.notificacoes.filter((n) => !n.lida).length;
+      }) as EventListener);
+
+      source.addEventListener("message", ((event: MessageEvent) => {
+        const payload = JSON.parse(event.data) as
+          | { type: "notificacao_criada"; notificacao: Notificacao }
+          | { type: "notificacao_lida"; notificacaoId: string }
+          | { type: "notificacoes_lidas" };
+
+        setNotificacoes((current) => {
+          let next = current;
+
+          if (payload.type === "notificacao_criada") {
+            if (current.some((item) => item.id === payload.notificacao.id)) return current;
+            next = [payload.notificacao, ...current].slice(0, 20);
+          }
+
+          if (payload.type === "notificacao_lida") {
+            next = current.map((item) => item.id === payload.notificacaoId ? { ...item, lida: true } : item);
+          }
+
+          if (payload.type === "notificacoes_lidas") {
+            next = current.map((item) => ({ ...item, lida: true }));
+          }
+
+          const newUnread = next.filter((n) => !n.lida).length;
+          if (newUnread > prevCountRef.current) {
+            playSound();
+          }
+          prevCountRef.current = newUnread;
+          return next;
+        });
+      }) as EventListener);
+
+      source.onerror = () => {
+        source.close();
+        eventSourceRef.current = null;
+        if (cancelled) return;
+        reconnectTimeoutRef.current = setTimeout(() => {
+          fetchNotificacoes();
+          connect();
+        }, 1500);
+      };
+    };
+
+    connect();
+
+    return () => {
+      cancelled = true;
+      eventSourceRef.current?.close();
+      eventSourceRef.current = null;
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
+    };
   }, [fetchNotificacoes]);
 
   return { notificacoes, refetch: fetchNotificacoes };

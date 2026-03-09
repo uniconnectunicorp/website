@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { createLog } from "@/lib/actions/logs";
+import { criarNotificacao } from "@/lib/actions/notificacoes";
 
 export async function getLeadsPipeline(options?: {
   search?: string;
@@ -438,15 +439,12 @@ export async function addLeadManually(data: {
 
     await createLog({ action: "Lead criado manualmente", entity: "lead", entityId: lead.id, detail: `${data.name} — ${data.phone}${data.course ? ` — ${data.course}` : ""}`, userId: data.assignedTo });
 
-    await prisma.notificacao.create({
-      data: {
-        id: crypto.randomUUID(),
-        userId: data.assignedTo,
-        titulo: "Novo lead adicionado!",
-        mensagem: `${data.name} foi adicionado como novo lead${data.course ? ` — ${data.course}` : ""}.`,
-        tipo: "info",
-        linkUrl: "/admin/crm-pipeline",
-      },
+    await criarNotificacao({
+      userId: data.assignedTo,
+      titulo: "Novo lead adicionado!",
+      mensagem: `${data.name} foi adicionado como novo lead${data.course ? ` — ${data.course}` : ""}.`,
+      tipo: "info",
+      linkUrl: "/admin/crm-pipeline",
     });
 
     return { success: true, lead };

@@ -58,11 +58,17 @@ export async function getFinanceOverview(dateRange?: DateRange) {
     const totalFees = (leadPaymentTotal._sum.feeAmount || 0);
     const totalNet = (leadPaymentTotal._sum.netAmount || 0);
     const totalCommissions = (leadPaymentTotal._sum.commissionAmount || 0);
+    const manualIn = await prisma.finance.aggregate({
+      where: { type: "in", transactionDate: { gte: start, lte: end } },
+      _sum: { amount: true },
+    });
+    const totalManualIn = (manualIn._sum.amount || 0);
+    const balance = totalManualIn + totalNet - totalOut;
 
     return {
       totalIn,
       totalOut,
-      balance: totalIn - totalOut,
+      balance,
       totalFees,
       totalNet,
       totalCommissions,
