@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
+const DEBUG_SSE = process.env.NEXT_PUBLIC_DEBUG_SSE === "true";
+
 interface Notificacao {
   id: string;
   userId: string;
@@ -66,11 +68,24 @@ export function useNotificacoes(initial: Notificacao[]) {
     const connect = () => {
       if (cancelled) return;
 
+      if (DEBUG_SSE) {
+        console.log("[SSE][Notificacoes] conectando...");
+      }
+
       const source = new EventSource("/api/notifications/stream");
       eventSourceRef.current = source;
 
+      source.onopen = () => {
+        if (DEBUG_SSE) {
+          console.log("[SSE][Notificacoes] conectado");
+        }
+      };
+
       source.addEventListener("snapshot", ((event: MessageEvent) => {
         const payload = JSON.parse(event.data) as { notificacoes: Notificacao[] };
+        if (DEBUG_SSE) {
+          console.log("[SSE][Notificacoes] snapshot recebido", { total: payload.notificacoes.length });
+        }
         setNotificacoes(payload.notificacoes);
         prevCountRef.current = payload.notificacoes.filter((n) => !n.lida).length;
       }) as EventListener);
@@ -80,6 +95,10 @@ export function useNotificacoes(initial: Notificacao[]) {
           | { type: "notificacao_criada"; notificacao: Notificacao }
           | { type: "notificacao_lida"; notificacaoId: string }
           | { type: "notificacoes_lidas" };
+
+        if (DEBUG_SSE) {
+          console.log("[SSE][Notificacoes] evento recebido", payload);
+        }
 
         setNotificacoes((current) => {
           let next = current;
@@ -107,10 +126,16 @@ export function useNotificacoes(initial: Notificacao[]) {
       }) as EventListener);
 
       source.onerror = () => {
+        if (DEBUG_SSE) {
+          console.warn("[SSE][Notificacoes] erro na conexão, tentando reconectar...");
+        }
         source.close();
         eventSourceRef.current = null;
         if (cancelled) return;
         reconnectTimeoutRef.current = setTimeout(() => {
+          if (DEBUG_SSE) {
+            console.log("[SSE][Notificacoes] fallback fetch + reconexão");
+          }
           fetchNotificacoes();
           connect();
         }, 1500);
@@ -121,6 +146,9 @@ export function useNotificacoes(initial: Notificacao[]) {
 
     return () => {
       cancelled = true;
+      if (DEBUG_SSE) {
+        console.log("[SSE][Notificacoes] cleanup");
+      }
       eventSourceRef.current?.close();
       eventSourceRef.current = null;
       if (reconnectTimeoutRef.current) {

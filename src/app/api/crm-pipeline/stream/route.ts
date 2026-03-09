@@ -2,6 +2,8 @@ import { auth } from "@/lib/auth";
 import { ensureCRMRealtime, subscribeToCRM } from "@/lib/realtime-crm";
 import { headers } from "next/headers";
 
+const DEBUG_SSE = process.env.DEBUG_SSE === "true";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -14,11 +16,18 @@ export async function GET(request: Request) {
 
   await ensureCRMRealtime();
 
+  if (DEBUG_SSE) {
+    console.log("[SSE][CRM][Server] conexão iniciada", { userId: session.user.id, role: (session.user as any).role });
+  }
+
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const push = (event: string, data: unknown) => {
+        if (DEBUG_SSE && event !== "keepalive") {
+          console.log("[SSE][CRM][Server] enviando evento", { event, data });
+        }
         controller.enqueue(encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
       };
 
@@ -33,6 +42,9 @@ export async function GET(request: Request) {
       }, 25000);
 
       const cleanup = () => {
+        if (DEBUG_SSE) {
+          console.log("[SSE][CRM][Server] cleanup", { userId: session.user.id });
+        }
         clearInterval(keepAlive);
         unsubscribe();
         try {

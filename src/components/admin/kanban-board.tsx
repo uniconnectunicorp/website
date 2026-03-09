@@ -28,6 +28,8 @@ import {
 import { maskPhone } from "@/lib/masks";
 import coursesData from "@/data/courses.json";
 
+const DEBUG_SSE = process.env.NEXT_PUBLIC_DEBUG_SSE === "true";
+
 interface Lead {
   id: string;
   name: string;
@@ -146,6 +148,9 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
 
   const refreshData = useCallback(() => {
     if (isRefreshingRef.current) return;
+    if (DEBUG_SSE) {
+      console.log("[SSE][CRM] refreshData iniciado", { sellerFilter, search, role: currentUser.role, userId: currentUser.id });
+    }
     isRefreshingRef.current = true;
     startTransition(async () => {
       try {
@@ -161,6 +166,9 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
         setColumns(fresh as any);
         const freshStats = await getCRMStats(currentUser.id, currentUser.role);
         setStats(freshStats);
+        if (DEBUG_SSE) {
+          console.log("[SSE][CRM] refreshData concluído");
+        }
       } finally {
         isRefreshingRef.current = false;
       }
@@ -173,20 +181,43 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
     const connect = () => {
       if (cancelled) return;
 
+      if (DEBUG_SSE) {
+        console.log("[SSE][CRM] conectando...");
+      }
+
       const source = new EventSource("/api/crm-pipeline/stream");
       eventSourceRef.current = source;
 
-      source.addEventListener("ready", (() => {}) as EventListener);
+      source.onopen = () => {
+        if (DEBUG_SSE) {
+          console.log("[SSE][CRM] conectado");
+        }
+      };
 
-      source.addEventListener("message", (() => {
+      source.addEventListener("ready", ((event: MessageEvent) => {
+        if (DEBUG_SSE) {
+          console.log("[SSE][CRM] ready", JSON.parse(event.data));
+        }
+      }) as EventListener);
+
+      source.addEventListener("message", ((event: MessageEvent) => {
+        if (DEBUG_SSE) {
+          console.log("[SSE][CRM] evento recebido", JSON.parse(event.data));
+        }
         refreshData();
       }) as EventListener);
 
       source.onerror = () => {
+        if (DEBUG_SSE) {
+          console.warn("[SSE][CRM] erro na conexão, tentando reconectar...");
+        }
         source.close();
         eventSourceRef.current = null;
         if (cancelled) return;
         reconnectTimeoutRef.current = setTimeout(() => {
+          if (DEBUG_SSE) {
+            console.log("[SSE][CRM] reconectando...");
+          }
           connect();
         }, 1500);
       };
@@ -196,6 +227,9 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
 
     return () => {
       cancelled = true;
+      if (DEBUG_SSE) {
+        console.log("[SSE][CRM] cleanup");
+      }
       eventSourceRef.current?.close();
       eventSourceRef.current = null;
       if (reconnectTimeoutRef.current) {

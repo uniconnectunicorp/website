@@ -218,6 +218,58 @@ export async function convertLead(
   }
 }
 
+export async function updateLeadValue(leadId: string, value: number, userId: string) {
+  try {
+    const lead = await prisma.lead.findUnique({ where: { id: leadId }, select: { modalidade: true } });
+    if (!lead) return { error: "Lead não encontrado" };
+
+    const seller = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { sellerConfig: true },
+    });
+
+    if (seller?.sellerConfig) {
+      const valueLimits = (seller.sellerConfig.valueLimits as any) || {};
+      const category = lead.modalidade || "regular";
+      const catLimits = valueLimits[category];
+
+      if (catLimits) {
+        const min = catLimits.min ?? 0;
+        const max = catLimits.max ?? 99999;
+        if (value < min || value > max) {
+          return { error: `Valor para ${category} deve ser entre R$ ${min} e R$ ${max}` };
+        }
+      } else {
+        const { minValue, maxValue } = seller.sellerConfig;
+        if (value < minValue || value > maxValue) {
+          return { error: `Valor deve ser entre R$ ${minValue} e R$ ${maxValue}` };
+        }
+      }
+    }
+
+    await prisma.lead.update({
+      where: { id: leadId },
+      data: { courseValue: value },
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId,
+        action: `Valor do curso alterado para R$ ${value.toFixed(2)}`,
+        userId,
+      },
+    });
+
+    await notifyCRMLeadChanged(leadId);
+
+    return { success: true };
+  } catch (error) {
+    console.error("updateLeadValue error:", error);
+    return { error: "Erro ao atualizar valor" };
+  }
+}
+
 export async function generateEnrollmentLink(leadId: string, sellerId: string) {
   try {
     // Check if link already exists
@@ -287,6 +339,30 @@ export async function addLeadNote(leadId: string, note: string) {
     return { success: true };
   } catch (error) {
     console.error("addLeadNote error:", error);
+    return null;
+  }
+}
+
+export async function updateLeadData(leadId: string, data: any) {
+  try {
+    const lead = await prisma.lead.update({
+      where: { id: leadId },
+      data,
+    });
+
+    await prisma.leadHistory.create({
+      data: {
+        id: crypto.randomUUID(),
+        leadId,
+        action: "Dados atualizados",
+      },
+    });
+
+    await notifyCRMLeadChanged(leadId);
+
+    return lead;
+  } catch (error) {
+    console.error("updateLeadData error:", error);
     return null;
   }
 }
