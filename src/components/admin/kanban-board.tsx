@@ -26,6 +26,7 @@ import {
   TrendingUp, TrendingDown, Users, Target, Banknote,
 } from "lucide-react";
 import { maskPhone } from "@/lib/masks";
+import { MODALITY_LABELS, resolveLeadModality } from "@/lib/course-modalities";
 import coursesData from "@/data/courses.json";
 
 const DEBUG_SSE = process.env.NEXT_PUBLIC_DEBUG_SSE === "true";
@@ -36,6 +37,7 @@ interface Lead {
   phone: string;
   email?: string | null;
   course?: string | null;
+  modalidade?: string | null;
   courseValue?: number | null;
   status: string;
   notes?: string | null;
@@ -145,6 +147,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   const [formError, setFormError] = useState("");
 
   const canSeeAllLeads = ["admin", "director", "manager"].includes(currentUser.role);
+  const getLeadModality = (lead: Lead) => resolveLeadModality(lead.course, lead.modalidade);
 
   const refreshData = useCallback(() => {
     if (isRefreshingRef.current) return;
@@ -376,12 +379,17 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
   };
 
   const handleUpdateCourse = () => {
-    if (!showCourseModal || !newCourse.trim()) return;
+    if (!showCourseModal || !newCourse.trim() || !newCourseModality) return;
     startTransition(async () => {
-      await updateLeadCourse(showCourseModal.id, newCourse.trim(), currentUser.id);
+      const result = await updateLeadCourse(showCourseModal.id, newCourse.trim(), newCourseModality, currentUser.id);
+      if (result && "error" in result && result.error) {
+        setFormError(result.error);
+        return;
+      }
       setShowCourseModal(null);
       setNewCourse("");
       setNewCourseModality("");
+      setFormError("");
       refreshData();
     });
   };
@@ -636,6 +644,11 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                     {lead.course && (
                                       <p className="text-[11px] text-gray-500 truncate mt-0.5">{lead.course}</p>
                                     )}
+                                    {getLeadModality(lead) && (
+                                      <span className="inline-flex mt-1 items-center rounded-full  text-[10px] font-medium text-orange-700 ">
+                                        {MODALITY_LABELS[getLeadModality(lead) as string] || getLeadModality(lead)}
+                                      </span>
+                                    )}
                                     {lead.assignedUser && (
                                       <p className="text-[11px] text-gray-400 mt-0.5">Responsável: {lead.assignedUser.name}</p>
                                     )}
@@ -685,7 +698,7 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
                                               <button onClick={() => { setShowValueModal(lead); setNewValue(String(lead.courseValue || "")); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <DollarSign className="h-4 w-4 text-green-500" /> Editar valor
                                               </button>
-                                              <button onClick={() => { setShowCourseModal(lead); setNewCourse(lead.course || ""); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
+                                              <button onClick={() => { setShowCourseModal(lead); setNewCourse(lead.course || ""); setNewCourseModality(getLeadModality(lead) || ""); setFormError(""); setActionMenuLead(null); setMenuPosition(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2.5 text-gray-700">
                                                 <BookOpen className="h-4 w-4 text-blue-500" /> Trocar curso
                                               </button>
                                               <div className="border-t border-gray-100 my-1" />
@@ -1006,18 +1019,19 @@ export function KanbanBoard({ initialColumns, sellers, paymentMethods, currentUs
       {/* Trocar Curso Modal */}
       {showCourseModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCourseModal(null); setNewCourse(""); setNewCourseModality(""); }} />
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowCourseModal(null); setNewCourse(""); setNewCourseModality(""); setFormError(""); }} />
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <h2 className="text-lg font-bold text-gray-900">Trocar Curso</h2>
             <p className="text-sm text-gray-500">Altere o curso de interesse de <span className="font-medium text-gray-700">{showCourseModal.name}</span></p>
+            {formError && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{formError}</p>}
             <CourseSearchSelect
               value={newCourse}
               initialModality={newCourseModality}
               onChange={(val, mod) => { setNewCourse(val); if (mod !== undefined) setNewCourseModality(mod); }}
             />
             <div className="flex gap-3 pt-2">
-              <button onClick={() => { setShowCourseModal(null); setNewCourse(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
-              <button onClick={handleUpdateCourse} disabled={isPending || !newCourse.trim()} className="flex-1 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors">
+              <button onClick={() => { setShowCourseModal(null); setNewCourse(""); setNewCourseModality(""); setFormError(""); }} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Cancelar</button>
+              <button onClick={handleUpdateCourse} disabled={isPending || !newCourse.trim() || !newCourseModality} className="flex-1 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors">
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Salvar"}
               </button>
             </div>

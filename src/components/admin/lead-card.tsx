@@ -1,6 +1,7 @@
 "use client";
 
 import { Phone, User, Calendar } from "lucide-react";
+import { MODALITY_LABELS, resolveLeadModality } from "@/lib/course-modalities";
 
 interface LeadCardProps {
   lead: {
@@ -8,12 +9,15 @@ interface LeadCardProps {
     name: string;
     phone: string;
     course?: string | null;
+    modalidade?: string | null;
     createdAt: string;
   };
   onClick?: () => void;
 }
 
 export function LeadCard({ lead, onClick }: LeadCardProps) {
+  const resolvedModality = resolveLeadModality(lead.course, lead.modalidade);
+
   return (
     <div
       onClick={onClick}
@@ -30,6 +34,11 @@ export function LeadCard({ lead, onClick }: LeadCardProps) {
       {lead.course && (
         <p className="text-xs text-orange-600 bg-orange-50 rounded-lg px-2 py-1 truncate">
           {lead.course}
+        </p>
+      )}
+      {resolvedModality && (
+        <p className="text-xs text-orange-700 bg-orange-50 rounded-lg px-2 py-1 truncate border border-orange-100">
+          {MODALITY_LABELS[resolvedModality] || resolvedModality}
         </p>
       )}
       <div className="flex items-center gap-1 text-[11px] text-gray-400">

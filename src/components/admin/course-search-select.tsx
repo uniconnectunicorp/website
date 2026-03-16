@@ -1,52 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import regularCoursesData from "@/data/courses.json";
-import competenciaCoursesData from "@/data/competencia-courses.json";
-import sequentialCoursesData from "@/data/sequential-courses.json";
-
-const regularCourses = (regularCoursesData as any[]).map((c) => c.nome).sort();
-const aproveitamentoCourses = (regularCoursesData as any[]).filter((c) => c.aproveitamento).map((c) => c.nome).sort();
-const competenciaCourses = (competenciaCoursesData as any[]).map((c) => c.nome).sort();
-const sequentialCourses = (sequentialCoursesData as any[]).map((c) => c.nome).sort();
-
-const EJA_OPTIONS = [
-  "EJA - Ensino Fundamental",
-  "EJA - Ensino Médio",
-];
-
-const INGLES_OPTIONS = [
-  "Inglês Básico",
-  "Inglês Intermediário",
-  "Inglês Avançado",
-];
-
-const MODALITIES = [
-  { value: "regular", label: "Regular" },
-  { value: "aproveitamento", label: "Aproveitamento" },
-  { value: "competencia", label: "Competência" },
-  { value: "sequencial", label: "Sequencial" },
-  { value: "eja", label: "EJA" },
-  { value: "ingles", label: "Inglês" },
-];
-
-// Modalidades com curso único (não precisam de segundo select)
-const SINGLE_COURSE: Record<string, string> = {
-  eja: "EJA",
-  ingles: "Inglês",
-};
-
-function getCoursesForModality(modality: string): string[] {
-  switch (modality) {
-    case "regular": return regularCourses;
-    case "aproveitamento": return aproveitamentoCourses;
-    case "competencia": return competenciaCourses;
-    case "sequencial": return sequentialCourses;
-    case "eja": return EJA_OPTIONS;
-    case "ingles": return INGLES_OPTIONS;
-    default: return [];
-  }
-}
+import { useEffect, useState } from "react";
+import {
+  detectModalityFromCourse,
+  getCoursesForModality,
+  isCourseValidForModality,
+  MODALITIES,
+  normalizeCourseForModality,
+  SINGLE_COURSE,
+} from "@/lib/course-modalities";
 
 interface CourseSearchSelectProps {
   value: string;
@@ -63,25 +25,31 @@ export function CourseSearchSelect({
 }: CourseSearchSelectProps) {
   const [modality, setModality] = useState<string>(() => {
     if (initialModality) return initialModality;
-    if (!value) return "";
-    // Try to detect modality from value
-    if (regularCourses.includes(value)) return "regular";
-    if (competenciaCourses.includes(value)) return "competencia";
-    if (sequentialCourses.includes(value)) return "sequencial";
-    if (EJA_OPTIONS.includes(value)) return "eja";
-    if (INGLES_OPTIONS.includes(value)) return "ingles";
-    return "regular";
+    return detectModalityFromCourse(value);
   });
+
+  useEffect(() => {
+    const nextModality = initialModality || detectModalityFromCourse(value);
+    setModality(nextModality);
+  }, [initialModality, value]);
 
   const courses = getCoursesForModality(modality);
 
   const handleModalityChange = (newModality: string) => {
     setModality(newModality);
+    const normalizedCurrentCourse = normalizeCourseForModality(value, newModality);
+
+    if (normalizedCurrentCourse && isCourseValidForModality(normalizedCurrentCourse, newModality)) {
+      onChange(normalizedCurrentCourse, newModality);
+      return;
+    }
+
     if (SINGLE_COURSE[newModality]) {
       onChange(SINGLE_COURSE[newModality], newModality);
-    } else {
-      onChange("", newModality);
+      return;
     }
+
+    onChange("", newModality);
   };
 
   const handleCourseChange = (course: string) => {

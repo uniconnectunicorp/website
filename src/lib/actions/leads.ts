@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { createLog } from "@/lib/actions/logs";
 import { criarNotificacao } from "@/lib/actions/notificacoes";
+import { isCourseValidForModality, normalizeCourseForModality } from "@/lib/course-modalities";
 import { publishCRMEvent } from "@/lib/realtime-crm";
 
 async function notifyCRMLeadChanged(leadId?: string) {
@@ -367,31 +368,39 @@ export async function updateLeadData(leadId: string, data: any) {
   }
 }
 
-export async function updateLeadCourse(leadId: string, course: string, userId: string) {
+export async function updateLeadCourse(leadId: string, course: string, modalidade: string, userId: string) {
   try {
     const lead = await prisma.lead.findUnique({ where: { id: leadId } });
     if (!lead) return null;
 
+    const normalizedCourse = normalizeCourseForModality(course, modalidade);
+    if (!isCourseValidForModality(normalizedCourse, modalidade)) {
+      return { error: "O curso selecionado não existe na modalidade escolhida" };
+    }
+
     const updated = await prisma.lead.update({
       where: { id: leadId },
-      data: { course },
+      data: {
+        course: normalizedCourse,
+        modalidade: modalidade as any,
+      },
     });
 
     await prisma.leadHistory.create({
       data: {
         id: crypto.randomUUID(),
         leadId,
-        action: `Curso alterado de "${lead.course || "—"}" para "${course}"`,
+        action: `Curso/modalidade alterados de "${lead.course || "—"}${lead.modalidade ? ` (${lead.modalidade})` : ""}" para "${normalizedCourse}" (${modalidade})`,
         userId,
       },
     });
 
     await notifyCRMLeadChanged(leadId);
 
-    return updated;
+    return { success: true, lead: updated };
   } catch (error) {
     console.error("updateLeadCourse error:", error);
-    return null;
+    return { error: "Erro ao atualizar curso e modalidade" };
   }
 }
 

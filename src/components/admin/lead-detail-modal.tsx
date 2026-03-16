@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { X, Phone, Mail, MapPin, BookOpen, Clock, MessageSquare, Send, Loader2, User } from "lucide-react";
 import { addLeadNote, updateLeadData } from "@/lib/actions/leads";
+import { MODALITY_LABELS, resolveLeadModality } from "@/lib/course-modalities";
 import { useRouter } from "next/navigation";
 
 interface Lead {
@@ -11,6 +12,7 @@ interface Lead {
   phone: string;
   email?: string | null;
   course?: string | null;
+  modalidade?: string | null;
   status: string;
   notes?: string | null;
   assignedTo?: string | null;
@@ -52,6 +54,7 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
   const [note, setNote] = useState("");
   const [lossReason, setLossReason] = useState(lead.lossReason || "");
   const [isPending, startTransition] = useTransition();
+  const resolvedModality = resolveLeadModality(lead.course, lead.modalidade);
 
   const handleAddNote = () => {
     if (!note.trim()) return;
@@ -130,6 +133,12 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
                 <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl">
                   <BookOpen className="h-4 w-4 text-orange-500" />
                   <span className="text-sm text-orange-700 font-medium">{lead.course}</span>
+                </div>
+              )}
+              {resolvedModality && (
+                <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl">
+                  <BookOpen className="h-4 w-4 text-orange-500" />
+                  <span className="text-sm text-orange-700 font-medium">{MODALITY_LABELS[resolvedModality] || resolvedModality}</span>
                 </div>
               )}
               {lead.cpf && (
